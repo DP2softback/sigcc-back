@@ -11,7 +11,7 @@ from django.urls import path
 #     path("users/",include("users.urls"))
 # ]
 
-admin.site.site_header = 'SIGCC BACK'
+admin.site.site_header = 'SIGCC BACKk'
 admin.site.index_title = 'Backend de proyecto SIGCC'
 
 public_apis = [
