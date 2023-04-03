@@ -1,40 +1,38 @@
 {
-    "base": {
-      "aws_region": "us-east-1",
-      "django_settings": "nombredeapp.settings",
-      "events": [
+  "base": {
+    "aws_region": "us-east-1",
+    "django_settings": "DP2softback.settings",
+    "events": [],
+    "exclude": [
+      "pre-commit*",
+      "pipdeptree*",
+      "pylint*",
+      "shellcheck*",
+      "verify*",
+      "Jinja2*",
+      "*.csv",
+      "*.env",
+      "boto3*",
+      "botocore*",
+      "ipython*"
+    ],
+    "keep_warm": true,
+    "project_name": "DP2softback",
+    "runtime": "python3.7",
+    "timeout_seconds": 900
+  },
+  "dev": {
+    "extends": "base",
+    "profile_name": "dp2",
+    "s3_bucket": "dp2-bucket-dev",
+    "vpc_config": {
+      "SecurityGroupIds": [
+        "sg-0b82c771b20596583"
       ],
-      "exclude": [
-        "pre-commit*",
-        "pipdeptree*",
-        "pylint*",
-        "shellcheck*",
-        "verify*",
-        "Jinja2*",
-        "*.csv",
-        "*.env",
-        "boto3*",
-        "botocore*",
-        "ipython*"
-      ],
-      "keep_warm": true,
-      "project_name": "DP2softback",
-      "runtime": "python3.7",
-      "timeout_seconds": 900
-    },
-    "dev": {
-      "extends": "base",
-      "profile_name": "dp2",
-      "s3_bucket": "dp2-bucket-dev",
-      "vpc_config": {
-        "SecurityGroupIds": [
-          "sg-0b82c771b20596583"
-        ],
-        "SubnetIds": [
-          "subnet-0db6a3744b412ed05",
-          "subnet-0d188925f7f617576"
-        ]
-      }
+      "SubnetIds": [
+        "subnet-0db6a3744b412ed05",
+        "subnet-0d188925f7f617576"
+      ]
     }
   }
-  
+}
