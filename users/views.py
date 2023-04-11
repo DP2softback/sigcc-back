@@ -16,7 +16,7 @@ class UsersView(APIView):
         response = Response(
             data={
                 'title': '¡Listo!',
-                'message': 'Se ha actualizado la base de usuarios fantasmas.',
+                'message': 'Lista de usuarios registrados:',
                 'users': list_result,
                 
             },
