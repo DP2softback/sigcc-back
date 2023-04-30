@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'evaluations_and_promotions',
     'rest_framework',
     'corsheaders',
     'storages',
