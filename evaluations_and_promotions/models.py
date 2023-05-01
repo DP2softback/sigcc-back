@@ -18,6 +18,27 @@ class EvaluationType(models.Model):
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=500,null=True, blank=True)
 
+class Position(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    creationDate = models.DateField()
+    modifiedDate = models.DateField()
+    isActive = models.BooleanField(default=True)
+    name = models.CharField(max_length=40)
+    benefits = models.CharField(max_length=100,null=True, blank=True)
+    responsabilities = models.CharField(max_length=100,null=True, blank=True)
+    description =  models.CharField(max_length=100,null=True, blank=True)
+    tipoJornada =  models.CharField(max_length=100,null=True, blank=True)
+    modalidadTrabajo = models.CharField(max_length=100,null=True, blank=True)
+class Area(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    creationDate = models.DateField()
+    modifiedDate = models.DateField()
+    isActive = models.BooleanField(default=True)
+    description =  models.CharField(max_length=100,null=True, blank=True)
+    name = models.CharField(max_length=100)
+    supervisorsArea = models.ForeignKey('self',null=True, on_delete=models.SET_NULL)
+    roles = models.ManyToManyField(Position, through="AreaxPosicion")
+
 class Evaluation(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateField()
@@ -28,8 +49,8 @@ class Evaluation(models.Model):
     generalComment = models.CharField(max_length=500,null=True,blank=True)
     isFinished = models.BooleanField()
     finalScore = models.FloatField(null=True, blank=True)
-    #evaluator = models.ForeignKey(Employee, on_delete=models.SET_NULL)
-    #evaluated = models.ForeignKey(Employee, on_delete=models.SET_NULL)
+    evaluator = models.ForeignKey('login.Employee',related_name="employeeEvaluator", on_delete=models.SET_NULL, blank=True, null=True)
+    evaluated = models.ForeignKey('login.Employee',related_name="employeeEvaluated", on_delete=models.SET_NULL,blank=True, null=True)
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE)
 
 class Category(models.Model):
@@ -44,27 +65,8 @@ class Category(models.Model):
     categoryType = models.ForeignKey(CategoryType, on_delete=models.RESTRICT)
     evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE)
 
-class Position(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
-    isActive = models.BooleanField(default=True)
-    name = models.CharField(max_length=40)
-    benefits = models.CharField(max_length=100,null=True, blank=True)
-    responsabilities = models.CharField(max_length=100,null=True, blank=True)
-    description =  models.CharField(max_length=100,null=True, blank=True)
-    tipoJornada =  models.CharField(max_length=100,null=True, blank=True)
-    modalidadTrabajo = models.CharField(max_length=100,null=True, blank=True)
 
-class Area(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
-    isActive = models.BooleanField(default=True)
-    description =  models.CharField(max_length=100,null=True, blank=True)
-    name = models.CharField(max_length=100)
-    supervisorsArea = models.ForeignKey('self',null=True, on_delete=models.SET_NULL)
-    roles = models.ManyToManyField(Position, through="AreaxPosicion")
+
 
 class AreaxPosicion(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)   

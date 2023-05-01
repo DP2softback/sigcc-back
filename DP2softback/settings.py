@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'evaluations_and_promotions',
+    'login',
     'rest_framework',
     'corsheaders',
     'storages',
