@@ -28,8 +28,8 @@ class Evaluation(models.Model):
     generalComment = models.CharField(max_length=500,null=True,blank=True)
     isFinished = models.BooleanField()
     finalScore = models.FloatField(null=True, blank=True)
-    #evaluator = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    #evaluated = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    #evaluator = models.ForeignKey(Employee, on_delete=models.SET_NULL)
+    #evaluated = models.ForeignKey(Employee, on_delete=models.SET_NULL)
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE)
 
 class Category(models.Model):
@@ -63,7 +63,7 @@ class Area(models.Model):
     isActive = models.BooleanField(default=True)
     description =  models.CharField(max_length=100,null=True, blank=True)
     name = models.CharField(max_length=100)
-    supervisorsArea = models.ForeignKey('self', on_delete=models.CASCADE)
+    supervisorsArea = models.ForeignKey('self',null=True, on_delete=models.SET_NULL)
     roles = models.ManyToManyField(Position, through="AreaxPosicion")
 
 class AreaxPosicion(models.Model):
