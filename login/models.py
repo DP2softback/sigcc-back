@@ -8,7 +8,7 @@ class Role(models.Model):
     modifiedDate = models.DateField()
     isActive = models.BooleanField(default=True)
     name = models.CharField(max_length=32, unique=True)
-    description = models.CharField(max_length=256)
+    description = models.TextField(blank=True)
 
 class User(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -23,7 +23,7 @@ class User(models.Model):
     email = models.EmailField(max_length=46, unique=True, null=False, blank=False)
     password = models.CharField(max_length=32)
     role = models.ForeignKey(Role, on_delete=models.RESTRICT)
-
+    cv = models.TextField(blank=True)
 class Employee(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateField()
