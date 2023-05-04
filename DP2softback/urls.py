@@ -18,6 +18,7 @@ public_apis = [
     url(r'^api/v1/', include([
         url(r'', include('users.urls')),
     ])),
+    path('api/capacitaciones/', include('capacitaciones.urls'))
 ]
 
 urlpatterns = [
