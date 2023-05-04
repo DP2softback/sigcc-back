@@ -1,7 +1,7 @@
 # sigcc-back
 Backend from SIGCC system, capstone course in PUCP
 
-# BROADCAST BOT
+# Configuration steps
 
 ## Requirements
 
