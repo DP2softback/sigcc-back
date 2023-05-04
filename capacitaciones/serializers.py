@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from Cursos.models import LearningPath, Curso, CursoXLearningPath
+from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy
 
 
 class LearningPathSerializer(serializers.ModelSerializer):
@@ -20,10 +20,10 @@ class LearningPathSerializer(serializers.ModelSerializer):
         return value
 
 
-class CursoSerializer(serializers.ModelSerializer):
+class CursoUdemySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Curso
+        model = CursoUdemy
         exclude = ('curso_x_learning_path',)
 
     def validate_udemy_id(self, value):
@@ -43,6 +43,6 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_curso_x_learning_path(self, obj):
-        cursos_id = CursoXLearningPath.objects.filter(learning_path=obj).values_list('curso_id', flat=True)
-        cursos = Curso.objects.filter(id__in=cursos_id)
+        cursos_id = CursoGeneralXLearningPath.objects.filter(learning_path=obj).values_list('curso_id', flat=True)
+        cursos = CursoGeneral.objects.filter(id__in=cursos_id)
         return CursoSerializer(cursos, many=True).data

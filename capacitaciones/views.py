@@ -10,8 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
 
-from capacitaciones.models import LearningPath, CursoXLearningPath, Curso
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoSerializer
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 
@@ -23,8 +23,7 @@ def get_udemy_valid_courses(request, pk, course, delete=0):
     lp = LearningPath.objects.filter(pk = pk).first()
 
     if lp:
-        courses_udemy_id = lp.curso_set.values_list('udemy_id', flat=True)
-
+        courses_udemy_id = lp.cursogeneral_set.values_list('udemy_id', flat=True)
         if delete:
             valid_udemy_courses = [clean_course_detail(course) for course in list_udemy_courses if course['id'] not in courses_udemy_id]
 
@@ -44,7 +43,7 @@ def get_udemy_valid_courses(request, pk, course, delete=0):
 
     return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
-
+'''
 @api_view(['POST'])
 def get_udemy_course_detail(request):
 
@@ -148,3 +147,4 @@ def curso_detail_lp_api_view(request, pk_lp, pk_curso):
             curso_x_lp.delete()
             return Response({"message": "Se eliminó el curso"}, status= status.HTTP_200_OK)
         return Response({"message": "No existe el curso en el learning seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
+'''

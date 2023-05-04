@@ -1,7 +1,10 @@
 from django.db import models
 
 # Create your models here.
+
+
 class Parametros(models.Model):
+
     nota_maxima = models.IntegerField()
     nota_minima = models.IntegerField()
     numero_intentos_curso = models.IntegerField()
@@ -9,23 +12,24 @@ class Parametros(models.Model):
     class Meta:
         db_table = 'Parametros'
 
+
 class LearningPath(models.Model):
 
-    estado_choices = (
-        ('0', 'Desactivado')
+    estado_choices = [
+        ('0', 'Desactivado'),
         ('1', 'CreadoSinFormulario'),
         ('2', 'ErrorFormulario'),
         ('3', 'CreadoCompleto')
-    )
+    ]
 
     nombre = models.CharField(max_length=300)
     descripcion = models.TextField()
     url_foto = models.TextField()
-    suma_valoraciones = models.IntegerField(default = 0)
-    cant_valores = models.IntegerField(default = 0)
-    cant_empleados = models.IntegerField(default = 0)
+    suma_valoraciones = models.IntegerField(default=0)
+    cant_valores = models.IntegerField(default=0)
+    cant_empleados = models.IntegerField(default=0)
     horas_duracion = models.DurationField()
-    estado = modeels.CharField(max_legth=1, choices = estado_choicess)
+    estado = models.CharField(max_length=1, choices=estado_choices)
 
     class Meta:
         db_table = 'LearningPath'
@@ -35,16 +39,15 @@ class LearningPath(models.Model):
 
 
 class CursoGeneral(models.Model):
-    nombre = models.CharField(max_length = 300)
+    nombre = models.CharField(max_length=300)
     descripcion = models.CharField(max_length=300)
     duracion = models.DurationField()
-    suma_valoracionees = models.IntegerField(default = 0)
-    cant_valoraciones = models.IntegerField(default = 0)
-    curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoXLearningPath')
+    suma_valoracionees = models.IntegerField(default=0)
+    cant_valoraciones = models.IntegerField(default=0)
+    curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoGeneralXLearningPath')
 
     class Meta:
         db_table = 'CursoGeneral'
-        abstract = True
 
     def __str__(self):
         return self.nombre
@@ -60,17 +63,16 @@ class CursoUdemy(CursoGeneral):
 
 class CursoEmpresa(CursoGeneral):
 
-    tipo_choices = (
+    tipo_choices = [
         ('P', 'Presencial'),
         ('S', 'Virtual sincrono'),
         ('A', 'Virtual asincrono')
-    )
+    ]
 
     tipo = models.CharField(max_length=1, choices=tipo_choices)
     asunto = models.TextField()
     ubicacion = models.CharField(max_length=500)
-    descripcion = models.CharField(max_length=500)
-    fecha = models.DateTime()
+    fecha = models.DateTimeField()
     url_video = models.TextField()
     #asistencia_x_empleado = models.ManyToManyField(Empleado, through='AsistenciaCursoEmpresaXEmpleado')
 
@@ -78,26 +80,31 @@ class CursoEmpresa(CursoGeneral):
         db_table = 'CursoEmpresa'
 
 
-class CursoXLearningPath(models.Model):
+class CursoGeneralXLearningPath(models.Model):
 
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
+    curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     nro_orden = models.IntegerField()
-    cant_intentos_max = models.IntegerField(default = lambda: Parametros.objects.first().numero_intentos_curso)
+    cant_intentos_max = models.IntegerField()
 
     class Meta:
-        db_table = 'CursoXLearningPath'
+        db_table = 'CursoGeneralXLearningPath'
+
+    def get_cant_intentos_max_default(self):
+        return Parametros.objects.first().numero_intentos_curso
+
+    def save(self, *args, **kwargs):
+        if not self.cant_intentos_max:
+            self.cant_intentos_max = self.get_cant_intentos_max_default()
+        super().save(*args, **kwargs)
 
 
 class Pregunta(models.Model):
     texto = models.CharField(max_length=1000)
-    pregunta_x_curso = models.ManyToManyField(Curso, through='PreguntaXCurso')
+    pregunta_x_curso = models.ManyToManyField(CursoUdemy, through='PreguntaXCursoUdemy')
 
     class Meta:
         db_table = 'Pregunta'
-
-    def __str__(self):
-        return self.nombre
 
 
 class PreguntaXCursoUdemy(models.Model):
@@ -115,12 +122,9 @@ class Alternativa(models.Model):
     class Meta:
         db_table = 'Alternativa'
 
-    def __str__(self):
-        return self.nombre
-
 
 class DocumentoRespuesta(models.Model):
-    url_documento = models.Textfield()
+    url_documento = models.TextField()
     #empleado_learning_path = models.ForeignKey(EmpleadoXLearningPath, on_delete=models.CASCADE)
 
     class Meta:
@@ -128,21 +132,21 @@ class DocumentoRespuesta(models.Model):
 
 
 class EmpleadoXLearningPath(models.Model):
-    estado_choices = (
+    estado_choices = [
         ('Sin iniciar', 'Sin iniciar'),
         ('Completado', 'Completado'),
         ('En progreso', 'En progreso'),
         ('Caducado', 'Caducado'),
         ('Desaprobado', 'Desaprobado'),
-    )
+    ]
 
     # empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
     porcentaje_progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
     apreciacion = models.TextField()
-    fecha_asignación = models.DateTime()
-    fecha_limite = models.DateTime()
+    fecha_asignacion = models.DateTimeField()
+    fecha_limite = models.DateTimeField()
 
     class Meta:
         db_table = 'EmpleadoXLearningPath'
@@ -158,13 +162,13 @@ class EmpleadoXCurso(models.Model):
 
 
 class EmpleadoXCursoXLearningPath(models.Model):
-    estado_choices = (
+    estado_choices = [
         ('Sin iniciar', 'Sin iniciar'),
         ('Completado', 'Completado'),
         ('En progreso', 'En progreso'),
         ('Sin evaluar', 'Sin evaluar'),
         ('Desaprobado', 'Desaprobado'),
-    )
+    ]
     # empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
@@ -172,8 +176,8 @@ class EmpleadoXCursoXLearningPath(models.Model):
     estado = models.CharField(max_length=30, choices=estado_choices)
     nota_final = models.IntegerField()
     cant_intentos = models.IntegerField(default = 0)
-    fecha_evaluacion = models.DateTime()
-    ultima_evaluacion = models.Boolean()
+    fecha_evaluacion = models.DateTimeField()
+    ultima_evaluacion = models.BooleanField()
 
     class Meta:
         db_table = 'EmpleadoXCursoXLearningPath'
@@ -192,13 +196,14 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
 class AsistenciaCursoEmpresaXEmpleado(models.Model):
     curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     #empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
-    tipo_choices = (
+    tipo_choices = [
         ('P','Asistio puntual'),
         ('T','Asistio tarde'),
         ('N','No asistio'),
         ('J','Falta justificada')
-    )
-    estado_asistencia= model.CharField(max_length=1, choices=tipo_choices)
+    ]
+
+    estado_asistencia= models.CharField(max_length=1, choices=tipo_choices)
 
     class Meta:
         db_table = 'AsistenciaCursoEmpresaXEmpleado'
