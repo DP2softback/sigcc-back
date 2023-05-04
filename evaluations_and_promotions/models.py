@@ -2,21 +2,15 @@ from django.db import models
 
 # Create your models here.
 
-class CategoryType(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    code = models.CharField(max_length=4,null=True, blank=True, unique=True)
-    description = models.CharField(max_length=500 ,null=True, blank=True)
-    isActive = models.BooleanField(default=True)
-    creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True)
 
 class EvaluationType(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateField(auto_now_add = True)
     modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
-    name = models.CharField(max_length=40)
-    description = models.CharField(max_length=500,null=True, blank=True)
+    name = models.CharField(max_length=40,blank=True)
+    description = models.TextField(blank=True, default='')
+
 
 class Position(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -24,20 +18,40 @@ class Position(models.Model):
     modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     name = models.CharField(max_length=40)
-    benefits = models.CharField(max_length=100,null=True, blank=True)
-    responsabilities = models.CharField(max_length=100,null=True, blank=True)
-    description =  models.CharField(max_length=100,null=True, blank=True)
-    tipoJornada =  models.CharField(max_length=100,null=True, blank=True)
-    modalidadTrabajo = models.CharField(max_length=100,null=True, blank=True)
+    benefits = models.TextField(blank=True, default='')
+    responsabilities = models.TextField(blank=True, default='')
+    description =  models.TextField(blank=True, default='')
+    tipoJornada =  models.TextField(blank=True, default='')
+    modalidadTrabajo = models.TextField(blank=True, default='')
+
 class Area(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateField(auto_now_add = True)
     modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
-    description =  models.CharField(max_length=100,null=True, blank=True)
+    description =  models.TextField(blank=True, default='')
     name = models.CharField(max_length=100)
     supervisorsArea = models.ForeignKey('self',null=True, on_delete=models.SET_NULL)
     roles = models.ManyToManyField(Position, through="AreaxPosicion")
+
+class Category(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    creationDate = models.DateField()
+    modifiedDate = models.DateField()
+    isActive = models.BooleanField(default=True)
+    code = models.CharField(max_length=5, blank=True)
+    description = models.TextField(blank=True, default='')
+    evaluationType = models.ForeignKey(EvaluationType,on_delete=models.SET_NULL, null=True)
+
+class AreaxPosicion(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)   
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)  
+    creationDate = models.DateField()
+    modifiedDate = models.DateField() 
+    isActive = models.BooleanField(default=True)
+    availableQuantity = models.IntegerField()
+    unavailableQuantity = models.IntegerField()
 
 class Evaluation(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -52,30 +66,30 @@ class Evaluation(models.Model):
     evaluator = models.ForeignKey('login.Employee',related_name="employeeEvaluator", on_delete=models.SET_NULL, blank=True, null=True)
     evaluated = models.ForeignKey('login.Employee',related_name="employeeEvaluated", on_delete=models.SET_NULL,blank=True, null=True)
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE)
+    areaxPosicion = models.ForeignKey(AreaxPosicion, on_delete=models.SET_NULL, null=True)
 
-class Category(models.Model):
+class SubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateField(auto_now_add = True)
     modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
-    hasComment = models.BooleanField()
-    hasScore = models.BooleanField()
-    comment  = models.CharField(max_length=500,null=True, blank=True)
-    score = models.FloatField(null=True,blank=True)
-    categoryType = models.ForeignKey(CategoryType, on_delete=models.RESTRICT)
-    evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE)
+    code = models.CharField(max_length=5)
+    description = models.TextField(blank=True, default='')
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
 
-
-
-class AreaxPosicion(models.Model):
-    area = models.ForeignKey(Area, on_delete=models.CASCADE)   
-    position = models.ForeignKey(Position, on_delete=models.CASCADE)  
+class EvaluationxSubCategory(models.Model):
+    id = models.BigAutoField(primary_key=True)
     creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True) 
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
-    availableQuantity = models.IntegerField()
-    unavailableQuantity = models.IntegerField()
+    hasComment = models.BooleanField(default=True)
+    comment = models.TextField(blank=True, default='')
+    score = models.FloatField(blank=True,null=True)
+    subCategory = models.ForeignKey(SubCategory, null=True, blank=True, on_delete=models.SET_NULL)
+    evaluation= models.ForeignKey(Evaluation, on_delete=models.SET_NULL, null=True)
+
+
     
 
 

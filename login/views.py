@@ -8,22 +8,21 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from zappa.asynchronous import task
 from .models import User
+from login.serializers import *
 
 # Create your views here.
 class UsuarioView(APIView):
     def get(self, request):
-        users = User.objects.values()
-        list_result = [entry for entry in users]
+        users = User.objects.all()
+        user_serializado = UserSerializer(users,many=True)
+        return Response(user_serializado.data,status=status.HTTP_200_OK)
 
-        response = Response(
-            data={
-                'title': '¡Listo!',
-                'message': 'Lista de usuarios registrados:',
-                'users': list_result,
-                
-            },
-            status=status.HTTP_200_OK,
-        )
+    def post(self,request):
+        
+        user_serializado = UserSerializer(data = request.data)
 
-
-        return response
+        if user_serializado.is_valid():
+            user_serializado.save()
+            return Response(user_serializado.data,status=status.HTTP_200_OK)
+        
+        return Response(user_serializado.data,status=status.HTTP_400_BAD_REQUEST)
