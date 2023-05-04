@@ -9,7 +9,7 @@ class CompetencyType(models.Model):
     active = models.BooleanField(default=True)
 
 class Competency(models.Model):
-    id = models.AutoField(primary_key = True)
+    id = models.BigAutoField(primary_key = True)
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
     active = models.BooleanField(default=True)
@@ -76,7 +76,6 @@ class AreaxPosicion(models.Model):
     isActive = models.BooleanField(default=True)
     availableQuantity = models.IntegerField()
     unavailableQuantity = models.IntegerField()
-    competencies = models.ManyToManyField(Competency, through='AreaxPositionxCompetency') #cambio 1 - competencias de areaposicion
 
 # #############################################################################################################
 # #############################################################################################################
@@ -84,8 +83,8 @@ class AreaxPosicion(models.Model):
 
 class Employee(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateTimeField(auto_now_add = True)
+    modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
     isSupervisor = models.BooleanField()
     supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
@@ -97,7 +96,7 @@ class Employee(models.Model):
 # #############################################################################################################
 
 class JobOffer(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     description = models.CharField(max_length=500, blank=True, null=True)
     requirements = models.CharField(max_length=500, blank=True, null=True)
@@ -107,28 +106,33 @@ class JobOffer(models.Model):
     state = models.IntegerField(blank=True,null =True)
     available = models.IntegerField(blank=True,null =True)
     active = models.BooleanField(default=True)
-    position = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
     candidates = models.ManyToManyField(User, through='JobOfferxUser') #cambiar cuando se haga el merge
 
 class JobOfferxUser(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
     jobOffer = models.ForeignKey(JobOffer, on_delete=models.CASCADE, null=True, blank=True)
     active = models.BooleanField(default=True)
 
 class OfferNotification(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=300, blank=True, null=True)
     active = models.BooleanField(default=True)
     jobOffer = models.ForeignKey(JobOffer, on_delete=models.CASCADE, null=True, blank=True)
 
 class AreaxPositionxCompetency(models.Model):
+    id = models.BigAutoField(primary_key=True)
     competency = models.ForeignKey(Competency, on_delete=models.CASCADE, null=True, blank=True)
-    position = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
     level = models.IntegerField(blank=True,null =True)
     active = models.BooleanField(default=True)
 
 class EmployeexCompetency(models.Model):
+    id = models.BigAutoField(primary_key=True)
     competency = models.ForeignKey(Competency, on_delete=models.CASCADE, null=True, blank=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True) #cambiar cuando se haga el merge
     level = models.IntegerField(blank=True,null =True)
