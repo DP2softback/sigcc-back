@@ -27,7 +27,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 class UserSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields =  ['id', 'creationDate', 'modifiedDate', 'isActive', 'username', 'firstName', 'secondName', 'lastName', 'maidenName', 'email', 'password', 'role']
 
 class EmployeeSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
     class Meta:
