@@ -10,9 +10,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
 
-from Cursos.models import LearningPath, CursoXLearningPath, Curso
-from Cursos.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoSerializer
-from Cursos.utils import get_udemy_courses, clean_course_detail
+from capacitaciones.models import LearningPath, CursoXLearningPath, Curso
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoSerializer
+from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 
 @api_view(['GET'])
@@ -47,36 +47,40 @@ def get_udemy_valid_courses(request, pk, course, delete=0):
 
 @api_view(['POST'])
 def get_udemy_course_detail(request):
-    options = webdriver.EdgeOptions()
-    prefs = {"profile.managed_default_content_settings.images": 2}
-    options.add_experimental_option("prefs", prefs)
-    options.add_argument("--disable-extensions")
-    options.add_argument('--headless=new')
-    options.add_argument('--disable-stack-profiler')
 
-    browser = webdriver.Edge(options=options)
-    browser.get('https://www.udemy.com{}'.format(request.data['url']))
+    if request.method == 'POST':
+        options = webdriver.EdgeOptions()
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        options.add_experimental_option("prefs", prefs)
+        options.add_argument("--disable-extensions")
+        options.add_argument('--headless=new')
+        options.add_argument('--disable-stack-profiler')
 
-    togglers = WebDriverWait(driver=browser, timeout=10).until(
-        EC.presence_of_all_elements_located((By.CLASS_NAME, 'ud-accordion-panel-toggler')))
+        browser = webdriver.Edge(options=options)
+        browser.get('https://www.udemy.com{}'.format(request.data['url']))
 
-    for toggle, i in enumerate(range(1, len(togglers))):
-        togglers[i].click()
+        togglers = WebDriverWait(driver=browser, timeout=10).until(
+            EC.presence_of_all_elements_located((By.CLASS_NAME, 'ud-accordion-panel-toggler')))
 
-    modules = WebDriverWait(driver=browser, timeout=10).until(
-        EC.presence_of_all_elements_located((By.CSS_SELECTOR, '[class^="accordion-panel-module--panel"]')))
+        for toggle, i in enumerate(range(1, len(togglers))):
+            togglers[i].click()
 
-    course_contents = []
-    for module in modules:
-        course_module = {}
-        course_module['title'] = module.find_element(By.CSS_SELECTOR, '[class^="section--section-title"]').text
-        topics = module.find_elements(By.CSS_SELECTOR, '[class^="section--row"]')
-        course_module['topics'] = []
-        for topic in topics:
-            course_module['topics'].append(topic.text)
-        course_contents.append(course_module)
+        modules = WebDriverWait(driver=browser, timeout=10).until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, '[class^="accordion-panel-module--panel"]')))
 
-    return Response(course_contents, status = status.HTTP_200_OK)
+        course_contents = []
+        for module in modules:
+            course_module = {}
+            course_module['title'] = module.find_element(By.CSS_SELECTOR, '[class^="section--section-title"]').text
+            topics = module.find_elements(By.CSS_SELECTOR, '[class^="section--row"]')
+            course_module['topics'] = []
+            for topic in topics:
+                course_module['topics'].append(topic.text)
+            course_contents.append(course_module)
+
+        return Response(course_contents, status = status.HTTP_200_OK)
+
+    return Response({"message": "Not supported method"}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'POST'])
