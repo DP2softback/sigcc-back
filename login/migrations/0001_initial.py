@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
             name='Role',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('creationDate', models.DateField()),
-                ('modifiedDate', models.DateField()),
+                ('creationDate', models.DateTimeField()),
+                ('modifiedDate', models.DateTimeField()),
                 ('isActive', models.BooleanField(default=True)),
                 ('name', models.CharField(max_length=32, unique=True)),
                 ('description', models.CharField(max_length=256)),
@@ -27,8 +27,8 @@ class Migration(migrations.Migration):
             name='User',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('creationDate', models.DateField()),
-                ('modifiedDate', models.DateField()),
+                ('creationDate', models.DateTimeField()),
+                ('modifiedDate', models.DateTimeField()),
                 ('isActive', models.BooleanField(default=True)),
                 ('username', models.CharField(max_length=25, unique=True)),
                 ('firstName', models.CharField(max_length=25)),
@@ -44,8 +44,8 @@ class Migration(migrations.Migration):
             name='Employee',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('creationDate', models.DateField()),
-                ('modifiedDate', models.DateField()),
+                ('creationDate', models.DateTimeField()),
+                ('modifiedDate', models.DateTimeField()),
                 ('isActive', models.BooleanField(default=True)),
                 ('isSupervisor', models.BooleanField()),
                 ('supervisor', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='login.employee')),

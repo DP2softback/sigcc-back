@@ -5,8 +5,8 @@ from django.db import models
 
 class EvaluationType(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True)
+    creationDate = models.DateTimeField(auto_now_add = True)
+    modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
     name = models.CharField(max_length=40,blank=True)
     description = models.TextField(blank=True, default='')
@@ -14,8 +14,8 @@ class EvaluationType(models.Model):
 
 class Position(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True)
+    creationDate = models.DateTimeField(auto_now_add = True)
+    modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
     name = models.CharField(max_length=40)
     benefits = models.TextField(blank=True, default='')
@@ -26,8 +26,8 @@ class Position(models.Model):
 
 class Area(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True)
+    creationDate = models.DateTimeField(auto_now_add = True)
+    modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
     description =  models.TextField(blank=True, default='')
     name = models.CharField(max_length=100)
@@ -36,8 +36,8 @@ class Area(models.Model):
 
 class Category(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateTimeField()
+    modifiedDate = models.DateTimeField()
     isActive = models.BooleanField(default=True)
     code = models.CharField(max_length=5, blank=True)
     description = models.TextField(blank=True, default='')
@@ -47,18 +47,18 @@ class AreaxPosicion(models.Model):
     id = models.BigAutoField(primary_key=True)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)   
     position = models.ForeignKey(Position, on_delete=models.CASCADE)  
-    creationDate = models.DateField()
-    modifiedDate = models.DateField() 
+    creationDate = models.DateTimeField()
+    modifiedDate = models.DateTimeField() 
     isActive = models.BooleanField(default=True)
     availableQuantity = models.IntegerField()
     unavailableQuantity = models.IntegerField()
 
 class Evaluation(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True)
+    creationDate = models.DateTimeField(auto_now_add = True)
+    modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
-    evaluationDate = models.DateField()
+    evaluationDate = models.DateTimeField()
     hasComment = models.BooleanField()
     generalComment = models.CharField(max_length=500,null=True,blank=True)
     isFinished = models.BooleanField()
@@ -70,8 +70,8 @@ class Evaluation(models.Model):
 
 class SubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True)
+    creationDate = models.DateTimeField(auto_now_add = True)
+    modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
     code = models.CharField(max_length=5)
     description = models.TextField(blank=True, default='')
@@ -80,8 +80,8 @@ class SubCategory(models.Model):
 
 class EvaluationxSubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField(auto_now_add = True)
-    modifiedDate = models.DateField(auto_now = True)
+    creationDate = models.DateTimeField(auto_now_add = True)
+    modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
     hasComment = models.BooleanField(default=True)
     comment = models.TextField(blank=True, default='')

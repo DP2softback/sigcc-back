@@ -13,31 +13,31 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='employee',
             name='creationDate',
-            field=models.DateField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='employee',
             name='modifiedDate',
-            field=models.DateField(auto_now=True),
+            field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
             model_name='role',
             name='creationDate',
-            field=models.DateField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='role',
             name='modifiedDate',
-            field=models.DateField(auto_now=True),
+            field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
             model_name='user',
             name='creationDate',
-            field=models.DateField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='user',
             name='modifiedDate',
-            field=models.DateField(auto_now=True),
+            field=models.DateTimeField(auto_now=True),
         ),
     ]

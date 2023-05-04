@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
             name='EvaluationxSubCategory',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('creationDate', models.DateField(auto_now_add=True)),
-                ('modifiedDate', models.DateField(auto_now=True)),
+                ('creationDate', models.DateTimeField(auto_now_add=True)),
+                ('modifiedDate', models.DateTimeField(auto_now=True)),
                 ('isActive', models.BooleanField(default=True)),
                 ('hasComment', models.BooleanField(default=True)),
                 ('comment', models.TextField(blank=True, default='')),
@@ -27,8 +27,8 @@ class Migration(migrations.Migration):
             name='SubCategory',
             fields=[
                 ('id', models.BigAutoField(primary_key=True, serialize=False)),
-                ('creationDate', models.DateField(auto_now_add=True)),
-                ('modifiedDate', models.DateField(auto_now=True)),
+                ('creationDate', models.DateTimeField(auto_now_add=True)),
+                ('modifiedDate', models.DateTimeField(auto_now=True)),
                 ('isActive', models.BooleanField(default=True)),
                 ('code', models.CharField(max_length=5)),
                 ('description', models.TextField(blank=True, default='')),
@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='area',
             name='creationDate',
-            field=models.DateField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='area',
@@ -91,7 +91,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='area',
             name='modifiedDate',
-            field=models.DateField(auto_now=True),
+            field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
             model_name='areaxposicion',
@@ -101,17 +101,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='evaluation',
             name='creationDate',
-            field=models.DateField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='evaluation',
             name='modifiedDate',
-            field=models.DateField(auto_now=True),
+            field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
             model_name='evaluationtype',
             name='creationDate',
-            field=models.DateField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='evaluationtype',
@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='evaluationtype',
             name='modifiedDate',
-            field=models.DateField(auto_now=True),
+            field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
             model_name='evaluationtype',
@@ -136,7 +136,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='position',
             name='creationDate',
-            field=models.DateField(auto_now_add=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='position',
@@ -151,7 +151,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='position',
             name='modifiedDate',
-            field=models.DateField(auto_now=True),
+            field=models.DateTimeField(auto_now=True),
         ),
         migrations.AlterField(
             model_name='position',
