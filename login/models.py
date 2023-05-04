@@ -22,7 +22,7 @@ class User(models.Model):
     maidenName = models.CharField(max_length=25)
     email = models.EmailField(max_length=46, unique=True, null=False, blank=False)
     password = models.CharField(max_length=32)
-    role = models.ForeignKey(Role, on_delete=models.RESTRICT)
+    role = models.ForeignKey(Role, null = True, on_delete=models.RESTRICT)
 
 class Employee(models.Model):
     id = models.BigAutoField(primary_key=True)

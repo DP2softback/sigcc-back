@@ -18,11 +18,11 @@ class UsuarioView(APIView):
         return Response(user_serializado.data,status=status.HTTP_200_OK)
 
     def post(self,request):
-        
+
         user_serializado = UserSerializer(data = request.data)
 
         if user_serializado.is_valid():
             user_serializado.save()
             return Response(user_serializado.data,status=status.HTTP_200_OK)
         
-        return Response(user_serializado.data,status=status.HTTP_400_BAD_REQUEST)
+        return Response(None,status=status.HTTP_400_BAD_REQUEST)
