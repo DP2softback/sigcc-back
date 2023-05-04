@@ -17,6 +17,7 @@ admin.site.index_title = 'Backend de proyecto SIGCC'
 public_apis = [
     url(r'^api/v1/', include([
         url(r'', include('users.urls')),
+        url(r'', include('offers.urls')),
     ])),
 ]
 
