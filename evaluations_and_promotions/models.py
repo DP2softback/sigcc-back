@@ -7,21 +7,21 @@ class CategoryType(models.Model):
     code = models.CharField(max_length=4,null=True, blank=True, unique=True)
     description = models.CharField(max_length=500 ,null=True, blank=True)
     isActive = models.BooleanField(default=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
 
 class EvaluationType(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=500,null=True, blank=True)
 
 class Position(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     name = models.CharField(max_length=40)
     benefits = models.CharField(max_length=100,null=True, blank=True)
@@ -31,8 +31,8 @@ class Position(models.Model):
     modalidadTrabajo = models.CharField(max_length=100,null=True, blank=True)
 class Area(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     description =  models.CharField(max_length=100,null=True, blank=True)
     name = models.CharField(max_length=100)
@@ -41,8 +41,8 @@ class Area(models.Model):
 
 class Evaluation(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     evaluationDate = models.DateField()
     hasComment = models.BooleanField()
@@ -55,8 +55,8 @@ class Evaluation(models.Model):
 
 class Category(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     hasComment = models.BooleanField()
     hasScore = models.BooleanField()
@@ -71,8 +71,8 @@ class Category(models.Model):
 class AreaxPosicion(models.Model):
     area = models.ForeignKey(Area, on_delete=models.CASCADE)   
     position = models.ForeignKey(Position, on_delete=models.CASCADE)  
-    creationDate = models.DateField()
-    modifiedDate = models.DateField() 
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True) 
     isActive = models.BooleanField(default=True)
     availableQuantity = models.IntegerField()
     unavailableQuantity = models.IntegerField()

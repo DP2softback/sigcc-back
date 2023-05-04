@@ -4,16 +4,16 @@ from django.db import models
 
 class Role(models.Model):
     id =models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     name = models.CharField(max_length=32, unique=True)
     description = models.CharField(max_length=256)
 
 class User(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     username = models.CharField(max_length=25, unique=True)
     firstName = models.CharField(max_length=25)
@@ -26,8 +26,8 @@ class User(models.Model):
 
 class Employee(models.Model):
     id = models.BigAutoField(primary_key=True)
-    creationDate = models.DateField()
-    modifiedDate = models.DateField()
+    creationDate = models.DateField(auto_now_add = True)
+    modifiedDate = models.DateField(auto_now = True)
     isActive = models.BooleanField(default=True)
     isSupervisor = models.BooleanField()
     supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
