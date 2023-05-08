@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
 
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
@@ -18,12 +18,14 @@ from capacitaciones.utils import get_udemy_courses, clean_course_detail
 @api_view(['GET'])
 def get_udemy_valid_courses(request, pk, course, delete=0):
 
-    list_udemy_courses = get_udemy_courses(course)
-
     lp = LearningPath.objects.filter(pk = pk).first()
 
     if lp:
-        courses_udemy_id = lp.cursogeneral_set.values_list('udemy_id', flat=True)
+
+        list_udemy_courses = get_udemy_courses(course)
+        cursos = lp.cursogeneral_set.all()
+        courses_udemy_id = list(CursoUdemy.objects.filter(id__in=cursos.values_list('id', flat=True)).values_list('udemy_id', flat=True))
+
         if delete:
             valid_udemy_courses = [clean_course_detail(course) for course in list_udemy_courses if course['id'] not in courses_udemy_id]
 
@@ -43,19 +45,19 @@ def get_udemy_valid_courses(request, pk, course, delete=0):
 
     return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
-'''
+
 @api_view(['POST'])
 def get_udemy_course_detail(request):
-
+    print("wenas detail")
     if request.method == 'POST':
-        options = webdriver.EdgeOptions()
+        options = webdriver.ChromeOptions()
         prefs = {"profile.managed_default_content_settings.images": 2}
         options.add_experimental_option("prefs", prefs)
         options.add_argument("--disable-extensions")
         options.add_argument('--headless=new')
         options.add_argument('--disable-stack-profiler')
 
-        browser = webdriver.Edge(options=options)
+        browser = webdriver.Chrome(options=options)
         browser.get('https://www.udemy.com{}'.format(request.data['url']))
 
         togglers = WebDriverWait(driver=browser, timeout=10).until(
@@ -81,7 +83,7 @@ def get_udemy_course_detail(request):
 
     return Response({"message": "Not supported method"}, status=status.HTTP_404_NOT_FOUND)
 
-
+'''
 @api_view(['GET', 'POST'])
 def learning_path_api_view(request):
 
