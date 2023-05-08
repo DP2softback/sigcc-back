@@ -8,10 +8,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import re
+from django.db import transaction
 
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, CursoEmpresaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 
@@ -152,34 +152,40 @@ def curso_detail_lp_api_view(request, pk_lp, pk_curso):
 
 
 @api_view(['POST'])
+@transaction.atomic
 def learning_path_create_from_template_api_view(request):
-    if not isinstance(request.GET.get('id'), int):
-        return Response({"message": "El id enviado no es del tipo entero"},status=status.HTTP_400_BAD_REQUEST)
 
-    lp = LearningPath.objects.filter(pk=request.data.id).first()
+    lp_serializer = LearningPathSerializer(data=request.data,context=request.data)
+    print("wenas")
+    if lp_serializer.is_valid():
+        lp = lp_serializer.save()
 
-    if len(lp)==0:
-        return Response({"message": "No existe el learning path seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
+        for curso_lp in request.data['cursos']:
+            print(curso_lp)
+            curso_serializer = CursoUdemySerializer(data=curso_lp)
 
-    if(lp.estado != 3):
-        return Response({"message": "El learning path seleccionado no puede usarse como plantilla"}, status=status.HTTP_400_BAD_REQUEST)
+            if curso_serializer.is_valid():
+                curso = CursoUdemy.objects.filter(udemy_id=curso_lp['udemy_id']).first()
+                if curso is None:
+                    curso = curso_serializer.save()
 
-    #Se crea el lp
-    lp_nuevo = LearningPath.objects.create(nombre=lp.nombre, descripcion=lp.descripcion,url_foto=lp.url_foto,
-                                suma_valoraciones=lp.suma_valoraciones,cant_valoraciones=lp.cant_valoraciones,
-                                cant_empleados=lp.cant_empleados,horas_duracion=lp.horas_duracion,estado=lp.estado)
+                CursoGeneralXLearningPath.objects.create(curso=curso, learning_path=lp)
+            else:
+                return Response({"message": "No se pudo crear el curso {}".format(curso_lp['nombre'])}, status=status.HTTP_400_BAD_REQUEST)
 
-    cursos_x_lp = CursoGeneralXLearningPath.objects.filter(learning_path_id=lp.learning_path_id)
+        return Response({"message": "Se ha creado el learning path con exito"}, status=status.HTTP_200_OK)
 
-    nuevos_cursos_x_lp = []
-    for curso in cursos_x_lp:
-        nuevos_cursos_x_lp.append(CursoGeneralXLearningPath(learning_path=curso.learning_path, curso=curso.curso,
-                                                            nro_orden=curso.nro_orden, cant_intentos_max=curso.cant_intentos_max))
+    else:
+        return Response({"message": "No se pudo crear el learning path"}, status=status.HTTP_400_BAD_REQUEST)
 
-    #Se relacionan los cursos correspondientes al neuvo lp creado
-    CursoGeneralXLearningPath.objects.bulk_create(nuevos_cursos_x_lp)
+@api_view(['POST'])
+def curso_empresa_api_view(request):
 
-    return Response({"message": "Se ha creado el learning path con exito"}, status=status.HTTP_200_OK)
+    if request.GET.get('tipo')!='A':
+        return Response({"message": "No es del tipo virtual asincrono"}, status=status.HTTP_400_BAD_REQUEST)
 
+    curso_empresa = CursoEmpresaSerializer(data=request.data)
 
+    if curso_empresa.is_valid():
+        curso_empresa_nuevo = curso_empresa.save()
 
