@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy
+from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy,CursoEmpresa,AsistenciaCursoEmpresaXEmpleado
 
 
 class LearningPathSerializer(serializers.ModelSerializer):
@@ -33,6 +33,20 @@ class CursoUdemySerializer(serializers.ModelSerializer):
 
         return value
 
+class CursoEmpresaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CursoEmpresa
+        exclude = ('curso_x_learning_path',)
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
+        
+    def validate_tipo(self, value):
+
+        if value == '':
+            raise serializers.ValidationError('El valor de este campo no puede ser vacio')
+
+        return value
+
 
 class LearningPathSerializerWithCourses(serializers.ModelSerializer):
 
@@ -46,3 +60,19 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
         cursos_id = CursoGeneralXLearningPath.objects.filter(learning_path=obj).values_list('curso_id', flat=True)
         cursos = CursoUdemy.objects.filter(id__in=cursos_id)
         return CursoUdemySerializer(cursos, many=True).data
+
+'''
+class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):
+
+    asistencia_x_empleado = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Empleados
+        fields = '__all__'
+
+    def get_asistencia_x_empleado(self, obj):
+        cursos_id = AsistenciaCursoEmpresaXEmpleado.objects.filter(curso_empresa=obj).values_list('empleado_id', flat=True)
+        empleados = Empleado.objects.filter(id__in=empleado_id)
+        return Empleadoserializer(empleados, many=True).data
+'''
+        

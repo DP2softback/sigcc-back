@@ -209,7 +209,7 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
 
 class AsistenciaCursoEmpresaXEmpleado(models.Model):
     curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
-    #empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    #empleado_id = models.ForeignKey(Empleado, on_delete=models.CASCADE)
     tipo_choices = [
         ('P','Asistio puntual'),
         ('T','Asistio tarde'),

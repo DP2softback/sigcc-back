@@ -9,9 +9,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
-
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
+from django.db.models import Q
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral,CursoEmpresa,CursoUdemy
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, CursoEmpresaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 
@@ -149,6 +149,68 @@ def curso_detail_lp_api_view(request, pk_lp, pk_curso):
             curso_x_lp.delete()
             return Response({"message": "Se eliminó el curso"}, status= status.HTTP_200_OK)
         return Response({"message": "No existe el curso en el learning seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST'])
+def curso_empresa_api_view(request):
+
+    if request.method == 'GET':
+        cursos_emp = CursoEmpresa.objects.all()
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+
+    elif request.method == 'POST':
+        cursos_emp_serializer = CursoEmpresaSerializer(data = request.data, context = request.data)
+
+        if cursos_emp_serializer.is_valid():
+            cursos_emp = cursos_emp_serializer.save()
+            return Response({'id': cursos_emp.id,
+                            'message': 'Curso Empresa creado correctamente'}, status=status.HTTP_200_OK)
+
+        return Response(cursos_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({"message": "Not supported method"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET', 'PUT','DELETE'])
+def curso_empresa_detail_api_view(request,pk=None):
+
+    if request.method == 'GET':
+        cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+
+    elif request.method == 'PUT':
+        cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
+        #this is to update a curso empresa
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp,data = request.data)
+
+        if cursos_emp_serializer.is_valid():
+            cursos_emp_serializer.save()
+            return Response({
+                            'message': 'Se actualizó el curso empresa satisfactoriamente'}, status=status.HTTP_200_OK)
+    
+        return Response(cursos_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
+        cursos_emp.delete()
+        return Response({"message": "Curso eliminado"}, status=status.HTTP_200_OK)
+
+    return Response({"message": "Not supported method"}, status=status.HTTP_404_NOT_FOUND)
+
+#acá iría la api para la búsqueda especial de Rodrigo
+@api_view(['GET'])
+def curso_empresa_search_especial_api_view(request):
+
+    if request.method == 'GET':
+        fecha_ini = request.GET.get('fecha_ini')
+        fecha_fin = request.GET.get('fecha_fin')
+        tipo = request.GET.get('tipo')
+
+        cursos_emp = CursoEmpresa.objects.filter( Q(fecha__gte=fecha_ini) & Q(fecha__lte=fecha_fin) & Q(tipo=tipo)).first()
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+    return Response({"message": "Not supported method"}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['POST'])
