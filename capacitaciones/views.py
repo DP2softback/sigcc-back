@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
 from django.db.models import Q
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral,CursoEmpresa
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral,CursoEmpresa,CursoUdemy
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, CursoEmpresaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
@@ -18,12 +18,14 @@ from capacitaciones.utils import get_udemy_courses, clean_course_detail
 @api_view(['GET'])
 def get_udemy_valid_courses(request, pk, course, delete=0):
 
-    list_udemy_courses = get_udemy_courses(course)
-
     lp = LearningPath.objects.filter(pk = pk).first()
 
     if lp:
-        courses_udemy_id = lp.cursogeneral_set.values_list('udemy_id', flat=True)
+
+        list_udemy_courses = get_udemy_courses(course)
+        cursos = lp.cursogeneral_set.all()
+        courses_udemy_id = list(CursoUdemy.objects.filter(id__in=cursos.values_list('id', flat=True)).values_list('udemy_id', flat=True))
+
         if delete:
             valid_udemy_courses = [clean_course_detail(course) for course in list_udemy_courses if course['id'] not in courses_udemy_id]
 
@@ -43,19 +45,19 @@ def get_udemy_valid_courses(request, pk, course, delete=0):
 
     return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
-'''
+
 @api_view(['POST'])
 def get_udemy_course_detail(request):
 
     if request.method == 'POST':
-        options = webdriver.EdgeOptions()
+        options = webdriver.ChromeOptions()
         prefs = {"profile.managed_default_content_settings.images": 2}
         options.add_experimental_option("prefs", prefs)
         options.add_argument("--disable-extensions")
         options.add_argument('--headless=new')
         options.add_argument('--disable-stack-profiler')
 
-        browser = webdriver.Edge(options=options)
+        browser = webdriver.Chrome(options=options)
         browser.get('https://www.udemy.com{}'.format(request.data['url']))
 
         togglers = WebDriverWait(driver=browser, timeout=10).until(
@@ -104,7 +106,7 @@ def learning_path_api_view(request):
 
 
 @api_view(['GET', 'POST'])
-def curso_lp_api_vew(request, pk):
+def curso_udemy_lp_api_vew(request, pk):
 
     if request.method == 'GET':
         lp = LearningPath.objects.filter(pk = pk).first()
@@ -123,15 +125,15 @@ def curso_lp_api_vew(request, pk):
         if lp is None:
             return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
-        curso_serializer = CursoSerializer(data=request.data)
+        curso_serializer = CursoUdemySerializer(data=request.data)
 
         if curso_serializer.is_valid():
 
-            curso = Curso.objects.filter(udemy_id=request.data['udemy_id']).first()
+            curso = CursoUdemy.objects.filter(udemy_id=request.data['udemy_id']).first()
             if curso is None:
                 curso = curso_serializer.save()
 
-            CursoXLearningPath.objects.create(curso = curso, learning_path = lp)
+            CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
 
             return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
 
@@ -142,12 +144,12 @@ def curso_lp_api_vew(request, pk):
 def curso_detail_lp_api_view(request, pk_lp, pk_curso):
 
     if request.method == 'DELETE':
-        curso_x_lp = CursoXLearningPath.objects.filter(curso_id = pk_curso, learning_path_id = pk_lp).first()
+        curso_x_lp = CursoGeneralXLearningPath.objects.filter(curso_id = pk_curso, learning_path_id = pk_lp).first()
         if curso_x_lp:
             curso_x_lp.delete()
             return Response({"message": "Se eliminó el curso"}, status= status.HTTP_200_OK)
         return Response({"message": "No existe el curso en el learning seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
-'''
+
 
 @api_view(['GET', 'POST'])
 def curso_empresa_api_view(request):
@@ -209,3 +211,37 @@ def curso_empresa_search_especial_api_view(request):
         cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp)
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
     return Response({"message": "Not supported method"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def learning_path_create_from_template_api_view(request):
+    if not isinstance(request.GET.get('id'), int):
+        return Response({"message": "El id enviado no es del tipo entero"},status=status.HTTP_400_BAD_REQUEST)
+
+    lp = LearningPath.objects.filter(pk=request.data.id).first()
+
+    if len(lp)==0:
+        return Response({"message": "No existe el learning path seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
+
+    if(lp.estado != 3):
+        return Response({"message": "El learning path seleccionado no puede usarse como plantilla"}, status=status.HTTP_400_BAD_REQUEST)
+
+    #Se crea el lp
+    lp_nuevo = LearningPath.objects.create(nombre=lp.nombre, descripcion=lp.descripcion,url_foto=lp.url_foto,
+                                suma_valoraciones=lp.suma_valoraciones,cant_valoraciones=lp.cant_valoraciones,
+                                cant_empleados=lp.cant_empleados,horas_duracion=lp.horas_duracion,estado=lp.estado)
+
+    cursos_x_lp = CursoGeneralXLearningPath.objects.filter(learning_path_id=lp.learning_path_id)
+
+    nuevos_cursos_x_lp = []
+    for curso in cursos_x_lp:
+        nuevos_cursos_x_lp.append(CursoGeneralXLearningPath(learning_path=curso.learning_path, curso=curso.curso,
+                                                            nro_orden=curso.nro_orden, cant_intentos_max=curso.cant_intentos_max))
+
+    #Se relacionan los cursos correspondientes al neuvo lp creado
+    CursoGeneralXLearningPath.objects.bulk_create(nuevos_cursos_x_lp)
+
+    return Response({"message": "Se ha creado el learning path con exito"}, status=status.HTTP_200_OK)
+
+
+
