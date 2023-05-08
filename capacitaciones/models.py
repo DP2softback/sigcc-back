@@ -93,9 +93,17 @@ class CursoGeneralXLearningPath(models.Model):
     def get_cant_intentos_max_default(self):
         return Parametros.objects.first().numero_intentos_curso
 
+    def get_nro_orden(self):
+        pos = CursoGeneralXLearningPath.objects.filter(learning_path = self.learning_path).count()
+        return pos + 1
+
     def save(self, *args, **kwargs):
         if not self.cant_intentos_max:
             self.cant_intentos_max = self.get_cant_intentos_max_default()
+
+        if not self.nro_orden:
+            self.nro_orden = self.get_nro_orden()
+
         super().save(*args, **kwargs)
 
 
