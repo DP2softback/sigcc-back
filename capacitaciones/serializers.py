@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa
+from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy,CursoEmpresa,AsistenciaCursoEmpresaXEmpleado
 
 from django.utils import timezone
 
@@ -28,6 +28,20 @@ class CursoUdemySerializer(serializers.ModelSerializer):
         exclude = ('curso_x_learning_path',)
 
     def validate_udemy_id(self, value):
+
+        if value == '':
+            raise serializers.ValidationError('El valor de este campo no puede ser vacio')
+
+        return value
+
+class CursoEmpresaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CursoEmpresa
+        exclude = ('curso_x_learning_path',)
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
+        
+    def validate_tipo(self, value):
 
         if value == '':
             raise serializers.ValidationError('El valor de este campo no puede ser vacio')
@@ -76,3 +90,18 @@ class CursoEmpresaSerializer(serializers.ModelSerializer):
         if value <= fecha_actual:
             raise serializers.ValidationError('La fecha debe ser mayor a la fecha de la peticion')
         return value
+'''
+class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):
+
+    asistencia_x_empleado = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Empleados
+        fields = '__all__'
+
+    def get_asistencia_x_empleado(self, obj):
+        cursos_id = AsistenciaCursoEmpresaXEmpleado.objects.filter(curso_empresa=obj).values_list('empleado_id', flat=True)
+        empleados = Empleado.objects.filter(id__in=empleado_id)
+        return Empleadoserializer(empleados, many=True).data
+'''
+        
