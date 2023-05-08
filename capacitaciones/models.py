@@ -97,6 +97,10 @@ class CursoGeneralXLearningPath(models.Model):
         pos = CursoGeneralXLearningPath.objects.filter(learning_path = self.learning_path).count()
         return pos + 1
 
+    def update_learning_path_duration(self):
+        self.learning_path.horas_duracion += self.curso.duracion
+        self.learning_path.save()
+
     def save(self, *args, **kwargs):
         if not self.cant_intentos_max:
             self.cant_intentos_max = self.get_cant_intentos_max_default()
@@ -105,6 +109,8 @@ class CursoGeneralXLearningPath(models.Model):
             self.nro_orden = self.get_nro_orden()
 
         super().save(*args, **kwargs)
+
+        self.update_learning_path_duration()
 
 
 class Pregunta(models.Model):
