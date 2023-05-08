@@ -43,6 +43,7 @@ def get_udemy_valid_courses(request, pk, course, delete=0):
 
     return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
+
 '''
 @api_view(['POST'])
 def get_udemy_course_detail(request):
@@ -148,3 +149,36 @@ def curso_detail_lp_api_view(request, pk_lp, pk_curso):
             return Response({"message": "Se eliminó el curso"}, status= status.HTTP_200_OK)
         return Response({"message": "No existe el curso en el learning seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
 '''
+
+@api_view(['POST'])
+def learning_path_create_from_template_api_view(request):
+    if not isinstance(request.GET.get('id'), int):
+        return Response({"message": "El id enviado no es del tipo entero"},status=status.HTTP_400_BAD_REQUEST)
+
+    lp = LearningPath.objects.filter(pk=request.data.id).first()
+
+    if len(lp)==0:
+        return Response({"message": "No existe el learning path seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
+
+    if(lp.estado != 3):
+        return Response({"message": "El learning path seleccionado no puede usarse como plantilla"}, status=status.HTTP_400_BAD_REQUEST)
+
+    #Se crea el lp
+    lp_nuevo = LearningPath.objects.create(nombre=lp.nombre, descripcion=lp.descripcion,url_foto=lp.url_foto,
+                                suma_valoraciones=lp.suma_valoraciones,cant_valoraciones=lp.cant_valoraciones,
+                                cant_empleados=lp.cant_empleados,horas_duracion=lp.horas_duracion,estado=lp.estado)
+
+    cursos_x_lp = CursoGeneralXLearningPath.objects.filter(learning_path_id=lp.learning_path_id)
+
+    nuevos_cursos_x_lp = []
+    for curso in cursos_x_lp:
+        nuevos_cursos_x_lp.append(CursoGeneralXLearningPath(learning_path=curso.learning_path, curso=curso.curso,
+                                                            nro_orden=curso.nro_orden, cant_intentos_max=curso.cant_intentos_max))
+
+    #Se relacionan los cursos correspondientes al neuvo lp creado
+    CursoGeneralXLearningPath.objects.bulk_create(nuevos_cursos_x_lp)
+
+    return Response({"message": "Se ha creado el learning path con exito"}, status=status.HTTP_200_OK)
+
+
+

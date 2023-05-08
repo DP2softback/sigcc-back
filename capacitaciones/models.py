@@ -26,7 +26,7 @@ class LearningPath(models.Model):
     descripcion = models.TextField()
     url_foto = models.TextField()
     suma_valoraciones = models.IntegerField(default=0)
-    cant_valores = models.IntegerField(default=0)
+    cant_valoraciones = models.IntegerField(default=0)
     cant_empleados = models.IntegerField(default=0)
     horas_duracion = models.DurationField()
     estado = models.CharField(max_length=1, choices=estado_choices)
