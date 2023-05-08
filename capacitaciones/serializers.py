@@ -44,5 +44,5 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
 
     def get_curso_x_learning_path(self, obj):
         cursos_id = CursoGeneralXLearningPath.objects.filter(learning_path=obj).values_list('curso_id', flat=True)
-        cursos = CursoGeneral.objects.filter(id__in=cursos_id)
-        return CursoSerializer(cursos, many=True).data
+        cursos = CursoUdemy.objects.filter(id__in=cursos_id)
+        return CursoUdemySerializer(cursos, many=True).data
