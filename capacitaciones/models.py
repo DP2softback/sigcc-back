@@ -71,7 +71,7 @@ class CursoEmpresa(CursoGeneral):
 
     tipo = models.CharField(max_length=1, choices=tipo_choices)
     asunto = models.TextField()
-    ubicacion = models.CharField(max_length=500)
+    ubicacion = models.CharField(max_length=500,null=True)#Los cursos Empresa del Tipo Asincrono no tienen ubicacion
     fecha = models.DateTimeField()
     url_video = models.TextField()
     #asistencia_x_empleado = models.ManyToManyField(Empleado, through='AsistenciaCursoEmpresaXEmpleado')

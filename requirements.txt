@@ -70,7 +70,6 @@ PyJWT==1.7.1
 pylint==2.6.0
 python-dateutil==2.6.1
 python-dotenv==0.8.2
-python-Levenshtein==0.12.2
 python-slugify==4.0.0
 pytz==2020.5
 PyYAML==5.3.1
