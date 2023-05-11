@@ -11,6 +11,9 @@ class EvaluationType(models.Model):
     name = models.CharField(max_length=40,blank=True)
     description = models.TextField(blank=True, default='')
 
+    def __str__(self):
+        return self.name
+
 
 class Position(models.Model):
     id = models.BigAutoField(primary_key=True)
