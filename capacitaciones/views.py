@@ -158,7 +158,7 @@ def curso_detail_lp_api_view(request, pk_lp, pk_curso):
 
 
 @api_view(['GET', 'POST'])
-def curso_empresa_api_view(request):
+def curso_empresa_api_view_course(request):
 
     if request.method == 'GET':
         cursos_emp = CursoEmpresa.objects.all()
@@ -189,7 +189,7 @@ def curso_empresa_detail_api_view(request,pk=None):
     elif request.method == 'PUT':
         cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
         #this is to update a curso empresa
-        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp,data = request.data)
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp,data = request.data,context= request.data)
 
         if cursos_emp_serializer.is_valid():
             cursos_emp_serializer.save()
