@@ -39,6 +39,7 @@ class Category(models.Model):
     creationDate = models.DateTimeField()
     modifiedDate = models.DateTimeField()
     isActive = models.BooleanField(default=True)
+    name = models.TextField(blank=True,default='')
     code = models.CharField(max_length=5, blank=True)
     description = models.TextField(blank=True, default='')
     evaluationType = models.ForeignKey(EvaluationType,on_delete=models.SET_NULL, null=True)
@@ -74,6 +75,7 @@ class SubCategory(models.Model):
     modifiedDate = models.DateTimeField(auto_now = True)
     isActive = models.BooleanField(default=True)
     code = models.CharField(max_length=5)
+    name = models.TextField(blank=True,default='')
     description = models.TextField(blank=True, default='')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
