@@ -1,0 +1,133 @@
+[
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 1,
+    "fields":
+    {
+        
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "CALT",
+        "name" : "Calidad del trabajo",
+        "description" : "Se medirá la calpkad de trabajo",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 2,
+    "fields":
+    {
+        
+        "code" : "PROD",
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "name" : "Productivpkad",
+        "description" : "Se medirá la Productivpkad",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 3,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "COAC",
+        "name" : "Comportamiento y actitud",
+        "description" : "Se medirá la Comportamiento y actitud",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 4,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "HABT",
+        "name" : "Habilpkades técnicas",
+        "description" : "Se medirá la Habilpkades técnicas",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 5,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "COMU",
+        "name" : "Comunicación",
+        "description" : "Se medirá la Comunicación",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 6,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "CTEQ",
+        "name" : "Colaboración y trabajo en equipo",
+        "description" : "Se medirá la Colaboración y trabajo en equipo",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 7,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "HALI",
+        "name" : "Habilpkades de lpkerazgo",
+        "description" : "Se medirá la Habilpkades de lpkerazgo",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 8,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "INCR",
+        "name" : "Iniciativa y creativpkad",
+        "description" : "Se medirá la Iniciativa y creativpkad",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 9,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "CUOM",
+        "name" : "Cumplimiento de objetivos y metas establecpkos",
+        "description" : "Se medirá la Cumplimiento de objetivos y metas establecpkos",
+        "evaluationType" : 2
+    }
+    },
+    {"model":"evaluations_and_promotions.Category",
+    "pk" : 10,
+    "fields":
+    {
+        
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code" : "DEPP",
+        "name" : "Desarrollo profesional y personal",
+        "description" : "Se medirá la Desarrollo profesional y personal",
+        "evaluationType" : 2
+    }
+    }
+    ]

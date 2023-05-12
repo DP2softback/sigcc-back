@@ -1,0 +1,24 @@
+[
+{
+    "model":"evaluations_and_promotions.EvaluationType",
+    "pk" : 1,
+    "fields":
+
+{
+    "creationDate": "2023-01-01 00:00:00.000000+00",
+    "modifiedDate": "2023-01-01 00:00:00.000000+00",
+    "name" : "Evaluación Continua",
+    "description" : "Tipo de evaluación que se realizará periodicamente evaluando un aspecto de un empleado"
+}
+},
+{"model":"evaluations_and_promotions.EvaluationType",
+"pk" : 2,
+"fields":
+{
+    "creationDate": "2023-01-01 00:00:00.000000+00",
+    "modifiedDate": "2023-01-01 00:00:00.000000+00",
+    "name" : "Evaluación de Desempeño",
+    "description" : "Tipo de evaluación al final de un periodo de tiempo evaluando varios aspectos del empleado"
+}
+}
+]

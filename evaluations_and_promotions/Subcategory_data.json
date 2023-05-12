@@ -1,0 +1,530 @@
+[
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 1,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CALT1",
+        "name": "Precisión y exactitud en el trabajo realizado",
+        "description": "",
+        "category": 1
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 2,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CALT2",
+        "name": "Cumplimiento de los estándares de calpkad",
+        "description": "",
+        "category": 1
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 3,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CALT3",
+        "name": "Trabajo completo y bien organizado",
+        "description": "",
+        "category": 1
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 4,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CALT4",
+        "name": "Identificación y corrección de errores y problemas",
+        "description": "",
+        "category": 1
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 5,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CALT5",
+        "name": "Cumplimiento de los plazos establecpkos",
+        "description": "",
+        "category": 1
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 6,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "PROD1",
+        "name": "Cumplimiento de los objetivos de producción",
+        "description": "",
+        "category": 2
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 7,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "PROD2",
+        "name": "Cantpkad y calpkad del trabajo realizado",
+        "description": "",
+        "category": 2
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 8,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "PROD3",
+        "name": "Uso eficiente del tiempo y los recursos",
+        "description": "",
+        "category": 2
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 9,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "PROD4",
+        "name": "Capacpkad para trabajar bajo presión",
+        "description": "",
+        "category": 2
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 10,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "PROD5",
+        "name": "Flexibilpkad para adaptarse a los cambios en el entorno de trabajo",
+        "description": "",
+        "category": 2
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 11,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COAC1",
+        "name": "Puntualpkad y asistencia",
+        "description": "",
+        "category": 3
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 12,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COAC2",
+        "name": "Respeto y cortesía hacia los demás",
+        "description": "",
+        "category": 3
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 13,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COAC3",
+        "name": "Trabajo en equipo y colaboración",
+        "description": "",
+        "category": 3
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 14,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COAC4",
+        "name": "Iniciativa y responsabilpkad",
+        "description": "",
+        "category": 3
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 15,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COAC5",
+        "name": "Flexibilpkad y adaptabilpkad",
+        "description": "",
+        "category": 3
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 16,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HABT1",
+        "name": "Conocimiento y habilpkad en el uso de herramientas y tecnologías específicas",
+        "description": "",
+        "category": 4
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 17,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HABT2",
+        "name": "Capacpkad para aprender nuevas habilpkades técnicas",
+        "description": "",
+        "category": 4
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 18,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HABT3",
+        "name": "Manejo y mantenimiento de equipos y herramientas",
+        "description": "",
+        "category": 4
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 19,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HABT4",
+        "name": "Identificación y solución de problemas técnicos",
+        "description": "",
+        "category": 4
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 20,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COMU1",
+        "name": "Comunicación clara y efectiva con compañeros de trabajo, supervisores y clientes",
+        "description": "",
+        "category": 5
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 21,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COMU2",
+        "name": "Habilpkad para escuchar y comprender las necespkades de los demás",
+        "description": "",
+        "category": 5
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 22,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COMU3",
+        "name": "Escritura clara y efectiva en correos electrónicos, informes y otros documentos",
+        "description": "",
+        "category": 5
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 23,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "COMU4",
+        "name": "Habilpkad para presentar información de manera clara y efectiva",
+        "description": "",
+        "category": 5
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 24,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CTEQ1",
+        "name": "Habilpkad para colaborar efectivamente con otros en la organización",
+        "description": "",
+        "category": 6
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 25,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CTEQ2",
+        "name": "Comunicación efectiva y respetuosa con otros miembros del equipo",
+        "description": "",
+        "category": 6
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 26,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CTEQ3",
+        "name": "Contribución positiva al logro de los objetivos del equipo",
+        "description": "",
+        "category": 6
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 27,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CTEQ4",
+        "name": "Apoyo y ayuda a los demás miembros del equipo",
+        "description": "",
+        "category": 6
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 28,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HALI1",
+        "name": "Habilpkad para motivar y lpkerar a otros",
+        "description": "",
+        "category": 7
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 29,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HALI2",
+        "name": "Habilpkad para delegar tareas y responsabilpkades",
+        "description": "",
+        "category": 7
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 30,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HALI3",
+        "name": "Habilpkad para tomar decisiones difíciles y resolver conflictos",
+        "description": "",
+        "category": 7
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 31,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HALI4",
+        "name": "Habilpkad para pkentificar y aprovechar las fortalezas del equipo",
+        "description": "",
+        "category": 7
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 32,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "HALI5",
+        "name": "Habilpkad para guiar a los demás hacia el logro de los objetivos establecpkos",
+        "description": "",
+        "category": 8
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 33,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "INCR1",
+        "name": "Habilpkad para generar nuevas pkeas y enfoques innovadores",
+        "description": "",
+        "category": 8
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 34,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "INCR2",
+        "name": "Capacpkad para pkentificar problemas y proponer soluciones creativas",
+        "description": "",
+        "category": 8
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 35,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "INCR3",
+        "name": "Habilpkad para adaptarse a los cambios y proponer nuevas estrategias",
+        "description": "",
+        "category": 8
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 36,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "INCR4",
+        "name": "Habilpkad para trabajar en proyectos especiales y realizar tareas adicionales más allá de las asignadas",
+        "description": "",
+        "category": 8
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 37,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CUOM1",
+        "name": "Cumplimiento de los objetivos y metas establecpkos",
+        "description": "",
+        "category": 9
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 38,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CUOM2",
+        "name": "Cumplimiento de los plazos establecpkos",
+        "description": "",
+        "category": 9
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 39,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CUOM3",
+        "name": "Ajuste de las activpkades y el enfoque para alcanzar los objetivos y metas establecpkos",
+        "description": "",
+        "category": 9
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 40,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "CUOM4",
+        "name": "Identificación de las oportunpkades de mejora y realización de ajustes para alcanzar los objetivos y metas establecpkos",
+        "description": "",
+        "category": 9
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 41,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "DEPP1",
+        "name": "Habilpkad para pkentificar oportunpkades de mejora en sus habilpkades y conocimientos",
+        "description": "",
+        "category": 10
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 42,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "DEPP2",
+        "name": "Capacpkad para aprender nuevas habilpkades y conocimientos",
+        "description": "",
+        "category": 10
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 43,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "DEPP3",
+        "name": "Habilpkad para tomar la iniciativa en el desarrollo de habilpkades y conocimientos",
+        "description": "",
+        "category": 10
+      }
+    },
+    {
+      "model": "evaluations_and_promotions.SubCategory",
+      "pk": 44,
+      "fields": {
+        "creationDate": "2023-01-01 00:00:00.000000+00",
+        "modifiedDate": "2023-01-01 00:00:00.000000+00",
+        "code": "DEPP4",
+        "name": "Capacpkad para aplicar habilpkades y conocimientos mejorados en su trabajo",
+        "description": "",
+        "category": 10
+      }
+    }
+  ]
