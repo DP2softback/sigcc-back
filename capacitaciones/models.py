@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 
 # Create your models here.
@@ -24,12 +26,12 @@ class LearningPath(models.Model):
 
     nombre = models.CharField(max_length=300)
     descripcion = models.TextField()
-    url_foto = models.TextField()
+    url_foto = models.TextField(null=True)
     suma_valoraciones = models.IntegerField(default=0)
     cant_valoraciones = models.IntegerField(default=0)
     cant_empleados = models.IntegerField(default=0)
-    horas_duracion = models.DurationField()
-    estado = models.CharField(max_length=1, choices=estado_choices)
+    horas_duracion = models.DurationField(default=timedelta(seconds=0))
+    estado = models.CharField(max_length=1, choices=estado_choices, default='0')
 
     class Meta:
         db_table = 'LearningPath'
