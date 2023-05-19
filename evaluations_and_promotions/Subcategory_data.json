@@ -18,7 +18,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "CALT2",
-        "name": "Cumplimiento de los estándares de calpkad",
+        "name": "Cumplimiento de los estándares de calidad",
         "description": "",
         "category": 1
       }
@@ -54,7 +54,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "CALT5",
-        "name": "Cumplimiento de los plazos establecpkos",
+        "name": "Cumplimiento de los plazos establecidos",
         "description": "",
         "category": 1
       }
@@ -78,7 +78,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "PROD2",
-        "name": "Cantpkad y calpkad del trabajo realizado",
+        "name": "Cantidad y calidad del trabajo realizado",
         "description": "",
         "category": 2
       }
@@ -102,7 +102,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "PROD4",
-        "name": "Capacpkad para trabajar bajo presión",
+        "name": "Capacidad para trabajar bajo presión",
         "description": "",
         "category": 2
       }
@@ -114,7 +114,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "PROD5",
-        "name": "Flexibilpkad para adaptarse a los cambios en el entorno de trabajo",
+        "name": "Flexibilidad para adaptarse a los cambios en el entorno de trabajo",
         "description": "",
         "category": 2
       }
@@ -126,7 +126,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "COAC1",
-        "name": "Puntualpkad y asistencia",
+        "name": "Puntualidad y asistencia",
         "description": "",
         "category": 3
       }
@@ -162,7 +162,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "COAC4",
-        "name": "Iniciativa y responsabilpkad",
+        "name": "Iniciativa y responsabilidad",
         "description": "",
         "category": 3
       }
@@ -174,7 +174,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "COAC5",
-        "name": "Flexibilpkad y adaptabilpkad",
+        "name": "Flexibilidad y adaptabilidad",
         "description": "",
         "category": 3
       }
@@ -186,7 +186,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "HABT1",
-        "name": "Conocimiento y habilpkad en el uso de herramientas y tecnologías específicas",
+        "name": "Conocimiento y habilidad en el uso de herramientas y tecnologías específicas",
         "description": "",
         "category": 4
       }
@@ -198,7 +198,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "HABT2",
-        "name": "Capacpkad para aprender nuevas habilpkades técnicas",
+        "name": "Capacidad para aprender nuevas habilidades técnicas",
         "description": "",
         "category": 4
       }
@@ -246,7 +246,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "COMU2",
-        "name": "Habilpkad para escuchar y comprender las necespkades de los demás",
+        "name": "Habilidad para escuchar y comprender las necesidades de los demás",
         "description": "",
         "category": 5
       }
@@ -270,7 +270,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "COMU4",
-        "name": "Habilpkad para presentar información de manera clara y efectiva",
+        "name": "Habilidad para presentar información de manera clara y efectiva",
         "description": "",
         "category": 5
       }
@@ -282,7 +282,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "CTEQ1",
-        "name": "Habilpkad para colaborar efectivamente con otros en la organización",
+        "name": "Habilidad para colaborar efectivamente con otros en la organización",
         "description": "",
         "category": 6
       }
@@ -330,7 +330,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "HALI1",
-        "name": "Habilpkad para motivar y lpkerar a otros",
+        "name": "Habilidad para motivar y liderar a otros",
         "description": "",
         "category": 7
       }
@@ -342,7 +342,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "HALI2",
-        "name": "Habilpkad para delegar tareas y responsabilpkades",
+        "name": "Habilidad para delegar tareas y responsabilidades",
         "description": "",
         "category": 7
       }
@@ -354,7 +354,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "HALI3",
-        "name": "Habilpkad para tomar decisiones difíciles y resolver conflictos",
+        "name": "Habilidad para tomar decisiones difíciles y resolver conflictos",
         "description": "",
         "category": 7
       }
@@ -366,7 +366,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "HALI4",
-        "name": "Habilpkad para pkentificar y aprovechar las fortalezas del equipo",
+        "name": "Habilidad para identificar y aprovechar las fortalezas del equipo",
         "description": "",
         "category": 7
       }
@@ -378,7 +378,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "HALI5",
-        "name": "Habilpkad para guiar a los demás hacia el logro de los objetivos establecpkos",
+        "name": "Habilidad para guiar a los demás hacia el logro de los objetivos establecidos",
         "description": "",
         "category": 8
       }
@@ -390,7 +390,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "INCR1",
-        "name": "Habilpkad para generar nuevas pkeas y enfoques innovadores",
+        "name": "Habilidad para generar nuevas ideas y enfoques innovadores",
         "description": "",
         "category": 8
       }
@@ -402,7 +402,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "INCR2",
-        "name": "Capacpkad para pkentificar problemas y proponer soluciones creativas",
+        "name": "Capacidad para identificar problemas y proponer soluciones creativas",
         "description": "",
         "category": 8
       }
@@ -414,7 +414,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "INCR3",
-        "name": "Habilpkad para adaptarse a los cambios y proponer nuevas estrategias",
+        "name": "Habilidad para adaptarse a los cambios y proponer nuevas estrategias",
         "description": "",
         "category": 8
       }
@@ -426,7 +426,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "INCR4",
-        "name": "Habilpkad para trabajar en proyectos especiales y realizar tareas adicionales más allá de las asignadas",
+        "name": "Habilidad para trabajar en proyectos especiales y realizar tareas adicionales más allá de las asignadas",
         "description": "",
         "category": 8
       }
@@ -438,7 +438,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "CUOM1",
-        "name": "Cumplimiento de los objetivos y metas establecpkos",
+        "name": "Cumplimiento de los objetivos y metas establecidos",
         "description": "",
         "category": 9
       }
@@ -450,7 +450,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "CUOM2",
-        "name": "Cumplimiento de los plazos establecpkos",
+        "name": "Cumplimiento de los plazos establecidos",
         "description": "",
         "category": 9
       }
@@ -462,7 +462,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "CUOM3",
-        "name": "Ajuste de las activpkades y el enfoque para alcanzar los objetivos y metas establecpkos",
+        "name": "Ajuste de las actividades y el enfoque para alcanzar los objetivos y metas establecidos",
         "description": "",
         "category": 9
       }
@@ -474,7 +474,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "CUOM4",
-        "name": "Identificación de las oportunpkades de mejora y realización de ajustes para alcanzar los objetivos y metas establecpkos",
+        "name": "Identificación de las oportunidades de mejora y realización de ajustes para alcanzar los objetivos y metas establecidos",
         "description": "",
         "category": 9
       }
@@ -486,7 +486,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "DEPP1",
-        "name": "Habilpkad para pkentificar oportunpkades de mejora en sus habilpkades y conocimientos",
+        "name": "Habilidad para identificar oportunidades de mejora en sus habilidades y conocimientos",
         "description": "",
         "category": 10
       }
@@ -498,7 +498,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "DEPP2",
-        "name": "Capacpkad para aprender nuevas habilpkades y conocimientos",
+        "name": "Capacidad para aprender nuevas habilidades y conocimientos",
         "description": "",
         "category": 10
       }
@@ -510,7 +510,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "DEPP3",
-        "name": "Habilpkad para tomar la iniciativa en el desarrollo de habilpkades y conocimientos",
+        "name": "Habilidad para tomar la iniciativa en el desarrollo de habilidades y conocimientos",
         "description": "",
         "category": 10
       }
@@ -522,7 +522,7 @@
         "creationDate": "2023-01-01 00:00:00.000000+00",
         "modifiedDate": "2023-01-01 00:00:00.000000+00",
         "code": "DEPP4",
-        "name": "Capacpkad para aplicar habilpkades y conocimientos mejorados en su trabajo",
+        "name": "Capacidad para aplicar habilidades y conocimientos mejorados en su trabajo",
         "description": "",
         "category": 10
       }
