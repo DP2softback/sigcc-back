@@ -31,7 +31,7 @@ class UserSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
 
 class EmployeeSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
     class Meta:
-        model = Group
+        model = Employee
         fields = '__all__'
 
 class RoleSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):

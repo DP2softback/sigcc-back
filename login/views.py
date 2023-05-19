@@ -26,11 +26,11 @@ class EmployeeView(APIView):
         return Response(employee_serializado.data,status=status.HTTP_200_OK)
 
     def post(self,request):
-
-        employee_serializado = RoleSerializer(data = request.data)
+        
+        employee_serializado = EmployeeSerializer(data = request.data)
 
         if employee_serializado.is_valid():
             employee_serializado.save()
             return Response(employee_serializado.data,status=status.HTTP_200_OK)
         
-        return Response(None,status=status.HTTP_400_BAD_REQUEST)
+        return Response(employee_serializado.errors,status=status.HTTP_400_BAD_REQUEST)

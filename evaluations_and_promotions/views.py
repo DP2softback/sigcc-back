@@ -19,9 +19,20 @@ class PositionGenericView(generics.ListCreateAPIView):
     queryset = Position.objects.all()
     serializer_class = PositionSerializer
 
-class AreaGenericView(generics.ListCreateAPIView):
-    queryset = Area.objects.all()
-    serializer_class = AreaSerializer
+class AreaGenericView(APIView):
+    def get(self, request):
+        area = Area.objects.all()
+        area_serializado = AreaSerializer(area,many=True)
+        return Response(area_serializado.data,status=status.HTTP_200_OK)
+
+    def post(self,request):
+        area_serializado = AreaSerializer(data = request.data)
+
+        if area_serializado.is_valid():
+            area_serializado.save()
+            return Response(area_serializado.data,status=status.HTTP_200_OK)
+        
+        return Response(None,status=status.HTTP_400_BAD_REQUEST)
 
 class CategoryGenericView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
@@ -35,3 +46,14 @@ class SubCategoryTypeGenericView(generics.ListCreateAPIView):
     queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializer
 
+class GetPersonasACargo(APIView):
+    def get(self, request):
+        supervisor_id = request.GET.get("id")
+        if(supervisor_id is None):
+            supervisor_id = 0
+            
+        personas = Employee.objects.filter(supervisor = supervisor_id)
+        employee_serializado = EmployeeSerializer(personas,many=True)
+        return Response(employee_serializado.data,status=status.HTTP_200_OK)
+    
+    

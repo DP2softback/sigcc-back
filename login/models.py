@@ -28,9 +28,10 @@ class Employee(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateTimeField(auto_now_add = True)
     modifiedDate = models.DateTimeField(auto_now = True)
-    isActive = models.BooleanField(default=True)
+    isActive    = models.BooleanField(default=True)
     isSupervisor = models.BooleanField()
     supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     area = models.ForeignKey('evaluations_and_promotions.Area', on_delete=models.SET_NULL, null=True)
     position = models.ForeignKey('evaluations_and_promotions.Position', on_delete=models.SET_NULL, null=True)
 

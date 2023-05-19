@@ -8,5 +8,5 @@ urlpatterns = [
     path('area', AreaGenericView.as_view()),
     path('category', CategoryGenericView.as_view()),
     path('subcategory', SubCategoryTypeGenericView.as_view()),
-    
+    path('GetPersonasACargo', GetPersonasACargo.as_view()),
 ]
