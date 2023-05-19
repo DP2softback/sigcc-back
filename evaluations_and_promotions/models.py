@@ -1,5 +1,7 @@
 from django.db import models
 
+from login.models import Employee
+from .models import *
 # Create your models here.
 
 
@@ -67,10 +69,11 @@ class Evaluation(models.Model):
     generalComment = models.CharField(max_length=500,null=True,blank=True)
     isFinished = models.BooleanField()
     finalScore = models.FloatField(null=True, blank=True)
-    evaluator = models.ForeignKey('login.Employee',related_name="employeeEvaluator", on_delete=models.SET_NULL, blank=True, null=True)
-    evaluated = models.ForeignKey('login.Employee',related_name="employeeEvaluated", on_delete=models.SET_NULL,blank=True, null=True)
-    evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE)
+    evaluator = models.ForeignKey(Employee,related_name="Evaluator", on_delete=models.SET_NULL, blank=True, null=True)
+    evaluated = models.ForeignKey(Employee,related_name="Evaluated", on_delete=models.SET_NULL,blank=True, null=True)
+    evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE)        
     areaxPosicion = models.ForeignKey(AreaxPosicion, on_delete=models.SET_NULL, null=True)
+    proyecto = models.TextField(blank=True,default= '')
 
 class SubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
