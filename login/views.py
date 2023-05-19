@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from zappa.asynchronous import task
 from .models import User
+from django.db.models import Q
 from login.serializers import *
 
 # Create your views here.
@@ -21,7 +22,27 @@ class RoleView(generics.ListCreateAPIView):
     
 class EmployeeView(APIView):
     def get(self, request):
-        employee = Employee.objects.all()
+
+        query = Q()
+
+        palabra_clave = request.GET.get("palabra_clave")  
+        puesto_id = request.GET.get("puesto")
+        area_id = request.GET.get("area")
+        estado = request.GET.get("estado")
+
+        if(palabra_clave is not None):
+            query.add(Q(user__username__contains = palabra_clave),Q.AND)
+            ##query.add(Q(area__name__contains = palabra_clave),Q.OR)
+            ##query.add(Q(area__name__contains = palabra_clave),Q.OR)
+        if(puesto_id is not None):
+            query.add(Q(position=puesto_id),Q.AND)
+        if(area_id is not None):
+            query.add(Q(area=area_id),Q.AND)
+        if(estado is not None):
+            query.add(Q(isActive=estado),Q.AND)
+        
+        employee = Employee.objects.filter(query)
+
         employee_serializado = EmployeeSerializer(employee,many=True)
         return Response(employee_serializado.data,status=status.HTTP_200_OK)
 
