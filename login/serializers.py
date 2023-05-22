@@ -24,17 +24,35 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
-class UserSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class UserSerializerRead(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+    class Meta:
+        model = User
+        depth = 1
+        fields =  ['id', 'creationDate', 'modifiedDate', 'isActive', 'username', 'firstName', 'secondName', 'lastName', 'maidenName', 'email', 'password', 'role']
+
+class UserSerializerWrite(DynamicFieldsModelSerializer,serializers.ModelSerializer):
     class Meta:
         model = User
         fields =  ['id', 'creationDate', 'modifiedDate', 'isActive', 'username', 'firstName', 'secondName', 'lastName', 'maidenName', 'email', 'password', 'role']
 
-class EmployeeSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class EmployeeSerializerRead(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        depth = 1
+        fields = '__all__'
+
+class EmployeeSerializerWrite(DynamicFieldsModelSerializer,serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
 
-class RoleSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class RoleSerializerRead(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+    class Meta:
+        model = Role
+        depth = 1
+        fields = '__all__'
+
+class RoleSerializerWrite(DynamicFieldsModelSerializer,serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = '__all__'

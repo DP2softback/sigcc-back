@@ -14,11 +14,11 @@ from login.serializers import *
 # Create your views here.
 class UsuarioView(generics.ListCreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserSerializerRead
     
 class RoleView(generics.ListCreateAPIView):
     queryset = Role.objects.all()
-    serializer_class = RoleSerializer
+    serializer_class = RoleSerializerRead
     
 class EmployeeView(APIView):
     def get(self, request):
@@ -43,12 +43,12 @@ class EmployeeView(APIView):
         
         employee = Employee.objects.filter(query)
 
-        employee_serializado = EmployeeSerializer(employee,many=True)
+        employee_serializado = EmployeeSerializerRead(employee,many=True)
         return Response(employee_serializado.data,status=status.HTTP_200_OK)
 
     def post(self,request):
         
-        employee_serializado = EmployeeSerializer(data = request.data)
+        employee_serializado = EmployeeSerializerWrite(data = request.data)
 
         if employee_serializado.is_valid():
             employee_serializado.save()
