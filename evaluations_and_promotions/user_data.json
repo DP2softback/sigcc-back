@@ -1,0 +1,38 @@
+[
+{"models":"login.User",
+"fields":
+{
+    "username" : "carlos",
+    "firstName" : "Carlos",
+    "secondName" : "",
+    "lastName" : "Melgarejo",
+    "maidenName" : "Roman",
+    "email" : "ga@hotmail.com",
+    "password" : "123"
+}
+},
+{"models":"users",
+"fields":
+{
+    "username" : "sebas",
+    "firstName" : "Sebastian",
+    "secondName" : "",
+    "lastName" : "Portal",
+    "maidenName" : "Goicochea",
+    "email" : "ga2@hotmail.com",
+    "password" : "123"
+}
+},
+{"models":"users",
+"fields":
+{
+    "username" : "bruno",
+    "firstName" : "Bruno",
+    "secondName" : "",
+    "lastName" : "Chavez",
+    "maidenName" : "",
+    "email" : "ga@hotmail.com",
+    "password" : "123"
+}
+}
+]
