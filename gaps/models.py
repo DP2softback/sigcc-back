@@ -38,3 +38,10 @@ class NecesidadCapacitacion(models.Model):
     nivelRequerido = models.IntegerField(blank=True,null =True)
     brecha = models.IntegerField(blank=True,null =True) #1: brecha de nivel 1, 2: brecha de nivel 2, 3: brecha de nivel 3, 4: brecha de nivel 4
     activo = models.BooleanField(default=True)
+
+class TipoCompetencia(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    abreviatura = models.CharField(max_length=30, blank=True, null=True)
+    nombre = models.CharField(max_length=100, blank=True, null=True)
+    descripcion = models.CharField(max_length=300, blank=True, null=True)
+    activo = models.BooleanField(default=True)
