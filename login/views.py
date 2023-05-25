@@ -15,7 +15,7 @@ from zappa.asynchronous import task
 
 # Create your views here.
 class UserView(generics.ListCreateAPIView):
-
+    
     queryset = User.objects.all()
     serializer_class = UserSerializerRead
 
@@ -68,7 +68,7 @@ class LoginView(APIView):
 
     def post(self, request):
 
-        print(request)
+        print(request.user)
         email = request.POST.get("email")
         password = request.POST.get("password")
 
@@ -93,20 +93,22 @@ class LoginView(APIView):
                             'token': token.key,
                         },)
 
+class Logout(APIView):
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+    
 
 class WhoIAmView(APIView):
     def get(self, request):
 
-        print((request.META.get('HTTP_AUTHORIZATION')))
-
-        token = request.META.get('HTTP_AUTHORIZATION')[6:]
+        user = request.user
+        token = Token.objects.get(user = user)
 
         print(token)
-
-        user = User.objects.get(id=Token.objects.get(key=token).user_id)
 
         return Response(status=status.HTTP_200_OK,
                         data={
                             'message': f'eres el usuario {user}',
-
                         },)
