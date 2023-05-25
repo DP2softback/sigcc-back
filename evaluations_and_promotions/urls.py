@@ -9,4 +9,5 @@ urlpatterns = [
     path('category', CategoryGenericView.as_view()),
     path('subcategory', SubCategoryTypeGenericView.as_view()),
     path('GetPersonasACargo', GetPersonasACargo.as_view()),
+    path('evaluations', GetHistoricoDeEvaluaciones.as_view())
 ]
