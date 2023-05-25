@@ -4,7 +4,7 @@ from django.db import models
 
 # Create your models here.
 from login.models import Employee
-
+from login.models import User
 
 class Parametros(models.Model):
 
@@ -13,7 +13,7 @@ class Parametros(models.Model):
     numero_intentos_curso = models.IntegerField()
 
     class Meta:
-        db_table = 'Parametros'
+        db_table = 'Parametros' 
 
 
 class LearningPath(models.Model):
@@ -48,6 +48,8 @@ class CursoGeneral(models.Model):
     suma_valoracionees = models.IntegerField(default=0)
     cant_valoraciones = models.IntegerField(default=0)
     curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoGeneralXLearningPath')
+    curso_x_employee = models.ManyToManyField(Employee, through='EmpleadoXCurso')
+
 
     class Meta:
         db_table = 'CursoGeneral'
@@ -73,11 +75,10 @@ class CursoEmpresa(CursoGeneral):
     ]
 
     tipo = models.CharField(max_length=1, choices=tipo_choices)
-    asunto = models.TextField()
-    ubicacion = models.CharField(max_length=500,null=True)#Los cursos Empresa del Tipo Asincrono no tienen ubicacion
-    fecha = models.DateTimeField()
-    url_video = models.TextField()
-    asistencia_x_empleado = models.ManyToManyField(Employee, through='AsistenciaCursoEmpresaXEmpleado')
+    nombre = models.CharField(max_length=300)
+    descripcion = models.CharField(max_length=300)
+    banderaL= models.BooleanField()
+    curso_empresa_x_empleado= models.ManyToManyField(Employee, through='EmpleadoXCursoEmpresa')
 
     class Meta:
         db_table = 'CursoEmpresa'
@@ -85,8 +86,8 @@ class CursoEmpresa(CursoGeneral):
 
 class CursoGeneralXLearningPath(models.Model):
 
-    learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
+    learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     nro_orden = models.IntegerField()
     cant_intentos_max = models.IntegerField()
 
@@ -117,6 +118,7 @@ class CursoGeneralXLearningPath(models.Model):
 
 
 class Pregunta(models.Model):
+
     texto = models.CharField(max_length=1000)
     pregunta_x_curso = models.ManyToManyField(CursoUdemy, through='PreguntaXCursoUdemy')
 
@@ -135,7 +137,8 @@ class PreguntaXCursoUdemy(models.Model):
 class Alternativa(models.Model):
     texto_alternativa = models.CharField(max_length=1000)
     respuesta_correcta = models.BooleanField(default=0)
-
+    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
+ 
     class Meta:
         db_table = 'Alternativa'
 
@@ -180,15 +183,62 @@ class EmpleadoXCurso(models.Model):
         db_table = 'EmpleadoXCurso'
 
 
+class EmpleadoXCursoEmpresa(models.Model):
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
+    porcentajeProgreso= models.DecimalField(default=0, max_digits=3, decimal_places=2)
+    fechaAsignacion= models.DateTimeField()
+    fechaLimite= models.DateTimeField()
+    fechaCompletado= models.DateTimeField()
+    apreciacion= models.CharField(max_length=1000)
+
+    class Meta:
+        db_table = 'EmpleadoXCursoEmpresa'
+
+
+class Sesion(models.Model):
+    cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
+    nombre= models.CharField(max_length=1000)
+    descripcion= models.CharField(max_length=1000)
+    ubicacion= models.CharField(max_length=1000, null=True)
+    fecha= models.DateTimeField()
+    fechaLimite= models.DateTimeField()
+    url_video= models.TextField()
+    sesion_x_responsable = models.ManyToManyField(CursoUdemy, through='PreguntaXCursoUdemy')
+
+    class Meta: 
+        db_table = 'Sesion'
+
+
+class Tema(models.Model):
+    
+    nombre= models.CharField(max_length=1000)
+    clase= models.ForeignKey(Sesion, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = 'Tema'
+
+
+class SesionXReponsable(models.Model):
+    
+    responable= models.ForeignKey(User, on_delete=models.CASCADE)
+    clase= models.ForeignKey(Sesion, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = 'SesionXReponsable'
+
+
+
 class EmpleadoXCursoXLearningPath(models.Model):
+
     estado_choices = [
         ('Sin iniciar', 'Sin iniciar'),
-        ('Completado', 'Completado'),
         ('En progreso', 'En progreso'),
-        ('Sin evaluar', 'Sin evaluar'),
+        ('Completado, sin evaluar', 'Completado, sin evaluar'),
+        ('Completado, evaluado', 'Completado, evaluado'),
         ('Desaprobado', 'Desaprobado'),
     ]
-    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.   CASCADE)
     progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
@@ -209,7 +259,7 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
     alternativa = models.ForeignKey(Alternativa, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'EmpleadoXCursoXPreguntaXAlternativa'
+        db_table = 'EmpleadoXCur soXPreguntaXAlternativa'
 
 
 class AsistenciaSesionXEmpleado(models.Model):
