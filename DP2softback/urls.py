@@ -17,6 +17,8 @@ admin.site.index_title = 'Backend de proyecto SIGCC'
 public_apis = [
     url(r'^api/v1/', include([
         url(r'', include('users.urls')),
+        url(r'', include('login.urls')),
+        url(r'', include('evaluations_and_promotions.urls')),
     ])),
     path('api/capacitaciones/', include('capacitaciones.urls'))
 ]
