@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from django.db import transaction
+
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
 
@@ -77,39 +77,6 @@ class CursoEmpresaSearchEspecialAPIView(APIView):
         cursos_emp = CursoEmpresa.objects.filter( Q(fecha__gte=fecha_ini) & Q(fecha__lte=fecha_fin) & Q(tipo=tipo)).first()
         cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp)
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
-
-
-class LearningPathCreateFromTemplateAPIView(APIView):
-
-    @transaction.atomic
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
-    def post(self, request):
-        lp_serializer = LearningPathSerializer(data=request.data,context=request.data)
-        print("wenas")
-        if lp_serializer.is_valid():
-            lp = lp_serializer.save()
-
-            for curso_lp in request.data['cursos']:
-                print(curso_lp)
-                curso_serializer = CursoUdemySerializer(data=curso_lp)
-
-                if curso_serializer.is_valid():
-                    curso = CursoUdemy.objects.filter(udemy_id=curso_lp['udemy_id']).first()
-                    if curso is None:
-                        curso = curso_serializer.save()
-
-                    CursoGeneralXLearningPath.objects.create(curso=curso, learning_path=lp)
-                else:
-                    return Response({"message": "No se pudo crear el curso {}".format(curso_lp['nombre'])}, status=status.HTTP_400_BAD_REQUEST)
-
-            return Response({"message": "Se ha creado el learning path con exito"}, status=status.HTTP_200_OK)
-
-        else:
-            return Response({"message": "No se pudo crear el learning path"}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 class CursoEmpresaAPIView(APIView):
 
