@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.db import models
 
 # Create your models here.
+from login.models import Employee
 
 
 class Parametros(models.Model):
@@ -76,7 +77,7 @@ class CursoEmpresa(CursoGeneral):
     ubicacion = models.CharField(max_length=500,null=True)#Los cursos Empresa del Tipo Asincrono no tienen ubicacion
     fecha = models.DateTimeField()
     url_video = models.TextField()
-    #asistencia_x_empleado = models.ManyToManyField(Empleado, through='AsistenciaCursoEmpresaXEmpleado')
+    asistencia_x_empleado = models.ManyToManyField(Employee, through='AsistenciaCursoEmpresaXEmpleado')
 
     class Meta:
         db_table = 'CursoEmpresa'
@@ -139,14 +140,6 @@ class Alternativa(models.Model):
         db_table = 'Alternativa'
 
 
-class DocumentoRespuesta(models.Model):
-    url_documento = models.TextField()
-    #empleado_learning_path = models.ForeignKey(EmpleadoXLearningPath, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'DocumentosRespuesta'
-
-
 class EmpleadoXLearningPath(models.Model):
     estado_choices = [
         ('Sin iniciar', 'Sin iniciar'),
@@ -156,7 +149,7 @@ class EmpleadoXLearningPath(models.Model):
         ('Desaprobado', 'Desaprobado'),
     ]
 
-    # empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
     porcentaje_progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
@@ -168,8 +161,16 @@ class EmpleadoXLearningPath(models.Model):
         db_table = 'EmpleadoXLearningPath'
 
 
+class DocumentoRespuesta(models.Model):
+    url_documento = models.TextField()
+    empleado_learning_path = models.ForeignKey(EmpleadoXLearningPath, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'DocumentosRespuesta'
+
+
 class EmpleadoXCurso(models.Model):
-    # empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     valoracion = models.IntegerField()
 
@@ -185,7 +186,7 @@ class EmpleadoXCursoXLearningPath(models.Model):
         ('Sin evaluar', 'Sin evaluar'),
         ('Desaprobado', 'Desaprobado'),
     ]
-    # empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
@@ -200,7 +201,7 @@ class EmpleadoXCursoXLearningPath(models.Model):
 
 
 class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
-    # empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     curso = models.ForeignKey(CursoUdemy, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
     alternativa = models.ForeignKey(Alternativa, on_delete=models.CASCADE)
@@ -211,7 +212,7 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
 
 class AsistenciaCursoEmpresaXEmpleado(models.Model):
     curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
-    #empleado_id = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    empleado_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
     tipo_choices = [
         ('P','Asistio puntual'),
         ('T','Asistio tarde'),
@@ -228,7 +229,7 @@ class AsistenciaCursoEmpresaXEmpleado(models.Model):
 class RubricaExamen(models.Model):
     descripcion = models.CharField(max_length=200)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
-    #rubrica_examen_x_empleado = models.ManyToManyField(Empleado, through='RubricaExamenXEmpleado')
+    rubrica_examen_x_empleado = models.ManyToManyField(Employee, through='RubricaExamenXEmpleado')
 
     class Meta:
         db_table = 'RubricaExamen'
@@ -247,7 +248,7 @@ class DetalleRubricaExamen(models.Model):
     criterio_evaluacion = models.CharField(max_length=200)
     nota_maxima = models.IntegerField()
     rubrica_examen = models.ForeignKey(RubricaExamen, on_delete=models.CASCADE)
-    #detalle_rubrica_x_empleado = models.ManyToManyField(Empleado, through='DetalleRubricaExamenXEmpleado')
+    detalle_rubrica_x_empleado = models.ManyToManyField(Employee, through='DetalleRubricaExamenXEmpleado')
 
     class Meta:
         db_table = 'DetalleRubricaExamen'
@@ -256,7 +257,7 @@ class DetalleRubricaExamen(models.Model):
 class DetalleRubricaExamenXEmpleado(models.Model):
 
     detalle_rubrica_examen = models.ForeignKey(DetalleRubricaExamen, on_delete=models.CASCADE)
-    #empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     nota = models.IntegerField()
     comentario = models.TextField()
 
@@ -267,7 +268,7 @@ class DetalleRubricaExamenXEmpleado(models.Model):
 class RubricaExamenXEmpleado(models.Model):
 
     rubrica_examen = models.ForeignKey(RubricaExamen, on_delete=models.CASCADE)
-    #empleado = models.ForeignKey(Empleado, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     nota = models.IntegerField()
     comentario = models.TextField()
 

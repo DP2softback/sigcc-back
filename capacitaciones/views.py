@@ -24,30 +24,32 @@ from capacitaciones.utils import get_udemy_courses, clean_course_detail
 @api_view(['GET'])
 def get_udemy_valid_courses(request, pk, course, delete=0):
 
-    lp = LearningPath.objects.filter(pk = pk).first()
+    if request.method == 'GET':
 
-    if lp:
+        lp = LearningPath.objects.filter(pk = pk).first()
 
-        list_udemy_courses = get_udemy_courses(course)
-        cursos = lp.cursogeneral_set.all()
-        courses_udemy_id = list(CursoUdemy.objects.filter(id__in=cursos.values_list('id', flat=True)).values_list('udemy_id', flat=True))
+        if lp:
 
-        if delete:
-            valid_udemy_courses = [clean_course_detail(course) for course in list_udemy_courses if course['id'] not in courses_udemy_id]
+            list_udemy_courses = get_udemy_courses(course)
+            cursos = lp.cursogeneral_set.all()
+            courses_udemy_id = list(CursoUdemy.objects.filter(id__in=cursos.values_list('id', flat=True)).values_list('udemy_id', flat=True))
 
-        else:
-            valid_udemy_courses = []
+            if delete:
+                valid_udemy_courses = [clean_course_detail(course) for course in list_udemy_courses if course['id'] not in courses_udemy_id]
 
-            for course in list_udemy_courses:
-                if course['id'] not in courses_udemy_id:
-                    course['is_used'] = False
-                else:
-                    course['is_used'] = True
+            else:
+                valid_udemy_courses = []
 
-                course = clean_course_detail(course)
-                valid_udemy_courses.append(course)
+                for course in list_udemy_courses:
+                    if course['id'] not in courses_udemy_id:
+                        course['is_used'] = False
+                    else:
+                        course['is_used'] = True
 
-        return Response(valid_udemy_courses, status = status.HTTP_200_OK)
+                    course = clean_course_detail(course)
+                    valid_udemy_courses.append(course)
+
+            return Response(valid_udemy_courses, status = status.HTTP_200_OK)
 
     return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
