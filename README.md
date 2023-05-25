@@ -48,7 +48,7 @@ Backend from SIGCC system, capstone course in PUCP
 
 ## Crear superuser for Django Admin:
 
-    python manage.py createsuperuser --username=demoadmin
+    python manage.py createsuperuser
 
     username:demoadmin
     email:demoadmin@demoadmin.com
@@ -66,7 +66,7 @@ Backend from SIGCC system, capstone course in PUCP
 
     3. Entrar a la base de datos
 
-        $ docker exec -it <id del contenedor> psql -U user -W postgres
+        $ docker exec -it e0ccbadd2699 psql -U user -W postgres
 
     4. Dentro de la bd, lanzar los comandos:
 

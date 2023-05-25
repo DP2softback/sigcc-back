@@ -5,6 +5,7 @@ from model_utils import Choices
 from model_utils.models import TimeStampedModel
 from personal.models import Area, Position
 from safedelete.models import SOFT_DELETE, SOFT_DELETE_CASCADE, SafeDeleteModel
+from django.contrib import admin
 
 # Create your models here.
 
@@ -27,14 +28,48 @@ class User(AbstractUser, TimeStampedModel, SafeDeleteModel):
     )
     second_name = models.CharField(max_length=25)
     maiden_name = models.CharField(max_length=25)
-    role = models.ForeignKey(Role, null=True, on_delete=models.RESTRICT)
+    roles = models.ManyToManyField(Role, related_name='users', through='UserxRole')
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ["username"]
     # objects = CustomUserManager()
 
     def __str__(self):
         return self.first_name + " " + self.second_name
+    
+    export_fields = [
+        'username',
+        'email',
+        'first_name',
+        'second_name',
+        'last_name',
+        'maiden_name'
+        'roles',        
+        'is_active'
+    ]
 
+
+class UserxRole(TimeStampedModel, SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    roles = models.ForeignKey(Role, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.email + " is " + self.roles.name
+
+# class MembershipInline(admin.TabularInline):
+#     model = UserxRole
+#     extra = 1
+
+# class roleAdmin(admin.ModelAdmin):
+#     inlines = [
+#         MembershipInline,
+#     ]
+
+# class userAdmin(admin.ModelAdmin):
+#     inlines = [
+#         MembershipInline,
+#     ]
+    
 
 class Employee(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
