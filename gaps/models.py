@@ -49,6 +49,7 @@ class NecesidadCapacitacion(models.Model):
     nivelActual = models.IntegerField(blank=True,null =True)
     nivelRequerido = models.IntegerField(blank=True,null =True)
     nivelBrecha = models.IntegerField(blank=True,null =True) #1: brecha de nivel 1, 2: brecha de nivel 2, 3: brecha de nivel 3, 4: brecha de nivel 4
+    tipo = models.IntegerField(blank=True,null =True) #1: de incorporacion, 2: de evaluacion 2, 3: de ascenso
     activo = models.BooleanField(default=True)
 
 
