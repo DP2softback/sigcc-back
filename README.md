@@ -65,7 +65,7 @@ Backend from SIGCC system, capstone course in PUCP
 
     3. Entrar a la base de datos
 
-        $ docker exec -it e0ccbadd2699 psql -U user -W postgres
+        $ docker exec -it <container_id> psql -U user -W postgres
 
     4. Dentro de la bd, lanzar los comandos:
 
