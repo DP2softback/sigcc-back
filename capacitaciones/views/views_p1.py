@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
-from capacitaciones.utils import get_udemy_courses, clean_course_detail
+from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course
 
 
 class GetUdemyValidCourses(APIView):
@@ -43,11 +43,16 @@ class GetUdemyCourseDetail(APIView):
 
     def post(self, request):
 
+        udemy_detail = get_detail_udemy_course(request.data['udemy_id'])
 
+        list_chapters = []
 
-        get_detail_udemy_course(course)
+        for item in udemy_detail:
 
-        return Response({}, status = status.HTTP_200_OK)
+            if item['_class'] == 'chapter':
+                list_chapters.append(item['title'])
+
+        return Response({'detail': list_chapters}, status = status.HTTP_200_OK)
 
 
 class LearningPathAPIView(APIView):

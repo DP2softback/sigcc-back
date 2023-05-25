@@ -75,8 +75,6 @@ class CursoEmpresa(CursoGeneral):
     ]
 
     tipo = models.CharField(max_length=1, choices=tipo_choices)
-    nombre = models.CharField(max_length=300)
-    descripcion = models.CharField(max_length=300)
     banderaL= models.BooleanField()
     curso_empresa_x_empleado= models.ManyToManyField(Employee, through='EmpleadoXCursoEmpresa')
 
@@ -204,7 +202,7 @@ class Sesion(models.Model):
     fecha= models.DateTimeField()
     fechaLimite= models.DateTimeField()
     url_video= models.TextField()
-    sesion_x_responsable = models.ManyToManyField(CursoUdemy, through='PreguntaXCursoUdemy')
+    sesion_x_responsable = models.ManyToManyField(User, through='SesionXReponsable')
 
     class Meta: 
         db_table = 'Sesion'
@@ -221,7 +219,7 @@ class Tema(models.Model):
 
 class SesionXReponsable(models.Model):
     
-    responable= models.ForeignKey(User, on_delete=models.CASCADE)
+    responsable= models.ForeignKey(User, on_delete=models.CASCADE)
     clase= models.ForeignKey(Sesion, on_delete=models.CASCADE)
     
     class Meta:
@@ -259,7 +257,7 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
     alternativa = models.ForeignKey(Alternativa, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'EmpleadoXCur soXPreguntaXAlternativa'
+        db_table = 'EmpleadoXCursoXPreguntaXAlternativa'
 
 
 class AsistenciaSesionXEmpleado(models.Model):
@@ -274,7 +272,7 @@ class AsistenciaSesionXEmpleado(models.Model):
     estado_asistencia = models.CharField(max_length=1, choices=tipo_choices)
 
     class Meta:
-        db_table = 'AsistenciaCursoEmpresaXEmpleado'
+        db_table = 'AsistenciaSesionXEmpleado'
 
 
 class RubricaExamen(models.Model):
