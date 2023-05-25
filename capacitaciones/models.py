@@ -20,9 +20,9 @@ class LearningPath(models.Model):
 
     estado_choices = [
         ('0', 'Desactivado'),
-        ('1', 'CreadoSinFormulario'),
-        ('2', 'ErrorFormulario'),
-        ('3', 'CreadoCompleto')
+        ('1', 'Creado sin Formulario'),
+        ('2', 'Error formulario'),
+        ('3', 'Creado completo')
     ]
 
     nombre = models.CharField(max_length=300)
@@ -144,12 +144,13 @@ class Alternativa(models.Model):
 
 
 class EmpleadoXLearningPath(models.Model):
+
     estado_choices = [
-        ('Sin iniciar', 'Sin iniciar'),
-        ('Completado', 'Completado'),
-        ('En progreso', 'En progreso'),
-        ('Caducado', 'Caducado'),
-        ('Desaprobado', 'Desaprobado'),
+        ('0', 'Sin iniciar'),
+        ('1', 'En progreso'),
+        ('2', 'Completado, sin evaluar'),
+        ('3', 'Completado, evaluado'),
+        ('4', 'Desaprobado'),
     ]
 
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
@@ -165,6 +166,7 @@ class EmpleadoXLearningPath(models.Model):
 
 
 class DocumentoRespuesta(models.Model):
+
     url_documento = models.TextField()
     empleado_learning_path = models.ForeignKey(EmpleadoXLearningPath, on_delete=models.CASCADE)
 
@@ -260,23 +262,23 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
         db_table = 'EmpleadoXCur soXPreguntaXAlternativa'
 
 
-class AsistenciaCursoEmpresaXEmpleado(models.Model):
-    curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
-    empleado_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
+class AsistenciaSesionXEmpleado(models.Model):
     tipo_choices = [
-        ('P','Asistio puntual'),
-        ('T','Asistio tarde'),
-        ('N','No asistio'),
-        ('J','Falta justificada')
+        ('P', 'Asistio puntual'),
+        ('T', 'Asistio tarde'),
+        ('N', 'No asistio'),
+        ('J', 'Falta justificada')
     ]
-
-    estado_asistencia= models.CharField(max_length=1, choices=tipo_choices)
+    curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    estado_asistencia = models.CharField(max_length=1, choices=tipo_choices)
 
     class Meta:
         db_table = 'AsistenciaCursoEmpresaXEmpleado'
 
 
 class RubricaExamen(models.Model):
+
     descripcion = models.CharField(max_length=200)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     rubrica_examen_x_empleado = models.ManyToManyField(Employee, through='RubricaExamenXEmpleado')
@@ -286,6 +288,7 @@ class RubricaExamen(models.Model):
 
 
 class DocumentoExamen(models.Model):
+
     #Este atributo es el link para recuperar los archivos
     url_documento = models.TextField()
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
@@ -295,6 +298,7 @@ class DocumentoExamen(models.Model):
 
 
 class DetalleRubricaExamen(models.Model):
+
     criterio_evaluacion = models.CharField(max_length=200)
     nota_maxima = models.IntegerField()
     rubrica_examen = models.ForeignKey(RubricaExamen, on_delete=models.CASCADE)
