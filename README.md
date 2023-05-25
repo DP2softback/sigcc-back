@@ -57,9 +57,8 @@ Backend from SIGCC system, capstone course in PUCP
 
 ## resetear migraciones
 
-    1. Eliminar los archivos de migraciones, excepto el init y la primera migracion:
-        __init__.py         //este no
-        0001_initial.py     //este tampoco
+    1. Eliminar los archivos de migraciones, excepto el init:
+        __init__.py         //este no        
 
     2. En un terminal del sistema (no el de zappa) buscar el id del contenedor de la base de datos
         $ docker ps   (y ubican el id)
