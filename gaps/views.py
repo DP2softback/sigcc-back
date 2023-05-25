@@ -22,3 +22,18 @@ class CompetenciaView(APIView):
             competencias_serializer.save()
             return Response(competencias_serializer.data,status=status.HTTP_200_OK)
         return Response(None,status=status.HTTP_400_BAD_REQUEST)
+    
+
+class TipoCompetenciaView(APIView):
+    def get(self, request):
+        tipoCompetencias = TipoCompetencia.objects.all()
+        tipoCompetencia_serializer = TipoCompetenciaSerializer(tipoCompetencias, many = True)
+        return Response(tipoCompetencia_serializer.data, status = status.HTTP_200_OK)
+    
+    def post(self, request):
+        tipoCompetencia_serializer = TipoCompetenciaSerializer(data = request.data, context = request.data)
+        if tipoCompetencia_serializer.is_valid():
+            tipoCompetencia_serializer.save()
+            return Response(tipoCompetencia_serializer.data,status=status.HTTP_200_OK)
+        return Response(None,status=status.HTTP_400_BAD_REQUEST)
+    
