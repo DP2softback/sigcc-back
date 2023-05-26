@@ -135,7 +135,9 @@ class UploadFilesInS3APIView(APIView):
 
         if obj_file:
 
-            s3 = boto3.client('s3')
+            s3 = boto3.client('s3',
+                              aws_access_key_id=os.getenv('aws_access_key_id'),
+                              aws_secret_access_key=os.getenv('aws_secret_access_key'))
 
             bucket_name = 'dp2-bucket-dev'
             subfolder = 'capacitaciones'
@@ -156,7 +158,10 @@ class UploadFilesInS3APIView(APIView):
         url = request.data.get('url')
 
         if url:
-            s3 = boto3.client('s3')
+            s3 = boto3.client('s3',
+                              aws_access_key_id=os.getenv('aws_access_key_id'),
+                              aws_secret_access_key=os.getenv('aws_secret_access_key')
+                              )
             bucket_name = 'dp2-bucket-dev'
             url_base = "https://{bucket_name}.s3.amazonws.com/{object_name}".format(bucket_name=bucket_name)
             obj_key = url.replace(url_base, '')
