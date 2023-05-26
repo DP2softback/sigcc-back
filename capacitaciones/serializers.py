@@ -35,12 +35,16 @@ class CursoUdemySerializer(serializers.ModelSerializer):
         return value
 
 class CursoEmpresaSerializer(serializers.ModelSerializer):
-
+    sesiones= serializers.SerializerMethodField()
     class Meta:
         model = CursoEmpresa
         exclude = ('curso_x_learning_path',)
         #exclude = ('curso_x_learning_path','asistencia_x_empleado')
         
+    def get_sesiones(self,obj):
+        sesiones= Sesion.objects.filter(cursoEmpresa=obj)
+        return SesionSerializer(sesiones,many=True).data
+
     def validate_tipo(self, value):
 
         if value == '':
@@ -73,12 +77,17 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
 
 
 class SesionSerializer(serializers.ModelSerializer):
-
+    temas= serializers.SerializerMethodField()
     class Meta:
         model = Sesion
         exclude = ('sesion_x_responsable', 'cursoEmpresa',)
         #exclude = ('curso_x_learning_path','asistencia_x_empleado')
-        
+
+    def get_temas(self,obj):
+        temas= Tema.objects.filter(sesion=obj)
+        return TemaSerializer(temas,many=True).data
+
+
     def validate_nombre(self, value):
         if value == '':
             raise serializers.ValidationError('El nombre no puede ser valor vacío')

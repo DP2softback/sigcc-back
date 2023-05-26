@@ -2,8 +2,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -23,7 +23,7 @@ class CursoEmpresaCourseAPIView(APIView):
         cursos_emp = CursoEmpresa.objects.all()
         cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp, many=True)
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
-
+    
     def post(self, request):
         '''
         # Genera el enlace al servidor EC2
@@ -64,6 +64,24 @@ class CursoEmpresaDetailAPIView(APIView):
         cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
         cursos_emp.delete()
         return Response({"message": "Curso eliminado"}, status=status.HTTP_200_OK)
+
+class SesionAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        cursos_emp = Sesion.objects.all()
+        cursos_emp_serializer = SesionSerializer(cursos_emp, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+    
+    def post(self, request):
+
+        cursos_emp_serializer = CursoEmpresaSerializer(data = request.data, context = request.data)
+
+        if cursos_emp_serializer.is_valid():
+            cursos_emp = cursos_emp_serializer.save()
+            return Response({'id': cursos_emp.id,
+                            'message': 'Curso Empresa creado correctamente'}, status=status.HTTP_200_OK)
+
+        return Response(cursos_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 #acá iría la api para la búsqueda especial de Rodrigo

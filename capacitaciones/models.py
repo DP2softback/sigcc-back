@@ -241,7 +241,7 @@ class Sesion(models.Model):
 class Tema(models.Model):
     
     nombre= models.CharField(max_length=1000)
-    clase= models.ForeignKey(Sesion, on_delete=models.CASCADE)
+    sesion= models.ForeignKey(Sesion, on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'Tema'
