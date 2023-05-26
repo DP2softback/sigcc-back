@@ -59,7 +59,7 @@ class CursoGeneral(models.Model):
     cant_valoraciones = models.IntegerField(default=0)
     curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoGeneralXLearningPath')
     curso_x_employee = models.ManyToManyField(Employee, through='EmpleadoXCurso')
-    foto = models.ImageField(upload_to='imagenes/')
+    foto = models.TextField(null=True)
     enlace_ec2 = models.URLField(blank=True)
 
     class Meta:
@@ -207,6 +207,7 @@ class EmpleadoXCursoEmpresa(models.Model):
 
 
 class Sesion(models.Model):
+
     ubicacion_choices = [
         ('Auditorio primer piso', 'Auditorio primer piso'),
         ('Auditorio segundo piso', 'Auditorio segundo piso'),
@@ -214,10 +215,10 @@ class Sesion(models.Model):
         ('Auditorio cuarto piso', 'Auditorio cuarto piso'),
         ('Auditorio quinto piso', 'Auditorio quinto piso'),
     ]
+
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     nombre= models.CharField(max_length=1000)
     descripcion= models.CharField(max_length=1000)
-    ubicacion= models.CharField(max_length=1000, null=True)
     fecha_inicio= models.DateTimeField()
     fecha_limite= models.DateTimeField()
     url_video= models.TextField()
