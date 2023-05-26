@@ -85,7 +85,7 @@ class CursoEmpresa(CursoGeneral):
     ]
 
     tipo = models.CharField(max_length=1, choices=tipo_choices)
-    banderaL= models.BooleanField()
+    es_libre= models.BooleanField()
     curso_empresa_x_empleado= models.ManyToManyField(Employee, through='EmpleadoXCursoEmpresa')
 
     class Meta:
