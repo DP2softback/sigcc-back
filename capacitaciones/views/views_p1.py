@@ -166,7 +166,7 @@ class DeleteFilesInS3APIView(APIView):
                               aws_secret_access_key=os.getenv('aws_secret_access_key')
                               )
             bucket_name = 'dp2-bucket-dev'
-            url_base = "https://{bucket_name}.s3.amazonws.com/{object_name}".format(bucket_name=bucket_name)
+            url_base = "https://{bucket_name}.s3.amazonws.com/".format(bucket_name=bucket_name)
             obj_key = url.replace(url_base, '')
 
             try:
