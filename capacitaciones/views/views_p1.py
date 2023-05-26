@@ -143,7 +143,7 @@ class UploadFilesInS3APIView(APIView):
             bucket_name = 'dp2-bucket-dev'
             subfolder = 'capacitaciones'
 
-            base_name, ext = os.path.splitext(obj_file)
+            base_name, ext = os.path.splitext(obj_file.name)
             object_name = "{}/{}_{}{}".format(subfolder, base_name, str(uuid.uuid4()), ext)
 
             try:
