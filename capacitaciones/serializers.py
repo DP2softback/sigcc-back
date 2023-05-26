@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy,CursoEmpresa
+from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy,CursoEmpresa, Sesion, Tema
 
 from django.utils import timezone
 
@@ -71,6 +71,36 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
         cursos = CursoUdemy.objects.filter(id__in=cursos_id)
         return CursoUdemySerializer(cursos, many=True).data
 
+
+class SesionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Sesion
+        exclude = ('sesion_x_responsable', 'cursoEmpresa',)
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
+        
+    def validate_nombre(self, value):
+        if value == '':
+            raise serializers.ValidationError('El nombre no puede ser valor vacío')
+        return value
+
+    def validate_descripcion(self, value):
+        if self.validate_nombre(self.context['nombre']) == value:
+            raise serializers.ValidationError('La descripcion no puede ser igual al nombre')
+        return value
+
+class TemaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Tema
+        exclude = ('clase',)
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
+        
+    def validate_nombre(self, value):
+        if value == '':
+            raise serializers.ValidationError('El nombre no puede ser valor vacío')
+        return value
+    
 
 '''
 class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):

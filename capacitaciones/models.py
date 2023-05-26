@@ -219,11 +219,11 @@ class Sesion(models.Model):
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     nombre= models.CharField(max_length=1000)
     descripcion= models.CharField(max_length=1000)
-    fecha_inicio= models.DateTimeField()
-    fecha_limite= models.DateTimeField()
-    url_video= models.TextField()
-    ubicacion = models.CharField(max_length=30, choices=ubicacion_choices)
-    aforo_maximo= models.IntegerField()
+    fecha_inicio= models.DateTimeField(null=True)
+    fecha_limite= models.DateTimeField(null=True)
+    url_video= models.TextField(null=True)
+    ubicacion = models.CharField(max_length=30, choices=ubicacion_choices,null=True)
+    aforo_maximo= models.IntegerField(null=True)
     sesion_x_responsable = models.ManyToManyField(User, through='SesionXReponsable')
 
     class Meta: 
