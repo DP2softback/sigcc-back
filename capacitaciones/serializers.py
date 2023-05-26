@@ -79,17 +79,6 @@ class CursoEmpresaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('La descripcion no puede ser igual al nombre')
         return value
 
-    def validate_asunto(self, value):
-
-        if self.validate_descripcion(self.context['descripcion']) == value:
-            raise serializers.ValidationError('El asunto no puede ser igual a la descripcion')
-        return value
-
-    def validate_fecha(self, value):
-        fecha_actual = timezone.now()
-        if value <= fecha_actual:
-            raise serializers.ValidationError('La fecha debe ser mayor a la fecha de la peticion')
-        return value
 '''
 class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):
 
