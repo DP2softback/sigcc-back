@@ -1,4 +1,7 @@
 # Create your views here.
+import os
+
+import boto3
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -122,3 +125,49 @@ class CursoDetailLpApiView(APIView):
             return Response({"message": "Se eliminó el curso"}, status= status.HTTP_200_OK)
 
         return Response({"message": "No existe el curso en el learning seleccionado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UploadFilesInS3APIView(APIView):
+
+    def post(self, request):
+
+        obj_file = request.FILES.get('file')
+
+        if obj_file:
+
+            s3 = boto3.client('s3')
+
+            bucket_name = 'dp2-bucket-dev'
+            subfolder = 'capacitaciones'
+            object_name = os.path.join(subfolder, obj_file.name)
+
+            try:
+                s3.upload_fileobj(obj_file, bucket_name, object_name)
+                url_file = "https://{bucket_name}.s3.amazonws.com/{object_name}".format(bucket_name=bucket_name, object_name=object_name)
+                return Response({'url': url_file}, status=status.HTTP_200_OK)
+
+            except Exception as e:
+                return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'msg': 'Archivo no recibido'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+
+        url = request.data.get('url')
+
+        if url:
+            s3 = boto3.client('s3')
+            bucket_name = 'dp2-bucket-dev'
+            url_base = "https://{bucket_name}.s3.amazonws.com/{object_name}".format(bucket_name=bucket_name)
+            obj_key = url.replace(url_base, '')
+
+            try:
+                s3.delete_object(Bucket=bucket_name, Key=obj_key)
+                return Response({'msg': 'Archivo eliminado exitosamente'}, status.HTTP_200_OK)
+            except Exception as e:
+                return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'msg': 'Url no recibida'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
