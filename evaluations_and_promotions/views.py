@@ -50,7 +50,7 @@ class SubCategoryTypeGenericView(generics.ListCreateAPIView):
 
 class GetPersonasACargo(APIView):
     def get(self, request):
-        supervisor_id = request.GET.get("id")
+        supervisor_id = request.data.get("id")
         if(supervisor_id is None):
             supervisor_id = 0
             
@@ -122,3 +122,28 @@ class GetHistoricoDeEvaluaciones(APIView):
             responseData= serializedData.data
             
         return Response(responseData, status=status.HTTP_200_OK)
+
+class EvaluationAPI(APIView):
+    def post(self, request):
+        evaluator=Employee.objects.get(id=1)
+        evaluated=Employee.objects.get(id=2)
+        evaType=EvaluationType.objects.get(id=1)
+        area_serializado = EvaluationSerializer(data = request.data)
+        area_serializado.evaluated=evaluated
+        area_serializado.evaluator=evaluator
+        area_serializado.evaluationType=evaType
+        if area_serializado.is_valid():
+            area_serializado.save()
+            return Response(area_serializado.data,status=status.HTTP_200_OK)
+        
+        return Response(area_serializado.errors,status=status.HTTP_400_BAD_REQUEST)
+class EvaluationXSubcatAPI(APIView):
+    def post(self, request):
+        
+        area_serializado = EvaluationxSubCategorySerializer(data = request.data, many=True)
+        
+        if area_serializado.is_valid():
+            area_serializado.save()
+            return Response(area_serializado.data,status=status.HTTP_200_OK)
+        
+        return Response(area_serializado.errors,status=status.HTTP_400_BAD_REQUEST)

@@ -66,10 +66,10 @@ class AreaxPosicionSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class EvaluationSerializer(serializers.ModelSerializer):
-    evaluator = EmployeeSerializer()
-    evaluated = EmployeeSerializer()
-    evaluationType = EvaluationTypeSerializer()
-    areaxPosicion = AreaxPosicionSerializer()
+    # evaluator = EmployeeSerializer()
+    # evaluated = EmployeeSerializer()
+    # evaluationType = EvaluationTypeSerializer()
+    # areaxPosicion = AreaxPosicionSerializer()
     class Meta:
         model = Evaluation
         fields = '__all__'
@@ -80,12 +80,12 @@ class EvaluationxSubCategorySerializer(serializers.ModelSerializer):
 class CategoryNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name')
+        fields = ['name']
 class SubcategoryCategoryNameSerializer(serializers.ModelSerializer):
     category = CategoryNameSerializer()
     class Meta:
         model =SubCategory
-        fields = ('category')
+        fields = ['category']
 class ContinuousEvaluationIntermediateSerializer(serializers.ModelSerializer):
     subCategory = SubcategoryCategoryNameSerializer()
     class Meta:
