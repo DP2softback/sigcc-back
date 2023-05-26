@@ -1,5 +1,6 @@
 # Create your views here.
 import os
+import uuid
 
 import boto3
 from rest_framework import status
@@ -141,7 +142,7 @@ class UploadFilesInS3APIView(APIView):
 
             bucket_name = 'dp2-bucket-dev'
             subfolder = 'capacitaciones'
-            object_name = "{}/{}".format(subfolder, obj_file.name)
+            object_name = "{}/{}_{}".format(subfolder, obj_file.name, str(uuid.uuid4()))
 
             try:
                 s3.upload_fileobj(obj_file, bucket_name, object_name)
