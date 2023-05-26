@@ -153,7 +153,10 @@ class UploadFilesInS3APIView(APIView):
 
         return Response({'msg': 'Archivo no recibido'}, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request):
+
+class DeleteFilesInS3APIView(APIView):
+
+    def post(self, request):
 
         url = request.data.get('url')
 
