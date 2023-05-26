@@ -45,7 +45,16 @@ class CursoEmpresaSerializer(serializers.ModelSerializer):
 
         if value == '':
             raise serializers.ValidationError('El valor de este campo no puede ser vacio')
+        return value
+    
+    def validate_nombre(self, value):
+        if value == '':
+            raise serializers.ValidationError('El nombre no puede ser valor vacío')
+        return value
 
+    def validate_descripcion(self, value):
+        if self.validate_nombre(self.context['nombre']) == value:
+            raise serializers.ValidationError('La descripcion no puede ser igual al nombre')
         return value
 
 
@@ -62,22 +71,6 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
         cursos = CursoUdemy.objects.filter(id__in=cursos_id)
         return CursoUdemySerializer(cursos, many=True).data
 
-
-class CursoEmpresaSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = CursoEmpresa
-        fields = '__all__'
-
-    def validate_nombre(self, value):
-        if value == '':
-            raise serializers.ValidationError('El nombre no puede ser valor vacío')
-        return value
-
-    def validate_descripcion(self, value):
-        if self.validate_nombre(self.context['nombre']) == value:
-            raise serializers.ValidationError('La descripcion no puede ser igual al nombre')
-        return value
 
 '''
 class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):

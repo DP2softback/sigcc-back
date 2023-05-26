@@ -54,7 +54,7 @@ class LearningPath(models.Model):
 class CursoGeneral(models.Model):
     nombre = models.CharField(max_length=300)
     descripcion = models.CharField(max_length=300)
-    duracion = models.DurationField()
+    duracion = models.DurationField(null=True)
     suma_valoracionees = models.IntegerField(default=0)
     cant_valoraciones = models.IntegerField(default=0)
     curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoGeneralXLearningPath')
@@ -86,7 +86,7 @@ class CursoEmpresa(CursoGeneral):
     ]
 
     tipo = models.CharField(max_length=1, choices=tipo_choices)
-    es_libre= models.BooleanField()
+    es_libre= models.BooleanField(default=False)
     curso_empresa_x_empleado= models.ManyToManyField(Employee, through='EmpleadoXCursoEmpresa')
 
     class Meta:
