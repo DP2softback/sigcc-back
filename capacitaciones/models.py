@@ -11,6 +11,7 @@ class Parametros(models.Model):
     nota_maxima = models.IntegerField()
     nota_minima = models.IntegerField()
     numero_intentos_curso = models.IntegerField()
+    numero_intentos_lp = models.IntegerField()
 
     class Meta:
         db_table = 'Parametros' 
@@ -33,10 +34,14 @@ class LearningPath(models.Model):
     cant_empleados = models.IntegerField(default=0)
     horas_duracion = models.DurationField(default=timedelta(seconds=0))
     cant_intentos_cursos_max = models.IntegerField()
+    cant_intentos_evaluacion_integral_max = models.IntegerField()
     estado = models.CharField(max_length=1, choices=estado_choices, default='0')
 
     def get_cant_intentos_cursos_max_default(self):
         return Parametros.objects.first().numero_intentos_curso
+
+    def get_cant_intentos_evaluacion_integral_max_default(self):
+        return Parametros.objects.first().numero_intentos_lp
 
     class Meta:
         db_table = 'LearningPath'
@@ -47,6 +52,9 @@ class LearningPath(models.Model):
     def save(self, *args, **kwargs):
         if not self.cant_intentos_cursos_max:
             self.cant_intentos_cursos_max = self.get_cant_intentos_cursos_max_default()
+
+        if not self.cant_intentos_evaluacion_integral_max:
+            self.cant_intentos_evaluacion_integral_max = self.get_cant_intentos_evaluacion_integral_max_default()
 
         super().save(*args, **kwargs)
 
