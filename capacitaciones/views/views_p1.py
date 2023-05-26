@@ -139,7 +139,7 @@ class UploadFilesInS3APIView(APIView):
 
             bucket_name = 'dp2-bucket-dev'
             subfolder = 'capacitaciones'
-            object_name = os.path.join(subfolder, obj_file.name)
+            object_name = "{}/{}".format(subfolder, obj_file.name)
 
             try:
                 s3.upload_fileobj(obj_file, bucket_name, object_name)
