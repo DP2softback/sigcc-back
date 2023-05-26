@@ -32,13 +32,23 @@ class LearningPath(models.Model):
     cant_valoraciones = models.IntegerField(default=0)
     cant_empleados = models.IntegerField(default=0)
     horas_duracion = models.DurationField(default=timedelta(seconds=0))
+    cant_intentos_cursos_max = models.IntegerField()
     estado = models.CharField(max_length=1, choices=estado_choices, default='0')
+
+    def get_cant_intentos_cursos_max_default(self):
+        return Parametros.objects.first().numero_intentos_curso
 
     class Meta:
         db_table = 'LearningPath'
 
     def __str__(self):
         return self.nombre
+
+    def save(self, *args, **kwargs):
+        if not self.cant_intentos_cursos_max:
+            self.cant_intentos_cursos_max = self.get_cant_intentos_cursos_max_default()
+
+        super().save(*args, **kwargs)
 
 
 class CursoGeneral(models.Model):
@@ -88,12 +98,13 @@ class CursoGeneralXLearningPath(models.Model):
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     nro_orden = models.IntegerField()
     cant_intentos_max = models.IntegerField()
+    porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
     class Meta:
         db_table = 'CursoGeneralXLearningPath'
 
     def get_cant_intentos_max_default(self):
-        return Parametros.objects.first().numero_intentos_curso
+        return self.learning_path.cant_intentos_cursos_max
 
     def get_nro_orden(self):
         pos = CursoGeneralXLearningPath.objects.filter(learning_path = self.learning_path).count()
