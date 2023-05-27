@@ -176,6 +176,6 @@ class DeleteFilesInS3APIView(APIView):
                 s3.delete_object(Bucket=bucket_name, Key=obj_key)
                 return Response({'msg': 'Archivo eliminado exitosamente'}, status.HTTP_200_OK)
             except Exception as e:
-                return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({'msg': 'Url no recibida'}, status=status.HTTP_400_BAD_REQUEST)
