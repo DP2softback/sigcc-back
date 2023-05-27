@@ -3,6 +3,7 @@ from gaps.views import CompetenciaView, TipoCompetenciaView
 
 brechas_patterns = [
     path('competencias', CompetenciaView.as_view()),
+    path('competencias/<int:id>', CompetenciaView.as_view()),
     path('tipoCompetencias', TipoCompetenciaView.as_view())
 ]
 
