@@ -10,7 +10,14 @@ class TipoCompetencia(models.Model):
     nombre = models.CharField(max_length=100, blank=True, null=True)
     descripcion = models.CharField(max_length=300, blank=True, null=True)
     activo = models.BooleanField(default=True)
-
+    export_fields = [
+        'id',
+        'abreviatura',
+        'nombre',
+        'descripcion',
+        'activo'
+    ]
+    
 class Competencia(models.Model):
     id = models.BigAutoField(primary_key = True)
     codigo = models.CharField(max_length=12, blank=True, null=True)
