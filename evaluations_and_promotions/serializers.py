@@ -31,15 +31,12 @@ class EvaluationTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
-
     class Meta:
         model = Employee
         depth = 1
         fields = '__all__'
 
-    def get_name(self, obj):
-        return f"{obj.user.firstName} {obj.user.lastName}"
+
 
 
 class PositionSerializer(serializers.ModelSerializer):
@@ -80,21 +77,28 @@ class EvaluationxSubCategorySerializer(serializers.ModelSerializer):
 class CategoryNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['name']
+        fields = ('id','name')
 class SubcategoryCategoryNameSerializer(serializers.ModelSerializer):
     category = CategoryNameSerializer()
     class Meta:
         model =SubCategory
-        fields = ['category']
+        fields = ('id','category')
+class EvaluationIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Evaluation
+        fields=  ['id']
 class ContinuousEvaluationIntermediateSerializer(serializers.ModelSerializer):
     subCategory = SubcategoryCategoryNameSerializer()
+    evaluation = EvaluationIdSerializer()
     class Meta:
         model= EvaluationxSubCategory
-        fields = ('subCategory','score')
+        fields = ('subCategory','score','evaluation')
 class PerformanceEvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model= Evaluation
         fields=('evaluationDate','finalScore')
+
+
 class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCategory

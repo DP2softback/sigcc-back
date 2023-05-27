@@ -7,11 +7,33 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from zappa.asynchronous import task
 from rest_framework.exceptions import ValidationError
+from django.db.models import Avg
 from .models import Evaluation
 from .serializers import *
 from login.serializers import *
 from datetime import datetime
+from django.utils import timezone
+from datetime import timedelta
+from django.shortcuts import get_object_or_404
 
+def validate_employee_and_evaluation(employee_id, tipoEva):
+    if not employee_id or not tipoEva:
+        raise ValidationError("Employee's id and evaluationType are required")
+
+    try:
+        employee_id = int(employee_id)
+        if employee_id <= 0:
+            raise ValueError()
+    except ValueError:
+        raise ValidationError("Invalid value for employee_id.")
+
+    if not isinstance(tipoEva, str) or not tipoEva.strip():
+        raise ValidationError("Invalid value for tipoEva.")
+
+def get_category_averages(evaluations):
+    category_scores = EvaluationxSubCategory.objects.filter(evaluation__in=evaluations).values('subCategory__category__name').annotate(avg_score=Avg('score'))
+    category_averages = {score['subCategory__category__name']: score['avg_score'] for score in category_scores}
+    return category_averages
 # Create your views here.
 class EvaluationView(generics.ListCreateAPIView):
     queryset = Evaluation.objects.all()
@@ -51,14 +73,84 @@ class SubCategoryTypeGenericView(generics.ListCreateAPIView):
 class GetPersonasACargo(APIView):
     def get(self, request):
         supervisor_id = request.data.get("id")
-        if(supervisor_id is None):
-            supervisor_id = 0
+        evaluation_type = request.data.get("evaluationType")
+        fecha_inicio = request.data.get("fecha_inicio")
+        fecha_final=request.data.get("fecha_final")
+
+        validate_employee_and_evaluation(supervisor_id, evaluation_type)
+
+        personas = Employee.objects.filter(supervisor=supervisor_id)
+        evaluation_type_obj = get_object_or_404(EvaluationType, name=evaluation_type)
+        evaluations = Evaluation.objects.filter(evaluated__in=personas, evaluationType=evaluation_type_obj, isActive=True, isFinished=True)
+        employee_data = []
+        category_scores = {}
+
+        if fecha_inicio:
+            try:
+                fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+                evaluations = evaluations.filter(evaluationDate__gte=fecha_inicio)
+            except ValueError:
+                return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
+
+        if fecha_final:
+            try:
+                fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
+                evaluations = evaluations.filter(evaluationDate__lte=fecha_final)
+            except ValueError:
+                return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
+
+        category_scores = {}
+        for evaluation in evaluations:
+            responseQuery = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+            dataSerialized = ContinuousEvaluationIntermediateSerializer(responseQuery, many=True)
+            subcategories = dataSerialized.data
+            for subcategory in subcategories:
+                subcategory['evaluationDate'] = evaluation.evaluationDate
+                # If this line is confusing, remember subcategory is a record of the EvaluationxSubCategory table
+                category_id = subcategory['subCategory']['category']['name']
+                score = subcategory['score']
+
+                if category_id not in category_scores:
+                    category_scores[category_id] = [score]
+                else:
+                    category_scores[category_id].append(score)
+
+        # Calculate average score for each category across all evaluations
+        category_averages = {}
+        for category_id, scores in category_scores.items():
+            category_averages[category_id] = sum(scores) / len(scores)   
+
+        for persona in personas:
+            # Get the latest evaluation for the specified evaluation type
+            evaluation = Evaluation.objects.filter(evaluated=persona, evaluationType=evaluation_type_obj).order_by('-evaluationDate').first()
             
-        personas = Employee.objects.filter(supervisor = supervisor_id)
-        employee_serializado = EmployeeSerializer(personas,many=True)
-        return Response(employee_serializado.data,status=status.HTTP_200_OK)
+            # Calculate time since last evaluation
+            time_since_last_evaluation = None
+
+            if evaluation:
+                time_since_last_evaluation = timezone.now().date() - evaluation.evaluationDate.date()
+            # Construct the desired employee data
+            employee_data.append({
+                'id': persona.id,
+                'name': f"{persona.user.first_name} {persona.user.last_name}",
+                'time_since_last_evaluation': time_since_last_evaluation.days,
+                'area': {
+                    'id': persona.area.id,
+                    'name': persona.area.name
+                },
+                'position': {
+                    'id': persona.position.id,
+                    'name': persona.position.name
+                },
+                'email': persona.user.email
+            })
+        for employee in employee_data:
+            employee['CategoryAverages'] = category_averages
+
+        return Response(employee_data, status=status.HTTP_200_OK)
     
 class GetHistoricoDeEvaluaciones(APIView):
+    #permission_classes = [AllowAny]
     def get(self, request):
         #request: nivel, fecha_inicio,fecha_final, tipoEva, employee_id
         employee_id = request.data.get("employee_id")
@@ -66,23 +158,10 @@ class GetHistoricoDeEvaluaciones(APIView):
         nivel = request.data.get("nivel")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")
-        if not employee_id or not tipoEva:
-            raise ValidationError("Employee's id and evaluationType are required")
-        try:
-            employee_id = int(employee_id)
-            if employee_id <= 0:
-                raise ValueError()
-        except ValueError:
-            return Response("Invalid value for employee_id.", status=status.HTTP_400_BAD_REQUEST)
-        
-        try:
-            if not isinstance(tipoEva, str) or not tipoEva.strip():
-                raise ValueError()
 
-        except ValueError:
-            return Response("Invalid value for tipoEva.", status=status.HTTP_400_BAD_REQUEST)
+        validate_employee_and_evaluation(employee_id, tipoEva)
         
-        evaType = EvaluationType.objects.get(name = tipoEva)
+        evaType = get_object_or_404(EvaluationType, name=tipoEva)
         query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True, isFinished=True)
         
         if nivel:
@@ -106,16 +185,37 @@ class GetHistoricoDeEvaluaciones(APIView):
         responseData = []
         #Continua
         if evaType.name.casefold() == "Evaluación Continua".casefold():
+            category_scores = {}
             for evaluation in evaluations:
                 responseQuery = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
                 dataSerialized = ContinuousEvaluationIntermediateSerializer(responseQuery, many=True)
                 subcategories = dataSerialized.data
                 for subcategory in subcategories:
                     subcategory['evaluationDate'] = evaluation.evaluationDate
+                    #If this line is confusing, remember subcategory is a record of the EvaluationxSubCategory table
+                    category_id = subcategory['subCategory']['category']['name']
+                    score = subcategory['score']
+
+                    if category_id not in category_scores:
+                        category_scores[category_id] = [score]
+                    else:
+                        category_scores[category_id].append(score)
+
+                # Calculate average score for each category
+                category_averages = {}
+                for category_id, scores in category_scores.items():
+                    category_averages[category_id] = sum(scores) / len(scores)
+
                 responseData.append({
-                    'Subcategories': subcategories,
+                    'Subcategories': subcategories
                 })
-        
+             # Calculate average score for each category across all evaluations
+            category_averages = {}
+            for category_id, scores in category_scores.items():
+                category_averages[category_id] = sum(scores) / len(scores)
+            # Update responseData with category averages
+            for data in responseData:
+                data['CategoryAverages'] = category_averages
         #Desempeño
         elif evaType.name.casefold() == "Evaluación de Desempeño".casefold():
             serializedData = PerformanceEvaluationSerializer(evaluations,many=True)
