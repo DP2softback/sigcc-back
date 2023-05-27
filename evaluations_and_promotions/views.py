@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework import generics
@@ -15,6 +16,11 @@ from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
 from django.shortcuts import get_object_or_404
+from django.db.models import F
+from django.db.models.functions import ExtractYear, ExtractMonth
+from django.db.models.aggregates import Sum,Count   
+from django.db.models import F, ExpressionWrapper, FloatField
+
 
 def validate_employee_and_evaluation(employee_id, tipoEva):
     if not employee_id or not tipoEva:
@@ -227,19 +233,21 @@ class GetHistoricoDeEvaluaciones(APIView):
         return Response(responseData, status=status.HTTP_200_OK)
 
 class EvaluationAPI(APIView):
+    def get(self, request):
+        area = Evaluation.objects.all()
+        area_serializado = EvaluationSerializerWrite(area,many=True)
+        return Response(area_serializado.data,status=status.HTTP_200_OK)
+
+
     def post(self, request):
-        evaluator=Employee.objects.get(id=1)
-        evaluated=Employee.objects.get(id=2)
-        evaType=EvaluationType.objects.get(id=1)
-        area_serializado = EvaluationSerializer(data = request.data)
-        area_serializado.evaluated=evaluated
-        area_serializado.evaluator=evaluator
-        area_serializado.evaluationType=evaType
+        area_serializado = EvaluationSerializerWrite(data = request.data, many=True)
+        
         if area_serializado.is_valid():
             area_serializado.save()
             return Response(area_serializado.data,status=status.HTTP_200_OK)
         
         return Response(area_serializado.errors,status=status.HTTP_400_BAD_REQUEST)
+    
 class EvaluationXSubcatAPI(APIView):
     def post(self, request):
         
@@ -250,3 +258,24 @@ class EvaluationXSubcatAPI(APIView):
             return Response(area_serializado.data,status=status.HTTP_200_OK)
         
         return Response(area_serializado.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+class EvaluationLineChart(APIView):
+    def get(self,request):
+        query = (
+    EvaluationxSubCategory.objects
+    .values(
+        year=ExtractYear('evaluation__evaluationDate'),
+        month=ExtractMonth('evaluation__evaluationDate'),
+        categoria_nombre=F('subCategory__category__name'),
+        final_score=ExpressionWrapper(Sum('score') / Count('evaluation__id'), output_field=FloatField())
+        
+    )
+    .annotate(
+        total_final_score=Sum('evaluation__finalScore')
+    )
+    .values('year', 'month', 'categoria_nombre', 'final_score')
+)
+        results = query.all() 
+    
+        return Response(results,status=status.HTTP_200_OK)
+        

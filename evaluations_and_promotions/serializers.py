@@ -104,7 +104,38 @@ class SubCategorySerializer(serializers.ModelSerializer):
         model = SubCategory
         fields = '__all__'
 
+class EvaluationSerializerWrite(serializers.ModelSerializer):
+    # evaluator = EmployeeSerializer()
+    # evaluated = EmployeeSerializer()
+    # evaluationType = EvaluationTypeSerializer()
+    # areaxPosicion = AreaxPosicionSerializer()
+    class Meta:
+        model = Evaluation
+        fields = '__all__'
 
+class CategorySerialiazerRead(serializers.ModelSerializer):
+    class Meta:
+        model = CategorySerializer
+        fields = '__all__'
 
+class EvaluationSerializerRead(serializers.ModelSerializer):
+    #category = CategorySerialiazerRead()
+    
 
+    
+    class Meta:
+        model = Evaluation
+        fields = '__all__'
+        depth = 2
 
+class EvaluationxSubCategoryRead(serializers.ModelSerializer):
+    #category = CategorySerialiazerRead()
+
+    
+    class Meta:
+        model = EvaluationxSubCategory
+        fields = '__all__'
+        depth = 2
+
+    
+       

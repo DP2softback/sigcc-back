@@ -11,5 +11,6 @@ urlpatterns = [
     path('employees', GetPersonasACargo.as_view()),
     path('evaluations', GetHistoricoDeEvaluaciones.as_view()),
     path('evaluationxsubcat', EvaluationXSubcatAPI.as_view()),
+    path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
     
 ]
