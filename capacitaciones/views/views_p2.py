@@ -106,7 +106,7 @@ class SesionAPIView(APIView):
                     return Response({"message": "No se pudo crear el tema {}".format(tema_sesion['nombre'])}, status=status.HTTP_400_BAD_REQUEST)
 
             return Response({'id': sesiones_emp.id,
-                            'message': 'Curso Empresa creado correctamente'}, status=status.HTTP_200_OK)
+                            'message': 'La sesion se ha con sus temas creado correctamente'}, status=status.HTTP_200_OK)
 
         return Response(sesiones_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
