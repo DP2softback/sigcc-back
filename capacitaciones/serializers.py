@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy,CursoEmpresa, Sesion, Tema
+from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
+    Sesion, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
 
 from django.utils import timezone
 
@@ -125,4 +126,27 @@ class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):
         empleados = Empleado.objects.filter(id__in=empleado_id)
         return Empleadoserializer(empleados, many=True).data
 '''
-        
+
+
+class CategoriaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Categoria
+        fields = '__all__'
+
+
+class ProveedorEmpresaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProveedorEmpresa
+        fields = '__all__'
+
+
+class HabilidadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Habilidad
+        fields = '__all__'
+
+
+class ProveedorUsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProveedorUsuario
+        fields = '__all__'

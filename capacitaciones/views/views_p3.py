@@ -2,13 +2,15 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy
-from capacitaciones.serializers import LearningPathSerializer,  CursoUdemySerializer
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, Habilidad, \
+    ProveedorUsuario, HabilidadXProveedorUsuario
+from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
+from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
 from django.db import transaction
 from rest_framework.permissions import AllowAny
+from django.db.models import Q
 
 class LearningPathCreateFromTemplateAPIView(APIView):
 
@@ -39,6 +41,49 @@ class LearningPathCreateFromTemplateAPIView(APIView):
 
         else:
             return Response({"message": "No se pudo crear el learning path"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CategoriaAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        categorias = Categoria.objects.all()
+        categorias_serializer = CategoriaSerializer(categorias, many=True)
+
+        return Response(categorias_serializer.data, status = status.HTTP_200_OK)
+
+
+class ProveedorEmpresaXCategoriaAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        proveedor_empresas = ProveedorEmpresa.objects.filter(categoria=pk).all()
+        proveedor_serializer = ProveedorEmpresaSerializer(proveedor_empresas, many=True)
+
+        return Response(proveedor_serializer.data, status=status.HTTP_200_OK)
+
+
+class HabilidadesXEmpresaAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        usuarios = ProveedorUsuario.objects.filter(empresa=pk).all()
+        habilidades_id = HabilidadXProveedorUsuario.objects.filter(proveedor_usuario__in=usuarios).values_list('habilidad_id', flat=True)
+        habilidades = Habilidad.objects.filter(id__in=habilidades_id)
+        habilidades_serializer = HabilidadSerializer(habilidades, many=True)
+
+        return Response(habilidades_serializer.data, status=status.HTTP_200_OK)
+
+class PersonasXHabilidadesXEmpresaAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        id_proveedor = request.data.get('id_proveedor',None)
+        id_habilidades = request.data.get('habilidades', None)
+        usuarios_proveedor = ProveedorUsuario.objects.filter(Q(id__in=id_habilidades) & Q(empresa=id_proveedor))
+        usuarios_proveedor_serializer = ProveedorUsuarioSerializer(usuarios_proveedor, many=True)
+
+        return Response(usuarios_proveedor_serializer.data, status=status.HTTP_200_OK)
 
 
 class SesionAPIView(APIView):
