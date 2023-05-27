@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'storages',
     'colorfield',
-    'capacitaciones'
+    'capacitaciones',
     'gaps',
 ]
 
