@@ -385,7 +385,7 @@ class ProveedorUsuario(models.Model):
 
     nombres = models.CharField(max_length=60)
     apellidos = models.CharField(max_length=60)
-    email = models.CharField(max_length=40)
+    email = models.CharField(max_length=100)
     empresa = models.ForeignKey(ProveedorEmpresa, on_delete=models.CASCADE)
     habilidad_x_proveedor_usuario = models.ManyToManyField(Habilidad, through='HabilidadXProveedorUsuario')
 
@@ -395,7 +395,7 @@ class ProveedorUsuario(models.Model):
 
 class HabilidadXProveedorUsuario(models.Model):
     habilidad = models.ForeignKey(Habilidad, on_delete=models.CASCADE)
-    empreproveedor = models.ForeignKey(ProveedorUsuario, on_delete=models.CASCADE)
+    proveedor_usuario = models.ForeignKey(ProveedorUsuario, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'HabilidadXProveedorUsuario'
