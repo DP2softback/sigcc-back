@@ -20,8 +20,6 @@ class LearningPathFactory(factory.django.DjangoModelFactory):
     cant_valoraciones = factory.Faker('random_int', min=0, max=100)
     cant_empleados = factory.Faker('random_int', min=0, max=1000)
     horas_duracion = factory.Faker('time_delta')
-    #cant_intentos_cursos_max = factory.LazyAttribute(lambda: Parametros.objects.first().numero_intentos_curso)
-    #cant_intentos_evaluacion_integral_max = factory.LazyAttribute(lambda: Parametros.objects.first().numero_intentos_lp)
 
     @lazy_attribute
     def cant_intentos_cursos_max(self):
