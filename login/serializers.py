@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
+from login.models import *
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
-from login.models import *
+
 
 # class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 #     """
@@ -24,35 +25,41 @@ from login.models import *
 #             for field_name in existing - allowed:
 #                 self.fields.pop(field_name)
 
-class UserSerializerRead(serializers.ModelSerializer):
+
+class UserSerializerRead(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
         depth = 1
-        fields =  ['id', 'creationDate', 'modifiedDate', 'isActive', 'username', 'firstName', 'secondName', 'lastName', 'maidenName', 'email', 'password', 'role']
+        fields = ['id', 'created', 'modified', 'is_active', 'username', 'first_name', 'second_name', 'last_name', 'maiden_name', 'email', 'password', 'role_id']
 
-class UserSerializerWrite(serializers.ModelSerializer):
+
+class UserSerializerWrite(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
-        fields =  ['id', 'creationDate', 'modifiedDate', 'isActive', 'username', 'firstName', 'secondName', 'lastName', 'maidenName', 'email', 'password', 'role']
+        fields = ['id', 'created', 'modified', 'is_active', 'username', 'first_name', 'second_name', 'last_name', 'maiden_name', 'email', 'password', 'role_id']
 
-class EmployeeSerializerRead(serializers.ModelSerializer):
+
+class EmployeeSerializerRead(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = Employee
         depth = 1
         fields = '__all__'
 
-class EmployeeSerializerWrite(serializers.ModelSerializer):
+
+class EmployeeSerializerWrite(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
 
-class RoleSerializerRead(serializers.ModelSerializer):
+
+class RoleSerializerRead(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = Role
         depth = 1
         fields = '__all__'
 
-class RoleSerializerWrite(serializers.ModelSerializer):
+
+class RoleSerializerWrite(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = '__all__'
