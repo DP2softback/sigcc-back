@@ -148,7 +148,7 @@ class UploadFilesInS3APIView(APIView):
 
             try:
                 s3.upload_fileobj(obj_file, bucket_name, object_name)
-                url_file = "https://{bucket_name}.s3.amazonws.com/{object_name}".format(bucket_name=bucket_name, object_name=object_name)
+                url_file = "https://{bucket_name}.s3.amazonaws.com/{object_name}".format(bucket_name=bucket_name, object_name=object_name)
                 return Response({'url': url_file}, status=status.HTTP_200_OK)
 
             except Exception as e:
@@ -169,7 +169,7 @@ class DeleteFilesInS3APIView(APIView):
                               aws_secret_access_key=os.getenv('aws_secret_access_key')
                               )
             bucket_name = 'dp2-bucket-dev'
-            url_base = "https://{bucket_name}.s3.amazonws.com/".format(bucket_name=bucket_name)
+            url_base = "https://{bucket_name}.s3.amazonaws.com/".format(bucket_name=bucket_name)
             obj_key = url.replace(url_base, '')
 
             try:

@@ -67,7 +67,7 @@ class CursoGeneralXLearningPathFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = CursoGeneralXLearningPath
 
-    curso = factory.LazyFunction(lambda: CursoGeneral.objects.order_by(Random()).first())
+    curso = factory.LazyFunction(lambda : CursoGeneral.objects.order_by(Random()).first())
     learning_path = factory.LazyFunction(lambda: LearningPath.objects.order_by(Random()).first())
     cant_intentos_max = factory.Faker('random_int', min=2, max=4)
     porcentaje_asistencia_aprobacion = factory.Faker('random_int', min=0, max=100)
