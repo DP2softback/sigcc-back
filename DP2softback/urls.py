@@ -19,6 +19,7 @@ public_apis = [
         # url(r'', include('users.urls')),
         url(r'', include('login.urls')),
         url(r'', include('evaluations_and_promotions.urls')),
+        url(r'', include('gaps.urls')),
         # url(r'', include('personal.urls')),
     ])),
     path('api/capacitaciones/', include('capacitaciones.urls'))

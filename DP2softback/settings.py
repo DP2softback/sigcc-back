@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'storages',
     'colorfield',
     'capacitaciones'
+    'gaps',
 ]
 
 MIDDLEWARE = [
