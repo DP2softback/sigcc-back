@@ -80,7 +80,7 @@ class PersonasXHabilidadesXEmpresaAPIView(APIView):
     def post(self, request):
         id_proveedor = request.data.get('id_proveedor',None)
         id_habilidades = request.data.get('habilidades', None)
-        usuarios_proveedor = ProveedorUsuario.objects.filter(Q(id__in=id_habilidades) & Q(empresa=id_proveedor))
+        usuarios_proveedor = ProveedorUsuario.objects.filter(Q(habilidad_x_proveedor_usuario__in=id_habilidades) & Q(empresa=id_proveedor)).distinct()
         usuarios_proveedor_serializer = ProveedorUsuarioSerializer(usuarios_proveedor, many=True)
 
         return Response(usuarios_proveedor_serializer.data, status=status.HTTP_200_OK)
