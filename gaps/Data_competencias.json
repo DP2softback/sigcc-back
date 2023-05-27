@@ -1,0 +1,75 @@
+﻿[
+    {
+        "model": "gaps.Competencia",
+        "fields": {
+          "nombre": "Manejo de Microsoft Word",
+          "descripcion": "Capacidad para usar efectivamente Microsoft Word",
+          "activo": true,
+          "tipo": 1
+        }
+    },
+    {
+        "model": "gaps.Competencia",
+        "fields": {
+          "nombre": "Manejo de Microsoft Excel",
+          "descripcion": "Capacidad para usar efectivamente Microsoft Excel",
+          "activo": true,
+          "tipo": 1
+        }
+    },
+    {
+      "model": "gaps.Competencia",
+      "fields": {
+        "nombre": "Uso de Python",
+        "descripcion": "Capacidad para usar Python de manera adecuada",
+        "activo": true,
+        "tipo": 1
+      }
+  },
+    {
+      "model": "gaps.Competencia",
+      "fields": {
+        "nombre": "Liderazgo",
+        "descripcion": "Capacidad para ejercer labores de líder en un área o equipo",
+        "activo": true,
+        "tipo": 2
+      }
+    },
+    {
+        "model": "gaps.Competencia",
+        "fields": {
+          "nombre": "Comunicacion",
+          "descripcion": "Capacidad para comunicarse efectivamente",
+          "activo": true,
+          "tipo": 2
+        }
+      },
+      {
+        "model": "gaps.Competencia",
+        "fields": {
+          "nombre": "Trabajo en equipo",
+          "descripcion": "Capacidad para trabajar en equipo",
+          "activo": true,
+          "tipo": 2
+        }
+      },
+      {
+        "model": "gaps.Competencia",
+        "fields": {
+          "nombre": "Analisis de datos",
+          "descripcion": "Capacidad para analizar datos",
+          "activo": true,
+          "tipo": 3
+        }
+      },
+      {
+        "model": "gaps.Competencia",
+        "fields": {
+          "nombre": "Programacion modular",
+          "descripcion": "Capacidad de programacion modular",
+          "activo": true,
+          "tipo": 3
+        }
+      }
+
+]
