@@ -179,6 +179,3 @@ class DeleteFilesInS3APIView(APIView):
                 return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({'msg': 'Url no recibida'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-

@@ -65,6 +65,7 @@ class CursoEmpresaDetailAPIView(APIView):
         cursos_emp.delete()
         return Response({"message": "Curso eliminado"}, status=status.HTTP_200_OK)
 
+
 class SesionAPIView(APIView):
     permission_classes = [AllowAny]
     def get(self, request):
