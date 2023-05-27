@@ -195,7 +195,7 @@ class GetHistoricoDeEvaluaciones(APIView):
                     #If this line is confusing, remember subcategory is a record of the EvaluationxSubCategory table
                     category_id = subcategory['subCategory']['category']['name']
                     score = subcategory['score']
-
+                    
                     if category_id not in category_scores:
                         category_scores[category_id] = [score]
                     else:
@@ -207,7 +207,10 @@ class GetHistoricoDeEvaluaciones(APIView):
                     category_averages[category_id] = sum(scores) / len(scores)
 
                 responseData.append({
-                    'Subcategories': subcategories
+                    'EvaluationId': evaluation.id,
+                    'CategoryName': category_id,
+                    'evaluationDate' : evaluation.evaluationDate,
+                    'score': evaluation.finalScore
                 })
              # Calculate average score for each category across all evaluations
             category_averages = {}
