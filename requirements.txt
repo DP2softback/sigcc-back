@@ -60,7 +60,7 @@ pipdeptree==2.1.0
 placebo==0.9.0
 pre-commit==2.13.0
 prompt-toolkit==3.0.5
-psycopg2-binary==2.8.5
+psycopg2-binary==2.9.6
 ptyprocess==0.6.0
 pyasn1==0.4.2
 pycparser==2.20
@@ -70,7 +70,6 @@ PyJWT==1.7.1
 pylint==2.6.0
 python-dateutil==2.6.1
 python-dotenv==0.8.2
-python-Levenshtein==0.12.2
 python-slugify==4.0.0
 pytz==2020.5
 PyYAML==5.3.1
