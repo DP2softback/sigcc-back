@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'storages',
     'colorfield',
+    'gaps',
 ]
 
 MIDDLEWARE = [
