@@ -20,6 +20,7 @@ from django.db.models import F
 from django.db.models.functions import ExtractYear, ExtractMonth
 from django.db.models.aggregates import Sum,Count   
 from django.db.models import F, ExpressionWrapper, FloatField
+from collections import defaultdict
 
 
 def validate_employee_and_evaluation(employee_id, tipoEva):
@@ -105,7 +106,9 @@ class GetPersonasACargo(APIView):
             except ValueError:
                 return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
 
-        category_scores = {}
+        category_scores = defaultdict(list)
+        category_averages = {}
+
         for evaluation in evaluations:
             responseQuery = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
             dataSerialized = ContinuousEvaluationIntermediateSerializer(responseQuery, many=True)
@@ -115,16 +118,18 @@ class GetPersonasACargo(APIView):
                 # If this line is confusing, remember subcategory is a record of the EvaluationxSubCategory table
                 category_id = subcategory['subCategory']['category']['name']
                 score = subcategory['score']
-
-                if category_id not in category_scores:
-                    category_scores[category_id] = [score]
-                else:
-                    category_scores[category_id].append(score)
-
-        # Calculate average score for each category across all evaluations
-        category_averages = {}
+                
+                category_scores[category_id].append((score, evaluation.evaluationDate.year, evaluation.evaluationDate.month))  # Append the score, year, and month
+                
+        # Calculate average score for each category per year and month
         for category_id, scores in category_scores.items():
-            category_averages[category_id] = sum(scores) / len(scores)   
+            category_averages[category_id] = {}
+            year_month_scores = defaultdict(list)
+            for score, year, month in scores:
+                year_month_scores[(year, month)].append(score)
+            for (year, month), scores in year_month_scores.items():
+                average_score = sum(scores) / len(scores)
+                category_averages[category_id][f"{year}-{month:02d}"] = average_score
 
         for persona in personas:
             # Get the latest evaluation for the specified evaluation type
@@ -236,11 +241,11 @@ class EvaluationAPI(APIView):
     def get(self, request):
         area = Evaluation.objects.all()
         area_serializado = EvaluationSerializerWrite(area,many=True)
-        return Response(area_serializado.data,status=status.HTTP_200_OK)
+        return Response(area_serializado.data,status=status.HTTP_200_OK, many=True)
 
 
     def post(self, request):
-        area_serializado = EvaluationSerializerWrite(data = request.data, many=True)
+        area_serializado = EvaluationSerializerWrite(data = request.data)
         
         if area_serializado.is_valid():
             area_serializado.save()
@@ -261,6 +266,7 @@ class EvaluationXSubcatAPI(APIView):
     
 class EvaluationLineChart(APIView):
     def get(self,request):
+        
         query = (
     EvaluationxSubCategory.objects
     .values(
