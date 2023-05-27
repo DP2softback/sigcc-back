@@ -11,7 +11,7 @@ from capacitaciones.serializers import LearningPathSerializer, CursoUdemySeriali
 from django.db import transaction
 from rest_framework.permissions import AllowAny
 from django.db.models import Q
-from datetime import datetime
+
 
 class LearningPathCreateFromTemplateAPIView(APIView):
 
@@ -45,7 +45,6 @@ class LearningPathCreateFromTemplateAPIView(APIView):
 
 
 class CategoriaAPIView(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request):
         categorias = Categoria.objects.all()
@@ -55,7 +54,6 @@ class CategoriaAPIView(APIView):
 
 
 class ProveedorEmpresaXCategoriaAPIView(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request, pk):
         proveedor_empresas = ProveedorEmpresa.objects.filter(categoria=pk).all()
@@ -65,7 +63,6 @@ class ProveedorEmpresaXCategoriaAPIView(APIView):
 
 
 class HabilidadesXEmpresaAPIView(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request, pk):
         usuarios = ProveedorUsuario.objects.filter(empresa=pk).all()
@@ -75,8 +72,8 @@ class HabilidadesXEmpresaAPIView(APIView):
 
         return Response(habilidades_serializer.data, status=status.HTTP_200_OK)
 
+
 class PersonasXHabilidadesXEmpresaAPIView(APIView):
-    permission_classes = [AllowAny]
 
     def post(self, request):
         id_proveedor = request.data.get('id_proveedor',None)
@@ -88,7 +85,6 @@ class PersonasXHabilidadesXEmpresaAPIView(APIView):
 
 
 class SesionAPIView(APIView):
-    permission_classes = [AllowAny]
 
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
