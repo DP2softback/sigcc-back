@@ -52,7 +52,7 @@ class NecesidadCapacitacion(models.Model):
     competencia = models.ForeignKey(Competencia, on_delete=models.CASCADE, null=True, blank=True)
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
-    estado = models.IntegerField(blank=True,null =True)  #0: por solucionar, 1: en proceso, 2: solucionado 
+    estado = models.IntegerField(blank=True,null =True)  #1: por solucionar, 2: en proceso, 3: solucionado 
     nivelActual = models.IntegerField(blank=True,null =True)
     nivelRequerido = models.IntegerField(blank=True,null =True)
     nivelBrecha = models.IntegerField(blank=True,null =True) #1: brecha de nivel 1, 2: brecha de nivel 2, 3: brecha de nivel 3, 4: brecha de nivel 4

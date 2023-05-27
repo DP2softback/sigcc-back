@@ -71,9 +71,11 @@ class BuscarCompetenciaView(APIView):
             return Response(competencias_serializer.data, status = status.HTTP_200_OK)
         else:
             if idEmp is not None and idEmp >0:
-                query1 = Q(empleado__id = idEmp)
-                query2 = Q(activo = True)
-                competenciasEmpleado = CompetenciaXEmpleado.objects.filter(query1 & query2).values('competencia__codigo','competencia__nombre','competencia__tipo__nombre','nivelActual', 'nivelRequerido', 'adecuacion')
+                query = Q(empleado__id = idEmp)
+                if(activo is not None):
+                    if activo == 0: query.add(Q(activo=False), Q.AND)
+                    if activo == 1: query.add(Q(activo=True), Q.AND)
+                competenciasEmpleado = CompetenciaXEmpleado.objects.filter(query).values('competencia__codigo','competencia__nombre','competencia__tipo__nombre','nivelActual', 'nivelRequerido', 'adecuacion')
                 return Response(list(competenciasEmpleado), status = status.HTTP_200_OK)
             else:
                 query = Q()
@@ -92,6 +94,25 @@ class BuscarCompetenciaView(APIView):
                 competencia = Competencia.objects.filter((subquery1 | subquery2 | subquery3) & query)
                 competencias_serializer = CompetenciaSerializer(competencia, many=True)
                 return Response(competencias_serializer.data, status = status.HTTP_200_OK)
+
+class BuscarNecesidadView(APIView):
+    def get(self, request):
+        estado = request.data["estado"]
+        tipo = request.data["tipo"]
+        activo = request.data["activo"]
+        idEmp = request.data["idEmpleado"]
+        query = Q()
+        if idEmp is not None and idEmp >0:
+            query.add(Q(empleado__id = idEmp), Q.AND)
+        if activo is not None:
+            if activo == 0: query.add(Q(activo=False), Q.AND)
+            if activo == 1: query.add(Q(activo=True), Q.AND)
+        if estado is not None and estado>0:
+            query.add(Q(estado = estado), Q.AND)
+        if tipo is not None and tipo>0:
+            query.add(Q(tipo = tipo), Q.AND)
+        necesidadesEmpleado = NecesidadCapacitacion.objects.filter(query).values('competencia__codigo','competencia__nombre','competencia__tipo__nombre','nivelActual', 'nivelRequerido', 'nivelBrecha', 'descripcion', 'estado', 'tipo')
+        return Response(list(necesidadesEmpleado), status = status.HTTP_200_OK)
 
 class TipoCompetenciaView(APIView):
     def get(self, request):
