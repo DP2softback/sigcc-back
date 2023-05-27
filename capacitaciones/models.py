@@ -67,7 +67,10 @@ class CursoGeneral(models.Model):
     cant_valoraciones = models.IntegerField(default=0)
     curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoGeneralXLearningPath')
     curso_x_employee = models.ManyToManyField(Employee, through='EmpleadoXCurso')
-
+    fecha_creacion=models.DateTimeField()
+    fecha_primera_sesion=models.DateTimeField()
+    cantidad_empleados= models.IntegerField()
+    
     class Meta:
         db_table = 'CursoGeneral'
 
