@@ -356,3 +356,46 @@ class RubricaExamenXEmpleado(models.Model):
     class Meta:
         db_table = 'RubricaExamenXEmpleado'
 
+
+class Categoria(models.Model):
+    categoria = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = 'Categoria'
+
+
+class Habilidad(models.Model):
+    habilidad = models.CharField(max_length=300)
+
+    class Meta:
+        db_table = 'Habilidad'
+
+
+class ProveedorEmpresa(models.Model):
+
+    razon_social = models.CharField(max_length=200)
+    email = models.CharField(max_length=40)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'ProveedorEmpresa'
+
+
+class ProveedorUsuario(models.Model):
+
+    nombres = models.CharField(max_length=60)
+    apellidos = models.CharField(max_length=60)
+    email = models.CharField(max_length=40)
+    empresa = models.ForeignKey(ProveedorEmpresa, on_delete=models.CASCADE)
+    habilidad_x_proveedor_usuario = models.ManyToManyField(Habilidad, through='HabilidadXProveedorUsuario')
+
+    class Meta:
+        db_table = 'ProveedorUsuario'
+
+
+class HabilidadXProveedorUsuario(models.Model):
+    habilidad = models.ForeignKey(Habilidad, on_delete=models.CASCADE)
+    empreproveedor = models.ForeignKey(ProveedorUsuario, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'HabilidadXProveedorUsuario'

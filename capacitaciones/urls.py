@@ -4,8 +4,8 @@ from capacitaciones import views
 from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDetail, LearningPathAPIView, \
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView
 from capacitaciones.views.views_p2 import CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, SesionAPIView, SesionDetailAPIView
-from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, SesionDetailAPIView
+from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
