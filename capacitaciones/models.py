@@ -219,21 +219,13 @@ class EmpleadoXCursoEmpresa(models.Model):
 
 class Sesion(models.Model):
 
-    ubicacion_choices = [
-        ('Auditorio primer piso', 'Auditorio primer piso'),
-        ('Auditorio segundo piso', 'Auditorio segundo piso'),
-        ('Auditorio tercer piso', 'Auditorio tercer piso'),
-        ('Auditorio cuarto piso', 'Auditorio cuarto piso'),
-        ('Auditorio quinto piso', 'Auditorio quinto piso'),
-    ]
-
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     nombre= models.CharField(max_length=1000)
     descripcion= models.CharField(max_length=1000)
     fecha_inicio= models.DateTimeField(null=True)
     fecha_limite= models.DateTimeField(null=True)
     url_video= models.TextField(null=True)
-    ubicacion = models.CharField(max_length=30, choices=ubicacion_choices,null=True)
+    ubicacion = models.CharField(max_length=400,null=True)
     aforo_maximo= models.IntegerField(null=True)
     sesion_x_responsable = models.ManyToManyField(User, through='SesionXReponsable')
 
