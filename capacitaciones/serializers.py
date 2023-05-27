@@ -102,7 +102,7 @@ class TemaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tema
-        exclude = ('clase',)
+        exclude = ('sesion',)
         #exclude = ('curso_x_learning_path','asistencia_x_empleado')
         
     def validate_nombre(self, value):
