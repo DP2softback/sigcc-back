@@ -2,8 +2,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -15,10 +15,15 @@ from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, Curso
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, CursoEmpresaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 from rest_framework.permissions import AllowAny
-
+from django.db import transaction
 
 class CursoEmpresaCourseAPIView(APIView):
     permission_classes = [AllowAny]
+
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
     def get(self, request):
         cursos_emp = CursoEmpresa.objects.all()
         cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp, many=True)
@@ -43,6 +48,10 @@ class CursoEmpresaCourseAPIView(APIView):
 
 class CursoEmpresaDetailAPIView(APIView):
     permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
     def get(self, request, pk):
         cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
         cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp)
@@ -67,21 +76,50 @@ class CursoEmpresaDetailAPIView(APIView):
 
 class SesionAPIView(APIView):
     permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
     def get(self, request):
-        cursos_emp = Sesion.objects.all()
-        cursos_emp_serializer = SesionSerializer(cursos_emp, many=True)
-        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+        sesiones_emp = Sesion.objects.all()
+        sesiones_emp_serializer = SesionSerializer(sesiones_emp, many=True)
+        return Response(sesiones_emp_serializer.data, status = status.HTTP_200_OK)
     
     def post(self, request):
 
-        cursos_emp_serializer = CursoEmpresaSerializer(data = request.data, context = request.data)
+        sesiones_emp_serializer = SesionSerializer(data = request.data, context = request.data)
 
-        if cursos_emp_serializer.is_valid():
-            cursos_emp = cursos_emp_serializer.save()
-            return Response({'id': cursos_emp.id,
+        if sesiones_emp_serializer.is_valid():
+            curso_empresa_id= request.data['curso_empresa_id']
+            sesiones_emp = sesiones_emp_serializer.save(cursoEmpresa_id=curso_empresa_id)
+
+            for tema_sesion in request.data['temas']:
+                print(tema_sesion)
+                tema_serializer = TemaSerializer(data=tema_sesion)
+
+                if tema_serializer.is_valid():
+                    tema_serializer.validated_data['sesion']= sesiones_emp
+                    tema = Tema.objects.filter(nombre=tema_serializer.validated_data['nombre']).first()
+                    if tema is None:
+                        tema = tema_serializer.save()
+                else:
+                    return Response({"message": "No se pudo crear el tema {}".format(tema_sesion['nombre'])}, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({'id': sesiones_emp.id,
                             'message': 'Curso Empresa creado correctamente'}, status=status.HTTP_200_OK)
 
-        return Response(cursos_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(sesiones_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SesionDetailAPIView(APIView):
+    permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, pk):
+        sesiones_emp = Sesion.objects.filter(id=pk).first()
+        sesiones_emp_serializer = SesionSerializer(sesiones_emp)
+        return Response(sesiones_emp_serializer.data, status = status.HTTP_200_OK)
 
 
 #acá iría la api para la búsqueda especial de Rodrigo
