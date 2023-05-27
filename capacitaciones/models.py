@@ -1,10 +1,11 @@
 from datetime import timedelta
 
 from django.db import models
-
 # Create your models here.
 from login.models import Employee
 from login.models import User
+from datetime import datetime
+from django.utils import timezone
 
 class Parametros(models.Model):
 
@@ -67,9 +68,6 @@ class CursoGeneral(models.Model):
     cant_valoraciones = models.IntegerField(default=0)
     curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoGeneralXLearningPath')
     curso_x_employee = models.ManyToManyField(Employee, through='EmpleadoXCurso')
-    fecha_creacion=models.DateTimeField()
-    fecha_primera_sesion=models.DateTimeField()
-    cantidad_empleados= models.IntegerField()
     
     class Meta:
         db_table = 'CursoGeneral'
@@ -98,7 +96,10 @@ class CursoEmpresa(CursoGeneral):
     es_libre= models.BooleanField(default=False)
     curso_empresa_x_empleado= models.ManyToManyField(Employee, through='EmpleadoXCursoEmpresa')
     url_foto = models.TextField(null=True)
-
+    fecha_creacion=models.DateTimeField(default=timezone.now)
+    fecha_primera_sesion=models.DateTimeField(null=True)
+    cantidad_empleados= models.IntegerField(default=0)
+    
     class Meta:
         db_table = 'CursoEmpresa'
 

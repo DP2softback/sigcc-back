@@ -20,9 +20,6 @@ from django.db import transaction
 class CursoEmpresaCourseAPIView(APIView):
     permission_classes = [AllowAny]
 
-    @transaction.atomic
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
     
     def get(self, request):
         cursos_emp = CursoEmpresa.objects.all()

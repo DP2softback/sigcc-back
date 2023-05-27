@@ -2,7 +2,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, Habilidad, \
+from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
@@ -11,6 +11,7 @@ from capacitaciones.serializers import LearningPathSerializer, CursoUdemySeriali
 from django.db import transaction
 from rest_framework.permissions import AllowAny
 from django.db.models import Q
+from datetime import datetime
 
 class LearningPathCreateFromTemplateAPIView(APIView):
 
@@ -118,6 +119,11 @@ class SesionAPIView(APIView):
                 else:
                     return Response({"message": "No se pudo crear el tema {}".format(tema_sesion['nombre'])},
                                     status=status.HTTP_400_BAD_REQUEST)
+            #Esto es para actualizar la fecha_primera_sesion del curso
+            sesiones = Sesion.objects.filter(cursoEmpresa_id=curso_empresa_id)
+            if sesiones.exists():
+                min_fecha_sesion = min(sesiones, key=lambda x: x.fecha_inicio).fecha_inicio
+                CursoEmpresa.objects.filter(id=curso_empresa_id).update(fecha_primera_sesion=min_fecha_sesion)
 
             return Response({'id': sesiones_emp.id,
                              'message': 'La sesion se ha con sus temas creado correctamente'},
