@@ -67,8 +67,6 @@ class CursoGeneral(models.Model):
     cant_valoraciones = models.IntegerField(default=0)
     curso_x_learning_path = models.ManyToManyField(LearningPath, through='CursoGeneralXLearningPath')
     curso_x_employee = models.ManyToManyField(Employee, through='EmpleadoXCurso')
-    foto = models.TextField(null=True)
-    enlace_ec2 = models.URLField(blank=True)
 
     class Meta:
         db_table = 'CursoGeneral'
@@ -96,6 +94,7 @@ class CursoEmpresa(CursoGeneral):
     tipo = models.CharField(max_length=1, choices=tipo_choices)
     es_libre= models.BooleanField(default=False)
     curso_empresa_x_empleado= models.ManyToManyField(Employee, through='EmpleadoXCursoEmpresa')
+    url_foto = models.TextField(null=True)
 
     class Meta:
         db_table = 'CursoEmpresa'
