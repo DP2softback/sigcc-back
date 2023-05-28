@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario
-from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer
+from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, SesionXReponsableSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
@@ -85,7 +85,7 @@ class PersonasXHabilidadesXEmpresaAPIView(APIView):
 
 
 class SesionAPIView(APIView):
-
+    permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -101,6 +101,7 @@ class SesionAPIView(APIView):
 
         if sesiones_emp_serializer.is_valid():
             curso_empresa_id = request.data['curso_empresa_id']
+
             sesiones_emp = sesiones_emp_serializer.save(cursoEmpresa_id=curso_empresa_id)
 
             for tema_sesion in request.data['temas']:
@@ -115,6 +116,21 @@ class SesionAPIView(APIView):
                 else:
                     return Response({"message": "No se pudo crear el tema {}".format(tema_sesion['nombre'])},
                                     status=status.HTTP_400_BAD_REQUEST)
+            
+            # Crear responsables para cada sesión
+            for responsable_data in request.data['responsables'] :
+                responsable_serializer = SesionXReponsableSerializer(data=responsable_data)
+
+                if responsable_serializer.is_valid():
+                    responsable_serializer.validated_data['clase'] = sesiones_emp
+                    responsable_serializer.save()
+                else:
+                    return Response(
+                        {"message": "No se pudo crear el responsable"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+
+            
             #Esto es para actualizar la fecha_primera_sesion del curso
             sesiones = Sesion.objects.filter(cursoEmpresa_id=curso_empresa_id)
             if sesiones.exists():
