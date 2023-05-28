@@ -30,13 +30,13 @@ class UserSerializerRead(DynamicFieldsModelSerializer, serializers.ModelSerializ
     class Meta:
         model = User
         depth = 1
-        fields = ['id', 'created', 'modified', 'is_active', 'username', 'first_name', 'second_name', 'last_name', 'maiden_name', 'email', 'password', 'role_id']
+        fields = ['id', 'created', 'modified', 'is_active', 'username', 'first_name', 'second_name', 'last_name', 'maiden_name', 'email', 'password', 'roles']
 
 
 class UserSerializerWrite(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'created', 'modified', 'is_active', 'username', 'first_name', 'second_name', 'last_name', 'maiden_name', 'email', 'password', 'role_id']
+        fields = ['id', 'created', 'modified', 'is_active', 'username', 'first_name', 'second_name', 'last_name', 'maiden_name', 'email', 'password', 'roles']
 
 
 class EmployeeSerializerRead(DynamicFieldsModelSerializer, serializers.ModelSerializer):
