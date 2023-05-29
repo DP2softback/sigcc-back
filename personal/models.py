@@ -7,7 +7,7 @@ class Position(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    name = models.CharField(max_length=40)
+    name = models.CharField(max_length=255)
     benefits = models.TextField(blank=True, default='')
     responsabilities = models.TextField(blank=True, default='')
     description = models.TextField(blank=True, default='')
