@@ -140,14 +140,15 @@ class GetPersonasACargo(APIView):
             
             # Calculate time since last evaluation
             time_since_last_evaluation = None
-
+            dias = None
             if evaluation:
                 time_since_last_evaluation = timezone.now().date() - evaluation.evaluationDate.date()
+                dias = time_since_last_evaluation.days
             # Construct the desired employee data
             employee_data.append({
                 'id': persona.id,
                 'name': f"{persona.user.first_name} {persona.user.last_name}",
-                'time_since_last_evaluation': time_since_last_evaluation.days,
+                'time_since_last_evaluation': dias,
                 'area': {
                     'id': persona.area.id,
                     'name': persona.area.name
@@ -158,6 +159,7 @@ class GetPersonasACargo(APIView):
                 },
                 'email': persona.user.email
             })
+            
         for employee in employee_data:
             employee['CategoryAverages'] = category_averages
 
