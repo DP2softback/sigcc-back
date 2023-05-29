@@ -1,6 +1,8 @@
 import json
 from django.shortcuts import render
+import sys
 from rest_framework import status
+import pprint
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -21,6 +23,7 @@ from django.db.models.functions import ExtractYear, ExtractMonth
 from django.db.models.aggregates import Sum,Count   
 from django.db.models import F, ExpressionWrapper, FloatField
 from collections import defaultdict
+from rest_framework.permissions import AllowAny
 
 
 def validate_employee_and_evaluation(employee_id, tipoEva):
@@ -78,7 +81,7 @@ class SubCategoryTypeGenericView(generics.ListCreateAPIView):
     serializer_class = SubCategorySerializer
 
 class GetPersonasACargo(APIView):
-    def get(self, request):
+    def post(self, request):
         supervisor_id = request.data.get("id")
         evaluation_type = request.data.get("evaluationType")
         fecha_inicio = request.data.get("fecha_inicio")
@@ -162,15 +165,19 @@ class GetPersonasACargo(APIView):
     
 class GetHistoricoDeEvaluaciones(APIView):
     #permission_classes = [AllowAny]
-    def get(self, request):
+    def post(self, request):
         #request: nivel, fecha_inicio,fecha_final, tipoEva, employee_id
         employee_id = request.data.get("employee_id")
         tipoEva = request.data.get("evaluationType")
         nivel = request.data.get("nivel")
         fecha_inicio = request.data.get("fecha_inicio")
-        fecha_final=request.data.get("fecha_final")
-
+        fecha_final=request.data.get("fecha_final")  
+        print(request.data)
+        pprint.pprint(request.__dict__, stream=sys.stderr)
+        print("employee_id", employee_id)
+        print("EvaType", tipoEva)
         validate_employee_and_evaluation(employee_id, tipoEva)
+        
         
         evaType = get_object_or_404(EvaluationType, name=tipoEva)
         query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True, isFinished=True)
@@ -284,4 +291,3 @@ class EvaluationLineChart(APIView):
         results = query.all() 
     
         return Response(results,status=status.HTTP_200_OK)
-        
