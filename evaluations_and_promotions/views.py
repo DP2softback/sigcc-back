@@ -265,6 +265,7 @@ class EvaluationAPI(APIView):
 class EvaluationXSubcatAPI(APIView):
     def post(self, request):
         
+        
         area_serializado = EvaluationxSubCategorySerializer(data = request.data, many=True)
         
         if area_serializado.is_valid():
@@ -274,22 +275,94 @@ class EvaluationXSubcatAPI(APIView):
         return Response(area_serializado.errors,status=status.HTTP_400_BAD_REQUEST)
     
 class EvaluationLineChart(APIView):
-    def get(self,request):
+    def post(self,request):
+
+        supervisor_id = request.data.get("id")
+        evaluation_type = request.data.get("evaluationType")
+        fecha_inicio = request.data.get("fecha_inicio")
+        fecha_final=request.data.get("fecha_final")
+
+#         query = (
+#     EvaluationxSubCategory.objects
+#     .values(
+#         year=ExtractYear('evaluation__evaluationDate'),
+#         month=ExtractMonth('evaluation__evaluationDate'),
+#         categoria_nombre=F('subCategory__category__name'),
+#         final_score=ExpressionWrapper(Sum('score') / Count('evaluation__id'), output_field=FloatField())
         
-        query = (
-    EvaluationxSubCategory.objects
-    .values(
-        year=ExtractYear('evaluation__evaluationDate'),
-        month=ExtractMonth('evaluation__evaluationDate'),
-        categoria_nombre=F('subCategory__category__name'),
-        final_score=ExpressionWrapper(Sum('score') / Count('evaluation__id'), output_field=FloatField())
-        
-    )
-    .annotate(
-        total_final_score=Sum('evaluation__finalScore')
-    )
-    .values('year', 'month', 'categoria_nombre', 'final_score')
-)
-        results = query.all() 
+#     )
+#     .annotate(
+#         total_final_score=Sum('evaluation__finalScore')
+#     )
+#     .values('year', 'month', 'categoria_nombre', 'final_score')
+# )
+        # results = query.all() 
+
     
-        return Response(results,status=status.HTTP_200_OK)
+        # return Response(results,status=status.HTTP_200_OK)
+
+        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluator__id = supervisor_id,evaluation__evaluationType__name=evaluation_type)
+
+        if fecha_inicio:
+            try:
+                fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__gte=fecha_inicio)
+            except ValueError:
+                return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
+        
+        if fecha_final:
+            try:
+                fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
+            except ValueError:
+                return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
+        
+        Data_serialiazada = EvaluationxSubCategoryRead(Datos,many=True,fields=('id','score','evaluation','subCategory'))
+        
+        
+        data = Data_serialiazada.data
+        print(data)
+        # Transform data into the desired format
+        result = {}
+        for item in data:
+            evaluation_date = item['evaluation']['evaluationDate']
+            year = evaluation_date.split('-')[0]
+            month = evaluation_date.split('-')[1]
+
+            category_name = item['subCategory']['category']['name']
+            score_average = item['score']
+
+            if year not in result:
+                result[year] = {}
+
+            if month not in result[year]:
+                result[year][month] = {}
+
+            if category_name not in result[year][month]:
+                result[year][month][category_name] = []
+
+            result[year][month][category_name].append(score_average)
+
+        # Convert the result into the desired format
+        transformed_data = []
+        for year, year_data in result.items():
+            year_entry = {'year': year, 'month': []}
+            for month, month_data in year_data.items():
+                month_entry = {'month': month, 'category_scores': []}
+                for category_name, scores in month_data.items():
+                    average_score = sum(scores) / len(scores)
+                    category_entry = {'CategoryName': category_name, 'ScoreAverage': average_score}
+                    month_entry['category_scores'].append(category_entry)
+                year_entry['month'].append(month_entry)
+            transformed_data.append(year_entry)
+
+        # Convert the transformed data into JSON format
+        transformed_json = json.dumps(transformed_data, indent=4)
+
+
+        return Response(transformed_data,status=status.HTTP_200_OK)
+        
+        
