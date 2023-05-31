@@ -72,10 +72,19 @@ class SearchCompetenceView(APIView):
         else:
             if idEmp is not None and idEmp >0:
                 query = Q(employee__id = idEmp)
+                subquery1 = Q()
+                subquery2 = Q()
+                subquery3 = Q()
                 if(activo is not None):
                     if activo == 0: query.add(Q(active=False), Q.AND)
                     if activo == 1: query.add(Q(active=True), Q.AND)
-                competenciasEmpleado = CompetenceXEmployee.objects.filter(query).values('competence__code','competence__name','competence__type__name','levelCurrent', 'levelRequired', 'likeness')
+                if(idTipo is not None and idTipo > 0):
+                    query.add(Q(competence__type__id=idTipo), Q.AND)
+                if (cadena is not None):
+                    subquery1.add(Q(competence__name__contains=cadena), Q.OR)
+                    subquery2.add(Q(competence__code__contains=cadena), Q.OR)
+                    subquery3.add(Q(competence__type__name__contains=cadena), Q.OR)
+                competenciasEmpleado = CompetenceXEmployee.objects.filter((subquery1 | subquery2 | subquery3) & query).values('competence__code','competence__name','competence__type__name','levelCurrent', 'levelRequired', 'likeness')
                 return Response(list(competenciasEmpleado), status = status.HTTP_200_OK)
             else:
                 query = Q()
