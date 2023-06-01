@@ -29,6 +29,7 @@ class User(AbstractUser, TimeStampedModel, SafeDeleteModel):
     second_name = models.CharField(max_length=25)
     maiden_name = models.CharField(max_length=25)
     roles = models.ManyToManyField(Role, related_name='users', through='UserxRole')
+    recovery_code = models.CharField(max_length=25, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
     # objects = CustomUserManager()
