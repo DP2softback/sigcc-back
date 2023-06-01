@@ -85,7 +85,7 @@ class PersonasXHabilidadesXEmpresaAPIView(APIView):
 
 
 class SesionAPIView(APIView):
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
 
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
