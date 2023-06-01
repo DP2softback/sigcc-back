@@ -118,9 +118,37 @@ class AsistenciaSesionAPIView(APIView):
         return super().dispatch(request, *args, **kwargs)
     
     def get(self, request, sesion_id):
-        asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion_id=sesion_id)
-        serializer = AsistenciaSesionSerializer(asistencias, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            sesion = Sesion.objects.get(id=sesion_id)
+            asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion=sesion)
+            serializer = AsistenciaSesionSerializer(asistencias, many=True)
+
+            # Obtener los datos adicionales de la sesión
+            sesion_data = {
+                'nombre_sesion': sesion.nombre,
+                'fecha_sesion': sesion.fecha_inicio,
+            }
+
+            # Obtener los datos de las personas y su estado de asistencia
+            asistencias_data = []
+            for asistencia in serializer.data['empleados_asistencia']:
+                empleado = Employee.objects.get(id=asistencia['empleado'])
+                empleado_data = {
+                    'id': empleado.id,
+                    'nombre': empleado.user.first_name + ' ' + empleado.user.last_name,
+                    'estado_asistencia': asistencia['estado_asistencia']
+                }
+                asistencias_data.append(empleado_data)
+
+            # Combinar los datos de la sesión y las asistencias en un diccionario
+            response_data = {
+                'sesion': sesion_data,
+                'asistencias': asistencias_data
+            }
+
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Sesion.DoesNotExist:
+            return Response({"message": "Sesión no encontrada."}, status=status.HTTP_404_NOT_FOUND)
     
     def post(self, request):
         sesion_id = request.data['sesion_id']

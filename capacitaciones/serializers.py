@@ -1,5 +1,5 @@
 from login.models import User
-from login.serializers import UserSerializerRead
+from login.serializers import EmployeeSerializerRead, UserSerializerRead
 from rest_framework import serializers
 
 from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
@@ -132,9 +132,17 @@ class ProveedorUsuarioSerializer(serializers.ModelSerializer):
         #exclude = ('curso_x_learning_path','asistencia_x_empleado')
 
 class AsistenciaSesionSerializer(serializers.ModelSerializer):
+    empleado_nombre = serializers.CharField(source='empleado.user.first_name')
+    empleado_datos = serializers.SerializerMethodField()
+    
     class Meta:
         model = AsistenciaSesionXEmpleado
-        fields = '__all__'   
+        fields = ['id', 'curso_empresa', 'empleado', 'empleado_nombre', 'empleado_datos', 'sesion', 'estado_asistencia'] 
+    
+    def get_empleado_datos(self, obj):
+        empleado = obj.empleado
+        empleado_serializer = EmployeeSerializerRead(empleado)
+        return empleado_serializer.data
     
 '''
 class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):
