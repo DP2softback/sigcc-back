@@ -218,15 +218,15 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
         if not id_lp:
             return Response({'msg': 'No se recibió el LP'}, status=status.HTTP_400_BAD_REQUEST)
 
-        fecha_limite = request.data.get('fecha_limite', None)
+        #fecha_limite = request.data.get('fecha_limite', None)
 
-        if not fecha_limite:
-            return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
+        #if not fecha_limite:
+        #    return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
 
 
         list_asignaciones = [
             EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp, estado='0', fecha_asignacion=timezone.now(),
-                                  fecha_limite=fecha_limite) for emp in empleados
+                                  fecha_limite=emp.fecha_limite) for emp in empleados
         ]
 
         try:

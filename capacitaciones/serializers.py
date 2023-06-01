@@ -223,6 +223,7 @@ class CursoSesionTemaResponsableEmpleadoListSerializer(serializers.ModelSerializ
         empleados = EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj)
         return EmpleadoXCursoEmpresaForBossSerializer(empleados, many=True, context=self.context).data
 
+
 class BusquedaEmployeeSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(source='pk')
