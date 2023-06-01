@@ -1,7 +1,9 @@
+from login.models import User
+from login.serializers import EmployeeSerializerRead, UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
-    Sesion, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
+from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
+    Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
 
 from django.utils import timezone
 
@@ -77,8 +79,17 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
         return CursoUdemySerializer(cursos, many=True).data
 
 
+class SesionXReponsableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SesionXReponsable
+        fields = '__all__'
+
+
+
 class SesionSerializer(serializers.ModelSerializer):
     temas= serializers.SerializerMethodField()
+    responsables= serializers.SerializerMethodField()
+
     class Meta:
         model = Sesion
         exclude = ('sesion_x_responsable', 'cursoEmpresa',)
@@ -88,6 +99,9 @@ class SesionSerializer(serializers.ModelSerializer):
         temas= Tema.objects.filter(sesion=obj)
         return TemaSerializer(temas,many=True).data
 
+    def get_responsables(self,obj):
+        responsables= User.objects.filter(sesion=obj)
+        return UserSerializerRead(responsables,many=True).data
 
     def validate_nombre(self, value):
         if value == '':
@@ -111,7 +125,25 @@ class TemaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('El nombre no puede ser valor vacío')
         return value
     
+class ProveedorUsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProveedorUsuario
+        exclude = ('habilidad_x_proveedor_usuario',)
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
 
+class AsistenciaSesionSerializer(serializers.ModelSerializer):
+    empleado_nombre = serializers.CharField(source='empleado.user.first_name')
+    empleado_datos = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = AsistenciaSesionXEmpleado
+        fields = ['id', 'curso_empresa', 'empleado', 'empleado_nombre', 'empleado_datos', 'sesion', 'estado_asistencia'] 
+    
+    def get_empleado_datos(self, obj):
+        empleado = obj.empleado
+        empleado_serializer = EmployeeSerializerRead(empleado)
+        return empleado_serializer.data
+    
 '''
 class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):
 

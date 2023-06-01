@@ -99,7 +99,8 @@ class CursoEmpresa(CursoGeneral):
     fecha_creacion=models.DateTimeField(default=timezone.now)
     fecha_primera_sesion=models.DateTimeField(null=True)
     cantidad_empleados= models.IntegerField(default=0)
-    
+    porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
+
     class Meta:
         db_table = 'CursoEmpresa'
 
@@ -212,8 +213,8 @@ class EmpleadoXCursoEmpresa(models.Model):
     fechaAsignacion= models.DateTimeField(null=True)
     fechaLimite= models.DateTimeField(null=True)
     fechaCompletado= models.DateTimeField(null=True)
-    apreciacion= models.CharField(max_length=1000)
-    porc_asistencia_para_aprobar = models.IntegerField()
+    apreciacion= models.CharField(max_length=1000,null=True)
+    porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
     class Meta:
         db_table = 'EmpleadoXCursoEmpresa'
@@ -257,12 +258,12 @@ class SesionXReponsable(models.Model):
 class EmpleadoXCursoXLearningPath(models.Model):
 
     estado_choices = [
-        ('Sin iniciar', 'Sin iniciar'),
-        ('En progreso', 'En progreso'),
-        ('Completado, sin evaluar', 'Completado, sin evaluar'),
-        ('Completado, evaluado', 'Completado, evaluado'),
-        ('Desaprobado', 'Desaprobado'),
-    ]
+        ('0', 'Sin iniciar'),
+        ('1', 'En progreso'),
+        ('2', 'Completado, sin evaluar'),
+        ('3', 'Completado, evaluado'),
+        ('4', 'Desaprobado'),
+    ] 
     empleado = models.ForeignKey(Employee, on_delete=models.   CASCADE)
     progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
@@ -289,13 +290,14 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
 
 class AsistenciaSesionXEmpleado(models.Model):
     tipo_choices = [
-        ('P', 'Asistio puntual'),
-        ('T', 'Asistio tarde'),
-        ('N', 'No asistio'),
+        ('P', 'Asistió puntual'),
+        ('T', 'Asistió tarde'),
+        ('N', 'No asistió'),
         ('J', 'Falta justificada')
     ]
     curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    sesion = models.ForeignKey(Sesion , on_delete=models.CASCADE)
     estado_asistencia = models.CharField(max_length=1, choices=tipo_choices)
 
     class Meta:
