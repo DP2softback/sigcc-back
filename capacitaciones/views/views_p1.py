@@ -225,8 +225,8 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
 
 
         list_asignaciones = [
-            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp, estado='0', fecha_asignacion=timezone.now(),
-                                  fecha_limite=emp.fecha_limite) for emp in empleados
+            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
+                                  fecha_limite=emp['fecha_limite']) for emp in empleados
         ]
 
         try:
