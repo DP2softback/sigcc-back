@@ -2,7 +2,7 @@ from login.models import User
 from login.serializers import UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
+from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
     Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
 
 from django.utils import timezone
@@ -130,7 +130,11 @@ class ProveedorUsuarioSerializer(serializers.ModelSerializer):
         model = ProveedorUsuario
         exclude = ('habilidad_x_proveedor_usuario',)
         #exclude = ('curso_x_learning_path','asistencia_x_empleado')
-        
+
+class AsistenciaSesionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AsistenciaSesionXEmpleado
+        fields = '__all__'   
     
 '''
 class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):

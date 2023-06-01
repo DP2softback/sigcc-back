@@ -1,9 +1,10 @@
 # Create your views here.
+from login.models import Employee
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
+from capacitaciones.serializers import AsistenciaSesionSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -108,3 +109,37 @@ class CursoEmpresaAPIView(APIView):
 
             return Response ({},status=status.HTTP_200_OK)
 
+
+class AsistenciaSesionAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, sesion_id):
+        asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion_id=sesion_id)
+        serializer = AsistenciaSesionSerializer(asistencias, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        sesion_id = request.data['sesion_id']
+        sesion = Sesion.objects.filter(id=sesion_id).first()
+        curso_empresa_id = request.data['curso_empresa_id']
+        curso = CursoEmpresa.objects.filter(id=curso_empresa_id).first()
+
+        for empleado_asistencia in request.data['empleados_asistencia']:
+                
+            empleado_asistencia_serializer = AsistenciaSesionSerializer(data=empleado_asistencia)
+            empleado_asistencia_serializer.validated_data['sesion'] = sesion
+            empleado_asistencia_serializer.validated_data['curso_empresa'] = curso
+
+            if empleado_asistencia_serializer.is_valid():
+                empleado_asistencia_serializer.save()
+            else:
+                return Response({"message": "No existe el empleado al que se le quiere poner asistencia en la sesion"},
+                                    status=status.HTTP_400_BAD_REQUEST)
+                
+        return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
+
+        

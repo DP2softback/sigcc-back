@@ -3,7 +3,7 @@ from django.urls import path
 from capacitaciones import views
 from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDetail, LearningPathAPIView, \
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView
-from capacitaciones.views.views_p2 import CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, \
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, \
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView
@@ -26,5 +26,7 @@ urlpatterns = [
     path('get_categoria/', CategoriaAPIView.as_view()),
     path('get_proveedores_empresa/<int:pk>/', ProveedorEmpresaXCategoriaAPIView.as_view()),
     path('get_habilidades_empresa/<int:pk>/',HabilidadesXEmpresaAPIView.as_view()),
-    path('get_personas_empresa_habilidades/', PersonasXHabilidadesXEmpresaAPIView.as_view())
+    path('get_personas_empresa_habilidades/', PersonasXHabilidadesXEmpresaAPIView.as_view()),
+    path('attendance_session/', AsistenciaSesionAPIView.as_view()),
+    path('attendance_session/<int:sesion_id>', AsistenciaSesionAPIView.as_view())
 ]

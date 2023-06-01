@@ -119,16 +119,17 @@ class SesionAPIView(APIView):
             
             # Crear responsables para cada sesión
             for responsable_data in request.data['responsables'] :
-                responsable_serializer = SesionXReponsableSerializer(data=responsable_data)
+                responsable_id = responsable_data.get('responsable_id')
+                sesion_responsable_serializer = SesionXReponsableSerializer(data={
+                    'responsable': responsable_id,
+                    'clase': sesiones_emp.id
+                })
 
-                if responsable_serializer.is_valid():
-                    responsable_serializer.validated_data['clase'] = sesiones_emp
-                    responsable_serializer.save()
+                if sesion_responsable_serializer.is_valid():
+                    sesion_responsable_serializer.save()
                 else:
-                    return Response(
-                        {"message": "No se pudo crear el responsable"},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
+                    return Response({"message": "No se pudo asignar el responsable a la sesión"},
+                                    status=status.HTTP_400_BAD_REQUEST)
 
             
             #Esto es para actualizar la fecha_primera_sesion del curso
