@@ -37,11 +37,37 @@ class AreaxPosicion(models.Model):
     unavailableQuantity = models.IntegerField()
 
 class HiringProcess(models.Model):
+    class Meta:
+        db_table = 'ProcesoSeleccion'
     id = models.BigAutoField(primary_key=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
     available_positions_quantity = models.IntegerField()
-    creation_date = models.DateTimeField()
-    modified_date = models.DateTimeField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+class StageType(models.Model):
+    class Meta:
+        db_table = 'TipoEtapa'
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=40)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+class ProcessStage(models.Model):
+    class Meta:
+        db_table = 'EtapaProceso'
+    id = models.BigAutoField(primary_key=True)
+    stage_type = models.ForeignKey(StageType, on_delete=models.CASCADE)
+    hiring_process = models.ForeignKey(HiringProcess, on_delete=models.CASCADE)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    order = models.IntegerField()
+    name = models.CharField(max_length=40)
+    description = models.TextField(blank=True, default='')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
 
