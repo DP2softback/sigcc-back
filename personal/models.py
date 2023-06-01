@@ -35,3 +35,14 @@ class AreaxPosicion(models.Model):
     isActive = models.BooleanField(default=True)
     availableQuantity = models.IntegerField()
     unavailableQuantity = models.IntegerField()
+
+class HiringProcess(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    available_positions_quantity = models.IntegerField()
+    creation_date = models.DateTimeField()
+    modified_date = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
+
+
+
