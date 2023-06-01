@@ -183,10 +183,16 @@ class ProveedorUsuarioSerializer(serializers.ModelSerializer):
         model = ProveedorUsuario
         fields = '__all__'
 
+
 class CursoGeneralListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CursoGeneral
         fields = ['id', 'nombre', 'descripcion']
+
+class CursoEmpresaListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoEmpresa
+        fields = ['id', 'nombre', 'descripcion', 'es_libre']
 
 
 class CursoSesionTemaResponsableListSerializer(serializers.ModelSerializer):

@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -80,7 +80,22 @@ class CursoEmpresaDetailBossAPIView(APIView):
         cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
         cursos_emp_serializer = CursoSesionTemaResponsableEmpleadoListSerializer(cursos_emp)
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
-    
+
+
+class CursoEmpresaFreeListView(APIView):
+    def get(self, request):
+        cursos_empresas = CursoEmpresa.objects.filter(es_libre=True)
+        serializer = CursoEmpresaListSerializer(cursos_empresas, many=True)
+        return Response(serializer.data)
+
+
+class CursoEmpresaNotFreeListView(APIView):
+    def get(self, request):
+        cursos_empresas = CursoEmpresa.objects.filter(es_libre=False)
+        serializer = CursoEmpresaListSerializer(cursos_empresas, many=True)
+        return Response(serializer.data)
+
+   
 class SesionDetailAPIView(APIView):
     #permission_classes = [AllowAny]
     @transaction.atomic
