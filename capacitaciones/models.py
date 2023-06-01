@@ -179,8 +179,8 @@ class EmpleadoXLearningPath(models.Model):
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
     porcentaje_progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
-    apreciacion = models.TextField()
-    fecha_asignacion = models.DateTimeField(null=True)
+    apreciacion = models.TextField(null=True)
+    fecha_asignacion = models.DateTimeField(null=True, default=timezone.now)
     fecha_limite = models.DateTimeField(null=True)
     fecha_completado = models.DateTimeField(null=True)
 
@@ -350,7 +350,6 @@ class HabilidadXProveedorUsuario(models.Model):
         db_table = 'HabilidadXProveedorUsuario'
 
 class Sesion(models.Model):
-
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     nombre= models.CharField(max_length=1000)
     descripcion= models.CharField(max_length=1000)
@@ -366,7 +365,6 @@ class Sesion(models.Model):
 
 
 class SesionXReponsable(models.Model):
-    
     responsable= models.ForeignKey(ProveedorEmpresa, on_delete=models.CASCADE)
     clase= models.ForeignKey(Sesion, on_delete=models.CASCADE)
     

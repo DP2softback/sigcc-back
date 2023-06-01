@@ -3,10 +3,11 @@ import os
 import uuid
 
 import boto3
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course
@@ -205,5 +206,33 @@ class BusquedaDeEmpleadosAPIView(APIView):
 class AsignacionEmpleadoLearningPathAPIView(APIView):
     
     def post(self, request):
-        
-        
+
+        empleados = request.data.get('empleados', [])
+        num_empleados = len(empleados)
+
+        if num_empleados == 0:
+            return Response({'msg': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
+
+        id_lp = request.data.get('id_lp', None)
+
+        if not id_lp:
+            return Response({'msg': 'No se recibió el LP'}, status=status.HTTP_400_BAD_REQUEST)
+
+        fecha_limite = request.data.get('fecha_limite', None)
+
+        if not fecha_limite:
+            return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        list_asignaciones = [
+            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp, estado='0', fecha_asignacion=timezone.now(),
+                                  fecha_limite=fecha_limite) for emp in empleados
+        ]
+
+        try:
+            EmpleadoXLearningPath.objects.bulk_create(list_asignaciones)
+        except Exception as e:
+            return Response({'msg': str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'msg': 'Se asigno a {num_empleados} con exito'.format(num_empleados)}, status=status.HTTP_200_OK)

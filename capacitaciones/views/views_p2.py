@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -22,7 +22,7 @@ class CursoEmpresaCourseAPIView(APIView):
     permission_classes = [AllowAny]
     def get(self, request):
         cursos_emp = CursoEmpresa.objects.all()
-        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp, many=True)
+        cursos_emp_serializer = CursoGeneralListSerializer(cursos_emp, many=True)
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
     
     def post(self, request):
@@ -70,7 +70,17 @@ class CursoEmpresaDetailAPIView(APIView):
         cursos_emp.delete()
         return Response({"message": "Curso eliminado"}, status=status.HTTP_200_OK)
 
-
+class CursoEmpresaDetailBossAPIView(APIView):
+    permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, pk):
+        cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
+        cursos_emp_serializer = CursoSesionTemaResponsableEmpleadoListSerializer(cursos_emp)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+    
 class SesionDetailAPIView(APIView):
     permission_classes = [AllowAny]
     @transaction.atomic

@@ -3,8 +3,9 @@ from django.urls import path
 from capacitaciones import views
 from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDetail, LearningPathAPIView, \
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
-    BusquedaDeEmpleadosAPIView
-from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, \
+        BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView
+
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, \
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
@@ -20,6 +21,7 @@ urlpatterns = [
     path('course_company/', CursoEmpresaAPIView.as_view()),
     path('course_company_course/', CursoEmpresaCourseAPIView.as_view()),
     path('course_company_course/<int:pk>', CursoEmpresaDetailAPIView.as_view()),
+    path('course_company_course_boss/<int:pk>', CursoEmpresaDetailBossAPIView.as_view()),
     path('course_company_special', CursoEmpresaSearchEspecialAPIView.as_view()),
     path('sesion_course_company/', SesionAPIView.as_view()),
     path('sesion_course_company/<int:pk>', SesionDetailAPIView.as_view()),
@@ -32,5 +34,6 @@ urlpatterns = [
     path('attendance_session/', AsistenciaSesionAPIView.as_view()),
     path('attendance_session/<int:sesion_id>', AsistenciaSesionAPIView.as_view()),
     path('learning_path/search_employee/', BusquedaDeEmpleadosAPIView.as_view()),
-    path('curso_empresa_empleados/',CursoEmpresaEmpleadosAPIView.as_view())
+    path('curso_empresa_empleados/',CursoEmpresaEmpleadosAPIView.as_view()),
+    path('learning_path/enroll_employess/', AsignacionEmpleadoLearningPathAPIView.as_view())
 ]
