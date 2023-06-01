@@ -631,3 +631,39 @@ class EvaluationLineChartPersona(APIView):
 
 
         return Response(transformed_data,status=status.HTTP_200_OK)
+
+class PlantillasEditarAPI(APIView):
+    def post(self,request):
+        plantilla = request.data.get("plantilla-id")
+
+        Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__isActive = True,isActive=True)
+        Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
+        print(Datos_serializados.data)
+        Existe = False
+        for item in request.data.get("Categories"):
+            if(item["Category-active"] == True):
+                for subcat in item["subcategory"]:
+                        Existe = False
+                        
+                        print(subcat["id"])
+                        for DataExistente in Datos_serializados.data:
+                            
+                            if(DataExistente['subCategory']['id'] == subcat["id"]):
+                                if(subcat["subcategory-isActive"] == True):
+                                    print("Sí existe categoría")
+                                elif(subcat["subcategory-isActive"] == False):
+                                    PlantillaxSubCategoria.objects.filter(id=DataExistente['id']).update(isActive = False)
+                                    print("Se elimina la subcategoria de la plantilla")
+                                Existe = True
+                                print("Se encontró subcat")
+                                break;
+                        if(Existe == False and subcat["subcategory-isActive"] == True):
+                            PlantillaxSubCategoria(
+                                nombre = subcat["nombre"],
+                                plantilla = Plantilla.objects.get(id= request.data.get("plantilla-id")),
+                                subCategory = SubCategory.objects.get(id= subcat["id"])
+                            ).save()
+                        
+            
+
+        return Response("Se ha actualizado correctamente",status=status.HTTP_200_OK)
