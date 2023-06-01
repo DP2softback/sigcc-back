@@ -100,8 +100,8 @@ class SesionSerializer(serializers.ModelSerializer):
         return TemaSerializer(temas,many=True).data
 
     def get_responsables(self,obj):
-        responsables= User.objects.filter(sesion=obj)
-        return UserSerializerRead(responsables,many=True).data
+        responsables= ProveedorEmpresa.objects.filter(sesion=obj)
+        return ProveedorEmpresaSerializer(responsables,many=True).data
 
     def validate_nombre(self, value):
         if value == '':
