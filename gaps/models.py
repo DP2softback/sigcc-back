@@ -10,7 +10,8 @@ class CompetenceType(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=300, blank=True, null=True)
     active = models.BooleanField(default=True)
-    upperType = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    # This is the type of competence of this competence
+    upperType = models.ManyToManyField('self', null=True, blank=True, related_name='subtype_competence')
     export_fields = [
         'id',
         'abbreviation',

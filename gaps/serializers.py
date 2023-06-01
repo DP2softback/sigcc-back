@@ -30,4 +30,11 @@ class CompetenceTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompetenceType
         fields = '__all__'
+
+    def get_depth(self, obj):
+        depth = 0
+        while obj.upperType:
+            depth += 1
+            obj = obj.upperType
+        return depth
         

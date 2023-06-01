@@ -125,14 +125,22 @@ class SearchTrainingNeedView(APIView):
 
 class CompetenceTypeView(APIView):
     def get(self, request):
-        tipoCompetencias = CompetenceType.objects.all()
-        tipoCompetencia_serializer = CompetenceTypeSerializer(tipoCompetencias, many = True)
-        return Response(tipoCompetencia_serializer.data, status = status.HTTP_200_OK)
+        typeCompetencies = CompetenceType.objects.all()
+        typeCompetency_serializer = CompetenceTypeSerializer(typeCompetencies, many = True)
+        return Response(typeCompetency_serializer.data, status = status.HTTP_200_OK)
     
     def post(self, request):
-        tipoCompetencia_serializer = CompetenceTypeSerializer(data = request.data, context = request.data)
-        if tipoCompetencia_serializer.is_valid():
-            tipoCompetencia_serializer.save()
-            return Response(tipoCompetencia_serializer.data,status=status.HTTP_200_OK)
+        typeCompetency_serializer = CompetenceTypeSerializer(data = request.data, context = request.data)
+        if typeCompetency_serializer.is_valid():
+            typeCompetency_serializer.save()
+            return Response(typeCompetency_serializer.data,status=status.HTTP_200_OK)
         return Response(None,status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, pk):
+        typeCompetency = CompetenceType.objects.get(pk = pk)
+        typeCompetency_serializer = CompetenceTypeSerializer(typeCompetency, data = request.data, context = request.data)
+        if typeCompetency_serializer.is_valid():
+            typeCompetency_serializer.save()
+            return Response(typeCompetency_serializer.data)
+        return Response(typeCompetency_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
