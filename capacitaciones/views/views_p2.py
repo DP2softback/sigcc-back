@@ -19,7 +19,7 @@ from rest_framework.permissions import AllowAny
 from django.db import transaction
 
 class CursoEmpresaCourseAPIView(APIView):
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     def get(self, request):
         cursos_emp = CursoEmpresa.objects.all()
         cursos_emp_serializer = CursoGeneralListSerializer(cursos_emp, many=True)
@@ -43,7 +43,7 @@ class CursoEmpresaCourseAPIView(APIView):
 
 
 class CursoEmpresaDetailAPIView(APIView):
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -82,7 +82,7 @@ class CursoEmpresaDetailBossAPIView(APIView):
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
     
 class SesionDetailAPIView(APIView):
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
