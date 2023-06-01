@@ -69,6 +69,7 @@ class Employee(TimeStampedModel, SafeDeleteModel):
     def __str__(self):
         return "Employee: " + self.user.first_name
 
+
 class Applicant(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
