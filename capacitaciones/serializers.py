@@ -222,3 +222,14 @@ class CursoSesionTemaResponsableEmpleadoListSerializer(serializers.ModelSerializ
     def get_empleados(self,obj):
         empleados = EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj)
         return EmpleadoXCursoEmpresaForBossSerializer(empleados, many=True, context=self.context).data
+
+class BusquedaEmployeeSerializer(serializers.ModelSerializer):
+
+    id = serializers.IntegerField(source='pk')
+    email = serializers.EmailField(source='user.email')
+    maiden_name = serializers.CharField(source='user.maiden_name')
+    second_name = serializers.CharField(source='user.second_name')
+
+    class Meta:
+        model = Employee
+        fields = ['id', 'email', 'maiden_name', 'second_name']
