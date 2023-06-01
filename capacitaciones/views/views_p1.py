@@ -205,5 +205,13 @@ class BusquedaDeEmpleadosAPIView(APIView):
 class AsignacionEmpleadoLearningPathAPIView(APIView):
     
     def post(self, request):
-        
-        
+
+        num_empleados = len(request.data.get('empleados', []))
+
+        if num_empleados == 0:
+            return Response({'msg': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+        return Response({'msg': 'Se asigno a {num_empleados }con exito'.format(num_empleados)}, status=status.HTTP_200_OK)
