@@ -12,5 +12,8 @@ urlpatterns = [
     path('evaluations', GetHistoricoDeEvaluaciones.as_view()),
     path('evaluationxsubcat', EvaluationXSubcatAPI.as_view()),
     path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
+    path('Plantilla', PlantillasAPI.as_view()),
+    path('PlantillaEditarVista', PlantillasEditarVistaAPI.as_view()),
+    path('VistaCategoriasSubCategorias', VistaCategoriasSubCategorias.as_view()),
     
 ]

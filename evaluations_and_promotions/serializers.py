@@ -169,5 +169,41 @@ class EvaluationxSubCategoryRead(DynamicFieldsModelSerializer):
         return subCategory_serializer.data
         
 
+
+
+class EvaluationTypeSerializerRead(DynamicFieldsModelSerializer):
+    class Meta:
+        model = EvaluationType
+        fields = '__all__'
+
+class PlantillaSerializerRead(DynamicFieldsModelSerializer):
+    evaluationType = serializers.SerializerMethodField()   
     
+
+    class Meta:
+        model = Plantilla
+        fields = '__all__'   
+
+    def get_evaluationType(self, obj):
+        evaluationType = obj.evaluationType
+        evaluationType_serializer = EvaluationTypeSerializerRead(evaluationType,fields=('id','name'))
+        return evaluationType_serializer.data    
+
+class PlantillaxSubCategoryRead(DynamicFieldsModelSerializer):
+    plantilla = serializers.SerializerMethodField()    
+    subCategory = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = PlantillaxSubCategoria
+        fields = '__all__'
+    
+    def get_plantilla(self, obj):
+        plantilla = obj.plantilla
+        plantilla_serializer = PlantillaSerializerRead(plantilla,fields=('id','nombre','evaluationType'))
+        return plantilla_serializer.data
+    
+    def get_subCategory(self, obj):
+        subCategory = obj.subCategory
+        subCategory_serializer = SubCategorySerializerRead(subCategory,fields=('id','name','category'))
+        return subCategory_serializer.data   
        

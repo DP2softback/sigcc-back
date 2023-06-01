@@ -282,29 +282,11 @@ class EvaluationLineChart(APIView):
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")
 
-#         query = (
-#     EvaluationxSubCategory.objects
-#     .values(
-#         year=ExtractYear('evaluation__evaluationDate'),
-#         month=ExtractMonth('evaluation__evaluationDate'),
-#         categoria_nombre=F('subCategory__category__name'),
-#         final_score=ExpressionWrapper(Sum('score') / Count('evaluation__id'), output_field=FloatField())
-        
-#     )
-#     .annotate(
-#         total_final_score=Sum('evaluation__finalScore')
-#     )
-#     .values('year', 'month', 'categoria_nombre', 'final_score')
-# )
-        # results = query.all() 
-
-    
-        # return Response(results,status=status.HTTP_200_OK)
 
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluator__id = supervisor_id,evaluation__evaluationType__name=evaluation_type)
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluator__id = supervisor_id,evaluation__evaluationType__name=evaluation_type, evaluation__isActive = True)
 
         if fecha_inicio:
             try:
@@ -365,4 +347,214 @@ class EvaluationLineChart(APIView):
 
         return Response(transformed_data,status=status.HTTP_200_OK)
         
+class PlantillasAPI(APIView):
+    def post(self,request):
+        plantilla = request.data.get("id")
+        evaluation_type = request.data.get("evaluationType")
+
+        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
+        Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__evaluationType__name=evaluation_type,plantilla__isActive = True)
+        Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
+
+
+        grouped_data = {}
+        data = Datos_serializados.data
+        for item in data:
+            plantilla_id = item['plantilla']['id']
+            plantilla_name = item['plantilla']['nombre']
+            evaluation_type = item['plantilla']['evaluationType']['name']
+            category_id = item['subCategory']['category']['id']
+            category_name = item['subCategory']['category']['name']
+            subcategory_id = item['subCategory']['id']
+            subcategory_name = item['subCategory']['name']
+            
+            if plantilla_id not in grouped_data:
+                grouped_data[plantilla_id] = {
+                    'id': plantilla_id,
+                    'name': plantilla_name,
+                    'evaluationType': evaluation_type,
+                    'Categories': []
+                }
+            
+            category_exists = False
+            for category in grouped_data[plantilla_id]['Categories']:
+                if category['id'] == category_id:
+                    category_exists = True
+                    category['subcategories'].append({
+                        'id': subcategory_id,
+                        'name': subcategory_name
+                    })
+                    break
+            
+            if not category_exists:
+                grouped_data[plantilla_id]['Categories'].append({
+                    'id': category_id,
+                    'name': category_name,
+                    'subcategories': [{
+                        'id': subcategory_id,
+                        'name': subcategory_name
+                    }]
+                })
+
+        grouped_data = list(grouped_data.values())
+
+        # Datos_noCategorias = PlantillaxSubCategoria.objects.filter(plantilla__id=plantilla,plantilla__evaluationType__name=evaluation_type)
+        # Datos_noCategorias_Serializados = PlantillaxSubCategoryRead(Datos_noCategorias,many=True,fields = ('id','subCategory'))
+        # data = Datos_noCategorias_Serializados.data
+        # subcategories_list = [item['subCategory']['id'] for item in data]
+        
+
+
+        # subcategories_not_in_plantilla = SubCategory.objects.exclude(id__in = subcategories_list).filter(category__id = data[0]['subCategory']['category']['id'])
+
+        # subcategories_not_in_plantilla_serializada = SubCategorySerializerRead(subcategories_not_in_plantilla,many=True)
+
+
+
+
+        # return Response(subcategories_not_in_plantilla_serializada.data,status=status.HTTP_200_OK)
+
+        return Response(grouped_data,status=status.HTTP_200_OK)
+
+        
+
+
+class PlantillasEditarVistaAPI(APIView):
+    def post(self,request):
+        plantilla = request.data.get("id")
+        evaluation_type = request.data.get("evaluationType")
+
+        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__evaluationType__name=evaluation_type,plantilla__isActive = True,isActive=True)
+        Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
+
+
+        Datos_noCategorias = PlantillaxSubCategoria.objects.filter(plantilla__id=plantilla,plantilla__evaluationType__name=evaluation_type,isActive=True)
+        Datos_noCategorias_Serializados = PlantillaxSubCategoryRead(Datos_noCategorias,many=True,fields = ('id','subCategory'))
+        data = Datos_noCategorias_Serializados.data
+        subcategories_list = [item['subCategory']['id'] for item in data]
+        
+        subcategories_not_in_plantilla = SubCategory.objects.exclude(id__in = subcategories_list)
+
+        subcategories_not_in_plantilla_serializada = SubCategorySerializerRead(subcategories_not_in_plantilla,many=True,fields=('id','category','name','description','code'))
+        json1 = Datos_serializados.data
+        json2 = subcategories_not_in_plantilla_serializada.data
+
+        result = {}
+
+        # Process plantilla from json1
+        plantilla = json1[0]['plantilla']
+        result['plantilla-id'] = plantilla['id']
+        result['plantilla-nombre'] = plantilla['nombre']
+
+        # Process categories and subcategories from json1
+        categories = []
+        for item in json1:
+            category = item['subCategory']['category']
+            subcategory = item['subCategory']
+            
+            # Check if the category already exists in the result
+            category_exists = False
+            for cat in categories:
+                if cat['id'] == category['id']:
+                    category_exists = True
+                    cat['subcategory'].append({
+                        'id': subcategory['id'],
+                        'subcategory-isActive': True,
+                        'nombre': subcategory['name']
+                    })
+                    break
+            
+            # If the category doesn't exist, create it along with its subcategory
+            if not category_exists:
+                categories.append({
+                    'id': category['id'],
+                    'name': category['name'],
+                    'Category-active': True,
+                    'subcategory': [{
+                        'id': subcategory['id'],
+                        'subcategory-isActive': True,
+                        'nombre': subcategory['name']
+                    }]
+                })
+
+        result['Categories'] = categories
+
+        merged_json = result.copy()
+        categories = merged_json["Categories"]
+        
+        for item in json2:
+            category = item["category"]
+            subcategory_id = item["id"]
+            subcategory_exists = False
+            
+            # Check if the category already exists in the merged JSON
+            for cat in categories:
+                if cat["id"] == category["id"]:
+                    subcategory_exists = True
+                    subcategory = {
+                        "id": subcategory_id,
+                        "subcategory-isActive": False,
+                        "nombre": item["name"]
+                    }
+                    cat["subcategory"].append(subcategory)
+                    break
+            
+            # If the category doesn't exist, create it with the new subcategory
+            if not subcategory_exists:
+                new_category = {
+                    "id": category["id"],
+                    "name": category["name"],
+                    "Category-active": False,
+                    "subcategory": [
+                        {
+                            "id": subcategory_id,
+                            "subcategory-isActive": False,
+                            "nombre": item["name"]
+                        }
+                    ]
+                }
+                categories.append(new_category)
+            
+
+        return Response(merged_json,status=status.HTTP_200_OK)
+
+        
+class VistaCategoriasSubCategorias(APIView):
+    def post(self,request):
+        #plantilla = request.data.get("id")
+        evaluation_type = request.data.get("evaluationType")
+
+        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Datos = SubCategory.objects.filter(category__evaluationType__name=evaluation_type,isActive = True)
+        Datos_serializados = SubCategorySerializerRead(Datos,many=True,fields=('id','name','category'))
+
+        grouped_data = {}
+        json_data = Datos_serializados.data
+        for item in json_data:
+            category_id = item['category']['id']
+            category_name = item['category']['name']
+            subcategory_id = item['id']
+            subcategory_name = item['name']
+            
+            if category_id not in grouped_data:
+                grouped_data[category_id] = {
+                    'category-id': category_id,
+                    'category-name': category_name,
+                    'subcategory': []
+                }
+            
+            grouped_data[category_id]['subcategory'].append({
+                'id': subcategory_id,
+                'name': subcategory_name
+            })
+
+        grouped_data = list(grouped_data.values())
+
+        return Response(grouped_data,status=status.HTTP_200_OK)       
