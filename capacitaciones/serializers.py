@@ -1,8 +1,8 @@
-from login.models import User
-from login.serializers import EmployeeSerializerRead, UserSerializerRead
+from login.models import Employee, User
+from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
     Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
 
 from django.utils import timezone
@@ -182,3 +182,43 @@ class ProveedorUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProveedorUsuario
         fields = '__all__'
+
+class CursoGeneralListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoGeneral
+        fields = ['id', 'nombre', 'descripcion']
+
+
+class CursoSesionTemaResponsableListSerializer(serializers.ModelSerializer):
+    sesiones = SesionSerializer(many=True)
+
+    class Meta:
+        model = CursoEmpresa
+        fields = ['id', 'nombre', 'descripcion', 'sesiones']
+
+class EmpleadoXCursoEmpresaForBossSerializer(serializers.ModelSerializer):
+    employees = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EmpleadoXCursoEmpresa
+        fields = '__all__'
+
+    def get_employees(self, obj):
+        employees = obj.empleado_set.all()
+        return EmployeeSerializerRead(employees, many=True).data
+
+class CursoSesionTemaResponsableEmpleadoListSerializer(serializers.ModelSerializer):
+    sesiones = serializers.SerializerMethodField()
+    empleados = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CursoEmpresa
+        exclude = ('curso_empresa_x_empleado',)
+
+    def get_sesiones(self,obj):
+        sesiones= Sesion.objects.filter(cursoEmpresa=obj)
+        return SesionSerializer(sesiones,many=True).data
+    
+    def get_empleados(self,obj):
+        empleados = EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj)
+        return EmpleadoXCursoEmpresaForBossSerializer(empleados, many=True, context=self.context).data
