@@ -239,3 +239,8 @@ class CursosEmpresaSerialiazer(serializers.ModelSerializer):
     class Meta:
         model = CursoEmpresa
         fields = '__all__'
+
+class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmpleadoXCursoEmpresa
+        fields = '__all__'
