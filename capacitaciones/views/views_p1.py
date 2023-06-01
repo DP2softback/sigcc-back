@@ -235,4 +235,4 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
             return Response({'msg': str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'msg': 'Se asigno a {num_empleados} con exito'.format(num_empleados)}, status=status.HTTP_200_OK)
+        return Response({'msg': 'Se asigno a {} con exito'.format(num_empleados)}, status=status.HTTP_200_OK)
