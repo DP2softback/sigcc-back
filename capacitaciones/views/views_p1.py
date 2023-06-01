@@ -236,3 +236,16 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'msg': 'Se asigno a {} con exito'.format(num_empleados)}, status=status.HTTP_200_OK)
+
+
+class EmpleadosLearningPath(APIView):
+
+    def get(self, request, pk):
+
+        list_empleados_id = EmpleadoXLearningPath.objects.filter(learning_path_id=pk).values_list('empleado_id', flat=True)
+
+        list_empleados = Employee.objects.filter(id__in=list(list_empleados_id)).select_related('user')
+
+        employee_serializer = BusquedaEmployeeSerializer(list_empleados, many=True)
+
+        return Response(employee_serializer.data, status=status.HTTP_200_OK)
