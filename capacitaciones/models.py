@@ -179,8 +179,9 @@ class EmpleadoXLearningPath(models.Model):
     estado = models.CharField(max_length=30, choices=estado_choices)
     porcentaje_progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
     apreciacion = models.TextField()
-    fecha_asignacion = models.DateTimeField()
-    fecha_limite = models.DateTimeField()
+    fecha_asignacion = models.DateTimeField(null=True)
+    fecha_limite = models.DateTimeField(null=True)
+    fecha_completado = models.DateTimeField(null=True)
 
     class Meta:
         db_table = 'EmpleadoXLearningPath'
@@ -208,10 +209,11 @@ class EmpleadoXCursoEmpresa(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     porcentajeProgreso= models.DecimalField(default=0, max_digits=3, decimal_places=2)
-    fechaAsignacion= models.DateTimeField()
-    fechaLimite= models.DateTimeField()
-    fechaCompletado= models.DateTimeField()
+    fechaAsignacion= models.DateTimeField(null=True)
+    fechaLimite= models.DateTimeField(null=True)
+    fechaCompletado= models.DateTimeField(null=True)
     apreciacion= models.CharField(max_length=1000)
+    porc_asistencia_para_aprobar = models.IntegerField()
 
     class Meta:
         db_table = 'EmpleadoXCursoEmpresa'
