@@ -641,29 +641,70 @@ class PlantillasEditarAPI(APIView):
         print(Datos_serializados.data)
         Existe = False
         for item in request.data.get("Categories"):
-            if(item["Category-active"] == True):
-                for subcat in item["subcategory"]:
-                        Existe = False
+            for subcat in item["subcategory"]:
+                    Existe = False
+                    
+                    print(subcat["id"])
+                    for DataExistente in Datos_serializados.data:
                         
-                        print(subcat["id"])
-                        for DataExistente in Datos_serializados.data:
-                            
-                            if(DataExistente['subCategory']['id'] == subcat["id"]):
-                                if(subcat["subcategory-isActive"] == True):
-                                    print("Sí existe categoría")
-                                elif(subcat["subcategory-isActive"] == False):
-                                    PlantillaxSubCategoria.objects.filter(id=DataExistente['id']).update(isActive = False)
-                                    print("Se elimina la subcategoria de la plantilla")
-                                Existe = True
-                                print("Se encontró subcat")
-                                break;
-                        if(Existe == False and subcat["subcategory-isActive"] == True):
-                            PlantillaxSubCategoria(
-                                nombre = subcat["nombre"],
-                                plantilla = Plantilla.objects.get(id= request.data.get("plantilla-id")),
-                                subCategory = SubCategory.objects.get(id= subcat["id"])
-                            ).save()
+                        if(DataExistente['subCategory']['id'] == subcat["id"]):
+                            if(subcat["subcategory-isActive"] == True):
+                                print("Sí existe categoría")
+                            elif(subcat["subcategory-isActive"] == False):
+                                PlantillaxSubCategoria.objects.filter(id=DataExistente['id']).update(isActive = False)
+                                print("Se elimina la subcategoria de la plantilla")
+                            Existe = True
+                            print("Se encontró subcat")
+                            break;
+                    if(Existe == False and subcat["subcategory-isActive"] == True):
+                        PlantillaxSubCategoria(
+                            nombre = subcat["nombre"],
+                            plantilla = Plantilla.objects.get(id= request.data.get("plantilla-id")),
+                            subCategory = SubCategory.objects.get(id= subcat["id"])
+                        ).save()
                         
             
 
         return Response("Se ha actualizado correctamente",status=status.HTTP_200_OK)
+
+class PlantillasCrearAPI(APIView):
+    def post(self,request):
+        #plantilla = request.data.get("plantilla-id")
+        evaltype = request.data.get("evaluationType")
+        if (evaltype.casefold() != "Evaluación Continua".casefold() and evaltype.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        print(request.data.get('nombre'))
+        plantilla_creada = Plantilla(nombre = request.data.get('nombre'),evaluationType = EvaluationType.objects.get(name= evaltype)).save()
+
+        if(plantilla_creada is None):
+            return Response("No se ha creado correctamente el objeto plantilla",status=status.HTTP_400_BAD_REQUEST)
+        
+        for item in request.data.get("subcategories"):
+            subcategoriacrear = PlantillaxSubCategoria(nombre = item["nombre"],plantilla=plantilla_creada,SubCategory = SubCategory.objects.get(id = item["id"])).save()
+            if(subcategoriacrear is None):
+                return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response("Se creó correctamente",status=status.HTTP_200_OK)
+    
+
+class PlantillaPorTipo(APIView):
+    def post(self,request):
+
+        return Response("Se ha actualizado correctamente",status=status.HTTP_200_OK)
+    
+class GetAreas(APIView):
+    def get(self, request):
+        areas = Area.objects.values('id', 'name')
+        return Response(areas)
+
+class GetCategoriasContinuas(APIView):
+    def get(self, request):
+        evaluation_type = EvaluationType.objects.get(name='Evaluación Continua')
+        categorias = Category.objects.filter(evaluationType=evaluation_type).values('id', 'name')
+        return Response(categorias)
+
+class GetCategoriasDesempenio(APIView):
+    def get(self, request):
+        evaluation_type = EvaluationType.objects.get(name='Evaluación de Desempeño')
+        categorias = Category.objects.filter(evaluationType=evaluation_type).values('id', 'name')
+        return Response(categorias)
