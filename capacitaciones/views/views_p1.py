@@ -7,8 +7,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
+    BusquedaEmployeeSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course
+from login.models import Employee
 
 
 class GetUdemyValidCourses(APIView):
@@ -179,3 +181,29 @@ class DeleteFilesInS3APIView(APIView):
                 return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({'msg': 'Url no recibida'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BusquedaDeEmpleadosAPIView(APIView):
+
+    def post(self, request):
+
+        email = request.data.get('email', None)
+
+        if not email:
+            return Response({'msg': 'Correo electronico no recibido'}, status=status.HTTP_400_BAD_REQUEST)
+
+        employee = Employee.objects.filter(user__email = email).select_related('user').first()
+
+        if not employee:
+            return Response({'msg': 'Correo electronico no existente'}, status=status.HTTP_400_BAD_REQUEST)
+
+        employee_serializer = BusquedaEmployeeSerializer(employee)
+
+        return Response(employee_serializer.data, status=status.HTTP_200_OK)
+    
+
+class AsignacionEmpleadoLearningPathAPIView(APIView):
+    
+    def post(self, request):
+        
+        

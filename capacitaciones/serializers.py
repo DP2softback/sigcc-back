@@ -1,4 +1,4 @@
-from login.models import User
+from login.models import User, Employee
 from login.serializers import EmployeeSerializerRead, UserSerializerRead
 from rest_framework import serializers
 
@@ -182,3 +182,15 @@ class ProveedorUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProveedorUsuario
         fields = '__all__'
+
+
+class BusquedaEmployeeSerializer(serializers.ModelSerializer):
+
+    id = serializers.IntegerField(source='pk')
+    email = serializers.EmailField(source='user.email')
+    maiden_name = serializers.CharField(source='user.maiden_name')
+    second_name = serializers.CharField(source='user.second_name')
+
+    class Meta:
+        model = Employee
+        fields = ['id', 'email', 'maiden_name', 'second_name']
