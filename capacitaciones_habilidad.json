@@ -1,0 +1,149 @@
+[
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 1,
+    "fields": {
+      "habilidad": "Desarrollo de software"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 2,
+    "fields": {
+      "habilidad": "Redes y seguridad"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 3,
+    "fields": {
+      "habilidad": "Diseño de circuitos electronicos"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 4,
+    "fields": {
+      "habilidad": "Nutrici?n y diet?tica"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 5,
+    "fields": {
+      "habilidad": "Entrenamiento personal"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 6,
+    "fields": {
+      "habilidad": "Terapia fisica y rehabilitacion"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 7,
+    "fields": {
+      "habilidad": "Planificaci?n financiera"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 8,
+    "fields": {
+      "habilidad": "An?lisis de inversiones"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 9,
+    "fields": {
+      "habilidad": "Gestion de riesgos financieros"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 10,
+    "fields": {
+      "habilidad": "Pintura y dibujo"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 11,
+    "fields": {
+      "habilidad": "Actuacion y teatro"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 12,
+    "fields": {
+      "habilidad": "Produccion de cine y television"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 13,
+    "fields": {
+      "habilidad": "Corretaje inmobiliario"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 14,
+    "fields": {
+      "habilidad": "Valoracion de propiedades"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 15,
+    "fields": {
+      "habilidad": "Gestion de alquileres y ventas"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 16,
+    "fields": {
+      "habilidad": "Consultoria empresarial"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 17,
+    "fields": {
+      "habilidad": "Optimizacion de procesos"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 18,
+    "fields": {
+      "habilidad": "Gestion del cambio organizacional"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 19,
+    "fields": {
+      "habilidad": "Diseño grafico"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 20,
+    "fields": {
+      "habilidad": "Publicidad digital"
+    }
+  },
+  {
+    "model": "capacitaciones.habilidad",
+    "pk": 21,
+    "fields": {
+      "habilidad": "Produccion de contenidos audiovisuales"
+    }
+  }
+]

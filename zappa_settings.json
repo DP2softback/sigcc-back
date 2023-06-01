@@ -35,7 +35,7 @@
       ]
     }
   },
-  "dev-modulo-brechas": {
+  "dev-modulo-capacitaciones": {
     "extends": "base",
     "profile_name": "dp2",
     "s3_bucket": "dp2-bucket-dev",
