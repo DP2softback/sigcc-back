@@ -220,41 +220,6 @@ class EmpleadoXCursoEmpresa(models.Model):
         db_table = 'EmpleadoXCursoEmpresa'
 
 
-class Sesion(models.Model):
-
-    cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
-    nombre= models.CharField(max_length=1000)
-    descripcion= models.CharField(max_length=1000)
-    fecha_inicio= models.DateTimeField(null=True)
-    fecha_limite= models.DateTimeField(null=True)
-    url_video= models.TextField(null=True)
-    ubicacion = models.CharField(max_length=400,null=True)
-    aforo_maximo= models.IntegerField(null=True)
-    sesion_x_responsable = models.ManyToManyField(User, through='SesionXReponsable')
-
-    class Meta: 
-        db_table = 'Sesion'
-
-
-class Tema(models.Model):
-    
-    nombre= models.CharField(max_length=1000)
-    sesion= models.ForeignKey(Sesion, on_delete=models.CASCADE)
-    
-    class Meta:
-        db_table = 'Tema'
-
-
-class SesionXReponsable(models.Model):
-    
-    responsable= models.ForeignKey(User, on_delete=models.CASCADE)
-    clase= models.ForeignKey(Sesion, on_delete=models.CASCADE)
-    
-    class Meta:
-        db_table = 'SesionXReponsable'
-
-
-
 class EmpleadoXCursoXLearningPath(models.Model):
 
     estado_choices = [
@@ -286,22 +251,6 @@ class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
 
     class Meta:
         db_table = 'EmpleadoXCursoXPreguntaXAlternativa'
-
-
-class AsistenciaSesionXEmpleado(models.Model):
-    tipo_choices = [
-        ('P', 'Asistió puntual'),
-        ('T', 'Asistió tarde'),
-        ('N', 'No asistió'),
-        ('J', 'Falta justificada')
-    ]
-    curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
-    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    sesion = models.ForeignKey(Sesion , on_delete=models.CASCADE)
-    estado_asistencia = models.CharField(max_length=1, choices=tipo_choices)
-
-    class Meta:
-        db_table = 'AsistenciaSesionXEmpleado'
 
 
 class RubricaExamen(models.Model):
@@ -399,3 +348,50 @@ class HabilidadXProveedorUsuario(models.Model):
 
     class Meta:
         db_table = 'HabilidadXProveedorUsuario'
+
+class Sesion(models.Model):
+
+    cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
+    nombre= models.CharField(max_length=1000)
+    descripcion= models.CharField(max_length=1000)
+    fecha_inicio= models.DateTimeField(null=True)
+    fecha_limite= models.DateTimeField(null=True)
+    url_video= models.TextField(null=True)
+    ubicacion = models.CharField(max_length=400,null=True)
+    aforo_maximo= models.IntegerField(null=True)
+    sesion_x_responsable = models.ManyToManyField(ProveedorEmpresa, through='SesionXReponsable')
+
+    class Meta: 
+        db_table = 'Sesion'
+
+
+class SesionXReponsable(models.Model):
+    
+    responsable= models.ForeignKey(ProveedorEmpresa, on_delete=models.CASCADE)
+    clase= models.ForeignKey(Sesion, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = 'SesionXReponsable'
+
+class AsistenciaSesionXEmpleado(models.Model):
+    tipo_choices = [
+        ('P', 'Asistió puntual'),
+        ('T', 'Asistió tarde'),
+        ('N', 'No asistió'),
+        ('J', 'Falta justificada')
+    ]
+    curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
+    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    sesion = models.ForeignKey(Sesion , on_delete=models.CASCADE)
+    estado_asistencia = models.CharField(max_length=1, choices=tipo_choices)
+
+    class Meta:
+        db_table = 'AsistenciaSesionXEmpleado'
+
+class Tema(models.Model):
+    
+    nombre= models.CharField(max_length=1000)
+    sesion= models.ForeignKey(Sesion, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = 'Tema'
