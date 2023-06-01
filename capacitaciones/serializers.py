@@ -227,12 +227,12 @@ class BusquedaEmployeeSerializer(serializers.ModelSerializer):
 
     id = serializers.IntegerField(source='pk')
     email = serializers.EmailField(source='user.email')
-    maiden_name = serializers.CharField(source='user.maiden_name')
-    second_name = serializers.CharField(source='user.second_name')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
 
     class Meta:
         model = Employee
-        fields = ['id', 'email', 'maiden_name', 'second_name']
+        fields = ['id', 'email', 'first_name', 'last_name']
 
 
 class CursosEmpresaSerialiazer(serializers.ModelSerializer):
