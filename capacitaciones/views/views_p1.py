@@ -218,15 +218,15 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
         if not id_lp:
             return Response({'msg': 'No se recibió el LP'}, status=status.HTTP_400_BAD_REQUEST)
 
-        fecha_limite = request.data.get('fecha_limite', None)
+        #fecha_limite = request.data.get('fecha_limite', None)
 
-        if not fecha_limite:
-            return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
+        #if not fecha_limite:
+        #    return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
 
 
         list_asignaciones = [
-            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp, estado='0', fecha_asignacion=timezone.now(),
-                                  fecha_limite=fecha_limite) for emp in empleados
+            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
+                                  fecha_limite=emp['fecha_limite']) for emp in empleados
         ]
 
         try:
@@ -235,4 +235,4 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
             return Response({'msg': str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'msg': 'Se asigno a {num_empleados} con exito'.format(num_empleados)}, status=status.HTTP_200_OK)
+        return Response({'msg': 'Se asigno a {} con exito'.format(num_empleados)}, status=status.HTTP_200_OK)

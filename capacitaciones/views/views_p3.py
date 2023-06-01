@@ -6,7 +6,7 @@ from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearn
     Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
-    SesionXReponsableSerializer, CursosEmpresaSerialiazer
+    SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
@@ -164,35 +164,35 @@ class CursoEmpresaEmpleadosAPIView(APIView):
     permission_classes = [AllowAny]
     def post(self, request):
         id_curso = request.data.get('id_curso', None)
-        tipo_curso = CursoEmpresa.objects.filter(id=id_curso).first().values('tipo')
-
+        tipo_curso = CursoEmpresa.objects.filter(id=id_curso).values('tipo').first()
+        curso_empresa = CursoEmpresa.objects.filter(id=id_curso).first()
         id_empleado = request.data.get('id_empleado', None)
-        empleado = Employee.objects.filter(id=id_empleado).first()
 
         porcentaje_asistencia_aprobacion = request.data.get('porcentaje_asistencia_aprobacion', None)
 
         fecha_limite = request.data.get('fecha_limite', None)
+        print(porcentaje_asistencia_aprobacion)
 
         if not porcentaje_asistencia_aprobacion:
-            porcentaje_asistencia_aprobacion = CursoEmpresa.objects.filter(id=id_curso).first().values('porcentaje_asistencia_aprobacion')
+            porcentaje_asistencia_aprobacion = curso_empresa.porcentaje_asistencia_aprobacion
 
-        if empleado:
+        if id_empleado:
 
             if not tipo_curso:
                 return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
             empleado_curso_empresa = EmpleadoXCursoEmpresa()
-            empleado_curso_empresa.empleado = id_empleado
-            empleado_curso_empresa.cursoEmpresa = id_curso
+            empleado_curso_empresa.empleado_id = id_empleado
+            empleado_curso_empresa.cursoEmpresa_id = id_curso
             empleado_curso_empresa.porcentajeProgreso = 0
             empleado_curso_empresa.fechaAsignacion = timezone.now()
             empleado_curso_empresa.fechaLimite = None if tipo_curso in ['P', 'S'] else fecha_limite
             empleado_curso_empresa.fechaCompletado = None
             empleado_curso_empresa.apreciacion = None
-            empleado_curso_empresa.porcentajeAsistenciaParaAprobar = porcentaje_asistencia_aprobacion
+            empleado_curso_empresa.porcentaje_asistencia_aprobacion = porcentaje_asistencia_aprobacion
 
             empleado_curso_empresa.save()
-            empleado_curso_empresa_serializer = CursosEmpresaSerialiazer(empleado_curso_empresa, many=True)
+            empleado_curso_empresa_serializer = EmpleadoXCursoEmpresaSerializer(empleado_curso_empresa)
 
             return Response(empleado_curso_empresa_serializer.data, status=status.HTTP_200_OK)
 
