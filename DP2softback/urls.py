@@ -22,6 +22,7 @@ public_apis = [
         url(r'', include('gaps.urls')),
         # url(r'', include('personal.urls')),
     ])),
+    path('api/capacitaciones/', include('capacitaciones.urls'))
 ]
 
 urlpatterns = [
