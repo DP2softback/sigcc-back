@@ -19,7 +19,7 @@ from rest_framework.permissions import AllowAny
 from django.db import transaction
 
 class CursoEmpresaCourseAPIView(APIView):
-    #permission_classes = [AllowAny]
+    permission_classes = [AllowAny]
     def get(self, request):
         cursos_emp = CursoEmpresa.objects.all()
         cursos_emp_serializer = CursoGeneralListSerializer(cursos_emp, many=True)
