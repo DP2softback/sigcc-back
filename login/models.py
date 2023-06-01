@@ -29,6 +29,7 @@ class User(AbstractUser, TimeStampedModel, SafeDeleteModel):
     second_name = models.CharField(max_length=25)
     maiden_name = models.CharField(max_length=25)
     roles = models.ManyToManyField(Role, related_name='users', through='UserxRole')
+    recovery_code = models.CharField(max_length=25, null=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
     # objects = CustomUserManager()
@@ -75,9 +76,10 @@ class Employee(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     isSupervisor = models.BooleanField()
-    supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True)
-    area = models.ForeignKey(Area, on_delete=models.SET_NULL, null=True)
+    supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    area = models.ForeignKey(Area, on_delete=models.SET_NULL, null=True, blank=True)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
+
 
 class Applicant(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE

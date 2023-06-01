@@ -233,3 +233,9 @@ class BusquedaEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ['id', 'email', 'maiden_name', 'second_name']
+
+
+class CursosEmpresaSerialiazer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoEmpresa
+        fields = '__all__'
