@@ -29,7 +29,7 @@ class User(AbstractUser, TimeStampedModel, SafeDeleteModel):
     second_name = models.CharField(max_length=25)
     maiden_name = models.CharField(max_length=25)
     roles = models.ManyToManyField(Role, related_name='users', through='UserxRole')
-    recovery_code = models.CharField(max_length=25, null=True)
+    recovery_code = models.CharField(max_length=25, null=True, blank=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
     # objects = CustomUserManager()
@@ -57,31 +57,20 @@ class UserxRole(TimeStampedModel, SafeDeleteModel):
     def __str__(self):
         return self.user.email + " is " + self.roles.name
 
-# class MembershipInline(admin.TabularInline):
-#     model = UserxRole
-#     extra = 1
-
-# class roleAdmin(admin.ModelAdmin):
-#     inlines = [
-#         MembershipInline,
-#     ]
-
-# class userAdmin(admin.ModelAdmin):
-#     inlines = [
-#         MembershipInline,
-#     ]
-    
 
 class Employee(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     isSupervisor = models.BooleanField()
     supervisor = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, null=True, blank=True)
-    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return "Employee: " + self.user.first_name
 
 
 class Applicant(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     
