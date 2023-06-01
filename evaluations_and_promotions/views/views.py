@@ -11,8 +11,8 @@ from rest_framework.views import APIView
 from zappa.asynchronous import task
 from rest_framework.exceptions import ValidationError
 from django.db.models import Avg
-from .models import Evaluation
-from .serializers import *
+from ..models import Evaluation
+from ..serializers import *
 from login.serializers import *
 from datetime import datetime
 from django.utils import timezone
