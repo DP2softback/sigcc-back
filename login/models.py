@@ -79,6 +79,7 @@ class Employee(TimeStampedModel, SafeDeleteModel):
     area = models.ForeignKey(Area, on_delete=models.SET_NULL, null=True)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True)
 
+
 class Applicant(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
