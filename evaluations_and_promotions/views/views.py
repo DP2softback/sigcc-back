@@ -1,8 +1,6 @@
 import json
 from django.shortcuts import render
-import sys
 from rest_framework import status
-import pprint
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -174,8 +172,6 @@ class GetHistoricoDeEvaluaciones(APIView):
         nivel = request.data.get("nivel")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")  
-        print(request.data)
-        pprint.pprint(request.__dict__, stream=sys.stderr)
         print("employee_id", employee_id)
         print("EvaType", tipoEva)
         validate_employee_and_evaluation(employee_id, tipoEva)
@@ -306,7 +302,6 @@ class EvaluationLineChart(APIView):
         
         
         data = Data_serialiazada.data
-        print(data)
         # Transform data into the desired format
         result = {}
         for item in data:
@@ -591,7 +586,6 @@ class EvaluationLineChartPersona(APIView):
         
         
         data = Data_serialiazada.data
-        print(data)
         # Transform data into the desired format
         result = {}
         for item in data:
@@ -638,13 +632,11 @@ class PlantillasEditarAPI(APIView):
 
         Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__isActive = True,isActive=True)
         Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
-        print(Datos_serializados.data)
         Existe = False
         for item in request.data.get("Categories"):
             for subcat in item["subcategory"]:
                     Existe = False
-                    
-                    print(subcat["id"])
+
                     for DataExistente in Datos_serializados.data:
                         
                         if(DataExistente['subCategory']['id'] == subcat["id"]):
@@ -652,9 +644,9 @@ class PlantillasEditarAPI(APIView):
                                 print("Sí existe categoría")
                             elif(subcat["subcategory-isActive"] == False):
                                 PlantillaxSubCategoria.objects.filter(id=DataExistente['id']).update(isActive = False)
-                                print("Se elimina la subcategoria de la plantilla")
+ 
                             Existe = True
-                            print("Se encontró subcat")
+
                             break;
                     if(Existe == False and subcat["subcategory-isActive"] == True):
                         PlantillaxSubCategoria(
@@ -673,7 +665,6 @@ class PlantillasCrearAPI(APIView):
         evaltype = request.data.get("evaluationType")
         if (evaltype.casefold() != "Evaluación Continua".casefold() and evaltype.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
-        print(request.data.get('nombre'))
         plantilla_creada = Plantilla(nombre = request.data.get('nombre'),evaluationType = EvaluationType.objects.get(name= evaltype)).save()
 
         if(plantilla_creada is None):
