@@ -1,13 +1,14 @@
 ﻿from django.urls import include, path
-from gaps.views import CompetenciaView, TipoCompetenciaView, BuscarCompetenciaView
+from gaps.views import CompetenceView, CompetenceTypeView, SearchCompetenceView, SearchTrainingNeedView
 
-brechas_patterns = [
-    path('competencias', CompetenciaView.as_view()),
-    path('competencias/<int:id>', CompetenciaView.as_view()),
-    path('competenciasBuscar', BuscarCompetenciaView.as_view()),
-    path('tipoCompetencias', TipoCompetenciaView.as_view())
+gaps_patterns = [
+    path('competenceSearch', SearchCompetenceView.as_view()),
+    path('trainingNeedSearch', SearchTrainingNeedView.as_view()),
+    path('competenceTypes', CompetenceTypeView.as_view()),
+    path('competences', CompetenceView.as_view()),
+    path('competences/<int:id>', CompetenceView.as_view())
 ]
 
 urlpatterns = [
-    path('brechas/', include(brechas_patterns)),
+    path('gaps/', include(gaps_patterns)),
 ]

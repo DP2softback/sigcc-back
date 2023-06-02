@@ -2,11 +2,14 @@ from django.urls import path
 
 from capacitaciones import views
 from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDetail, LearningPathAPIView, \
-    CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView
-from capacitaciones.views.views_p2 import CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, \
+    CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
+    BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath
+
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaFreeListView, CursoEmpresaNotFreeListView, \
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
-    ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView
+    ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
+    CursoEmpresaEmpleadosAPIView
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
@@ -17,7 +20,10 @@ urlpatterns = [
     path('learning_path/template/', LearningPathCreateFromTemplateAPIView.as_view()),
     path('course_company/', CursoEmpresaAPIView.as_view()),
     path('course_company_course/', CursoEmpresaCourseAPIView.as_view()),
-    path('course_company_course/<int:pk>', CursoEmpresaDetailAPIView.as_view()),
+    path('course_company_course_free/', CursoEmpresaCourseAPIView.as_view()),
+    path('course_company_course_not_free/', CursoEmpresaFreeListView.as_view()),
+    path('course_company_course/<int:pk>', CursoEmpresaNotFreeListView.as_view()),
+    path('course_company_course_boss/<int:pk>', CursoEmpresaDetailBossAPIView.as_view()),
     path('course_company_special', CursoEmpresaSearchEspecialAPIView.as_view()),
     path('sesion_course_company/', SesionAPIView.as_view()),
     path('sesion_course_company/<int:pk>', SesionDetailAPIView.as_view()),
@@ -26,5 +32,11 @@ urlpatterns = [
     path('get_categoria/', CategoriaAPIView.as_view()),
     path('get_proveedores_empresa/<int:pk>/', ProveedorEmpresaXCategoriaAPIView.as_view()),
     path('get_habilidades_empresa/<int:pk>/',HabilidadesXEmpresaAPIView.as_view()),
-    path('get_personas_empresa_habilidades/', PersonasXHabilidadesXEmpresaAPIView.as_view())
+    path('get_personas_empresa_habilidades/', PersonasXHabilidadesXEmpresaAPIView.as_view()),
+    path('attendance_session/', AsistenciaSesionAPIView.as_view()),
+    path('attendance_session/<int:sesion_id>', AsistenciaSesionAPIView.as_view()),
+    path('learning_path/search_employee/', BusquedaDeEmpleadosAPIView.as_view()),
+    path('curso_empresa_empleados/',CursoEmpresaEmpleadosAPIView.as_view()),
+    path('learning_path/enroll_employess/', AsignacionEmpleadoLearningPathAPIView.as_view()),
+    path('learning_path/<int:pk>/employees/', EmpleadosLearningPath.as_view())
 ]

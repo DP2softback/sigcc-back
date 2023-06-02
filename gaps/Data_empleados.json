@@ -1,0 +1,20 @@
+﻿[
+    {"models":"login.Employee",
+    "fields":
+    {
+        "isSupervisor" : false
+    }
+    },
+    {"models":"login.Employee",
+    "fields":
+    {
+        "isSupervisor" : false
+    }
+    },
+    {"models":"login.Employee",
+    "fields":
+    {
+        "isSupervisor" : false
+    }
+    }
+]
