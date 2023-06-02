@@ -3,12 +3,15 @@ import os
 import uuid
 
 import boto3
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
+from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
+    BusquedaEmployeeSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course
+from login.models import Employee
 
 
 class GetUdemyValidCourses(APIView):
@@ -179,3 +182,70 @@ class DeleteFilesInS3APIView(APIView):
                 return Response({'msg': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({'msg': 'Url no recibida'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BusquedaDeEmpleadosAPIView(APIView):
+
+    def post(self, request):
+
+        email = request.data.get('email', None)
+
+        if not email:
+            return Response({'msg': 'Correo electronico no recibido'}, status=status.HTTP_400_BAD_REQUEST)
+
+        employee = Employee.objects.filter(user__email = email).select_related('user').first()
+
+        if not employee:
+            return Response({'msg': 'Correo electronico no existente'}, status=status.HTTP_400_BAD_REQUEST)
+
+        employee_serializer = BusquedaEmployeeSerializer(employee)
+
+        return Response(employee_serializer.data, status=status.HTTP_200_OK)
+    
+
+class AsignacionEmpleadoLearningPathAPIView(APIView):
+    
+    def post(self, request):
+
+        empleados = request.data.get('empleados', [])
+        num_empleados = len(empleados)
+
+        if num_empleados == 0:
+            return Response({'msg': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
+
+        id_lp = request.data.get('id_lp', None)
+
+        if not id_lp:
+            return Response({'msg': 'No se recibió el LP'}, status=status.HTTP_400_BAD_REQUEST)
+
+        #fecha_limite = request.data.get('fecha_limite', None)
+
+        #if not fecha_limite:
+        #    return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        list_asignaciones = [
+            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
+                                  fecha_limite=emp['fecha_limite']) for emp in empleados
+        ]
+
+        try:
+            EmpleadoXLearningPath.objects.bulk_create(list_asignaciones)
+        except Exception as e:
+            return Response({'msg': str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'msg': 'Se asigno a {} con exito'.format(num_empleados)}, status=status.HTTP_200_OK)
+
+
+class EmpleadosLearningPath(APIView):
+
+    def get(self, request, pk):
+
+        list_empleados_id = EmpleadoXLearningPath.objects.filter(learning_path_id=pk).values_list('empleado_id', flat=True)
+
+        list_empleados = Employee.objects.filter(id__in=list(list_empleados_id)).select_related('user')
+
+        employee_serializer = BusquedaEmployeeSerializer(list_empleados, many=True)
+
+        return Response(employee_serializer.data, status=status.HTTP_200_OK)
