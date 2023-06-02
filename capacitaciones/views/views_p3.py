@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
-    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa
+    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
@@ -163,10 +163,8 @@ class CursosEmpresaAPIView(APIView):
 
 
 class CursoEmpresaEmpleadosAPIView(APIView):
-    permission_classes = [AllowAny]
 
     def post(self, request):
-
         id_curso = request.data.get('id_curso', None)
         tipo_curso = CursoEmpresa.objects.filter(id=id_curso).values('tipo').first()
         curso_empresa = CursoEmpresa.objects.filter(id=id_curso).first()
@@ -183,7 +181,6 @@ class CursoEmpresaEmpleadosAPIView(APIView):
 
         if not porcentaje_asistencia_aprobacion:
             porcentaje_asistencia_aprobacion = curso_empresa.porcentaje_asistencia_aprobacion
-
 
         if not tipo_curso:
             return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -207,5 +204,20 @@ class CursoEmpresaEmpleadosAPIView(APIView):
 
         return Response(empleado_curso_empresa_serializer.data, status=status.HTTP_200_OK)
 
+
+class EmpleadoXLearningPathAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk):
+        empleado = Employee.objects.filter(id=pk).first()
+        if not empleado:
+            return Response({"message": "Empleado no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        id_lps = EmpleadoXLearningPath.objects.filter(empleado=pk).values('learning_path')
+
+        lps = LearningPath(id__in=id_lps)
+        lps_serializer = LearningPathSerializer(lps,many=True)
+
+        return Response(lps_serializer.data, status=status.HTTP_200_OK)
 
 
