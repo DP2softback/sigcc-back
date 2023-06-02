@@ -1,5 +1,6 @@
 from django.urls import path
-from evaluations_and_promotions.views import *
+from evaluations_and_promotions.views.views import *
+from evaluations_and_promotions.views.views2 import *
 
 urlpatterns = [
     path('evaluation', EvaluationAPI.as_view()),
@@ -12,5 +13,19 @@ urlpatterns = [
     path('evaluations', GetHistoricoDeEvaluaciones.as_view()),
     path('evaluationxsubcat', EvaluationXSubcatAPI.as_view()),
     path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
+    path('LineChartEvaluacionesPersona', EvaluationLineChartPersona.as_view()),
+    #Plantillas
+    path('Plantilla', PlantillasAPI.as_view()),
+    path('PlantillaEditarVista', PlantillasEditarVistaAPI.as_view()),
+    path('VistaCategoriasSubCategorias', VistaCategoriasSubCategorias.as_view()),
+    path('PlantillaEditar',PlantillasEditarAPI.as_view()),
+    path('PlantillaCrear',PlantillasCrearAPI.as_view()),
+    path('PlantillasPorGrupo',PlantillaPorTipo.as_view()),
+
+
+
+    path('areas/', GetAreas.as_view(), name='get-areas'),
+    path('categorias/continuas/', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
+    path('categorias/desempenio/', GetCategoriasDesempenio.as_view(), name='get-categorias-desempenio'),
     
 ]
