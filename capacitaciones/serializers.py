@@ -1,3 +1,7 @@
+from datetime import datetime
+
+from django.utils.dateparse import parse_datetime
+
 from login.models import Employee, User
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
@@ -248,6 +252,26 @@ class CursosEmpresaSerialiazer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
+    fechaAsignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+
+    fechaLimite = serializers.SerializerMethodField()
+    fechaCompletado = serializers.SerializerMethodField()
+
+    def get_fechaLimite(self, instance):
+        fecha_iso = instance.fechaLimite
+        fecha_obj = parse_datetime(fecha_iso)
+        if fecha_obj:
+            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
+            return fecha_formateada
+
+    def get_fechaCompletado(self, instance):
+        fecha_iso = instance.fechaCompletado
+        fecha_obj = parse_datetime(fecha_iso)
+        if fecha_obj:
+            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
+            return fecha_formateada
+
     class Meta:
         model = EmpleadoXCursoEmpresa
         fields = '__all__'
+
