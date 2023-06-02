@@ -156,10 +156,6 @@ CORS_EXPOSE_HEADERS = [
     "Content-Disposition"
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    '*',
-]
-
 S3_REGION = os.getenv('S3_REGION')
 S3_BUCKET = os.getenv('S3_BUCKET')
 S3_DOWNLOADS = os.getenv('S3_DOWNLOADS')
