@@ -25,8 +25,8 @@ urlpatterns = [
 
 
 
-    path('areas/', GetAreas.as_view(), name='get-areas'),
-    path('categorias/continuas/', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
-    path('categorias/desempenio/', GetCategoriasDesempenio.as_view(), name='get-categorias-desempenio'),
+    path('areas', GetAreas.as_view(), name='get-areas'),
+    path('categorias/continuas', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
+    path('categorias/desempenio', GetCategoriasDesempenio.as_view(), name='get-categorias-desempenio'),
     
 ]

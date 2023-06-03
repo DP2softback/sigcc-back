@@ -1,8 +1,6 @@
 import json
 from django.shortcuts import render
-import sys
 from rest_framework import status
-import pprint
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated

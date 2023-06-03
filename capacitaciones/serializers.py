@@ -1,7 +1,9 @@
+from login.models import Employee, User
+from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
-    Sesion, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
+    Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
 
 from django.utils import timezone
 
@@ -77,8 +79,17 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
         return CursoUdemySerializer(cursos, many=True).data
 
 
+class SesionXReponsableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SesionXReponsable
+        fields = '__all__'
+
+
+
 class SesionSerializer(serializers.ModelSerializer):
     temas= serializers.SerializerMethodField()
+    responsables= serializers.SerializerMethodField()
+
     class Meta:
         model = Sesion
         exclude = ('sesion_x_responsable', 'cursoEmpresa',)
@@ -88,6 +99,9 @@ class SesionSerializer(serializers.ModelSerializer):
         temas= Tema.objects.filter(sesion=obj)
         return TemaSerializer(temas,many=True).data
 
+    def get_responsables(self,obj):
+        responsables= ProveedorEmpresa.objects.filter(sesion=obj)
+        return ProveedorEmpresaSerializer(responsables,many=True).data
 
     def validate_nombre(self, value):
         if value == '':
@@ -111,7 +125,25 @@ class TemaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('El nombre no puede ser valor vacío')
         return value
     
+class ProveedorUsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProveedorUsuario
+        exclude = ('habilidad_x_proveedor_usuario',)
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
 
+class AsistenciaSesionSerializer(serializers.ModelSerializer):
+    empleado_nombre = serializers.CharField(source='empleado.user.first_name')
+    empleado_datos = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = AsistenciaSesionXEmpleado
+        fields = ['id', 'curso_empresa', 'empleado', 'empleado_nombre', 'empleado_datos', 'sesion', 'estado_asistencia'] 
+    
+    def get_empleado_datos(self, obj):
+        empleado = obj.empleado
+        empleado_serializer = EmployeeSerializerRead(empleado)
+        return empleado_serializer.data
+    
 '''
 class CursoEmpresaSerializerWithEmpleados(serializers.ModelSerializer):
 
@@ -149,4 +181,73 @@ class HabilidadSerializer(serializers.ModelSerializer):
 class ProveedorUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProveedorUsuario
+        fields = '__all__'
+
+
+class CursoGeneralListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoEmpresa
+        fields = '__all__'
+
+class CursoEmpresaListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoEmpresa
+        fields = ['id', 'nombre', 'descripcion', 'es_libre']
+
+
+class CursoSesionTemaResponsableListSerializer(serializers.ModelSerializer):
+    sesiones = SesionSerializer(many=True)
+
+    class Meta:
+        model = CursoEmpresa
+        fields = ['id', 'nombre', 'descripcion', 'sesiones']
+
+class EmpleadoXCursoEmpresaForBossSerializer(serializers.ModelSerializer):
+    employees = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EmpleadoXCursoEmpresa
+        fields = '__all__'
+
+    def get_employees(self, obj):
+        employees = obj.empleado_set.all()
+        return EmployeeSerializerRead(employees, many=True).data
+
+class CursoSesionTemaResponsableEmpleadoListSerializer(serializers.ModelSerializer):
+    sesiones = serializers.SerializerMethodField()
+    empleados = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CursoEmpresa
+        exclude = ('curso_empresa_x_empleado',)
+
+    def get_sesiones(self,obj):
+        sesiones= Sesion.objects.filter(cursoEmpresa=obj)
+        return SesionSerializer(sesiones,many=True).data
+    
+    def get_empleados(self,obj):
+        empleados = EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj)
+        return EmpleadoXCursoEmpresaForBossSerializer(empleados, many=True, context=self.context).data
+
+
+class BusquedaEmployeeSerializer(serializers.ModelSerializer):
+
+    id = serializers.IntegerField(source='pk')
+    email = serializers.EmailField(source='user.email')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+
+    class Meta:
+        model = Employee
+        fields = ['id', 'email', 'first_name', 'last_name']
+
+
+class CursosEmpresaSerialiazer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoEmpresa
+        fields = '__all__'
+
+class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmpleadoXCursoEmpresa
         fields = '__all__'
