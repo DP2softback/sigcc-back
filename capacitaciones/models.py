@@ -315,7 +315,8 @@ class Categoria(models.Model):
 
 class Habilidad(models.Model):
     habilidad = models.CharField(max_length=300)
-
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    
     class Meta:
         db_table = 'Habilidad'
 
