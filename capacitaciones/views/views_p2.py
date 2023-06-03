@@ -43,7 +43,7 @@ class CursoEmpresaCourseAPIView(APIView):
 
 
 class CursoEmpresaDetailAPIView(APIView):
-    #permission_classes = [AllowAny]
+    permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)

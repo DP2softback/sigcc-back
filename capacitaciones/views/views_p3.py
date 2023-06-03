@@ -126,7 +126,7 @@ class SesionAPIView(APIView):
                 
                 # Crear responsables para cada sesión
                 for responsable_data in request.data['responsables'] :
-                    responsable_id = responsable_data.get('responsable_id')
+                    responsable_id = responsable_data.get('id')
                     sesion_responsable_serializer = SesionXReponsableSerializer(data={
                         'responsable': responsable_id,
                         'clase': sesiones_emp.id
