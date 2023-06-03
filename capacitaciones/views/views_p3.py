@@ -103,7 +103,6 @@ class SesionAPIView(APIView):
         return Response(sesiones_emp_serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        with transaction.atomic():
             sesiones_emp_serializer = SesionSerializer(data=request.data, context=request.data)
 
             if sesiones_emp_serializer.is_valid():
@@ -116,10 +115,8 @@ class SesionAPIView(APIView):
                     tema_serializer = TemaSerializer(data=tema_sesion)
 
                     if tema_serializer.is_valid():
-                        tema_serializer.validated_data['sesion'] = sesiones_emp
-                        tema = Tema.objects.filter(nombre=tema_serializer.validated_data['nombre']).first()
-                        if tema is None:
-                            tema = tema_serializer.save()
+                        tema = tema_serializer.save(sesion_id=sesiones_emp.id)
+                        tema = tema_serializer.save()
                     else:
                         return Response({"message": "No se pudo crear el tema {}".format(tema_sesion['nombre'])},
                                         status=status.HTTP_400_BAD_REQUEST)

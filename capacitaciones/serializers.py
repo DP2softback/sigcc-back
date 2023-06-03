@@ -90,7 +90,6 @@ class SesionXReponsableSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class SesionSerializer(serializers.ModelSerializer):
     temas= serializers.SerializerMethodField()
     responsables= serializers.SerializerMethodField()
@@ -105,8 +104,10 @@ class SesionSerializer(serializers.ModelSerializer):
         return TemaSerializer(temas,many=True).data
 
     def get_responsables(self,obj):
-        responsables= ProveedorEmpresa.objects.filter(sesion=obj)
-        return ProveedorEmpresaSerializer(responsables,many=True).data
+        sesionxresponsables = list(SesionXReponsable.objects.filter(clase=obj).values_list("responsable_id",flat=True))
+        print("SesionXResponsables: ",sesionxresponsables)
+        responsables = ProveedorUsuario.objects.filter(id__in=sesionxresponsables)
+        return ProveedorUsuarioSerializer(responsables, many=True).data
 
     def validate_nombre(self, value):
         if value == '':
@@ -129,12 +130,6 @@ class TemaSerializer(serializers.ModelSerializer):
         if value == '':
             raise serializers.ValidationError('El nombre no puede ser valor vacío')
         return value
-    
-class ProveedorUsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProveedorUsuario
-        exclude = ('habilidad_x_proveedor_usuario',)
-        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
 
 class AsistenciaSesionSerializer(serializers.ModelSerializer):
     empleado_nombre = serializers.CharField(source='empleado.user.first_name')
@@ -186,7 +181,7 @@ class HabilidadSerializer(serializers.ModelSerializer):
 class ProveedorUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProveedorUsuario
-        fields = '__all__'
+        exclude = ('habilidad_x_proveedor_usuario',)
 
 
 class CursoGeneralListSerializer(serializers.ModelSerializer):
