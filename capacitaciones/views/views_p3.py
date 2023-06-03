@@ -141,6 +141,8 @@ class SesionAPIView(APIView):
                 if sesiones.exists():
                     min_fecha_sesion = min(sesiones, key=lambda x: x.fecha_inicio).fecha_inicio
                     CursoEmpresa.objects.filter(id=curso_empresa_id).update(fecha_primera_sesion=min_fecha_sesion)
+                    max_fecha_sesion = max(sesiones, key=lambda x: x.fecha_inicio).fecha_inicio
+                    CursoEmpresa.objects.filter(id=curso_empresa_id).update(fecha_ultima_sesion=max_fecha_sesion)
 
                 return Response({'id': sesiones_emp.id,
                                 'message': 'La sesion se ha con sus temas creado correctamente'},
