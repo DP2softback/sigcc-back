@@ -194,7 +194,7 @@ class AsistenciaSesionAPIView(APIView):
             for asistencia in serializer.data['empleados_asistencia']:
                 empleado = Employee.objects.get(id=asistencia['empleado'])
                 empleado_data = {
-                    'id': empleado.id,
+                    'empleado': empleado.id,
                     'nombre': empleado.user.first_name + ' ' + empleado.user.last_name,
                     'estado_asistencia': asistencia['estado_asistencia']
                 }
