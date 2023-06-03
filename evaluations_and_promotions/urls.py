@@ -13,6 +13,7 @@ urlpatterns = [
     path('evaluations', GetHistoricoDeEvaluaciones.as_view()),
     path('evaluationxsubcat', EvaluationXSubcatAPI.as_view()),
     path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
+    path('LineChartEvaluacionesReporte', EvaluationLineChartReporte.as_view()),
     path('LineChartEvaluacionesPersona', EvaluationLineChartPersona.as_view()),
     #Plantillas
     path('Plantilla', PlantillasAPI.as_view()),
