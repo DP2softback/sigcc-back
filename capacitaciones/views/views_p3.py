@@ -7,7 +7,7 @@ from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearn
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
-    LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer
+    LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
@@ -207,13 +207,13 @@ class EmpleadoXLearningPathAPIView(APIView):
 
     def get(self, request, pk):
         empleado = Employee.objects.filter(id=pk).first()
+
         if not empleado:
             return Response({"message": "Empleado no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
-        id_lps = EmpleadoXLearningPath.objects.filter(empleado=pk).values('learning_path')
+        lps = EmpleadoXLearningPath.objects.filter(empleado=pk)
 
-        lps = LearningPath.objects.filter(id__in=id_lps)
-        lps_serializer = LearningPathSerializer(lps,many=True)
+        lps_serializer = EmpleadoXLearningPathSerializer(lps, many=True)
 
         return Response(lps_serializer.data, status=status.HTTP_200_OK)
 

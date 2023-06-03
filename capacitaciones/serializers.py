@@ -294,3 +294,15 @@ class LearningPathXEmpleadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = LearningPath
         fields = '__all__'
+
+
+class EmpleadoXLearningPathSerializer(serializers.ModelSerializer):
+    learning_path = LearningPathSerializer()
+
+    fecha_asignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_limite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_completado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+
+    class Meta:
+        model = EmpleadoXLearningPath
+        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'apreciacion', 'fecha_asignacion', 'fecha_limite', 'fecha_completado']
