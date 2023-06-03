@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
-    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath
+    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
-    SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer
+    SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
+    LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
@@ -211,9 +212,20 @@ class EmpleadoXLearningPathAPIView(APIView):
 
         id_lps = EmpleadoXLearningPath.objects.filter(empleado=pk).values('learning_path')
 
-        lps = LearningPath(id__in=id_lps)
+        lps = LearningPath.objects.filter(id__in=id_lps)
         lps_serializer = LearningPathSerializer(lps,many=True)
 
         return Response(lps_serializer.data, status=status.HTTP_200_OK)
 
+
+class DetalleLearningPathXEmpleadoAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, emp, lp):
+        detalle_lp = EmpleadoXLearningPath.objects.filter(Q(id=emp) & Q(learning_path=lp))
+
+        lp = LearningPath.objects.filter(id=lp).first()
+        lp_serializer = LearningPathXEmpleadoSerializer(lp)
+
+        return Response(lp_serializer.data, status=status.HTTP_200_OK)
 

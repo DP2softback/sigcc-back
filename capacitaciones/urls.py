@@ -9,7 +9,7 @@ from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaC
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
-    CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView
+    CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
@@ -39,5 +39,6 @@ urlpatterns = [
     path('curso_empresa_empleados/',CursoEmpresaEmpleadosAPIView.as_view()),
     path('learning_path/enroll_employess/', AsignacionEmpleadoLearningPathAPIView.as_view()),
     path('learning_path/<int:pk>/employees/', EmpleadosLearningPath.as_view()),
-    path('learning_path/empleado/<int:pk>/', EmpleadoXLearningPathAPIView.as_view())
+    path('learning_path/empleado/<int:pk>/', EmpleadoXLearningPathAPIView.as_view()),
+    path('learning_path/detalle_empleado/<int:emp>/<int:lp>/', DetalleLearningPathXEmpleadoAPIView.as_view())
 ]

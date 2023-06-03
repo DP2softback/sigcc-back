@@ -271,3 +271,24 @@ class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
         model = EmpleadoXCursoEmpresa
         fields = '__all__'
 
+
+class CursoGeneralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoGeneral
+        fields = ['id', 'nombre', 'descripcion', 'duracion', 'suma_valoracionees', 'cant_valoraciones']
+
+
+class CursoGeneralXLearningPathSerializer(serializers.ModelSerializer):
+    curso = CursoGeneralSerializer()
+
+    class Meta:
+        model = CursoGeneralXLearningPath
+        fields = ['nro_orden', 'cant_intentos_max', 'curso']
+
+
+class LearningPathXEmpleadoSerializer(serializers.ModelSerializer):
+    cursos = CursoGeneralXLearningPathSerializer(many=True, read_only=True, source='cursogeneralxlearningpath_set')
+
+    class Meta:
+        model = LearningPath
+        fields = '__all__'
