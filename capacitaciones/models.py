@@ -316,7 +316,7 @@ class Categoria(models.Model):
 class Habilidad(models.Model):
     habilidad = models.CharField(max_length=300)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    
+
     class Meta:
         db_table = 'Habilidad'
 
@@ -373,16 +373,10 @@ class SesionXReponsable(models.Model):
         db_table = 'SesionXReponsable'
 
 class AsistenciaSesionXEmpleado(models.Model):
-    tipo_choices = [
-        ('P', 'Asistió puntual'),
-        ('T', 'Asistió tarde'),
-        ('N', 'No asistió'),
-        ('J', 'Falta justificada')
-    ]
     curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     sesion = models.ForeignKey(Sesion , on_delete=models.CASCADE)
-    estado_asistencia = models.CharField(max_length=1, choices=tipo_choices)
+    estado_asistencia = models.BooleanField()
 
     class Meta:
         db_table = 'AsistenciaSesionXEmpleado'
