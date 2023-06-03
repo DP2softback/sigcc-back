@@ -116,7 +116,6 @@ class SesionAPIView(APIView):
 
                     if tema_serializer.is_valid():
                         tema = tema_serializer.save(sesion_id=sesiones_emp.id)
-                        tema = tema_serializer.save()
                     else:
                         return Response({"message": "No se pudo crear el tema {}".format(tema_sesion['nombre'])},
                                         status=status.HTTP_400_BAD_REQUEST)
