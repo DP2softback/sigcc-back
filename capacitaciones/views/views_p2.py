@@ -3,8 +3,8 @@ from login.models import Employee
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -82,22 +82,24 @@ class CursoEmpresaDetailBossAPIView(APIView):
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
 
 
-class CursoEmpresaFreeListView(APIView):
-    def get(self, request):
-        cursos_empresas = CursoEmpresa.objects.filter(es_libre=True)
-        serializer = CursoEmpresaListSerializer(cursos_empresas, many=True)
+class EmployeeCursoEmpresaFreeListView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request,pk_empleado):
+        empleados_cursos_empresas = EmpleadoXCursoEmpresa.objects.filter(empleado_id=pk_empleado,cursoEmpresa__es_libre=True)
+        serializer = EmpleadoXCursoEmpresaWithCourseSerializer(empleados_cursos_empresas, many=True)
         return Response(serializer.data)
 
 
-class CursoEmpresaNotFreeListView(APIView):
-    def get(self, request):
-        cursos_empresas = CursoEmpresa.objects.filter(es_libre=False)
-        serializer = CursoEmpresaListSerializer(cursos_empresas, many=True)
+class EmployeeCursoEmpresaNotFreeListView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request,pk_empleado):
+        empleados_cursos_empresas = EmpleadoXCursoEmpresa.objects.filter(empleado_id=pk_empleado,cursoEmpresa__es_libre=False)
+        serializer = EmpleadoXCursoEmpresaWithCourseSerializer(empleados_cursos_empresas, many=True)
         return Response(serializer.data)
 
    
 class SesionDetailAPIView(APIView):
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)

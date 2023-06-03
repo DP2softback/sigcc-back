@@ -5,8 +5,8 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath
 
-from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaFreeListView, CursoEmpresaNotFreeListView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, SesionDetailAPIView
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaCourseAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, \
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView
@@ -20,8 +20,8 @@ urlpatterns = [
     path('learning_path/template/', LearningPathCreateFromTemplateAPIView.as_view()),
     path('course_company/', CursoEmpresaAPIView.as_view()),
     path('course_company_course/', CursoEmpresaCourseAPIView.as_view()),
-    path('course_company_course_free/', CursoEmpresaFreeListView.as_view()),
-    path('course_company_course_not_free/', CursoEmpresaNotFreeListView.as_view()),
+    path('course_company_course_free/<int:pk_empleado>', EmployeeCursoEmpresaFreeListView.as_view()),
+    path('course_company_course_not_free/<int:pk_empleado>', EmployeeCursoEmpresaNotFreeListView.as_view()),
     path('course_company_course/<int:pk>', CursoEmpresaDetailAPIView.as_view()),
     path('course_company_course_boss/<int:pk>', CursoEmpresaDetailBossAPIView.as_view()),
     path('course_company_special', CursoEmpresaSearchEspecialAPIView.as_view()),
