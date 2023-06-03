@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -149,6 +149,25 @@ class CursoEmpresaAPIView(APIView):
             curso_empresa_nuevo = curso_empresa.save()
 
             return Response ({},status=status.HTTP_200_OK)
+
+
+class AsistenciaSesionInicialAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request, curso_id):
+        cursos_emp = CursoEmpresa.objects.filter(id=curso_id).first()
+        cursos_emp_serializer = EmployeeCoursesListSerializer(cursos_emp)
+        asistencias_data = []
+        for asistencia in cursos_emp_serializer.data['empleados']:
+            empleado = Employee.objects.get(id=asistencia['id'])
+            empleado_data = {
+                'id': empleado.id,
+                'nombre': empleado.user.first_name + ' ' + empleado.user.last_name,
+                'estado_asistencia': ""
+            }
+            asistencias_data.append(empleado_data)
+
+        return Response(asistencias_data, status = status.HTTP_200_OK)
 
 
 class AsistenciaSesionAPIView(APIView):

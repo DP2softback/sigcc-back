@@ -5,7 +5,7 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath
 
-from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, \
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, \
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
@@ -25,6 +25,7 @@ urlpatterns = [
     path('course_company_course_not_free/<int:pk_empleado>', EmployeeCursoEmpresaNotFreeListView.as_view()),
     path('course_company_course/<int:pk>', CursoEmpresaDetailAPIView.as_view()),
     path('course_company_course_boss/<int:pk>', CursoEmpresaDetailBossAPIView.as_view()),
+    path('course_company_course_list_empployees/<int:curso_id>', AsistenciaSesionInicialAPIView.as_view()),
     path('course_company_special', CursoEmpresaSearchEspecialAPIView.as_view()),
     path('sesion_course_company/', SesionAPIView.as_view()),
     path('sesion_course_company/<int:pk>', SesionDetailAPIView.as_view()),
