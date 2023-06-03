@@ -376,7 +376,7 @@ class AsistenciaSesionXEmpleado(models.Model):
     curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     sesion = models.ForeignKey(Sesion , on_delete=models.CASCADE)
-    estado_asistencia = models.BooleanField()
+    estado_asistencia = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'AsistenciaSesionXEmpleado'

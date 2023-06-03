@@ -181,7 +181,7 @@ class HabilidadSerializer(serializers.ModelSerializer):
 class ProveedorUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProveedorUsuario
-        exclude = ('habilidad_x_proveedor_usuario',)
+        fields = '__all__'
 
 
 class CursoGeneralListSerializer(serializers.ModelSerializer):
@@ -226,8 +226,10 @@ class CursoSesionTemaResponsableEmpleadoListSerializer(serializers.ModelSerializ
         return SesionSerializer(sesiones,many=True).data
     
     def get_empleados(self,obj):
-        empleados = EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj)
-        return EmpleadoXCursoEmpresaForBossSerializer(empleados, many=True, context=self.context).data
+        empleadosxcursoempresa = list(EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj).values_list("empleado_id",flat=True))
+        print("EmpleadoXCursoEmpresa: ",empleadosxcursoempresa)
+        empleados = Employee.objects.filter(id__in=empleadosxcursoempresa)
+        return EmployeeSerializerRead(empleados, many=True).data
 
 
 class BusquedaEmployeeSerializer(serializers.ModelSerializer):
