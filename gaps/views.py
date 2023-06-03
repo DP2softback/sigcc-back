@@ -135,4 +135,39 @@ class CompetenceTypeView(APIView):
             tipoCompetencia_serializer.save()
             return Response(tipoCompetencia_serializer.data,status=status.HTTP_200_OK)
         return Response(None,status=status.HTTP_400_BAD_REQUEST)
-    
+
+class SearchCompetenceConsolidateView(APIView):
+    def post(self, request):
+        idArea = request.data["idArea"]
+        active = request.data["activo"]
+        query = Q()
+		
+        if idArea is not None and idArea > 0:
+            query.add(Q(employee__area__id=idArea), Q.AND)
+        if(active is not None):
+            if active == 0: query.add(Q(active=False), Q.AND)
+            if active == 1: query.add(Q(active=True), Q.AND)
+        query.add(Q(levelRequired__gte=1), Q.AND)
+		
+        countEmpleadoRange1 = CompetenceXEmployee.objects.filter(query & Q(likeness__gte=0) & Q(likeness__lte=19.99)).count()
+        countEmpleadoRange2 = CompetenceXEmployee.objects.filter(query & Q(likeness__gte=20) & Q(likeness__lte=39.99)).count()
+        countEmpleadoRange3 = CompetenceXEmployee.objects.filter(query & Q(likeness__gte=40) & Q(likeness__lte=59.99)).count()
+        countEmpleadoRange4 = CompetenceXEmployee.objects.filter(query & Q(likeness__gte=60) & Q(likeness__lte=79.99)).count()
+        countEmpleadoRange5 = CompetenceXEmployee.objects.filter(query & Q(likeness__gte=80) & Q(likeness__lte=100)).count()
+		
+        countTotal = countEmpleadoRange1 + countEmpleadoRange2 + countEmpleadoRange3 + countEmpleadoRange4 + countEmpleadoRange5
+        countEmpleadoRange1 = countEmpleadoRange1 / countTotal
+        countEmpleadoRange2 = countEmpleadoRange2 / countTotal
+        countEmpleadoRange3 = countEmpleadoRange3 / countTotal
+        countEmpleadoRange4 = countEmpleadoRange4 / countTotal
+        countEmpleadoRange5 = countEmpleadoRange5 / countTotal
+		# Ver como lo paso, proporcion (0.5), porcentaje (50) o solo la cuenta (count)
+		
+        countList = {'rango1': countEmpleadoRange1,
+        'rango2': countEmpleadoRange2,
+        'rango3': countEmpleadoRange3,
+        'rango4': countEmpleadoRange4,
+        'rango5': countEmpleadoRange5,
+        }
+		
+        return Response(countList, status = status.HTTP_200_OK)    
