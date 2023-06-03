@@ -1,5 +1,6 @@
 # Create your views here.
 from login.models import Employee
+from login.serializers import EmployeeSerializerRead
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -211,3 +212,10 @@ class AsistenciaSesionAPIView(APIView):
         return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
 
         
+class ListEmployeesGeneralAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        empleados = Employee.objects.all()
+        empleados_serializer = EmployeeSerializerRead(empleados, many=True)
+        return Response(empleados_serializer.data, status = status.HTTP_200_OK)
