@@ -97,15 +97,19 @@ class CursoEmpresaNotFreeListView(APIView):
 
    
 class SesionDetailAPIView(APIView):
-    #permission_classes = [AllowAny]
+    permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
     
     def get(self, request, pk):
-        sesiones_emp = Sesion.objects.filter(id=pk).first()
-        sesiones_emp_serializer = SesionSerializer(sesiones_emp)
-        return Response(sesiones_emp_serializer.data, status = status.HTTP_200_OK)
+        curso_empresa = CursoEmpresa.objects.filter(id=pk).first()
+        if not curso_empresa:
+            return Response("Curso empresa no encontrado", status=status.HTTP_404_NOT_FOUND)
+
+        sesiones_emp = Sesion.objects.filter(cursoEmpresa=curso_empresa)
+        sesiones_emp_serializer = SesionSerializer(sesiones_emp, many=True)
+        return Response(sesiones_emp_serializer.data, status=status.HTTP_200_OK)
 
 
 #acá iría la api para la búsqueda especial de Rodrigo
