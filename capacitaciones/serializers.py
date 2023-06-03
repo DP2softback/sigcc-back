@@ -181,7 +181,7 @@ class HabilidadSerializer(serializers.ModelSerializer):
 class ProveedorUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProveedorUsuario
-        exclude = ('habilidad_x_proveedor_usuario',)
+        fields = '__all__'
 
 
 class CursoGeneralListSerializer(serializers.ModelSerializer):
