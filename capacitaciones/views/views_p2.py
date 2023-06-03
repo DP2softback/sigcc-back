@@ -42,6 +42,15 @@ class CursoEmpresaCourseAPIView(APIView):
         return Response(cursos_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CursoEmpresaCourseFreesAllAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        cursos_emp = CursoEmpresa.objects.filter(es_libre=True)
+        cursos_emp_serializer = CursoGeneralListSerializer(cursos_emp, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+    
+
+
 class CursoEmpresaDetailAPIView(APIView):
     permission_classes = [AllowAny]
     @transaction.atomic
