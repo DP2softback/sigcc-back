@@ -163,7 +163,7 @@ class AsistenciaSesionInicialAPIView(APIView):
             empleado_data = {
                 'empleado': empleado.id,
                 'nombre': empleado.user.first_name + ' ' + empleado.user.last_name,
-                'estado_asistencia': ""
+                'estado_asistencia': None
             }
             asistencias_data.append(empleado_data)
 
