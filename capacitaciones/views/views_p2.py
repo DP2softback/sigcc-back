@@ -248,11 +248,11 @@ class AsistenciaSesionAPIView(APIView):
         return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
     
     def put(self, request, sesion_id):
-        try:
-            sesion = request.data['sesion_id']
-            asistencias = AsistenciaSesionXEmpleado.objects.filter(id_sesion=sesion)
+        try:            
+            sesion = Sesion.objects.filter(id=sesion_id).first()
+            asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion=sesion)
 
-            for empleado_asistencia in request.data['empleados_asistencia']:
+            for empleado_asistencia in request.data['asistencias']:
                 empleado_id = empleado_asistencia['empleado']
                 estado_asistencia = empleado_asistencia['estado_asistencia']
                 
