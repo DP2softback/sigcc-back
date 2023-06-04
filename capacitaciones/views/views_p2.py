@@ -246,6 +246,34 @@ class AsistenciaSesionAPIView(APIView):
                 )
                 
         return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
+    
+    def put(self, request, sesion_id):
+        try:
+            sesion = request.data['sesion_id']
+            asistencias = AsistenciaSesionXEmpleado.objects.filter(id_sesion=sesion)
+
+            for empleado_asistencia in request.data['empleados_asistencia']:
+                empleado_id = empleado_asistencia['empleado']
+                estado_asistencia = empleado_asistencia['estado_asistencia']
+                
+                # Buscar la asistencia existente por empleado y sesión
+                asistencia = asistencias.filter(empleado_id=empleado_id).first()
+
+                if asistencia:
+                    # Actualizar el estado de asistencia
+                    asistencia.estado_asistencia = estado_asistencia
+                    asistencia.save()
+                '''else:
+                    # Crear una nueva asistencia si no existe
+                    AsistenciaSesionXEmpleado.objects.create(
+                        sesion=sesion,
+                        empleado_id=empleado_id,
+                        estado_asistencia=estado_asistencia
+                    )'''
+
+            return Response({'message': 'Asistencia actualizada correctamente'}, status=status.HTTP_200_OK)
+        except Sesion.DoesNotExist:
+            return Response({"message": "Sesión no encontrada."}, status=status.HTTP_404_NOT_FOUND)
 
         
 class ListEmployeesGeneralAPIView(APIView):
