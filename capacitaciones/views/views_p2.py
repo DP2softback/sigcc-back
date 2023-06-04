@@ -161,7 +161,7 @@ class AsistenciaSesionInicialAPIView(APIView):
         for asistencia in cursos_emp_serializer.data['empleados']:
             empleado = Employee.objects.get(id=asistencia['id'])
             empleado_data = {
-                'id': empleado.id,
+                'empleado': empleado.id,
                 'nombre': empleado.user.first_name + ' ' + empleado.user.last_name,
                 'estado_asistencia': ""
             }
@@ -182,7 +182,7 @@ class AsistenciaSesionAPIView(APIView):
             sesion = Sesion.objects.get(id=sesion_id)
             asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion=sesion)
             serializer = AsistenciaSesionSerializer(asistencias, many=True)
-
+            print("El data del serializer del AsistenciaSesionSerializer es:", serializer.data)
             # Obtener los datos adicionales de la sesión
             sesion_data = {
                 'nombre_sesion': sesion.nombre,
@@ -191,7 +191,7 @@ class AsistenciaSesionAPIView(APIView):
 
             # Obtener los datos de las personas y su estado de asistencia
             asistencias_data = []
-            for asistencia in serializer.data['empleados_asistencia']:
+            for asistencia in serializer.data:
                 empleado = Employee.objects.get(id=asistencia['empleado'])
                 empleado_data = {
                     'empleado': empleado.id,
@@ -210,7 +210,7 @@ class AsistenciaSesionAPIView(APIView):
         except Sesion.DoesNotExist:
             return Response({"message": "Sesión no encontrada."}, status=status.HTTP_404_NOT_FOUND)
     
-    def post(self, request):
+    def post(self, request,sesion_id):
         sesion_id = request.data['sesion_id']
         sesion = Sesion.objects.filter(id=sesion_id).first()
         curso_empresa_id = request.data['curso_empresa_id']
@@ -218,15 +218,32 @@ class AsistenciaSesionAPIView(APIView):
 
         for empleado_asistencia in request.data['empleados_asistencia']:
                 
-            empleado_asistencia_serializer = AsistenciaSesionSerializer(data=empleado_asistencia)
-            empleado_asistencia_serializer.validated_data['sesion'] = sesion
-            empleado_asistencia_serializer.validated_data['curso_empresa'] = curso
+            #empleado_asistencia_serializer = AsistenciaSesionSerializer(data=empleado_asistencia)
+            #print("El empleado_asistencia_serializer es: ",empleado_asistencia_serializer)
+            empleado_id = empleado_asistencia.get('empleado')
+            estado_asistencia = empleado_asistencia.get('estado_asistencia')
 
-            if empleado_asistencia_serializer.is_valid():
-                empleado_asistencia_serializer.save()
+            if empleado_id is not None and estado_asistencia is not None:
+                empleado_exists = Employee.objects.filter(id=empleado_id).exists()
+                if empleado_exists:
+                    asistencia = AsistenciaSesionXEmpleado(
+                        curso_empresa=curso,
+                        empleado_id=empleado_id,
+                        sesion_id=sesion_id,
+                        estado_asistencia=estado_asistencia
+                    )
+                    asistencia.save()
+                else:
+                    # Lanzar una excepción Http404 si el empleado no existe
+                    return Response(
+                        {"message": "No existe el empleado con el ID proporcionado."},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
             else:
-                return Response({"message": "No existe el empleado al que se le quiere poner asistencia en la sesion"},
-                                    status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"message": "Datos de asistencia incompletos."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
                 
         return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
 
