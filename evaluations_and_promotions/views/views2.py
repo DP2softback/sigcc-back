@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from datetime import datetime 
 
 class EvaluationCreateAPIView(APIView):
     @transaction.atomic
@@ -19,7 +19,6 @@ class EvaluationCreateAPIView(APIView):
             evaluated_id = data.get('evaluatedId')
             evaluated_employee = get_object_or_404(Employee, id=evaluated_id)
             is_finished = data.get('isFinished')
-            final_score = data.get('finalScore')
             additional_comments = data.get('additionalComments')
             has_comment = bool(additional_comments)
 
@@ -34,19 +33,20 @@ class EvaluationCreateAPIView(APIView):
 
             # Retrieve the Category based on the category_id
             category = get_object_or_404(Category, id=category_id)
-
+            scores = [subcategory["score"] for subcategory in subcategories_data]
+            finalScore = sum(scores) / len(scores)
             evaluation = Evaluation.objects.create(
                 evaluator_id=evaluator_id,
                 evaluated_id=evaluated_id,
                 hasComment=has_comment,
                 generalComment=additional_comments,
                 isFinished=is_finished,
-                finalScore=final_score,
+                finalScore=finalScore,
                 evaluationType=evaluation_type,
                 area=evaluated_employee.area,  
                 position=evaluated_employee.position,  
                 proyecto=associated_project,
-
+                evaluationDate = datetime.now()
                 
             )
 
