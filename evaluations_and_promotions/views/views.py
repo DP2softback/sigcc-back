@@ -633,6 +633,12 @@ class EvaluationLineChartPersona(APIView):
 class PlantillasEditarAPI(APIView):
     def post(self,request):
         plantilla = request.data.get("plantilla-id")
+        nuevanombre = request.data.get("plantilla-nombre")
+        Plantilla_basica = Plantilla.objects.get(pk=plantilla)
+
+        if(Plantilla_basica.nombre != nuevanombre ):
+            Plantilla_basica.nombre = nuevanombre
+            Plantilla_basica.save()
 
         Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__isActive = True,isActive=True)
         Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
