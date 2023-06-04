@@ -1,4 +1,78 @@
 from rest_framework.views import APIView
+from rest_framework import status
 from rest_framework.response import Response
-from ..models import Area, Category, EvaluationType
+from ..models import *
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
+
+class EvaluationCreateAPIView(APIView):
+    @transaction.atomic
+
+    def post(self, request):
+        try:
+            # Extract data from the request
+            data = request.data
+            evaluator_id = data.get('evaluatorId')
+            evaluated_id = data.get('evaluatedId')
+            evaluated_employee = get_object_or_404(Employee, id=evaluated_id)
+            is_finished = data.get('isFinished')
+            final_score = data.get('finalScore')
+            additional_comments = data.get('additionalComments')
+            has_comment = bool(additional_comments)
+
+            # Retrieve the EvaluationType based on the name
+            evaluation_type_name = data.get('evaluationType')
+            evaluation_type = get_object_or_404(EvaluationType, name=evaluation_type_name)
+
+            # Retrieve other fields from the request
+            associated_project = data.get('associatedProject')
+            category_id = data.get('categoryId')
+            subcategories_data = data.get('subcategories')
+
+            # Retrieve the Category based on the category_id
+            category = get_object_or_404(Category, id=category_id)
+
+            evaluation = Evaluation.objects.create(
+                evaluator_id=evaluator_id,
+                evaluated_id=evaluated_id,
+                hasComment=has_comment,
+                generalComment=additional_comments,
+                isFinished=is_finished,
+                finalScore=final_score,
+                evaluationType=evaluation_type,
+                area=evaluated_employee.area,  
+                position=evaluated_employee.position,  
+                proyecto=associated_project,
+
+                
+            )
+
+            # Create a list of EvaluationxSubCategory instances
+            evaluationxsubcategories = []
+            for subcategory_data in subcategories_data:
+                subcategory_id = subcategory_data.get('id')
+                score = subcategory_data.get('score')
+                subcategory = get_object_or_404(SubCategory, id=subcategory_id)
+                evaluationxsubcategory = EvaluationxSubCategory(
+                    subCategory=subcategory,
+                    evaluation=evaluation,
+                    score=score
+                )
+                evaluationxsubcategories.append(evaluationxsubcategory)
+
+            # Bulk create the EvaluationxSubCategory instances
+            EvaluationxSubCategory.objects.bulk_create(evaluationxsubcategories)
+
+            return Response({'message': 'Evaluation created successfully.'}, status=status.HTTP_201_CREATED)
+        except EvaluationType.DoesNotExist:
+            return Response({'message': 'Invalid evaluation type.'}, status=status.HTTP_400_BAD_REQUEST)
+        except SubCategory.DoesNotExist:
+            return Response({'message': 'Invalid subcategory.'}, status=status.HTTP_400_BAD_REQUEST)
+        except Category.DoesNotExist:
+            return Response({'message': 'Invalid category.'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'message': 'An error occurred.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            

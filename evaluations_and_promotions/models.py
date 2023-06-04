@@ -67,7 +67,7 @@ class Evaluation(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    evaluationDate = models.DateTimeField()
+    evaluationDate = models.DateTimeField(null=True)
     hasComment = models.BooleanField()
     generalComment = models.CharField(max_length=500, null=True, blank=True)
     isFinished = models.BooleanField()

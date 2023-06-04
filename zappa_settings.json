@@ -49,20 +49,6 @@
       ]
     }
   },
-  "dev-evaluations": {
-    "extends": "base",
-    "profile_name": "dp2",
-    "s3_bucket": "dp2-bucket-dev",
-    "vpc_config": {
-      "SecurityGroupIds": [
-        "sg-0b82c771b20596583"
-      ],
-      "SubnetIds": [
-        "subnet-0db6a3744b412ed05",
-        "subnet-0d188925f7f617576"
-      ]
-    }
-  },
   "dev-eval": {
     "extends": "base",
     "profile_name": "dp2",
