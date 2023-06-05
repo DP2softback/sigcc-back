@@ -78,6 +78,7 @@ class Evaluation(models.Model):
     area = models.ForeignKey(Area,on_delete=models.SET_NULL, blank=True, null=True)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, blank=True, null=True)
     proyecto = models.TextField(blank=True, default='')
+    relatedEvaluation = models.ForeignKey('self', blank=True,null=True, on_delete=models.SET_NULL)
 
 
 class SubCategory(models.Model):
