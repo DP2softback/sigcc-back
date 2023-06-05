@@ -413,3 +413,14 @@ class CompetenceEmployeeView(APIView):
                     if trainingNeed_serializer.is_valid():
                         trainingNeed_serializer.save()
         return Response(1,status=status.HTTP_200_OK)
+
+class TrainingNeedView(APIView):
+    def put(self, request,id=0):
+        register = TrainingNeed.objects.filter(Q(id = request.data["necesidad"])).first()
+        if register is not None:
+            fields = {'state': request.data["estado"]}        
+            trainingNeed_serializer = TrainingNeedSerializer(register, data = fields)
+            if trainingNeed_serializer.is_valid():
+                trainingNeed_serializer.save()
+        return Response(1,status=status.HTTP_200_OK)
+    
