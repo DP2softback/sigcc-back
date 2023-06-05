@@ -281,12 +281,22 @@ class CheckUdemyCourseStatusAPIView(APIView):
 
     def post(self, request, pk_course):
 
-        estado = CursoUdemy.objects.filter(pk=pk_course).values('estado').first()
+        estado_curso = CursoUdemy.objects.filter(pk=pk_course).values('estado').first()
 
-        if not estado:
+        if not estado_curso:
             Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(estado, status=status.HTTP_200_OK)
+        return Response(estado_curso, status=status.HTTP_200_OK)
+
+
+class UdemyEvaluationAPIView(APIView):
+
+    def get(self, request, pk_course):
+
+        preguntas = CursoUdemy.objects.filter(pk=pk_course).values('preguntas').first()
+
+        if not preguntas:
+            return Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

@@ -33,7 +33,7 @@ class CursoUdemySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CursoUdemy
-        exclude = ('curso_x_learning_path',)
+        exclude = ('curso_x_learning_path', 'preguntas')
 
     def validate_udemy_id(self, value):
 
@@ -41,6 +41,7 @@ class CursoUdemySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('El valor de este campo no puede ser vacio')
 
         return value
+
 
 class CursoEmpresaSerializer(serializers.ModelSerializer):
     sesiones= serializers.SerializerMethodField()
@@ -76,7 +77,7 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
 
     class Meta:
         model = LearningPath
-        exclude = ('preguntas', )
+        fields = '__all__'
 
     def get_curso_x_learning_path(self, obj):
         cursos_id = CursoGeneralXLearningPath.objects.filter(learning_path=obj).values_list('curso_id', flat=True)
