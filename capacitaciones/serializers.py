@@ -76,7 +76,7 @@ class LearningPathSerializerWithCourses(serializers.ModelSerializer):
 
     class Meta:
         model = LearningPath
-        fields = '__all__'
+        exclude = ('preguntas', )
 
     def get_curso_x_learning_path(self, obj):
         cursos_id = CursoGeneralXLearningPath.objects.filter(learning_path=obj).values_list('curso_id', flat=True)
