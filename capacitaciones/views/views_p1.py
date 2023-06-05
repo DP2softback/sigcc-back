@@ -279,7 +279,7 @@ class GenerateUdemyEvaluationAPIView(APIView):
 
 class CheckUdemyCourseStatusAPIView(APIView):
 
-    def post(self, request, pk_course):
+    def get(self, request, pk_course):
 
         estado_curso = CursoUdemy.objects.filter(pk=pk_course).values('estado').first()
 
@@ -297,6 +297,10 @@ class UdemyEvaluationAPIView(APIView):
 
         if not preguntas:
             return Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
+
+        print(preguntas)
+
+        return Response(preguntas, status=status.HTTP_200_OK)
 
 
 
