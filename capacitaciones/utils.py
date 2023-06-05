@@ -1,9 +1,12 @@
 import requests
-
+import openai
+import json
+import os
 
 ''' Udemy API '''
-def get_udemy_courses(course):
 
+
+def get_udemy_courses(course):
     url = "https://www.udemy.com/api-2.0/courses/?search={search}&ordering=relevance&page=1&page_size={page_size}".format(
         search=course, page_size=20)
 
@@ -20,8 +23,9 @@ def get_udemy_courses(course):
 
 
 ''' Udemy API '''
-def get_detail_udemy_course(course_id):
 
+
+def get_detail_udemy_course(course_id):
     url = "https://www.udemy.com/api-2.0/courses/{course_id}/public-curriculum-items/?page=1&page_size={page_size}".format(
         course_id=course_id, page_size=1000)
 
@@ -37,9 +41,7 @@ def get_detail_udemy_course(course_id):
     return detail_course
 
 
-
-def clean_course_detail (course):
-
+def clean_course_detail(course):
     list_keys = ['is_paid', 'price', 'price_detail', 'price_serve_tracking_id', 'is_practice_test_course',
                  'tracking_id', 'predictive_score', 'relevancy_score', 'input_features', 'lecture_search_result',
                  'curriculum_lectures', 'order_in_results', 'curriculum_items', 'instructor_name']
@@ -48,3 +50,42 @@ def clean_course_detail (course):
         del course[key]
 
     return course
+
+
+def get_gpt_form(curso):
+    openai.api_key = os.getenv('OPEN_API_KEY')
+
+    model = "gpt-3.5-turbo"
+    max_tokens = 2048
+    temperature = 0.5
+    n = 1
+    stop = None
+    prompt = """La respuesta debe ser estructurada como un arreglo de objetos JSON del tipo 
+    Array<\{question:string,options:Array<string>,answer:integer\}>\nGenera 5 preguntas de opción múltiple. 
+    Cada pregunta debe tener 4 opciones de respuesta y la respuesta debe ser objetiva, precisa, breve. 
+    La dificultad de las preguntas debe ser alta. No incluyas preguntas de cálculos numéricos. 
+    Las preguntas del cuestionario se deben construir considerando el 
+    temario del curso '{}' de Udemy""".format(curso)
+
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=[
+            {
+                "role": "system",
+                "content": "Imagina que eres un evaluador de cursos de TI de la plataforma Udemy"
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        max_tokens=max_tokens,
+        temperature=temperature,
+        n=n,
+        stop=stop,
+    )
+
+    result_data = json.dumps(response)
+    result_json = json.loads(result_data)
+
+    return result_json['choices'][0]['message']['content']

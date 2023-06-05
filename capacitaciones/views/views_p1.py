@@ -1,16 +1,18 @@
 # Create your views here.
 import os
+import time
 import uuid
 
 import boto3
 from django.utils import timezone
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath, Pregunta
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer
-from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course
+from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form
 from login.models import Employee
 
 
@@ -201,10 +203,10 @@ class BusquedaDeEmpleadosAPIView(APIView):
         employee_serializer = BusquedaEmployeeSerializer(employee)
 
         return Response(employee_serializer.data, status=status.HTTP_200_OK)
-    
+
 
 class AsignacionEmpleadoLearningPathAPIView(APIView):
-    
+
     def post(self, request):
 
         empleados = request.data.get('empleados', [])
@@ -249,3 +251,26 @@ class EmpleadosLearningPath(APIView):
         employee_serializer = BusquedaEmployeeSerializer(list_empleados, many=True)
 
         return Response(employee_serializer.data, status=status.HTTP_200_OK)
+
+
+class UdemyEvaluationsAPIView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+
+        id_course = request.data.get('id_course', None)
+
+        if not id_course:
+            return Response({'msg': 'No se recibió el nombre del curso'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            udemy_form = get_gpt_form(id_course)
+        except Exception as e:
+            return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        CursoUdemy.objects.filter(pk=id_course).update(preguntas=udemy_form)
+
+        return Response({'msg': 'Se creó la evaluacion con exito'})
+
+

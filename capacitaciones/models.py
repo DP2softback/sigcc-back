@@ -79,6 +79,7 @@ class CursoGeneral(models.Model):
 class CursoUdemy(CursoGeneral):
     udemy_id = models.IntegerField()
     course_udemy_detail = models.JSONField()
+    preguntas = models.JSONField()
 
     class Meta:
         db_table = 'CursoUdemy'
