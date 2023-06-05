@@ -380,4 +380,36 @@ class CompetenceEmployeeView(APIView):
                     trainingNeed_serializer = TrainingNeedSerializer(data=needFields)
                     if trainingNeed_serializer.is_valid():
                         trainingNeed_serializer.save()
-        return Response(1,status=status.HTTP_200_OK)               
+        return Response(1,status=status.HTTP_200_OK)
+    def put(self, request,id=0):
+        register = CompetenceXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia'])).first()
+        if register is not None:        
+            registerValues = register.values()
+            fields = {'levelCurrent': request.data["nivelActual"], 
+                    'levelGap': registerValues['levelRequired'] - request.data["nivelActual"] if registerValues['levelRequired'] > request.data["nivelActual"] else 0,
+                    'likeness':100*(request.data["nivelActual"] / registerValues['levelRequired']) if registerValues['levelRequired'] > request.data["nivelActual"] else 100.00,
+                          'active': True
+                          }
+            competencesEmployee_serializer = CompetenceXEmployeeSerializer(register, data = fields)
+            if competencesEmployee_serializer.is_valid():
+                competencesEmployee_serializer.save()
+
+            if registerValues['levelRequired'] > request.data["nivelActual"]:
+                needFields = {'description': 'Necesita capacitacion de nivel ' + registerValues['levelRequired'] - request.data["nivelActual"], 
+                                              'levelCurrent': request.data["nivelActual"],
+                                              'levelRequired': registerValues['levelRequired'],
+                                              'levelGap': registerValues['levelRequired'] - request.data["nivelActual"],
+                                              'type': 2,
+                                              'active': True}
+                if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).count() > 0:
+                    registerNeed = TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).first()
+                    trainingNeed_serializer = TrainingNeedSerializer(registerNeed,data=needFields)
+                    if trainingNeed_serializer.is_valid():
+                                    trainingNeed_serializer.save()
+                else:
+                    needFields['competence'] = request.data['idCompetencia']
+                    needFields['employee'] = request.data["idEmpleado"]
+                    trainingNeed_serializer = TrainingNeedSerializer(data=needFields)
+                    if trainingNeed_serializer.is_valid():
+                        trainingNeed_serializer.save()
+        return Response(1,status=status.HTTP_200_OK)
