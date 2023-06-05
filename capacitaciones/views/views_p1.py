@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath, Pregunta
+from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form
@@ -253,7 +253,7 @@ class EmpleadosLearningPath(APIView):
         return Response(employee_serializer.data, status=status.HTTP_200_OK)
 
 
-class UdemyEvaluationsAPIView(APIView):
+class GenerateUdemyEvaluationAPIView(APIView):
 
     permission_classes = [AllowAny]
 
@@ -264,13 +264,29 @@ class UdemyEvaluationsAPIView(APIView):
         if not id_course:
             return Response({'msg': 'No se recibió el nombre del curso'}, status=status.HTTP_400_BAD_REQUEST)
 
+        course_detail = CursoUdemy.objects.filter(pk=id_course).values('course_udemy_detail').first()
+        course_name = course_detail['course_udemy_detail']['title'] + ' ' + course_detail['course_udemy_detail']['headline']
+
         try:
-            udemy_form = get_gpt_form(id_course)
+            udemy_form = get_gpt_form(course_name)
         except Exception as e:
             return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        CursoUdemy.objects.filter(pk=id_course).update(preguntas=udemy_form)
+        CursoUdemy.objects.filter(pk=id_course).update(preguntas=udemy_form, estado='1')
 
-        return Response({'msg': 'Se creó la evaluacion con exito'})
+        return Response({'msg': 'Se creó la evaluacion con exito'}, status=status.HTTP_200_OK)
+
+
+class CheckUdemyCourseStatusAPIView(APIView):
+
+    def post(self, request, pk_course):
+
+        estado = CursoUdemy.objects.filter(pk=pk_course).values('estado').first()
+
+        if not estado:
+            Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'estado': estado}, status=status.HTTP_200_OK)
+
 
 

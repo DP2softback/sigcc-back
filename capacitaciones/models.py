@@ -77,9 +77,18 @@ class CursoGeneral(models.Model):
 
 
 class CursoUdemy(CursoGeneral):
+
+    estado_choices = [
+        ('0', 'Creado sin Formulario'),
+        ('1', 'Formulario por confirmar'),
+        ('2', 'Error formulario'),
+        ('3', 'Creado completo')
+    ]
+
     udemy_id = models.IntegerField()
     course_udemy_detail = models.JSONField()
     preguntas = models.JSONField()
+    estado = models.CharField(max_length=1, choices=estado_choices, default='0')
 
     class Meta:
         db_table = 'CursoUdemy'
@@ -139,32 +148,6 @@ class CursoGeneralXLearningPath(models.Model):
         super().save(*args, **kwargs)
 
         self.update_learning_path_duration()
-
-
-class Pregunta(models.Model):
-
-    texto = models.CharField(max_length=1000)
-    pregunta_x_curso = models.ManyToManyField(CursoUdemy, through='PreguntaXCursoUdemy')
-
-    class Meta:
-        db_table = 'Pregunta'
-
-
-class PreguntaXCursoUdemy(models.Model):
-    curso = models.ForeignKey(CursoUdemy, on_delete=models.CASCADE)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'PreguntaXCursoUdemy'
-
-
-class Alternativa(models.Model):
-    texto_alternativa = models.CharField(max_length=1000)
-    respuesta_correcta = models.BooleanField(default=0)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
- 
-    class Meta:
-        db_table = 'Alternativa'
 
 
 class EmpleadoXLearningPath(models.Model):
@@ -243,16 +226,6 @@ class EmpleadoXCursoXLearningPath(models.Model):
 
     class Meta:
         db_table = 'EmpleadoXCursoXLearningPath'
-
-
-class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
-    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    curso = models.ForeignKey(CursoUdemy, on_delete=models.CASCADE)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
-    alternativa = models.ForeignKey(Alternativa, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'EmpleadoXCursoXPreguntaXAlternativa'
 
 
 class RubricaExamen(models.Model):
