@@ -203,7 +203,7 @@ class CompetenceAreaPositionView(APIView):
                     competencesAreaPosition_serializer.save()
         
         # Se puede hacer como Trigger :
-        employees = Employee.objects.filter(Q(area__id=request.data["idArea"]) & Q(position__id= request.data["idPosicion"]) & Q(active=True)).values()
+        employees = Employee.objects.filter(Q(area__id=request.data["idArea"]) & Q(position__id= request.data["idPosicion"])).values()
         print(employees)
         if employees.count() > 0:
             for employee in  employees:
@@ -263,7 +263,66 @@ class CompetenceAreaPositionView(APIView):
                         competencesEmployee_serializer = CompetenceXEmployeeSerializer(data = fields)
                         if competencesEmployee_serializer.is_valid():
                             competencesEmployee_serializer.save()						
-        return Response(1,status=status.HTTP_200_OK)		
+        return Response(1,status=status.HTTP_200_OK)	
+    def put(self, request,id=0):
+        register = CompetenceXAreaXPosition.objects.filter(Q(area__id = request.data["idArea"]) & Q(position__id = request.data["idPosicion"]) & Q(competence__id = request.data['idCompetencia'])).first()
+        if register is not None:
+            fields = {'levelRequired': request.data["nivelRequerido"], 'active': True}
+            competencesAreaPosition_serializer = CompetenceXAreaXPositionSerializer(register, data = fields)
+            if competencesAreaPosition_serializer.is_valid():
+                competencesAreaPosition_serializer.save()
+
+            employees = Employee.objects.filter(Q(area__id=request.data["idArea"]) & Q(position__id= request.data["idPosicion"])).values()
+            if employees.count() > 0:
+                for employee in  employees:
+                    if CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id =  request.data['idCompetencia'])).count() > 0:
+                        registerEmp = CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id =  request.data['idCompetencia'])).first()
+                        registerVal = registerEmp.values()
+                        empFields ={'levelRequired': request.data["nivelRequerido"],
+                                    'levelGap': request.data["nivelRequerido"] - registerVal['levelCurrent'] if registerVal['levelCurrent'] < request.data["nivelRequerido"] else 0,
+                                    'likeness': 100*(registerVal['levelCurrent'] / request.data["nivelRequerido"]) if  registerVal['levelCurrent'] < request.data["nivelRequerido"] else 100.00,
+                                    'requiredForPosition': True
+                        }
+                        competencesEmployee_serializer = CompetenceXEmployeeSerializer(registerEmp, data = empFields)
+                        if competencesEmployee_serializer.is_valid():
+                            competencesEmployee_serializer.save()
+
+                        # necesidades
+                        if registerVal['levelCurrent'] < request.data["nivelRequerido"]: 
+                            needFields = {'description': 'Necesita capacitacion de nivel ' + request.data["nivelRequerido"] - registerVal['levelCurrent'], 
+                                                'levelCurrent': registerVal['levelCurrent'],
+                                                'levelRequired': request.data["nivelRequerido"],
+                                                'levelGap': request.data["nivelRequerido"] - registerVal['levelCurrent'],
+                                                'type': 2,
+                                                'active': True}
+                            if TrainingNeed.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).count() > 0:
+                                registerNeed = TrainingNeed.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).first()
+                                trainingNeed_serializer = TrainingNeedSerializer(registerNeed,data=needFields)
+                                if trainingNeed_serializer.is_valid():
+                                    trainingNeed_serializer.save()
+                            else:
+                                needFields['competence'] =  request.data['idCompetencia']
+                                needFields['employee'] = employee['id']
+                                trainingNeed_serializer = TrainingNeedSerializer(data=needFields)
+                                if trainingNeed_serializer.is_valid():
+                                    trainingNeed_serializer.save()
+                    else:
+                        empFields = {
+                            'competence':  request.data['idCompetencia'],
+                            'employee': employee['id'],
+                            'levelCurrent': 0,
+                            'levelRequired': request.data["nivelRequerido"],
+                            'levelGap': request.data["nivelRequerido"],
+                            'likeness': 0.0,
+                            'hasCertificate': False,
+                            'registerByEmployee': False,
+                            'requiredForPosition': True,
+                            'active': True
+                        }
+                        competencesEmployee_serializer = CompetenceXEmployeeSerializer(data = empFields)
+                        if competencesEmployee_serializer.is_valid():
+                            competencesEmployee_serializer.save()
+        return Response(1,status=status.HTTP_200_OK)	
 		
 class CompetenceEmployeeView(APIView):
     def get(self, request,id=0):
@@ -298,7 +357,7 @@ class CompetenceEmployeeView(APIView):
                 fields['competence'] = competenceItem['idCompetencia']
                 fields['employee'] = request.data["idEmpleado"]
                 fields['registerByEmployee'] = competenceItem['registradoPorEmpleado']
-                competencesEmployee_serializer = CompetenceXEmployeeSerializer(register, data = fields)
+                competencesEmployee_serializer = CompetenceXEmployeeSerializer(data = fields)
                 if competencesEmployee_serializer.is_valid():
                     competencesEmployee_serializer.save()
             
@@ -308,7 +367,7 @@ class CompetenceEmployeeView(APIView):
                                               'levelCurrent': competenceItem['nivelActual'],
                                               'levelRequired': competenceItem['nivelRequerido'],
                                               'levelGap': competenceItem['nivelRequerido'] - competenceItem['nivelActual'],
-                                              'type': 1 if request.data["idEmpleado"] ==  1 else 2,
+                                              'type': 1 if request.data["esNuevo"] ==  1 else 2,
                                               'active': True}
                 if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = competenceItem['idCompetencia']) & Q(state__lte=1)).count() > 0:
                     registerNeed = TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = competenceItem['idCompetencia']) & Q(state__lte=1)).first()
