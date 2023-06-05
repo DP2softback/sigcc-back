@@ -1,4 +1,5 @@
 # Create your views here.
+import json
 import os
 import time
 import uuid
@@ -293,14 +294,14 @@ class UdemyEvaluationAPIView(APIView):
 
     def get(self, request, pk_course):
 
-        preguntas = CursoUdemy.objects.filter(pk=pk_course).values('preguntas').first()
+        cursoudemy_evaluacion = CursoUdemy.objects.filter(pk=pk_course).values('preguntas').first()
 
-        if not preguntas:
+        if not cursoudemy_evaluacion:
             return Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
 
-        print(preguntas)
+        cursoudemy_evaluacion = json.dumps(json.loads(cursoudemy_evaluacion['preguntas']))
 
-        return Response(preguntas, status=status.HTTP_200_OK)
+        return Response(json.loads(cursoudemy_evaluacion), status=status.HTTP_200_OK)
 
 
 

@@ -4,7 +4,7 @@ from capacitaciones import views
 from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDetail, LearningPathAPIView, \
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath, \
-    GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView
+    GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView
 
 from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, \
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
@@ -46,5 +46,6 @@ urlpatterns = [
     path('learning_path/detalle_empleado/<int:emp>/<int:lp>/', DetalleLearningPathXEmpleadoAPIView.as_view()),
     path('udemy_course/generate_evaluation/', GenerateUdemyEvaluationAPIView.as_view()),
     path('list_all_employees_general/', ListEmployeesGeneralAPIView.as_view()),
-    path('udemy_course/check_status/<int:pk_course>/', CheckUdemyCourseStatusAPIView.as_view())
+    path('udemy_course/check_status/<int:pk_course>/', CheckUdemyCourseStatusAPIView.as_view()),
+    path('udemy_course/questionary/<int:pk_course>/', UdemyEvaluationAPIView.as_view())
 ]
