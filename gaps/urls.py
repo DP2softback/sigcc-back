@@ -1,10 +1,15 @@
 ﻿from django.urls import include, path
-from gaps.views import CompetenceView, CompetenceTypeView, SearchCompetenceView, SearchTrainingNeedView, SearchCompetenceConsolidateView, CompetenceAreaPositionView, CompetenceEmployeeView, TrainingNeedView
+from gaps.views import CompetenceView, CompetenceTypeView, SearchCompetenceView, SearchTrainingNeedView, SearchCompetenceConsolidateView, CompetenceAreaPositionView, CompetenceEmployeeView, TrainingNeedView, SearchCompetenceAreaPositionView, SearchCompetenceEmployeeView, SearchNeedView
 
 gaps_patterns = [
-    path('areaCompetences', CompetenceAreaPositionView.as_view()),
-    path('employeeCompetences', CompetenceEmployeeView.as_view()),
-    path('trainingNeed', TrainingNeedView.as_view()),
+    path('competenceAreaPosition', CompetenceAreaPositionView.as_view()),
+    path('competenceEmployee', CompetenceEmployeeView.as_view()),
+    path('employeeTrainingNeed', TrainingNeedView.as_view()),
+
+    path('competenceAreaPositionSearch', SearchCompetenceAreaPositionView.as_view()),
+    path('competenceEmployeeSearch', SearchCompetenceEmployeeView.as_view()),
+    path('employeeTrainingNeedSearch', SearchNeedView.as_view()),
+
     path('competenceSearch', SearchCompetenceView.as_view()),
     path('competenceConsolidateSearch', SearchCompetenceConsolidateView.as_view()),
     path('trainingNeedSearch', SearchTrainingNeedView.as_view()),

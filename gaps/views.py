@@ -424,3 +424,35 @@ class TrainingNeedView(APIView):
                 trainingNeed_serializer.save()
         return Response(1,status=status.HTTP_200_OK)
     
+class SearchCompetenceAreaPositionView(APIView):
+    def post(self, request):
+        area = request.data["area"]
+        posicion = request.data["posicion"]
+        query = Q()
+        query.add(Q(active=True), Q.AND)
+        if area is not None and area>0:
+            query.add(Q(area__id = area), Q.AND)
+        if posicion is not None and posicion>0:
+            query.add(Q(posicion__id = posicion), Q.AND)
+        competenciasAreaPosicion = CompetenceXAreaXPosition.objects.filter(query).values('competence__id','competence__name','area__id','area__name','position__id','position__name','levelRequired', 'active')
+        return Response(list(competenciasAreaPosicion), status = status.HTTP_200_OK)
+    
+class SearchCompetenceEmployeeView(APIView):
+    def post(self, request):
+        empleado = request.data["empleado"]
+        query = Q()
+        query.add(Q(active=True), Q.AND)
+        if empleado is not None and empleado>0:
+            query.add(Q(empleado__id = empleado), Q.AND)
+        competenciasEmpleado = CompetenceXEmployee.objects.filter(query).values('competence__id','competence__name','employee__id','levelCurrent','levelRequired','levelGap','likeness', 'hasCertificate', 'registerByEmployee','requiredForPosition', 'active')
+        return Response(list(competenciasEmpleado), status = status.HTTP_200_OK)
+    
+class SearchNeedView(APIView):
+    def post(self, request):
+        empleado = request.data["empleado"]
+        query = Q()
+        query.add(Q(active=True), Q.AND)
+        if empleado is not None and empleado>0:
+            query.add(Q(empleado__id = empleado), Q.AND)
+        necesidades = TrainingNeed.objects.filter(query).values('competence__id','competence__name','employee__id','description','state','levelCurrent','levelRequired','levelGap','type','active')
+        return Response(list(necesidades), status = status.HTTP_200_OK)
