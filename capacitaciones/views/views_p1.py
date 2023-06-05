@@ -286,7 +286,7 @@ class CheckUdemyCourseStatusAPIView(APIView):
         if not estado:
             Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response({'estado': estado}, status=status.HTTP_200_OK)
+        return Response(estado, status=status.HTTP_200_OK)
 
 
 
