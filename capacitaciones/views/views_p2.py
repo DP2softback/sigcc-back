@@ -1,10 +1,11 @@
 # Create your views here.
 from login.models import Employee
+from login.serializers import EmployeeSerializerRead
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import AsistenciaSesionXEmpleado, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -40,6 +41,15 @@ class CursoEmpresaCourseAPIView(APIView):
                             'message': 'Curso Empresa creado correctamente'}, status=status.HTTP_200_OK)
 
         return Response(cursos_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CursoEmpresaCourseFreesAllAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        cursos_emp = CursoEmpresa.objects.filter(es_libre=True)
+        cursos_emp_serializer = CursoGeneralListSerializer(cursos_emp, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+    
 
 
 class CursoEmpresaDetailAPIView(APIView):
@@ -82,22 +92,24 @@ class CursoEmpresaDetailBossAPIView(APIView):
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
 
 
-class CursoEmpresaFreeListView(APIView):
-    def get(self, request):
-        cursos_empresas = CursoEmpresa.objects.filter(es_libre=True)
-        serializer = CursoEmpresaListSerializer(cursos_empresas, many=True)
+class EmployeeCursoEmpresaFreeListView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request,pk_empleado):
+        empleados_cursos_empresas = EmpleadoXCursoEmpresa.objects.filter(empleado_id=pk_empleado,cursoEmpresa__es_libre=True)
+        serializer = EmpleadoXCursoEmpresaWithCourseSerializer(empleados_cursos_empresas, many=True)
         return Response(serializer.data)
 
 
-class CursoEmpresaNotFreeListView(APIView):
-    def get(self, request):
-        cursos_empresas = CursoEmpresa.objects.filter(es_libre=False)
-        serializer = CursoEmpresaListSerializer(cursos_empresas, many=True)
+class EmployeeCursoEmpresaNotFreeListView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request,pk_empleado):
+        empleados_cursos_empresas = EmpleadoXCursoEmpresa.objects.filter(empleado_id=pk_empleado,cursoEmpresa__es_libre=False)
+        serializer = EmpleadoXCursoEmpresaWithCourseSerializer(empleados_cursos_empresas, many=True)
         return Response(serializer.data)
 
    
 class SesionDetailAPIView(APIView):
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -139,6 +151,25 @@ class CursoEmpresaAPIView(APIView):
             return Response ({},status=status.HTTP_200_OK)
 
 
+class AsistenciaSesionInicialAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request, curso_id):
+        cursos_emp = CursoEmpresa.objects.filter(id=curso_id).first()
+        cursos_emp_serializer = EmployeeCoursesListSerializer(cursos_emp)
+        asistencias_data = []
+        for asistencia in cursos_emp_serializer.data['empleados']:
+            empleado = Employee.objects.get(id=asistencia['id'])
+            empleado_data = {
+                'empleado': empleado.id,
+                'nombre': empleado.user.first_name + ' ' + empleado.user.last_name,
+                'estado_asistencia': None
+            }
+            asistencias_data.append(empleado_data)
+
+        return Response(asistencias_data, status = status.HTTP_200_OK)
+
+
 class AsistenciaSesionAPIView(APIView):
     permission_classes = [AllowAny]
     
@@ -151,7 +182,7 @@ class AsistenciaSesionAPIView(APIView):
             sesion = Sesion.objects.get(id=sesion_id)
             asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion=sesion)
             serializer = AsistenciaSesionSerializer(asistencias, many=True)
-
+            print("El data del serializer del AsistenciaSesionSerializer es:", serializer.data)
             # Obtener los datos adicionales de la sesión
             sesion_data = {
                 'nombre_sesion': sesion.nombre,
@@ -160,10 +191,10 @@ class AsistenciaSesionAPIView(APIView):
 
             # Obtener los datos de las personas y su estado de asistencia
             asistencias_data = []
-            for asistencia in serializer.data['empleados_asistencia']:
+            for asistencia in serializer.data:
                 empleado = Employee.objects.get(id=asistencia['empleado'])
                 empleado_data = {
-                    'id': empleado.id,
+                    'empleado': empleado.id,
                     'nombre': empleado.user.first_name + ' ' + empleado.user.last_name,
                     'estado_asistencia': asistencia['estado_asistencia']
                 }
@@ -179,7 +210,7 @@ class AsistenciaSesionAPIView(APIView):
         except Sesion.DoesNotExist:
             return Response({"message": "Sesión no encontrada."}, status=status.HTTP_404_NOT_FOUND)
     
-    def post(self, request):
+    def post(self, request,sesion_id):
         sesion_id = request.data['sesion_id']
         sesion = Sesion.objects.filter(id=sesion_id).first()
         curso_empresa_id = request.data['curso_empresa_id']
@@ -187,16 +218,68 @@ class AsistenciaSesionAPIView(APIView):
 
         for empleado_asistencia in request.data['empleados_asistencia']:
                 
-            empleado_asistencia_serializer = AsistenciaSesionSerializer(data=empleado_asistencia)
-            empleado_asistencia_serializer.validated_data['sesion'] = sesion
-            empleado_asistencia_serializer.validated_data['curso_empresa'] = curso
+            #empleado_asistencia_serializer = AsistenciaSesionSerializer(data=empleado_asistencia)
+            #print("El empleado_asistencia_serializer es: ",empleado_asistencia_serializer)
+            empleado_id = empleado_asistencia.get('empleado')
+            estado_asistencia = empleado_asistencia.get('estado_asistencia')
 
-            if empleado_asistencia_serializer.is_valid():
-                empleado_asistencia_serializer.save()
+            if empleado_id is not None and estado_asistencia is not None:
+                empleado_exists = Employee.objects.filter(id=empleado_id).exists()
+                if empleado_exists:
+                    asistencia = AsistenciaSesionXEmpleado(
+                        curso_empresa=curso,
+                        empleado_id=empleado_id,
+                        sesion_id=sesion_id,
+                        estado_asistencia=estado_asistencia
+                    )
+                    asistencia.save()
+                else:
+                    # Lanzar una excepción Http404 si el empleado no existe
+                    return Response(
+                        {"message": "No existe el empleado con el ID proporcionado."},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
             else:
-                return Response({"message": "No existe el empleado al que se le quiere poner asistencia en la sesion"},
-                                    status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"message": "Datos de asistencia incompletos."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
                 
         return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
+    
+    def put(self, request, sesion_id):
+        try:            
+            sesion = Sesion.objects.filter(id=sesion_id).first()
+            asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion=sesion)
+
+            for empleado_asistencia in request.data['asistencias']:
+                empleado_id = empleado_asistencia['empleado']
+                estado_asistencia = empleado_asistencia['estado_asistencia']
+                
+                # Buscar la asistencia existente por empleado y sesión
+                asistencia = asistencias.filter(empleado_id=empleado_id).first()
+
+                if asistencia:
+                    # Actualizar el estado de asistencia
+                    asistencia.estado_asistencia = estado_asistencia
+                    asistencia.save()
+                '''else:
+                    # Crear una nueva asistencia si no existe
+                    AsistenciaSesionXEmpleado.objects.create(
+                        sesion=sesion,
+                        empleado_id=empleado_id,
+                        estado_asistencia=estado_asistencia
+                    )'''
+
+            return Response({'message': 'Asistencia actualizada correctamente'}, status=status.HTTP_200_OK)
+        except Sesion.DoesNotExist:
+            return Response({"message": "Sesión no encontrada."}, status=status.HTTP_404_NOT_FOUND)
 
         
+class ListEmployeesGeneralAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        empleados = Employee.objects.all()
+        empleados_serializer = EmployeeSerializerRead(empleados, many=True)
+        return Response(empleados_serializer.data, status = status.HTTP_200_OK)

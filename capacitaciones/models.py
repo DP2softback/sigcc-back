@@ -99,6 +99,7 @@ class CursoEmpresa(CursoGeneral):
     url_foto = models.TextField(null=True)
     fecha_creacion=models.DateTimeField(default=timezone.now)
     fecha_primera_sesion=models.DateTimeField(null=True)
+    fecha_ultima_sesion=models.DateTimeField(null=True)
     cantidad_empleados= models.IntegerField(default=0)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
@@ -210,7 +211,7 @@ class EmpleadoXCurso(models.Model):
 class EmpleadoXCursoEmpresa(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
-    porcentajeProgreso= models.DecimalField(default=0, max_digits=3, decimal_places=2)
+    porcentajeProgreso= models.DecimalField(default=0, max_digits=5, decimal_places=2)
     fechaAsignacion= models.DateTimeField(null=True)
     fechaLimite= models.DateTimeField(null=True)
     fechaCompletado= models.DateTimeField(null=True)
