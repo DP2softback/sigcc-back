@@ -22,6 +22,7 @@ class CompetenceView(APIView):
     
     def post(self, request,id=0):
         competencias_serializer = CompetenceSerializer(data = request.data, context = request.data)
+        print(competencias_serializer)
         if competencias_serializer.is_valid():
             competencias_serializer.save()
             # Generador de codigo de competencia
@@ -183,13 +184,9 @@ class CompetenceAreaPositionView(APIView):
     def post(self, request,id=0):
         competenceList = request.data["competencias"]
         # desactivar las activas
-        competences = CompetenceXAreaXPosition.objects.filter(Q(area__id = request.data["idArea"]) & Q(position__id = request.data["idPosicion"])).update(active=False)
-        competences_serializer = CompetenceXAreaXPositionSerializer(competences,many = True)
-        if competences_serializer.is_valid():
-            competences_serializer.save()
-
+        CompetenceXAreaXPosition.objects.filter(Q(area__id = request.data["idArea"]) & Q(position__id = request.data["idPosicion"])).update(active=False)
         # reactivar y agregar las nuevas
-        for competenceItem in competenceList.values():
+        for competenceItem in competenceList:
             if CompetenceXAreaXPosition.objects.filter(Q(area__id = request.data["idArea"]) & Q(position__id = request.data["idPosicion"]) & Q(competence__id = competenceItem['idCompetencia'])).count() > 0 :
                 register = CompetenceXAreaXPosition.objects.filter(Q(area__id = request.data["idArea"]) & Q(position__id = request.data["idPosicion"]) & Q(competence__id = competenceItem['idCompetencia'])).first()
                 fields = {'levelRequired': competenceItem['nivelRequerido'], 'active': True}
@@ -208,16 +205,12 @@ class CompetenceAreaPositionView(APIView):
         if employees.count() > 0:
             for employee in  employees:
                 # nivel requerido en 0
-                competencesEmployee = CompetenceXEmployee.objects.filter(Q(employee__id=employee['id'])).update(levelRequired=0, levelGap=0,likeness=0.0, requiredForPosition=False)
-                competencesEmployee_serializer = CompetenceXEmployeeSerializer(competencesEmployee,many = True)
-                if competencesEmployee_serializer.is_valid():
-                    competencesEmployee_serializer.save()
-
+                CompetenceXEmployee.objects.filter(Q(employee__id=employee['id'])).update(levelRequired=0, levelGap=0,likeness=0.0, requiredForPosition=False)
                 # iterar en la lista de competencias: Por cada competencia gregarle o crearle su competenciaXempleado y necesidadCapacitacion para esa competencia
-                for competenceItem in competenceList.values():
+                for competenceItem in competenceList:
                     if CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = competenceItem['idCompetencia'])).count() > 0:
                         register = CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = competenceItem['idCompetencia'])).first()
-                        registerVal = register.values()
+                        registerVal = CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = competenceItem['idCompetencia'])).values().first()
                         if registerVal['levelCurrent'] >= competenceItem['nivelRequerido']: 
                             fields = {'levelRequired': competenceItem['nivelRequerido'], 'levelGap': 0,'likeness':100.00, 'requiredForPosition': True}
                         else : 
@@ -225,11 +218,13 @@ class CompetenceAreaPositionView(APIView):
                             
 
                             # necesidades - ver si normal que se haga aca
-                            needFields = {'description': 'Necesita capacitacion de nivel ' + competenceItem['nivelRequerido'] - registerVal['levelCurrent'], 
+                            level = competenceItem['nivelRequerido'] - registerVal['levelCurrent']
+                            needFields = {'description': 'Necesita capacitacion de nivel ' + str(level), 
                                               'levelCurrent': registerVal['levelCurrent'],
                                               'levelRequired': competenceItem['nivelRequerido'],
                                               'levelGap': competenceItem['nivelRequerido'] - registerVal['levelCurrent'],
                                               'type': 2,
+                                              'state': 1,
                                               'active': True}
                             if TrainingNeed.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = competenceItem['idCompetencia']) & Q(state__lte=1)).count() > 0:
                                 registerNeed = TrainingNeed.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = competenceItem['idCompetencia']) & Q(state__lte=1)).first()
@@ -277,7 +272,7 @@ class CompetenceAreaPositionView(APIView):
                 for employee in  employees:
                     if CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id =  request.data['idCompetencia'])).count() > 0:
                         registerEmp = CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id =  request.data['idCompetencia'])).first()
-                        registerVal = registerEmp.values()
+                        registerVal = CompetenceXEmployee.objects.filter(Q(employee__id=employee['id']) & Q(competence__id =  request.data['idCompetencia'])).values().first()
                         empFields ={'levelRequired': request.data["nivelRequerido"],
                                     'levelGap': request.data["nivelRequerido"] - registerVal['levelCurrent'] if registerVal['levelCurrent'] < request.data["nivelRequerido"] else 0,
                                     'likeness': 100*(registerVal['levelCurrent'] / request.data["nivelRequerido"]) if  registerVal['levelCurrent'] < request.data["nivelRequerido"] else 100.00,
@@ -288,12 +283,14 @@ class CompetenceAreaPositionView(APIView):
                             competencesEmployee_serializer.save()
 
                         # necesidades
-                        if registerVal['levelCurrent'] < request.data["nivelRequerido"]: 
-                            needFields = {'description': 'Necesita capacitacion de nivel ' + request.data["nivelRequerido"] - registerVal['levelCurrent'], 
+                        if registerVal['levelCurrent'] < request.data["nivelRequerido"]:
+                            level =  request.data["nivelRequerido"] - registerVal['levelCurrent']
+                            needFields = {'description': 'Necesita capacitacion de nivel ' + str(level), 
                                                 'levelCurrent': registerVal['levelCurrent'],
                                                 'levelRequired': request.data["nivelRequerido"],
                                                 'levelGap': request.data["nivelRequerido"] - registerVal['levelCurrent'],
                                                 'type': 2,
+                                                'state': 1,
                                                 'active': True}
                             if TrainingNeed.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).count() > 0:
                                 registerNeed = TrainingNeed.objects.filter(Q(employee__id=employee['id']) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).first()
@@ -333,13 +330,9 @@ class CompetenceEmployeeView(APIView):
     def post(self, request,id=0):
         competenceList = request.data["competencias"]
         # poner en no requeridas las actuales
-        competences = CompetenceXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"])).update(levelRequired=0, levelGap=0, likeness=0.0,requiredForPosition=False)
-        competences_serializer = CompetenceXEmployeeSerializer(competences,many = True)
-        if competences_serializer.is_valid():
-            competences_serializer.save()
-
+        CompetenceXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"])).update(levelRequired=0, levelGap=0, likeness=0.0,requiredForPosition=False)
         # reactivar y agregar las nuevas
-        for competenceItem in competenceList.values():
+        for competenceItem in competenceList:
             fields = {
                     'levelCurrent': competenceItem['nivelActual'],
                     'levelRequired': competenceItem['nivelRequerido'], 
@@ -363,11 +356,13 @@ class CompetenceEmployeeView(APIView):
             
             #necesidades
             if competenceItem['nivelRequerido'] > competenceItem['nivelActual']:
-                needFields = {'description': 'Necesita capacitacion de nivel ' + competenceItem['nivelRequerido'] - competenceItem['nivelActual'], 
+                level = competenceItem['nivelRequerido'] - competenceItem['nivelActual']
+                needFields = {'description': 'Necesita capacitacion de nivel ' + str(level), 
                                               'levelCurrent': competenceItem['nivelActual'],
                                               'levelRequired': competenceItem['nivelRequerido'],
                                               'levelGap': competenceItem['nivelRequerido'] - competenceItem['nivelActual'],
                                               'type': 1 if request.data["esNuevo"] ==  1 else 2,
+                                                'state': 1,
                                               'active': True}
                 if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = competenceItem['idCompetencia']) & Q(state__lte=1)).count() > 0:
                     registerNeed = TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = competenceItem['idCompetencia']) & Q(state__lte=1)).first()
@@ -384,7 +379,7 @@ class CompetenceEmployeeView(APIView):
     def put(self, request,id=0):
         register = CompetenceXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia'])).first()
         if register is not None:        
-            registerValues = register.values()
+            registerValues = CompetenceXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia'])).values().first()
             fields = {'levelCurrent': request.data["nivelActual"], 
                     'levelGap': registerValues['levelRequired'] - request.data["nivelActual"] if registerValues['levelRequired'] > request.data["nivelActual"] else 0,
                     'likeness':100*(request.data["nivelActual"] / registerValues['levelRequired']) if registerValues['levelRequired'] > request.data["nivelActual"] else 100.00,
@@ -393,13 +388,15 @@ class CompetenceEmployeeView(APIView):
             competencesEmployee_serializer = CompetenceXEmployeeSerializer(register, data = fields)
             if competencesEmployee_serializer.is_valid():
                 competencesEmployee_serializer.save()
-
+            # necesidades
             if registerValues['levelRequired'] > request.data["nivelActual"]:
-                needFields = {'description': 'Necesita capacitacion de nivel ' + registerValues['levelRequired'] - request.data["nivelActual"], 
+                level = registerValues['levelRequired'] - request.data["nivelActual"]
+                needFields = {'description': 'Necesita capacitacion de nivel ' + str(level), 
                                               'levelCurrent': request.data["nivelActual"],
                                               'levelRequired': registerValues['levelRequired'],
                                               'levelGap': registerValues['levelRequired'] - request.data["nivelActual"],
                                               'type': 2,
+                                                'state': 1,
                                               'active': True}
                 if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).count() > 0:
                     registerNeed = TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia']) & Q(state__lte=1)).first()
@@ -433,8 +430,8 @@ class SearchCompetenceAreaPositionView(APIView):
         if area is not None and area>0:
             query.add(Q(area__id = area), Q.AND)
         if posicion is not None and posicion>0:
-            query.add(Q(posicion__id = posicion), Q.AND)
-        competenciasAreaPosicion = CompetenceXAreaXPosition.objects.filter(query).values('competence__id','competence__name','area__id','area__name','position__id','position__name','levelRequired', 'active')
+            query.add(Q(position__id = posicion), Q.AND)
+        competenciasAreaPosicion = CompetenceXAreaXPosition.objects.filter(query).values('id','competence__id','competence__name','area__id','area__name','position__id','position__name','levelRequired', 'active')
         return Response(list(competenciasAreaPosicion), status = status.HTTP_200_OK)
     
 class SearchCompetenceEmployeeView(APIView):
@@ -443,8 +440,8 @@ class SearchCompetenceEmployeeView(APIView):
         query = Q()
         query.add(Q(active=True), Q.AND)
         if empleado is not None and empleado>0:
-            query.add(Q(empleado__id = empleado), Q.AND)
-        competenciasEmpleado = CompetenceXEmployee.objects.filter(query).values('competence__id','competence__name','employee__id','levelCurrent','levelRequired','levelGap','likeness', 'hasCertificate', 'registerByEmployee','requiredForPosition', 'active')
+            query.add(Q(employee__id = empleado), Q.AND)
+        competenciasEmpleado = CompetenceXEmployee.objects.filter(query).values('id','competence__id','competence__name','employee__id','levelCurrent','levelRequired','levelGap','likeness', 'hasCertificate', 'registerByEmployee','requiredForPosition', 'active')
         return Response(list(competenciasEmpleado), status = status.HTTP_200_OK)
     
 class SearchNeedView(APIView):
@@ -453,6 +450,6 @@ class SearchNeedView(APIView):
         query = Q()
         query.add(Q(active=True), Q.AND)
         if empleado is not None and empleado>0:
-            query.add(Q(empleado__id = empleado), Q.AND)
-        necesidades = TrainingNeed.objects.filter(query).values('competence__id','competence__name','employee__id','description','state','levelCurrent','levelRequired','levelGap','type','active')
+            query.add(Q(employee__id = empleado), Q.AND)
+        necesidades = TrainingNeed.objects.filter(query).values('id','competence__id','competence__name','employee__id','description','state','levelCurrent','levelRequired','levelGap','type','active')
         return Response(list(necesidades), status = status.HTTP_200_OK)
