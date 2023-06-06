@@ -87,7 +87,7 @@ class CursoUdemy(CursoGeneral):
 
     udemy_id = models.IntegerField()
     course_udemy_detail = models.JSONField()
-    preguntas = models.JSONField(null=True)
+    preguntas = models.JSONField(default=dict)
     estado = models.CharField(max_length=1, choices=estado_choices, default='0')
 
     class Meta:
