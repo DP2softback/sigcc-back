@@ -306,7 +306,7 @@ class UdemyEvaluationAPIView(APIView):
         if not cursoudemy_evaluacion:
             return Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
 
-        cursoudemy_evaluacion = json.loads(cursoudemy_evaluacion['preguntas'])
+        cursoudemy_evaluacion = cursoudemy_evaluacion['preguntas']
 
         return Response({'evaluacion': cursoudemy_evaluacion}, status=status.HTTP_200_OK)
 
