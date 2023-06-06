@@ -87,7 +87,7 @@ class CursoUdemy(CursoGeneral):
 
     udemy_id = models.IntegerField()
     course_udemy_detail = models.JSONField()
-    preguntas = models.JSONField()
+    preguntas = models.JSONField(null=True)
     estado = models.CharField(max_length=1, choices=estado_choices, default='0')
 
     class Meta:
@@ -147,7 +147,7 @@ class CursoGeneralXLearningPath(models.Model):
 
         super().save(*args, **kwargs)
 
-        self.update_learning_path_duration()
+       #self.update_learning_path_duration()
 
 
 class EmpleadoXLearningPath(models.Model):

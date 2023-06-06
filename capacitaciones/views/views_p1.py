@@ -10,6 +10,9 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from capacitaciones.jobs import updater
+from capacitaciones.jobs.tasks import upload_new_course_in_queue
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer
@@ -114,6 +117,8 @@ class CursoUdemyLpAPIView(APIView):
             curso = CursoUdemy.objects.filter(udemy_id=request.data['udemy_id']).first()
             if curso is None:
                 curso = curso_serializer.save()
+                upload_new_course_in_queue(curso)
+
             CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
 
             return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
@@ -271,6 +276,7 @@ class GenerateUdemyEvaluationAPIView(APIView):
         try:
             udemy_form = get_gpt_form(course_name)
         except Exception as e:
+            CursoUdemy.objects.filter(pk=id_course).update(estado='2')
             return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         CursoUdemy.objects.filter(pk=id_course).update(preguntas=udemy_form, estado='1')
@@ -301,7 +307,27 @@ class UdemyEvaluationAPIView(APIView):
 
         cursoudemy_evaluacion = json.dumps(json.loads(cursoudemy_evaluacion['preguntas']))
 
-        return Response(json.loads(cursoudemy_evaluacion), status=status.HTTP_200_OK)
+        return Response({'evaluacion': json.loads(cursoudemy_evaluacion)}, status=status.HTTP_200_OK)
 
+    def post(self, request, pk_course):
+
+        evaluacion = request.data.get('evaluacion', None)
+
+        if not evaluacion:
+            return Response({'msg': 'No se recibió ninguna evaluacion'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        evaluacion = json.dumps(evaluacion)
+        #print(evaluacion)
+        CursoUdemy.objects.filter(pk=pk_course).update(preguntas=evaluacion, estado='3')
+        return Response({'msg': 'Se validó y actualizó el cuestionario con éxito'}, status=status.HTTP_200_OK)
+
+class SetupScheduler(APIView):
+
+    def get(self, request):
+
+        updater.start()
+
+        return Response({'msg': 'Scheduler iniciado'}, status=status.HTTP_200_OK)
 
 

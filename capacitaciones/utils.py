@@ -3,6 +3,8 @@ import openai
 import json
 import os
 
+from capacitaciones.models import CursoUdemy
+
 ''' Udemy API '''
 
 
@@ -84,3 +86,18 @@ def get_gpt_form(curso):
     result_json = json.loads(result_data)
 
     return result_json['choices'][0]['message']['content']
+
+
+def GenerateUdemyEvaluation(id_course):
+
+    course_detail = CursoUdemy.objects.filter(pk=id_course).values('course_udemy_detail').first()
+    course_name = course_detail['course_udemy_detail']['title'] + ' ' + course_detail['course_udemy_detail']['headline']
+
+    try:
+        udemy_form = get_gpt_form(course_name)
+    except Exception as e:
+        CursoUdemy.objects.filter(pk=id_course).update(estado='2')
+        return False
+
+    CursoUdemy.objects.filter(pk=id_course).update(preguntas=udemy_form, estado='1')
+    return True
