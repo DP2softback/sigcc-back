@@ -25,27 +25,31 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
-class EvaluationTypeSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class EvaluationTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = EvaluationType
         fields = '__all__'
 
-class EmployeeSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Group
+        model = Employee
+        depth = 1
         fields = '__all__'
 
-class PositionSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+
+
+
+class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
         fields = '__all__'
 
-class AreaSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = '__all__'
 
-class CategorySerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     isActive = serializers.BooleanField(read_only=True)
     creationDate = serializers.DateField(read_only=True)
     modifiedDate = serializers.DateField(read_only=True)
@@ -53,29 +57,153 @@ class CategorySerializer(DynamicFieldsModelSerializer,serializers.ModelSerialize
         model = Category
         fields = '__all__'
 
-class AreaxPosicionSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class AreaxPosicionSerializer(serializers.ModelSerializer):
     class Meta:
         model = AreaxPosicion
         fields = '__all__'
         
-class EvaluationSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
-    evaluator = EmployeeSerializer()
-    evaluated = EmployeeSerializer()
-    evaluationType = EvaluationTypeSerializer()
-    areaxPosicion = AreaxPosicionSerializer()
+class EvaluationSerializer(serializers.ModelSerializer):
+    # evaluator = EmployeeSerializer()
+    # evaluated = EmployeeSerializer()
+    # evaluationType = EvaluationTypeSerializer()
+    # areaxPosicion = AreaxPosicionSerializer()
     class Meta:
         model = Evaluation
         fields = '__all__'
 
-class SubCategorySerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class EvaluationxSubCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EvaluationxSubCategory
+        fields = '__all__'
+class CategoryNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id','name')
+class SubcategoryCategoryNameSerializer(serializers.ModelSerializer):
+    category = CategoryNameSerializer()
+    class Meta:
+        model =SubCategory
+        fields = ('id','category')
+class EvaluationIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Evaluation
+        fields=  ['id']
+class ContinuousEvaluationIntermediateSerializer(serializers.ModelSerializer):
+    subCategory = SubcategoryCategoryNameSerializer()
+    evaluation = EvaluationIdSerializer()
+    class Meta:
+        model= EvaluationxSubCategory
+        fields = ('subCategory','score','evaluation')
+class PerformanceEvaluationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Evaluation
+        fields=('evaluationDate','finalScore')
+
+
+class SubCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCategory
         fields = '__all__'
 
-class EvaluationxSubCategorySerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
+class EvaluationSerializerWrite(serializers.ModelSerializer):
+    # evaluator = EmployeeSerializer()
+    # evaluated = EmployeeSerializer()
+    # evaluationType = EvaluationTypeSerializer()
+    # areaxPosicion = AreaxPosicionSerializer()
     class Meta:
-        model = EvaluationxSubCategory
+        model = Evaluation
+        fields = '__all__'
+
+class CategorySerialiazerRead(DynamicFieldsModelSerializer):
+    class Meta:
+        model = CategorySerializer
         fields = '__all__'
 
 
+class EvaluationSerializerRead(DynamicFieldsModelSerializer):
+    #category = CategorySerialiazerRead()
+    
 
+    class Meta:
+        model = Evaluation
+        fields = '__all__'   
+
+
+
+##API LINECHART NO MOVER
+class CategorySerializerRead(DynamicFieldsModelSerializer):
+    #category = CategorySerialiazerRead()
+    
+
+    class Meta:
+        model = Category
+        fields = '__all__'   
+
+class SubCategorySerializerRead(DynamicFieldsModelSerializer):
+    category = CategoryNameSerializer()
+    class Meta:
+        model =SubCategory
+        fields = '__all__' 
+
+    def get_category(self, obj):
+        category = obj.category
+        category_serializer = CategorySerializerRead(category,fields=('id','name'))
+        return category_serializer.data    
+
+class EvaluationxSubCategoryRead(DynamicFieldsModelSerializer):
+    evaluation = serializers.SerializerMethodField()    
+    subCategory = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = EvaluationxSubCategory
+        fields = '__all__'
+    
+    def get_evaluation(self, obj):
+        evaluation = obj.evaluation
+        evaluation_serializer = EvaluationSerializerRead(evaluation,fields=('id','evaluationDate','finalScore'))
+        return evaluation_serializer.data
+    
+    def get_subCategory(self, obj):
+        subCategory = obj.subCategory
+        subCategory_serializer = SubCategorySerializerRead(subCategory,fields=('id','name','category'))
+        return subCategory_serializer.data
+        
+
+
+
+class EvaluationTypeSerializerRead(DynamicFieldsModelSerializer):
+    class Meta:
+        model = EvaluationType
+        fields = '__all__'
+
+class PlantillaSerializerRead(DynamicFieldsModelSerializer):
+    evaluationType = serializers.SerializerMethodField()   
+    
+
+    class Meta:
+        model = Plantilla
+        fields = '__all__'   
+
+    def get_evaluationType(self, obj):
+        evaluationType = obj.evaluationType
+        evaluationType_serializer = EvaluationTypeSerializerRead(evaluationType,fields=('id','name'))
+        return evaluationType_serializer.data    
+
+class PlantillaxSubCategoryRead(DynamicFieldsModelSerializer):
+    plantilla = serializers.SerializerMethodField()    
+    subCategory = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = PlantillaxSubCategoria
+        fields = '__all__'
+    
+    def get_plantilla(self, obj):
+        plantilla = obj.plantilla
+        plantilla_serializer = PlantillaSerializerRead(plantilla,fields=('id','nombre','evaluationType'))
+        return plantilla_serializer.data
+    
+    def get_subCategory(self, obj):
+        subCategory = obj.subCategory
+        subCategory_serializer = SubCategorySerializerRead(subCategory,fields=('id','name','category'))
+        return subCategory_serializer.data   
+       

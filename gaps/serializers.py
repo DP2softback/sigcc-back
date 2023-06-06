@@ -8,20 +8,16 @@ class CompetenceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 		
 class CompetenceXAreaXPositionSerializer(serializers.ModelSerializer):
-    position = PositionSerializer()
-    area = AreaSerializer()
     class Meta:
         model = CompetenceXAreaXPosition
         fields = '__all__'
 
 class CompetenceXEmployeeSerializer(serializers.ModelSerializer):
-    employee = EmployeeSerializer()
     class Meta:
         model = CompetenceXEmployee
         fields = '__all__'
 
 class TrainingNeedSerializer(serializers.ModelSerializer):
-    empleado = EmployeeSerializer()
     class Meta:
         model = TrainingNeed
         fields = '__all__'

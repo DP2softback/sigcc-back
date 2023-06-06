@@ -1,0 +1,1 @@
+[{"model": "capacitaciones.parametros", "pk": 1, "fields": {"nota_maxima": 20, "nota_minima": 11, "numero_intentos_curso": 3, "numero_intentos_lp": 3}}]

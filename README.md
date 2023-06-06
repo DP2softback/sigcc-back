@@ -48,11 +48,17 @@ Backend from SIGCC system, capstone course in PUCP
 
 ## Crear superuser for Django Admin:
 
+    # En local:
+
     python manage.py createsuperuser
 
     username:demoadmin
     email:demoadmin@demoadmin.com
     password: demopassword
+
+    # En nube:
+
+    zappa invoke --raw dev "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('demoadmin', 'demoadmin@demoadmin.com', 'demopassword')"
 
 
 ## resetear migraciones
