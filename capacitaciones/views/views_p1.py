@@ -16,7 +16,8 @@ from capacitaciones.jobs.tasks import upload_new_course_in_queue
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer
-from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form
+from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form, \
+    transform_gpt_quiz_output
 from login.models import Employee
 
 
@@ -305,9 +306,9 @@ class UdemyEvaluationAPIView(APIView):
         if not cursoudemy_evaluacion:
             return Response({'msg': 'El curso solicitado no existe'}, status=status.HTTP_400_BAD_REQUEST)
 
-        cursoudemy_evaluacion = json.dumps(json.loads(cursoudemy_evaluacion['preguntas']))
+        cursoudemy_evaluacion = json.loads(cursoudemy_evaluacion['preguntas'])
 
-        return Response({'evaluacion': json.loads(cursoudemy_evaluacion)}, status=status.HTTP_200_OK)
+        return Response({'evaluacion': cursoudemy_evaluacion}, status=status.HTTP_200_OK)
 
     def post(self, request, pk_course):
 

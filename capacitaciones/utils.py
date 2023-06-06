@@ -63,7 +63,7 @@ def get_gpt_form(curso):
     n = 1
     stop = None
     prompt = "La respuesta debe ser estructurada como un arreglo de objetos JSON del tipo Array<\{question:string," \
-             "options:Array<string>,answer:integer\}>\nGenera 10 preguntas de opción múltiple. Cada pregunta debe " \
+             "options:Array<string>,answer:1|2|3|4\}>\nGenera 10 preguntas de opción múltiple. Cada pregunta debe " \
              "tener 4 opciones de respuesta y la respuesta debe ser objetiva, precisa, breve. La dificultad de las " \
              "preguntas debe ser alta. No incluyas preguntas de cálculos numéricos. Las preguntas del cuestionario se " \
              "deben construir considerando el temario del curso '" + curso + "' de Udemy "
@@ -99,5 +99,26 @@ def GenerateUdemyEvaluation(id_course):
         CursoUdemy.objects.filter(pk=id_course).update(estado='2')
         return False
 
-    CursoUdemy.objects.filter(pk=id_course).update(preguntas=udemy_form, estado='1')
+    CursoUdemy.objects.filter(pk=id_course).update(preguntas=transform_gpt_quiz_output(udemy_form), estado='1')
     return True
+
+
+def transform_gpt_quiz_output(gtp_output):
+
+    new_data = []
+    for i, question in enumerate(gtp_output, start=1):
+        new_question = {
+            "id_pregunta": i,
+            "pregunta": question["question"],
+            "opciones": []
+        }
+        for j, option in enumerate(question["options"], start=1):
+            new_option = {
+                "id_opcion": j,
+                "opcion": option,
+                "es_correcta": j == question["answer"]
+            }
+            new_question["opciones"].append(new_option)
+        new_data.append(new_question)
+
+    return new_data
