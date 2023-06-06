@@ -317,9 +317,6 @@ class UdemyEvaluationAPIView(APIView):
         if not evaluacion:
             return Response({'msg': 'No se recibió ninguna evaluacion'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-        evaluacion = json.dumps(evaluacion)
-        #print(evaluacion)
         CursoUdemy.objects.filter(pk=pk_course).update(preguntas=evaluacion, estado='3')
         return Response({'msg': 'Se validó y actualizó el cuestionario con éxito'}, status=status.HTTP_200_OK)
 
