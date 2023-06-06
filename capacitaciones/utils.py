@@ -106,6 +106,7 @@ def GenerateUdemyEvaluation(id_course):
 def transform_gpt_quiz_output(gtp_output):
 
     new_data = []
+    gtp_output = json.loads(gtp_output)
     for i, question in enumerate(gtp_output, start=1):
         new_question = {
             "id_pregunta": i,
