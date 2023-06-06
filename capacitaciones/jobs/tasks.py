@@ -60,8 +60,7 @@ def upload_new_course_in_queue(curso):
             'id_course': curso.pk
         }
 
-        file_size = os.path.getsize(os.getenv('PATH_FILE_QUEUE'))
-        if file_size == 0:
+        if not os.path.exists(os.getenv('PATH_FILE_QUEUE')) or os.path.getsize(os.getenv('PATH_FILE_QUEUE')) == 0:
             courses_data = []
         else:
             with open(os.getenv('PATH_FILE_QUEUE'), 'r+') as file:

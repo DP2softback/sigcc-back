@@ -322,6 +322,7 @@ class UdemyEvaluationAPIView(APIView):
         CursoUdemy.objects.filter(pk=pk_course).update(preguntas=evaluacion, estado='3')
         return Response({'msg': 'Se validó y actualizó el cuestionario con éxito'}, status=status.HTTP_200_OK)
 
+
 class SetupScheduler(APIView):
 
     def get(self, request):
