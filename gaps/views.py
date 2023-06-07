@@ -139,6 +139,14 @@ class CompetenceTypeView(APIView):
             return Response(tipoCompetencia_serializer.data,status=status.HTTP_200_OK)
         return Response(None,status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, pk, format = None):
+        try:
+            tipoCompetencia = CompetenceType.objects.get(pk = pk)
+            tipoCompetencia.delete()
+            return Response(status=status.HTTP_200_OK)
+        except CompetenceType.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 class SearchCompetenceConsolidateView(APIView):
     def post(self, request):
         idArea = request.data["idArea"]
