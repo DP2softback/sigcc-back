@@ -10,8 +10,10 @@ from rest_framework.views import APIView
 from zappa.asynchronous import task
 from gaps.models import Competence, CompetenceType, CompetenceXEmployee, TrainingNeed, CompetenceXAreaXPosition
 from login.models import Employee
+from personal.models import Area, Position
 from gaps.serializers import CompetenceSerializer, CompetenceTypeSerializer, CompetenceXEmployeeSerializer, TrainingNeedSerializer, CompetenceXAreaXPositionSerializer
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite
+from gaps.serializers import AreaSerializer
 # Create your views here.
 
 class CompetenceView(APIView):
@@ -201,7 +203,6 @@ class CompetenceAreaPositionView(APIView):
         
         # Se puede hacer como Trigger :
         employees = Employee.objects.filter(Q(area__id=request.data["idArea"]) & Q(position__id= request.data["idPosicion"])).values()
-        print(employees)
         if employees.count() > 0:
             for employee in  employees:
                 # nivel requerido en 0
@@ -258,7 +259,10 @@ class CompetenceAreaPositionView(APIView):
                         competencesEmployee_serializer = CompetenceXEmployeeSerializer(data = fields)
                         if competencesEmployee_serializer.is_valid():
                             competencesEmployee_serializer.save()						
-        return Response(1,status=status.HTTP_200_OK)	
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'competencias cargadas correctamente',
+                        },)	
     def put(self, request,id=0):
         register = CompetenceXAreaXPosition.objects.filter(Q(area__id = request.data["idArea"]) & Q(position__id = request.data["idPosicion"]) & Q(competence__id = request.data['idCompetencia'])).first()
         if register is not None:
@@ -319,7 +323,10 @@ class CompetenceAreaPositionView(APIView):
                         competencesEmployee_serializer = CompetenceXEmployeeSerializer(data = empFields)
                         if competencesEmployee_serializer.is_valid():
                             competencesEmployee_serializer.save()
-        return Response(1,status=status.HTTP_200_OK)	
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'competencias cargadas correctamente',
+                        },)	
 		
 class CompetenceEmployeeView(APIView):
     def get(self, request,id=0):
@@ -375,7 +382,10 @@ class CompetenceEmployeeView(APIView):
                     trainingNeed_serializer = TrainingNeedSerializer(data=needFields)
                     if trainingNeed_serializer.is_valid():
                         trainingNeed_serializer.save()
-        return Response(1,status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'competencias cargadas correctamente',
+                        },)	
     def put(self, request,id=0):
         register = CompetenceXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(competence__id = request.data['idCompetencia'])).first()
         if register is not None:        
@@ -409,7 +419,10 @@ class CompetenceEmployeeView(APIView):
                     trainingNeed_serializer = TrainingNeedSerializer(data=needFields)
                     if trainingNeed_serializer.is_valid():
                         trainingNeed_serializer.save()
-        return Response(1,status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'competencias cargadas correctamente',
+                        },)	
 
 class TrainingNeedView(APIView):
     def put(self, request,id=0):
@@ -419,37 +432,53 @@ class TrainingNeedView(APIView):
             trainingNeed_serializer = TrainingNeedSerializer(register, data = fields)
             if trainingNeed_serializer.is_valid():
                 trainingNeed_serializer.save()
-        return Response(1,status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'necesidad actualizada correctamente',
+                        },)	
     
 class SearchCompetenceAreaPositionView(APIView):
     def post(self, request):
         area = request.data["area"]
-        posicion = request.data["posicion"]
+        position = request.data["posicion"]
         query = Q()
         query.add(Q(active=True), Q.AND)
         if area is not None and area>0:
             query.add(Q(area__id = area), Q.AND)
-        if posicion is not None and posicion>0:
-            query.add(Q(position__id = posicion), Q.AND)
-        competenciasAreaPosicion = CompetenceXAreaXPosition.objects.filter(query).values('id','competence__id','competence__name','area__id','area__name','position__id','position__name','levelRequired', 'active')
-        return Response(list(competenciasAreaPosicion), status = status.HTTP_200_OK)
+        if position is not None and position>0:
+            query.add(Q(position__id = position), Q.AND)
+        areaPositionCompetence = CompetenceXAreaXPosition.objects.filter(query).values('id','competence__id','competence__name','area__id','area__name','position__id','position__name','levelRequired', 'active')
+        return Response(list(areaPositionCompetence), status = status.HTTP_200_OK)
     
 class SearchCompetenceEmployeeView(APIView):
     def post(self, request):
-        empleado = request.data["empleado"]
+        employee = request.data["empleado"]
         query = Q()
         query.add(Q(active=True), Q.AND)
-        if empleado is not None and empleado>0:
-            query.add(Q(employee__id = empleado), Q.AND)
-        competenciasEmpleado = CompetenceXEmployee.objects.filter(query).values('id','competence__id','competence__name','employee__id','levelCurrent','levelRequired','levelGap','likeness', 'hasCertificate', 'registerByEmployee','requiredForPosition', 'active')
-        return Response(list(competenciasEmpleado), status = status.HTTP_200_OK)
+        if employee is not None and employee>0:
+            query.add(Q(employee__id = employee), Q.AND)
+        employeeCompetence = CompetenceXEmployee.objects.filter(query).values('id','competence__id','competence__name','employee__id','levelCurrent','levelRequired','levelGap','likeness', 'hasCertificate', 'registerByEmployee','requiredForPosition', 'active')
+        return Response(list(employeeCompetence), status = status.HTTP_200_OK)
     
 class SearchNeedView(APIView):
     def post(self, request):
-        empleado = request.data["empleado"]
+        employee = request.data["empleado"]
         query = Q()
         query.add(Q(active=True), Q.AND)
-        if empleado is not None and empleado>0:
-            query.add(Q(employee__id = empleado), Q.AND)
+        if employee is not None and employee>0:
+            query.add(Q(employee__id = employee), Q.AND)
         necesidades = TrainingNeed.objects.filter(query).values('id','competence__id','competence__name','employee__id','description','state','levelCurrent','levelRequired','levelGap','type','active')
         return Response(list(necesidades), status = status.HTTP_200_OK)
+    
+class EmployeeAreaView(APIView):
+    def get(self, request):
+        areas = Area .objects.filter(isActive=True).values('id','name')
+        return Response(list(areas), status = status.HTTP_200_OK)
+    def post(self, request):
+        area = request.data["area"]
+        query = Q()
+        # query.add(Q(active=True), Q.AND)
+        if area is not None and area>0:
+            query.add(Q(area__id = area), Q.AND)
+        employees = Employee.objects.filter(query).values('id','user__first_name','user__last_name','position__name','area__name','user__email','user__is_active')
+        return Response(list(employees), status = status.HTTP_200_OK)
