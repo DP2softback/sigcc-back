@@ -1,5 +1,5 @@
 from django.db import models
-# from login.models import Employee
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -8,13 +8,12 @@ class Position(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    name = models.CharField(max_length=40)
-    benefits = models.TextField(blank=True, default='')
-    responsabilities = models.TextField(blank=True, default='')
-    description = models.TextField(blank=True, default='')
-    tipoJornada = models.TextField(blank=True, default='')
-    modalidadTrabajo = models.TextField(blank=True, default='')
-
+    name = models.CharField(max_length=40, null=True)
+    benefits = models.TextField(blank=True, default='', null=True)
+    responsabilities = models.TextField(blank=True, default='', null=True)
+    description = models.TextField(blank=True, default='', null=True)
+    tipoJornada = models.TextField(blank=True, default='', null=True)
+    modalidadTrabajo = models.TextField(blank=True, default='', null=True)
 
 class Area(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -37,13 +36,31 @@ class AreaxPosicion(models.Model):
     availableQuantity = models.IntegerField()
     unavailableQuantity = models.IntegerField()
 
+class Functions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default='', null=True)
+    isActive = models.BooleanField(default=True)
+
 class HiringProcess(models.Model):
     class Meta:
         db_table = 'ProcesoSeleccion'
     id = models.BigAutoField(primary_key=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    # employees = models.ManyToManyField(Employee, related_name='hiring_processes')
+    name = models.CharField(max_length=60)
     available_positions_quantity = models.IntegerField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+class EmployeeXHiringProcess(models.Model):
+    class Meta:
+        db_table = 'EmpleadoXProcesoSeleccion'
+    id = models.BigAutoField(primary_key=True)
+    employee = models.ForeignKey('login.Employee', on_delete=models.CASCADE)
+    hiring_process = models.ForeignKey(HiringProcess, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
