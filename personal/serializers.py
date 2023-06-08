@@ -46,6 +46,11 @@ class ProcessStageSerializer(serializers.ModelSerializer):
         model = ProcessStage
         fields = '__all__'
 
+class JobOfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobOffer
+        fields = '__all__'
+
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position

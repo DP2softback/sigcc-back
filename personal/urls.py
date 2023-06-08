@@ -7,6 +7,7 @@ urlpatterns = [
     path('hiring-processes/<int:pk>', HiringProcessView.as_view()),
     path('stage-types', StageTypeView.as_view()),
     path('process-stages', ProcessStageView.as_view()),
+    path('job-offers', JobOfferView.as_view()),
     path('positions', PositionView.as_view()),
     path('positions/<int:pk>', PositionView.as_view()),
     path('functions', FunctionsView.as_view()),

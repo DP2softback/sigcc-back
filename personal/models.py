@@ -89,5 +89,17 @@ class ProcessStage(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+class JobOffer(models.Model):
+    class Meta:
+        db_table = 'OfertaLaboral'
+    id = models.BigAutoField(primary_key=True)
+    hiring_process = models.ForeignKey(HiringProcess, on_delete=models.CASCADE)
+    introduction = models.TextField(blank=True, default='')
+    offer_introduction = models.TextField(blank=True, default='')
+    responsabilities_introduction = models.TextField(blank=True, default='')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
 
 
