@@ -1,5 +1,5 @@
 from django.db import models
-# from login.models import Employee
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -42,8 +42,18 @@ class HiringProcess(models.Model):
         db_table = 'ProcesoSeleccion'
     id = models.BigAutoField(primary_key=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    # employees = models.ManyToManyField(Employee, related_name='hiring_processes')
+    name = models.CharField(max_length=60)
     available_positions_quantity = models.IntegerField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+class EmployeeXHiringProcess(models.Model):
+    class Meta:
+        db_table = 'EmpleadoXProcesoSeleccion'
+    id = models.BigAutoField(primary_key=True)
+    employee = models.ForeignKey('login.Employee', on_delete=models.CASCADE)
+    hiring_process = models.ForeignKey(HiringProcess, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)

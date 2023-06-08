@@ -31,6 +31,11 @@ class HiringProcessSerializer(serializers.ModelSerializer):
         model = HiringProcess
         fields = '__all__'
 
+class EmployeeXHiringProcessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmployeeXHiringProcess
+        fields = '__all__'
+
 class StageTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = StageType
