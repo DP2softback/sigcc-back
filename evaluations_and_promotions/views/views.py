@@ -1,8 +1,6 @@
 import json
 from django.shortcuts import render
-import sys
 from rest_framework import status
-import pprint
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -174,10 +172,10 @@ class GetHistoricoDeEvaluaciones(APIView):
         nivel = request.data.get("nivel")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")  
-        print(request.data)
-        pprint.pprint(request.__dict__, stream=sys.stderr)
-        print("employee_id", employee_id)
-        print("EvaType", tipoEva)
+        #print(request.data)
+        #pprint.pprint(request.__dict__, stream=sys.stderr)
+        #print("employee_id", employee_id)
+        #print("EvaType", tipoEva)
         validate_employee_and_evaluation(employee_id, tipoEva)
         
         
@@ -306,7 +304,7 @@ class EvaluationLineChart(APIView):
         
         
         data = Data_serialiazada.data
-        print(data)
+        #print(data)
         # Transform data into the desired format
         result = {}
         for item in data:
@@ -422,106 +420,111 @@ class PlantillasAPI(APIView):
 
 
 class PlantillasEditarVistaAPI(APIView):
-    def post(self,request):
-        plantilla = request.data.get("id")
+    def post(self, request):
+        plantilla_id = request.data.get("id")
         evaluation_type = request.data.get("evaluationType")
 
-        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
-            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
-        
-        Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__evaluationType__name=evaluation_type,plantilla__isActive = True,isActive=True)
-        Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
+        if not self.is_valid_evaluation_type(evaluation_type):
+            return Response("Invalid value for EvaluationType", status=status.HTTP_400_BAD_REQUEST)
 
+        template = self.get_template(plantilla_id)
+        if not template:
+            return Response("Template not found", status=status.HTTP_404_NOT_FOUND)
 
-        Datos_noCategorias = PlantillaxSubCategoria.objects.filter(plantilla__id=plantilla,plantilla__evaluationType__name=evaluation_type,isActive=True)
-        Datos_noCategorias_Serializados = PlantillaxSubCategoryRead(Datos_noCategorias,many=True,fields = ('id','subCategory'))
-        data = Datos_noCategorias_Serializados.data
-        subcategories_list = [item['subCategory']['id'] for item in data]
-        
-        subcategories_not_in_plantilla = SubCategory.objects.exclude(id__in = subcategories_list)
+        categories = self.get_categories(template)
+        subcategories_not_in_template = self.get_subcategories_not_in_template(template, evaluation_type)
 
-        subcategories_not_in_plantilla_serializada = SubCategorySerializerRead(subcategories_not_in_plantilla,many=True,fields=('id','category','name','description','code'))
-        json1 = Datos_serializados.data
-        json2 = subcategories_not_in_plantilla_serializada.data
+        response_data = self.generate_response_data(template, categories, subcategories_not_in_template)
+        return Response(response_data, status=status.HTTP_200_OK)
 
-        result = {}
+    def is_valid_evaluation_type(self, evaluation_type):
+        valid_types = ["Evaluación Continua", "Evaluación de Desempeño"]
+        return evaluation_type and evaluation_type.casefold() in [t.casefold() for t in valid_types]
 
-        # Process plantilla from json1
-        plantilla = json1[0]['plantilla']
-        result['plantilla-id'] = plantilla['id']
-        result['plantilla-nombre'] = plantilla['nombre']
+    def get_template(self, template_id):
+        try:
+            return Plantilla.objects.get(id=template_id, isActive=True)
+        except Plantilla.DoesNotExist:
+            return None
 
-        # Process categories and subcategories from json1
-        categories = []
-        for item in json1:
-            category = item['subCategory']['category']
-            subcategory = item['subCategory']
-            
-            # Check if the category already exists in the result
-            category_exists = False
-            for cat in categories:
-                if cat['id'] == category['id']:
-                    category_exists = True
-                    cat['subcategory'].append({
-                        'id': subcategory['id'],
-                        'subcategory-isActive': True,
-                        'nombre': subcategory['name']
-                    })
-                    break
-            
-            # If the category doesn't exist, create it along with its subcategory
-            if not category_exists:
-                categories.append({
-                    'id': category['id'],
-                    'name': category['name'],
-                    'Category-active': True,
-                    'subcategory': [{
-                        'id': subcategory['id'],
-                        'subcategory-isActive': True,
-                        'nombre': subcategory['name']
-                    }]
-                })
+    def get_categories(self, template):
+        subcategories = PlantillaxSubCategoria.objects.filter(
+            plantilla=template,
+            plantilla__isActive=True,
+            isActive=True
+        ).select_related('subCategory__category')
 
-        result['Categories'] = categories
+        categories = {}
+        for subcategory in subcategories:
+            category = subcategory.subCategory.category
+            if category not in categories:
+                categories[category] = []
 
-        merged_json = result.copy()
-        categories = merged_json["Categories"]
-        
-        for item in json2:
-            category = item["category"]
-            subcategory_id = item["id"]
-            subcategory_exists = False
-            
-            # Check if the category already exists in the merged JSON
-            for cat in categories:
-                if cat["id"] == category["id"]:
-                    subcategory_exists = True
-                    subcategory = {
-                        "id": subcategory_id,
-                        "subcategory-isActive": False,
-                        "nombre": item["name"]
-                    }
-                    cat["subcategory"].append(subcategory)
-                    break
-            
-            # If the category doesn't exist, create it with the new subcategory
-            if not subcategory_exists:
-                new_category = {
-                    "id": category["id"],
-                    "name": category["name"],
-                    "Category-active": False,
-                    "subcategory": [
+            categories[category].append(subcategory.subCategory)
+
+        return categories
+
+    def get_subcategories_not_in_template(self, template, evaluation_type):
+        subcategories_in_template = PlantillaxSubCategoria.objects.filter(
+            plantilla=template,
+            plantilla__evaluationType__name=evaluation_type,
+            isActive=True
+        ).values_list('subCategory_id', flat=True)
+
+        return SubCategory.objects.exclude(id__in=subcategories_in_template).filter(category__evaluationType__name=evaluation_type)
+
+    def generate_response_data(self, template, categories, subcategories_not_in_template):
+        evaluation_type = template.evaluationType.name  # Get the evaluation type from the template
+
+        response_data = {
+            'plantilla-id': template.id,
+            'plantilla-nombre': template.nombre,
+            'Categories': []
+        }
+
+        for category, subcategories in categories.items():
+            if category.evaluationType.name == evaluation_type:  # Filter categories based on evaluation type
+                category_data = {
+                    'id': category.id,
+                    'name': category.name,
+                    'Category-active': category.isActive,
+                    'subcategory': [
                         {
-                            "id": subcategory_id,
-                            "subcategory-isActive": False,
-                            "nombre": item["name"]
+                            'id': subcategory.id,
+                            'subcategory-isActive': subcategory.isActive,
+                            'nombre': subcategory.name
                         }
+                        for subcategory in subcategories
                     ]
                 }
-                categories.append(new_category)
-            
 
-        return Response(merged_json,status=status.HTTP_200_OK)
+                response_data['Categories'].append(category_data)
+
+        for subcategory in subcategories_not_in_template:
+            category_data = next(
+                (category for category in response_data['Categories'] if (category['id'] == subcategory.category.id )),
+                None
+            )
+
+            if category_data is None:
+                category_data = {
+                    'id': subcategory.category.id,
+                    'name': subcategory.category.name,
+                    'Category-active': False,
+                    'subcategory': []
+                }
+                response_data['Categories'].append(category_data)
+
+            subcategory_data = {
+                'id': subcategory.id,
+                'subcategory-isActive': False,
+                'nombre': subcategory.name
+            }
+            category_data['subcategory'].append(subcategory_data)
+
+        return response_data
+
+
 
         
 class VistaCategoriasSubCategorias(APIView):
@@ -591,7 +594,7 @@ class EvaluationLineChartPersona(APIView):
         
         
         data = Data_serialiazada.data
-        print(data)
+        
         # Transform data into the desired format
         result = {}
         for item in data:
@@ -635,16 +638,22 @@ class EvaluationLineChartPersona(APIView):
 class PlantillasEditarAPI(APIView):
     def post(self,request):
         plantilla = request.data.get("plantilla-id")
+        nuevanombre = request.data.get("plantilla-nombre")
+        Plantilla_basica = Plantilla.objects.get(pk=plantilla)
+
+        if(Plantilla_basica.nombre != nuevanombre ):
+            Plantilla_basica.nombre = nuevanombre
+            Plantilla_basica.save()
 
         Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__isActive = True,isActive=True)
         Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
-        print(Datos_serializados.data)
+        
         Existe = False
         for item in request.data.get("Categories"):
             for subcat in item["subcategory"]:
                     Existe = False
                     
-                    print(subcat["id"])
+                    
                     for DataExistente in Datos_serializados.data:
                         
                         if(DataExistente['subCategory']['id'] == subcat["id"]):
@@ -652,9 +661,9 @@ class PlantillasEditarAPI(APIView):
                                 print("Sí existe categoría")
                             elif(subcat["subcategory-isActive"] == False):
                                 PlantillaxSubCategoria.objects.filter(id=DataExistente['id']).update(isActive = False)
-                                print("Se elimina la subcategoria de la plantilla")
+                                
                             Existe = True
-                            print("Se encontró subcat")
+                            
                             break;
                     if(Existe == False and subcat["subcategory-isActive"] == True):
                         PlantillaxSubCategoria(
@@ -669,28 +678,49 @@ class PlantillasEditarAPI(APIView):
 
 class PlantillasCrearAPI(APIView):
     def post(self,request):
-        #plantilla = request.data.get("plantilla-id")
+        
         evaltype = request.data.get("evaluationType")
         if (evaltype.casefold() != "Evaluación Continua".casefold() and evaltype.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
-        print(request.data.get('nombre'))
-        plantilla_creada = Plantilla(nombre = request.data.get('nombre'),evaluationType = EvaluationType.objects.get(name= evaltype)).save()
+        
+        obj_evalty =   EvaluationType.objects.get(name= evaltype)
+        print(obj_evalty)
+        plantilla_creada = Plantilla(nombre = request.data.get('nombre'),evaluationType = obj_evalty)
+        plantilla_creada.save()
 
+        print(plantilla_creada)
         if(plantilla_creada is None):
             return Response("No se ha creado correctamente el objeto plantilla",status=status.HTTP_400_BAD_REQUEST)
-        
-        for item in request.data.get("subcategories"):
-            subcategoriacrear = PlantillaxSubCategoria(nombre = item["nombre"],plantilla=plantilla_creada,SubCategory = SubCategory.objects.get(id = item["id"])).save()
+
+        for item in request.data.get("subCategories"):
+            subcategoriacrear = PlantillaxSubCategoria(nombre = item["nombre"],plantilla=plantilla_creada,subCategory = SubCategory.objects.get(id = item["id"]))
+            subcategoriacrear.save()
             if(subcategoriacrear is None):
                 return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
         
-        return Response("Se creó correctamente",status=status.HTTP_200_OK)
+        return Response("Se creó correctamente la plantilla ",status=status.HTTP_200_OK)
     
 
 class PlantillaPorTipo(APIView):
     def post(self,request):
+        Data = Plantilla.objects.filter(isActive = True)
+        Data_serialazada = PlantillaSerializerRead(Data,many=True,fields = ('id','nombre','evaluationType'))
 
-        return Response("Se ha actualizado correctamente",status=status.HTTP_200_OK)
+
+        result = {}
+        data = Data_serialazada.data
+        for item in data:
+            evaluation_type = item['evaluationType']['name']
+            plantilla_id = item['id']
+            plantilla_nombre = item['nombre']
+            
+            if evaluation_type not in result:
+                result[evaluation_type] = []
+            
+            result[evaluation_type].append({"plantilla-id": plantilla_id, "plantilla-nombre": plantilla_nombre})
+
+
+        return Response(result,status=status.HTTP_200_OK)
     
 class GetAreas(APIView):
     def get(self, request):
@@ -708,3 +738,77 @@ class GetCategoriasDesempenio(APIView):
         evaluation_type = EvaluationType.objects.get(name='Evaluación de Desempeño')
         categorias = Category.objects.filter(evaluationType=evaluation_type).values('id', 'name')
         return Response(categorias)
+    
+class EvaluationLineChartReporte(APIView):
+    def post(self,request):
+
+        area_id = request.data.get("area-id")
+        category_id = request.data.get("category-id")
+        evaluation_type = request.data.get("evaluationType")
+        fecha_inicio = request.data.get("fecha_inicio")
+        fecha_final=request.data.get("fecha_final")
+
+
+        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__area__id = area_id, evaluation__evaluationType__name=evaluation_type, subCategory__category__id = category_id, evaluation__isActive = True)
+
+        if fecha_inicio:
+            try:
+                fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__gte=fecha_inicio)
+            except ValueError:
+                return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
+        
+        if fecha_final:
+            try:
+                fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
+            except ValueError:
+                return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
+        
+        Data_serialiazada = EvaluationxSubCategoryRead(Datos,many=True,fields=('id','score','evaluation','subCategory'))
+        
+        
+        data = Data_serialiazada.data
+        
+        # Transform data into the desired format
+        result = {}
+        for item in data:
+            evaluation_date = item['evaluation']['evaluationDate']
+            year = evaluation_date.split('-')[0]
+            month = evaluation_date.split('-')[1]
+
+            category_name = item['subCategory']['category']['name']
+            score_average = item['score']
+
+            if year not in result:
+                result[year] = {}
+
+            if month not in result[year]:
+                result[year][month] = {}
+
+            if category_name not in result[year][month]:
+                result[year][month][category_name] = []
+
+            result[year][month][category_name].append(score_average)
+
+        # Convert the result into the desired format
+        transformed_data = []
+        for year, year_data in result.items():
+            year_entry = {'year': year, 'month': []}
+            for month, month_data in year_data.items():
+                month_entry = {'month': month, 'category_scores': []}
+                for category_name, scores in month_data.items():
+                    average_score = sum(scores) / len(scores)
+                    category_entry = {'CategoryName': category_name, 'ScoreAverage': average_score}
+                    month_entry['category_scores'].append(category_entry)
+                year_entry['month'].append(month_entry)
+            transformed_data.append(year_entry)
+
+        # Convert the transformed data into JSON format
+        transformed_json = json.dumps(transformed_data, indent=4)
+
+
+        return Response(transformed_data,status=status.HTTP_200_OK)

@@ -50,7 +50,7 @@
       ]
     }
   },
-  "dev-evaluations": {
+  "dev-eval": {
     "extends": "base",
     "profile_name": "dp2",
     "s3_bucket": "dp2-bucket-dev",

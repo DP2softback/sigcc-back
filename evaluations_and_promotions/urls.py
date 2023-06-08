@@ -13,6 +13,7 @@ urlpatterns = [
     path('evaluations', GetHistoricoDeEvaluaciones.as_view()),
     path('evaluationxsubcat', EvaluationXSubcatAPI.as_view()),
     path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
+    path('LineChartEvaluacionesReporte', EvaluationLineChartReporte.as_view()),
     path('LineChartEvaluacionesPersona', EvaluationLineChartPersona.as_view()),
     #Plantillas
     path('Plantilla', PlantillasAPI.as_view()),
@@ -21,11 +22,13 @@ urlpatterns = [
     path('PlantillaEditar',PlantillasEditarAPI.as_view()),
     path('PlantillaCrear',PlantillasCrearAPI.as_view()),
     path('PlantillasPorGrupo',PlantillaPorTipo.as_view()),
-
-
-
-    path('areas/', GetAreas.as_view(), name='get-areas'),
-    path('categorias/continuas/', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
-    path('categorias/desempenio/', GetCategoriasDesempenio.as_view(), name='get-categorias-desempenio'),
+    
+    
+    
+    path('eval', EvaluationCreateAPIView.as_view()),
+    path('eval/<int:evaluation_id>', getEvaluation.as_view()),
+    path('areas', GetAreas.as_view(), name='get-areas'),
+    path('categorias/continuas', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
+    path('categorias/desempenio', GetCategoriasDesempenio.as_view(), name='get-categorias-desempenio'),
     
 ]
