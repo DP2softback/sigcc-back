@@ -7,7 +7,8 @@ from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearn
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
-    LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer
+    LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
+    EmpleadosXLearningPathSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
@@ -92,7 +93,6 @@ class PersonasXHabilidadesXEmpresaAPIView(APIView):
 
 
 class SesionAPIView(APIView):
-    permission_classes = [AllowAny]
 
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
@@ -211,7 +211,6 @@ class CursoEmpresaEmpleadosAPIView(APIView):
 
 
 class EmpleadoXLearningPathAPIView(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request, pk):
         empleado = Employee.objects.filter(id=pk).first()
@@ -227,7 +226,6 @@ class EmpleadoXLearningPathAPIView(APIView):
 
 
 class DetalleLearningPathXEmpleadoAPIView(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request, emp, lp):
         detalle_lp = EmpleadoXLearningPath.objects.filter(Q(id=emp) & Q(learning_path=lp))
@@ -237,3 +235,11 @@ class DetalleLearningPathXEmpleadoAPIView(APIView):
 
         return Response(lp_serializer.data, status=status.HTTP_200_OK)
 
+class EmpleadosXLearningPathAPIView(APIView):
+
+    def get(self, request, lp):
+
+        lp = EmpleadoXLearningPath.objects.filter(learning_path=lp).all()
+        empleadosXlpserializer = EmpleadosXLearningPathSerializer(lp, many=True)
+
+        return Response(empleadosXlpserializer.data, status=status.HTTP_200_OK)
