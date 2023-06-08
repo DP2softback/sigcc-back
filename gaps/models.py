@@ -26,6 +26,8 @@ class CompetenceType(models.Model):
             print("entro en el while")
             depth += 1
             obj = obj.upperType
+        if self.upperType == None:
+            depth = 0
         return depth
     
 class Competence(models.Model):
