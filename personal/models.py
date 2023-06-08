@@ -8,12 +8,12 @@ class Position(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    name = models.CharField(max_length=40)
-    benefits = models.TextField(blank=True, default='')
-    responsabilities = models.TextField(blank=True, default='')
-    description = models.TextField(blank=True, default='')
-    tipoJornada = models.TextField(blank=True, default='')
-    modalidadTrabajo = models.TextField(blank=True, default='')
+    name = models.CharField(max_length=40, null=True)
+    benefits = models.TextField(blank=True, default='', null=True)
+    responsabilities = models.TextField(blank=True, default='', null=True)
+    description = models.TextField(blank=True, default='', null=True)
+    tipoJornada = models.TextField(blank=True, default='', null=True)
+    modalidadTrabajo = models.TextField(blank=True, default='', null=True)
 
 
 class Area(models.Model):

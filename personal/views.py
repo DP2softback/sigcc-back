@@ -118,3 +118,27 @@ class ProcessStageView(APIView):
         process_stage_serializer = ProcessStageSerializer(process_stages, many=True)
         return Response(process_stage_serializer.data, status = status.HTTP_200_OK)
 
+class PositionView(APIView):
+    def get(self, request):
+        positions = Position.objects.all()
+        serializer = PositionSerializer(positions, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = PositionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, pk):
+        position = Position.objects.filter(pk=pk).first()
+        if not position:
+            return Response({"error": "Position not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = PositionSerializer(position, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
