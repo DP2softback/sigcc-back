@@ -10,7 +10,7 @@ class CompetenceType(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.CharField(max_length=300, blank=True, null=True)
     active = models.BooleanField(default=True)
-    upperType = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
+    upperType = models.ForeignKey('self', blank=True,null = True, on_delete=models.CASCADE)
     export_fields = [
         'id',
         'abbreviation',
@@ -18,6 +18,15 @@ class CompetenceType(models.Model):
         'description',
         'active'
     ]
+          
+    def get_depth(self):
+        depth = 0
+        obj = self
+        while obj.upperType:
+            print("entro en el while")
+            depth += 1
+            obj = obj.upperType
+        return depth
     
 class Competence(models.Model):
     id = models.BigAutoField(primary_key = True)
