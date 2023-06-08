@@ -51,6 +51,30 @@ class JobOfferSerializer(serializers.ModelSerializer):
         model = JobOffer
         fields = '__all__'
 
+class JobOfferSerializerRead(serializers.ModelSerializer):
+
+    position_name = serializers.CharField(source="hiring_process.position.name")
+    position_id = serializers.CharField(source="hiring_process.position.id")
+    class Meta:
+
+        model = JobOffer
+        depth = 1
+        fields = [
+            'id',
+            'hiring_process',
+            'position_id',
+            'position_name',
+            'introduction',
+            'offer_introduction',
+            'responsabilities_introduction',
+            'creation_date',
+            'modified_date',
+            'photo_url',
+            'location',
+            'salary_range',
+            'is_active'
+        ]
+
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position

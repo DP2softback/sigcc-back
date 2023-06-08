@@ -100,6 +100,8 @@ class JobOffer(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-
+    photo_url = models.TextField(blank=True, default='')
+    location = models.TextField(blank=True, default='')
+    salary_range = models.TextField(blank=True, default='')
 
 
