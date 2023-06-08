@@ -8,13 +8,12 @@ class Position(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    name = models.CharField(max_length=40)
-    benefits = models.TextField(blank=True, default='')
-    responsabilities = models.TextField(blank=True, default='')
-    description = models.TextField(blank=True, default='')
-    tipoJornada = models.TextField(blank=True, default='')
-    modalidadTrabajo = models.TextField(blank=True, default='')
-
+    name = models.CharField(max_length=40, null=True)
+    benefits = models.TextField(blank=True, default='', null=True)
+    responsabilities = models.TextField(blank=True, default='', null=True)
+    description = models.TextField(blank=True, default='', null=True)
+    tipoJornada = models.TextField(blank=True, default='', null=True)
+    modalidadTrabajo = models.TextField(blank=True, default='', null=True)
 
 class Area(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -36,6 +35,14 @@ class AreaxPosicion(models.Model):
     isActive = models.BooleanField(default=True)
     availableQuantity = models.IntegerField()
     unavailableQuantity = models.IntegerField()
+
+class Functions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default='', null=True)
+    isActive = models.BooleanField(default=True)
 
 class HiringProcess(models.Model):
     class Meta:
