@@ -391,8 +391,5 @@ class EmpleadosXLearningPathSerializer(serializers.ModelSerializer):
                   'fecha_completado', 'empleado']
 
     def get_empleado(self, obj):
-        # ids_emp = EmpleadoXLearningPath.objects.filter(learning_path=obj).values_list('empleado_id', flat=True)
-        #empleado = Employee.objects.filter(employee=ids_emp)
-        #return EmpleadoSerializer(obj.empleado).data
         return EmpleadoSerializer(obj.empleado).data
 
