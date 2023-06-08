@@ -185,7 +185,7 @@ class DocumentoRespuesta(models.Model):
 class EmpleadoXCurso(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
-    valoracion = models.IntegerField()
+    valoracion = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'EmpleadoXCurso'
@@ -219,10 +219,10 @@ class EmpleadoXCursoXLearningPath(models.Model):
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
-    nota_final = models.IntegerField()
+    nota_final = models.IntegerField(default = 0)
     cant_intentos = models.IntegerField(default = 0)
-    fecha_evaluacion = models.DateTimeField()
-    ultima_evaluacion = models.BooleanField()
+    fecha_evaluacion = models.DateTimeField(null=True)
+    ultima_evaluacion = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'EmpleadoXCursoXLearningPath'

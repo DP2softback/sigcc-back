@@ -4,12 +4,12 @@ from login.serializers import EmployeeSerializerRead
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
 from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
-
+from django.utils import timezone
 import re
 from django.db.models import Q
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral,CursoEmpresa,CursoUdemy
@@ -283,3 +283,87 @@ class ListEmployeesGeneralAPIView(APIView):
         empleados = Employee.objects.all()
         empleados_serializer = EmployeeSerializerRead(empleados, many=True)
         return Response(empleados_serializer.data, status = status.HTTP_200_OK)
+    
+
+class CompletarCursoView(APIView):
+    def put(self, request):
+        employee_id = request.data.get('employee_id')
+        curso_id = request.data.get('curso_id')
+        learning_path_id = request.data.get('learning_path_id', 0)
+        valoracion = request.data.get('valoracion')
+        apreciacion = request.data.get('apreciacion')
+        empleado = Employee.objects.filter(id=employee_id).first()
+        curso_empresa = CursoEmpresa.objects.filter(id=curso_id).first()
+        curso_general = CursoGeneral.objects.filter(id=curso_id).first()
+        
+        try:
+            if learning_path_id == 0:
+                if(curso_empresa.es_libre==True):
+                    empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.get(empleado=empleado, cursoEmpresa=curso_empresa)
+                    if empleado_curso_empresa is None:
+                        EmpleadoXCursoEmpresa.objects.create(empleado = empleado, cursoEmpresa = curso_empresa)
+                        empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.get(empleado=empleado, cursoEmpresa=curso_empresa)
+                    empleado_curso_empresa.porcentajeProgreso = 100
+                    empleado_curso_empresa.fechaCompletado = timezone.now()
+                    empleado_curso_empresa.apreciacion = apreciacion
+                    empleado_curso_empresa.save()
+                    
+                    empleado_curso = EmpleadoXCurso.objects.filter(empleado=empleado, curso=curso_general).first()
+                    if(empleado_curso is None):
+                        EmpleadoXCurso.objects.create(empleado = empleado, curso = curso_general,valoracion=0)
+                        empleado_curso = EmpleadoXCurso.objects.filter(empleado=empleado, curso=curso_general).first()
+                    
+                    empleado_curso.valoracion = valoracion
+                    empleado_curso.save()
+                    curso_general.suma_valoracionees=curso_general.suma_valoracionees+valoracion
+                    curso_general.cant_valoraciones=curso_general.cant_valoraciones+1
+                    curso_general.save()
+            else:
+                learning_path = LearningPath.objects.filter(id=learning_path_id).first()
+                empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general, learning_path=learning_path).first()
+                if( empleado_curso_learning_path is None):
+                    EmpleadoXCursoXLearningPath.objects.create(empleado = empleado, curso = curso_general,learning_path=learning_path,
+                                                               estado= '0',nota_final= None,fecha_evaluacion=None,ultima_evaluacion=False)
+                    empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general, learning_path=learning_path).first()
+                empleado_curso_learning_path.progreso = 100
+                empleado_curso_learning_path.estado = '2'
+                empleado_curso_learning_path.save()
+
+                empleado_curso = EmpleadoXCurso.objects.filter(empleado=empleado, curso=curso_general).first()
+                if(empleado_curso is None):
+                    EmpleadoXCurso.objects.create(empleado = empleado, curso = curso_general,valoracion=0)
+                    empleado_curso = EmpleadoXCurso.objects.filter(empleado=empleado, curso=curso_general).first()
+
+                empleado_curso.valoracion = valoracion
+                empleado_curso.save()
+                curso_general.suma_valoracionees=curso_general.suma_valoracionees+valoracion
+                curso_general.cant_valoraciones=curso_general.cant_valoraciones+1
+                curso_general.save()
+
+            return Response({'message': 'Se guardó el curso como completado'}, status=status.HTTP_200_OK)
+        except (CursoEmpresa.DoesNotExist, EmpleadoXCursoEmpresa.DoesNotExist,
+                EmpleadoXCursoXLearningPath.DoesNotExist):
+            return Response({"message": "Hubo un error con la información brindada"}, status=status.HTTP_404_NOT_FOUND)
+        
+
+class CompletarCLearningPathView(APIView):
+    def put(self, request):
+        employee_id = request.data.get('employee_id')
+        learning_path_id = request.data.get('learning_path_id')
+        apreciacion = request.data.get('apreciacion')
+        empleado = Employee.objects.filter(id=employee_id).first()
+        learning_path= LearningPath.objects.filter(id=learning_path_id).first()
+        
+        try:
+            empleado_learning_path= EmpleadoXLearningPath.objects.filter(empleado=empleado, learning_path= learning_path)
+            if(empleado_learning_path):
+                empleado_learning_path.porcentajeProgreso = 100
+                empleado_learning_path.fechaCompletado = timezone.now()
+                empleado_learning_path.apreciacion = apreciacion
+                empleado_learning_path.estado='2'
+                empleado_learning_path.save()
+                return Response({'message': 'Se guardó el curso como completado'}, status=status.HTTP_200_OK)
+            return Response({'message': 'No existen los registros, pero no es un error'}, status=status.HTTP_200_OK)
+        except (CursoEmpresa.DoesNotExist, EmpleadoXCursoEmpresa.DoesNotExist,
+                EmpleadoXCursoXLearningPath.DoesNotExist):
+            return Response({"message": "Hubo un error con la información brindada"}, status=status.HTTP_404_NOT_FOUND)
