@@ -118,3 +118,16 @@ class ProcessStageView(APIView):
         process_stage_serializer = ProcessStageSerializer(process_stages, many=True)
         return Response(process_stage_serializer.data, status = status.HTTP_200_OK)
 
+
+class JobOfferView(APIView):
+    def get(self, request):
+        #TODO: Marco...
+        return null
+    
+    def post(self, request, id=0):
+        job_offer_serializer = JobOfferSerializer(data=request.data, context=request.data)
+        if job_offer_serializer.is_valid():
+            job_offer_serializer.save()
+            return Response(job_offer_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(job_offer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
