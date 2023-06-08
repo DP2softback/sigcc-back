@@ -170,7 +170,10 @@ class CursoEmpresaEmpleadosAPIView(APIView):
 
         porcentaje_asistencia_aprobacion = request.data.get('porcentaje_asistencia_aprobacion', None)
 
-        fecha_limite = request.data.get('fecha_limite', None)
+        fecha_req = request.data.get('fecha_limite', None)
+
+        formato = '%Y-%m-%dT%H:%M:%S.500Z'
+        fecha_limite = datetime.strptime(fecha_req, formato)
 
         empleados = request.data.get('empleados', [])
         num_empleados = len(empleados)
@@ -200,6 +203,9 @@ class CursoEmpresaEmpleadosAPIView(APIView):
         EmpleadoXCursoEmpresa.objects.bulk_create(empleados_curso_empresa)
 
         empleado_curso_empresa_serializer = EmpleadoXCursoEmpresaSerializer(empleados_curso_empresa, many=True)
+
+        curso_empresa.cantidad_empleados = curso_empresa.cantidad_empleados + num_empleados
+        curso_empresa.save()
 
         return Response(empleado_curso_empresa_serializer.data, status=status.HTTP_200_OK)
 

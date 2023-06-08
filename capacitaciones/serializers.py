@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from dateutil.parser import parser
 from django.utils.dateparse import parse_datetime
 
 from login.models import Employee, User
@@ -252,23 +253,8 @@ class CursosEmpresaSerialiazer(serializers.ModelSerializer):
 
 class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
     fechaAsignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-
-    fechaLimite = serializers.SerializerMethodField()
-    fechaCompletado = serializers.SerializerMethodField()
-
-    def get_fechaLimite(self, instance):
-        fecha_iso = instance.fechaLimite
-        fecha_obj = parse_datetime(fecha_iso)
-        if fecha_obj:
-            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
-            return fecha_formateada
-
-    def get_fechaCompletado(self, instance):
-        fecha_iso = instance.fechaCompletado
-        fecha_obj = parse_datetime(fecha_iso)
-        if fecha_obj:
-            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
-            return fecha_formateada
+    fechaLimite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fechaCompletado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
 
     class Meta:
         model = EmpleadoXCursoEmpresa
