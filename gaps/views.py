@@ -140,6 +140,30 @@ class CompetenceTypeView(APIView):
             tipoCompetencia_serializer.save()
             return Response(tipoCompetencia_serializer.data,status=status.HTTP_200_OK)
         return Response(None,status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, pk, format = None):
+        try:
+            tipoCompetencia = CompetenceType.objects.get(pk = pk)
+            tipoCompetencia.delete()
+            return Response(status=status.HTTP_200_OK)
+        except CompetenceType.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class SearchCompetenteTypeView(APIView):
+    def get(self,  request, pk = 0):
+        if pk == 0:
+            competencias = CompetenceType.objects.all()
+            lista_competencias = []
+            for t in competencias:
+                if t.get_depth() == 0:
+                    lista_competencias.append(t)
+        else:
+            
+            lista_competencias = CompetenceType.objects.filter(upperType__id = pk)
+        tipoCompetencia_serializer = CompetenceTypeSerializer(lista_competencias, many = True)
+
+        return Response(tipoCompetencia_serializer.data, status = status.HTTP_200_OK) 
+
 
 class SearchCompetenceConsolidateView(APIView):
     def post(self, request):
