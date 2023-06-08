@@ -132,8 +132,11 @@ class ProcessStageView(APIView):
 
 class JobOfferView(APIView):
     def get(self, request):
-        #TODO: Marco...
-        return null
+
+        queryset = JobOffer.objects.all()
+        serializer_class = JobOfferSerializerRead(queryset, many = True)
+        return Response(serializer_class.data, status=status.HTTP_200_OK)
+
     
     def post(self, request, id=0):
         job_offer_serializer = JobOfferSerializer(data=request.data, context=request.data)
