@@ -10,7 +10,8 @@ from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSes
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
-    CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView
+    CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
+    EmpleadosXLearningPathAPIView
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
@@ -48,5 +49,6 @@ urlpatterns = [
     path('list_all_employees_general/', ListEmployeesGeneralAPIView.as_view()),
     path('udemy_course/check_status/<int:pk_course>/', CheckUdemyCourseStatusAPIView.as_view()),
     path('udemy_course/questionary/<int:pk_course>/', UdemyEvaluationAPIView.as_view()),
-    path('setup/scheduler/', SetupScheduler.as_view())
+    path('setup/scheduler/', SetupScheduler.as_view()),
+    path('learning_path/empleados/<int:lp>/',EmpleadosXLearningPathAPIView.as_view())
 ]

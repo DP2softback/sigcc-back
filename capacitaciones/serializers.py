@@ -359,3 +359,40 @@ class EmployeeCoursesListSerializer(serializers.ModelSerializer):
         print("EmpleadoXCursoEmpresa: ",empleadosxcursoempresa)
         empleados = Employee.objects.filter(id__in=empleadosxcursoempresa)
         return EmployeeSerializerRead(empleados, many=True).data
+
+
+class UsuarioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['second_name', 'maiden_name', 'email']
+
+
+class EmpleadoSerializer(serializers.ModelSerializer):
+    usuario = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Employee
+        fields = ['usuario','position']
+
+    def get_usuario(self, obj):
+        return UsuarioSerializer(obj.user).data
+
+
+class EmpleadosXLearningPathSerializer(serializers.ModelSerializer):
+    fecha_asignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_limite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_completado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    empleado = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EmpleadoXLearningPath
+        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'apreciacion', 'fecha_asignacion', 'fecha_limite',
+                  'fecha_completado', 'empleado']
+
+    def get_empleado(self, obj):
+        # ids_emp = EmpleadoXLearningPath.objects.filter(learning_path=obj).values_list('empleado_id', flat=True)
+        #empleado = Employee.objects.filter(employee=ids_emp)
+        #return EmpleadoSerializer(obj.empleado).data
+        return EmpleadoSerializer(obj.empleado).data
+
