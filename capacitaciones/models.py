@@ -215,7 +215,7 @@ class EmpleadoXCursoXLearningPath(models.Model):
         ('4', 'Desaprobado'),
     ] 
     empleado = models.ForeignKey(Employee, on_delete=models.   CASCADE)
-    progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
+    progreso = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
