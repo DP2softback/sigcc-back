@@ -40,8 +40,13 @@ class ProcessStageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessStage
         fields = '__all__'
-        
+
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
+        fields = '__all__'
+
+class FunctionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Functions
         fields = '__all__'
