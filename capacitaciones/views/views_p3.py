@@ -171,9 +171,7 @@ class CursoEmpresaEmpleadosAPIView(APIView):
         porcentaje_asistencia_aprobacion = request.data.get('porcentaje_asistencia_aprobacion', None)
 
         fecha_req = request.data.get('fecha_limite', None)
-
-        formato = '%Y-%m-%dT%H:%M:%S.500Z'
-        fecha_limite = datetime.strptime(fecha_req, formato)
+        fecha_limite = fecha_req
 
         empleados = request.data.get('empleados', [])
         num_empleados = len(empleados)

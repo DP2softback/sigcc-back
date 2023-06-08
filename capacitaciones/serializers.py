@@ -252,10 +252,6 @@ class CursosEmpresaSerialiazer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
-    fechaAsignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-    fechaLimite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-    fechaCompletado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-
     class Meta:
         model = EmpleadoXCursoEmpresa
         fields = '__all__'
@@ -286,10 +282,6 @@ class LearningPathXEmpleadoSerializer(serializers.ModelSerializer):
 class EmpleadoXLearningPathSerializer(serializers.ModelSerializer):
     learning_path = LearningPathSerializer()
 
-    fecha_asignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-    fecha_limite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-    fecha_completado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-
     class Meta:
         model = EmpleadoXLearningPath
         fields = ['learning_path', 'estado', 'porcentaje_progreso', 'apreciacion', 'fecha_asignacion', 'fecha_limite', 'fecha_completado']
@@ -314,28 +306,7 @@ class CursoEmpresaSimpleSerializer(serializers.ModelSerializer):
 
     
 class EmpleadoXCursoEmpresaWithCourseSerializer(serializers.ModelSerializer):
-    fechaLimite = serializers.SerializerMethodField()
-    fechaAsignacion = serializers.SerializerMethodField()
-    fechaCompletado = serializers.SerializerMethodField()
     cursoEmpresa = serializers.SerializerMethodField()
-
-    def get_fechaAsignacion(self, instance):
-        fecha_obj = instance.fechaAsignacion
-        if fecha_obj:
-            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
-            return fecha_formateada
-
-    def get_fechaLimite(self, instance):
-        fecha_obj = instance.fechaLimite
-        if fecha_obj:
-            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
-            return fecha_formateada
-
-    def get_fechaCompletado(self, instance):
-        fecha_obj = instance.fechaCompletado
-        if fecha_obj:
-            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
-            return fecha_formateada
     
     def get_cursoEmpresa(self,obj):
         curso_id=obj.cursoEmpresa.id
@@ -380,9 +351,6 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 
 
 class EmpleadosXLearningPathSerializer(serializers.ModelSerializer):
-    fecha_asignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-    fecha_limite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
-    fecha_completado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
     empleado = serializers.SerializerMethodField()
 
     class Meta:
