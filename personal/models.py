@@ -1,4 +1,5 @@
 from django.db import models
+# from login.models import Employee
 
 
 # Create your models here.
@@ -41,6 +42,7 @@ class HiringProcess(models.Model):
         db_table = 'ProcesoSeleccion'
     id = models.BigAutoField(primary_key=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    # employees = models.ManyToManyField(Employee, related_name='hiring_processes')
     available_positions_quantity = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
@@ -60,9 +62,9 @@ class ProcessStage(models.Model):
         db_table = 'EtapaProceso'
     id = models.BigAutoField(primary_key=True)
     stage_type = models.ForeignKey(StageType, on_delete=models.CASCADE)
-    hiring_process = models.ForeignKey(HiringProcess, on_delete=models.CASCADE)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    hiring_process = models.ForeignKey(HiringProcess, related_name='process_stages', on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
     order = models.IntegerField()
     name = models.CharField(max_length=40)
     description = models.TextField(blank=True, default='')

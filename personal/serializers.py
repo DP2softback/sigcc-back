@@ -35,3 +35,9 @@ class StageTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = StageType
         fields = '__all__'
+
+class ProcessStageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProcessStage
+        fields = '__all__'
+
