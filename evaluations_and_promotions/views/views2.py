@@ -75,4 +75,36 @@ class EvaluationCreateAPIView(APIView):
             return Response({'message': 'Invalid category.'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'message': 'An error occurred.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
+class getEvaluation(APIView):
+    def post(self, request, evaluation_id):
+        try:
+            evaluation = get_object_or_404(Evaluation, id=evaluation_id)
+
+            evaluationxsubcategories = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+
+            categories = evaluationxsubcategories.values('subCategory__category_id', 'subCategory__category__name').distinct()
+
+            request_data = {
+                'evaluatorId': evaluation.evaluator_id,
+                'evaluatedId': evaluation.evaluated_id,
+                'associatedProject': evaluation.proyecto,
+                'evaluationType': evaluation.evaluationType.name,
+                'isFinished': evaluation.isFinished,
+                'additionalComments': evaluation.generalComment,
+                'categoryId': [category['subCategory__category_id'] for category in categories],
+                'categoryName': [category['subCategory__category__name'] for category in categories],
+                'subcategories': [
+                    {
+                        'id': evaluationxsubcategory.subCategory.id,
+                        'name': evaluationxsubcategory.subCategory.name,
+                        'score': evaluationxsubcategory.score
+                    }
+                    for evaluationxsubcategory in evaluationxsubcategories
+                ]
+            }
+
+            return Response(request_data)
+        except Evaluation.DoesNotExist:
+            return Response({'message': 'Evaluation not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'message': 'An error occurred.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

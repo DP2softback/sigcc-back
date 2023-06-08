@@ -420,106 +420,111 @@ class PlantillasAPI(APIView):
 
 
 class PlantillasEditarVistaAPI(APIView):
-    def post(self,request):
-        plantilla = request.data.get("id")
+    def post(self, request):
+        plantilla_id = request.data.get("id")
         evaluation_type = request.data.get("evaluationType")
 
-        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
-            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
-        
-        Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__evaluationType__name=evaluation_type,plantilla__isActive = True,isActive=True)
-        Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
+        if not self.is_valid_evaluation_type(evaluation_type):
+            return Response("Invalid value for EvaluationType", status=status.HTTP_400_BAD_REQUEST)
 
+        template = self.get_template(plantilla_id)
+        if not template:
+            return Response("Template not found", status=status.HTTP_404_NOT_FOUND)
 
-        Datos_noCategorias = PlantillaxSubCategoria.objects.filter(plantilla__id=plantilla,plantilla__evaluationType__name=evaluation_type,isActive=True)
-        Datos_noCategorias_Serializados = PlantillaxSubCategoryRead(Datos_noCategorias,many=True,fields = ('id','subCategory'))
-        data = Datos_noCategorias_Serializados.data
-        subcategories_list = [item['subCategory']['id'] for item in data]
-        
-        subcategories_not_in_plantilla = SubCategory.objects.exclude(id__in = subcategories_list)
+        categories = self.get_categories(template)
+        subcategories_not_in_template = self.get_subcategories_not_in_template(template, evaluation_type)
 
-        subcategories_not_in_plantilla_serializada = SubCategorySerializerRead(subcategories_not_in_plantilla,many=True,fields=('id','category','name','description','code'))
-        json1 = Datos_serializados.data
-        json2 = subcategories_not_in_plantilla_serializada.data
+        response_data = self.generate_response_data(template, categories, subcategories_not_in_template)
+        return Response(response_data, status=status.HTTP_200_OK)
 
-        result = {}
+    def is_valid_evaluation_type(self, evaluation_type):
+        valid_types = ["Evaluación Continua", "Evaluación de Desempeño"]
+        return evaluation_type and evaluation_type.casefold() in [t.casefold() for t in valid_types]
 
-        # Process plantilla from json1
-        plantilla = json1[0]['plantilla']
-        result['plantilla-id'] = plantilla['id']
-        result['plantilla-nombre'] = plantilla['nombre']
+    def get_template(self, template_id):
+        try:
+            return Plantilla.objects.get(id=template_id, isActive=True)
+        except Plantilla.DoesNotExist:
+            return None
 
-        # Process categories and subcategories from json1
-        categories = []
-        for item in json1:
-            category = item['subCategory']['category']
-            subcategory = item['subCategory']
-            
-            # Check if the category already exists in the result
-            category_exists = False
-            for cat in categories:
-                if cat['id'] == category['id']:
-                    category_exists = True
-                    cat['subcategory'].append({
-                        'id': subcategory['id'],
-                        'subcategory-isActive': True,
-                        'nombre': subcategory['name']
-                    })
-                    break
-            
-            # If the category doesn't exist, create it along with its subcategory
-            if not category_exists:
-                categories.append({
-                    'id': category['id'],
-                    'name': category['name'],
-                    'Category-active': True,
-                    'subcategory': [{
-                        'id': subcategory['id'],
-                        'subcategory-isActive': True,
-                        'nombre': subcategory['name']
-                    }]
-                })
+    def get_categories(self, template):
+        subcategories = PlantillaxSubCategoria.objects.filter(
+            plantilla=template,
+            plantilla__isActive=True,
+            isActive=True
+        ).select_related('subCategory__category')
 
-        result['Categories'] = categories
+        categories = {}
+        for subcategory in subcategories:
+            category = subcategory.subCategory.category
+            if category not in categories:
+                categories[category] = []
 
-        merged_json = result.copy()
-        categories = merged_json["Categories"]
-        
-        for item in json2:
-            category = item["category"]
-            subcategory_id = item["id"]
-            subcategory_exists = False
-            
-            # Check if the category already exists in the merged JSON
-            for cat in categories:
-                if cat["id"] == category["id"]:
-                    subcategory_exists = True
-                    subcategory = {
-                        "id": subcategory_id,
-                        "subcategory-isActive": False,
-                        "nombre": item["name"]
-                    }
-                    cat["subcategory"].append(subcategory)
-                    break
-            
-            # If the category doesn't exist, create it with the new subcategory
-            if not subcategory_exists:
-                new_category = {
-                    "id": category["id"],
-                    "name": category["name"],
-                    "Category-active": False,
-                    "subcategory": [
+            categories[category].append(subcategory.subCategory)
+
+        return categories
+
+    def get_subcategories_not_in_template(self, template, evaluation_type):
+        subcategories_in_template = PlantillaxSubCategoria.objects.filter(
+            plantilla=template,
+            plantilla__evaluationType__name=evaluation_type,
+            isActive=True
+        ).values_list('subCategory_id', flat=True)
+
+        return SubCategory.objects.exclude(id__in=subcategories_in_template).filter(category__evaluationType__name=evaluation_type)
+
+    def generate_response_data(self, template, categories, subcategories_not_in_template):
+        evaluation_type = template.evaluationType.name  # Get the evaluation type from the template
+
+        response_data = {
+            'plantilla-id': template.id,
+            'plantilla-nombre': template.nombre,
+            'Categories': []
+        }
+
+        for category, subcategories in categories.items():
+            if category.evaluationType.name == evaluation_type:  # Filter categories based on evaluation type
+                category_data = {
+                    'id': category.id,
+                    'name': category.name,
+                    'Category-active': category.isActive,
+                    'subcategory': [
                         {
-                            "id": subcategory_id,
-                            "subcategory-isActive": False,
-                            "nombre": item["name"]
+                            'id': subcategory.id,
+                            'subcategory-isActive': subcategory.isActive,
+                            'nombre': subcategory.name
                         }
+                        for subcategory in subcategories
                     ]
                 }
-                categories.append(new_category)
-            
 
-        return Response(merged_json,status=status.HTTP_200_OK)
+                response_data['Categories'].append(category_data)
+
+        for subcategory in subcategories_not_in_template:
+            category_data = next(
+                (category for category in response_data['Categories'] if (category['id'] == subcategory.category.id )),
+                None
+            )
+
+            if category_data is None:
+                category_data = {
+                    'id': subcategory.category.id,
+                    'name': subcategory.category.name,
+                    'Category-active': False,
+                    'subcategory': []
+                }
+                response_data['Categories'].append(category_data)
+
+            subcategory_data = {
+                'id': subcategory.id,
+                'subcategory-isActive': False,
+                'nombre': subcategory.name
+            }
+            category_data['subcategory'].append(subcategory_data)
+
+        return response_data
+
+
 
         
 class VistaCategoriasSubCategorias(APIView):

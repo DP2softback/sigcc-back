@@ -25,7 +25,8 @@ urlpatterns = [
     
     
     
-    path('eval',EvaluationCreateAPIView.as_view()),
+    path('eval', EvaluationCreateAPIView.as_view()),
+    path('eval/<int:evaluation_id>', getEvaluation.as_view()),
     path('areas', GetAreas.as_view(), name='get-areas'),
     path('categorias/continuas', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
     path('categorias/desempenio', GetCategoriasDesempenio.as_view(), name='get-categorias-desempenio'),
