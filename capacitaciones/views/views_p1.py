@@ -13,8 +13,8 @@ from rest_framework.views import APIView
 
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
-from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
+from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
+from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form, \
     transform_gpt_quiz_output
@@ -105,24 +105,32 @@ class CursoUdemyLpAPIView(APIView):
         return Response(lp_serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, pk):
-
+        udemy_id_passed = request.data.get('udemy_id', 0)
+        curso_empresa_id_passed = request.data.get('curso_empresa_id_', 0)
         lp = LearningPath.objects.filter(pk=pk).first()
 
         if lp is None:
             return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
-        curso_serializer = CursoUdemySerializer(data=request.data)
+        if(udemy_id_passed):
+            curso_serializer = CursoUdemySerializer(data=request.data)
 
-        if curso_serializer.is_valid():
+            if curso_serializer.is_valid():
 
-            curso = CursoUdemy.objects.filter(udemy_id=request.data['udemy_id']).first()
+                curso = CursoUdemy.objects.filter(udemy_id=udemy_id_passed).first()
+                if curso is None:
+                    curso = curso_serializer.save()
+                    upload_new_course_in_queue(curso)
+                    CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
+                    return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
+        else:
+            curso = CursoEmpresa.objects.filter(id=curso_empresa_id_passed).first()
+            curso_serializer = CursoEmpresaSerializer(data=curso)
             if curso is None:
                 curso = curso_serializer.save()
                 upload_new_course_in_queue(curso)
-
-            CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
-
-            return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
+                CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
+                return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
 
         return Response(curso_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
