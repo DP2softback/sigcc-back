@@ -385,3 +385,22 @@ class CompletarLearningPathView(APIView):
             return Response({'message': 'No existen los registros, pero no es un error'}, status=status.HTTP_200_OK)
         except :
             return Response({"message": "Hubo un error con la información brindada"}, status=status.HTTP_404_NOT_FOUND)
+        
+class CursoEmpresaAsignarLPApiView(APIView):
+    def post(self, request):
+        curso_empresa_id_passed = request.data.get('curso_empresa_id', 0)
+        lp_id_passed = request.data.get('learning_path_id', 0)
+        lp = LearningPath.objects.filter(pk=lp_id_passed).first()
+
+        if lp is None:
+            return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        curso = CursoEmpresa.objects.filter(id=curso_empresa_id_passed).first()
+
+        if curso is None:
+            return Response({"message": "El Curso Empresa no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+         
+        CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
+        return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
+
+        
