@@ -22,7 +22,7 @@ class Area(models.Model):
     isActive = models.BooleanField(default=True)
     description = models.TextField(blank=True, default='')
     name = models.CharField(max_length=100)
-    supervisorsArea = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
+    supervisorsArea = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, blank=True)
     roles = models.ManyToManyField(Position, through="AreaxPosicion")
 
 
