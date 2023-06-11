@@ -37,6 +37,7 @@ class LearningPath(models.Model):
     cant_intentos_cursos_max = models.IntegerField()
     cant_intentos_evaluacion_integral_max = models.IntegerField()
     estado = models.CharField(max_length=1, choices=estado_choices, default='0')
+    cantidad_cursos= models.IntegerField(default=0)
 
     def get_cant_intentos_cursos_max_default(self):
         return Parametros.objects.first().numero_intentos_curso
@@ -111,6 +112,7 @@ class CursoEmpresa(CursoGeneral):
     fecha_ultima_sesion=models.DateTimeField(null=True)
     cantidad_empleados= models.IntegerField(default=0)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
+    cantidad_sesiones= models.IntegerField(default=0)
 
     class Meta:
         db_table = 'CursoEmpresa'
@@ -121,7 +123,7 @@ class CursoGeneralXLearningPath(models.Model):
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     nro_orden = models.IntegerField()
-    cant_intentos_max = models.IntegerField()
+    cant_intentos_max = models.IntegerField(default=3)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
     class Meta:
@@ -168,7 +170,8 @@ class EmpleadoXLearningPath(models.Model):
     fecha_asignacion = models.DateTimeField(null=True, default=timezone.now)
     fecha_limite = models.DateTimeField(null=True)
     fecha_completado = models.DateTimeField(null=True)
-
+    cantidad_cursos= models.IntegerField(default=0)
+    
     class Meta:
         db_table = 'EmpleadoXLearningPath'
 
@@ -195,6 +198,7 @@ class EmpleadoXCursoEmpresa(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     porcentajeProgreso= models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    cantidad_sesiones= models.IntegerField(default=0)
     fechaAsignacion= models.DateTimeField(null=True)
     fechaLimite= models.DateTimeField(null=True)
     fechaCompletado= models.DateTimeField(null=True)
@@ -223,7 +227,9 @@ class EmpleadoXCursoXLearningPath(models.Model):
     cant_intentos = models.IntegerField(default = 0)
     fecha_evaluacion = models.DateTimeField(null=True)
     ultima_evaluacion = models.BooleanField(default=False)
-
+    porcentajeProgreso= models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    cantidad_sesiones= models.IntegerField(default=0)
+    
     class Meta:
         db_table = 'EmpleadoXCursoXLearningPath'
 

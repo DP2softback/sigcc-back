@@ -215,6 +215,7 @@ class AsistenciaSesionAPIView(APIView):
         sesion = Sesion.objects.filter(id=sesion_id).first()
         curso_empresa_id = request.data['curso_empresa_id']
         curso = CursoEmpresa.objects.filter(id=curso_empresa_id).first()
+        learning_path_id = request.data.get('learning_path_id', 0)
 
         for empleado_asistencia in request.data['empleados_asistencia']:
                 
@@ -233,6 +234,26 @@ class AsistenciaSesionAPIView(APIView):
                         estado_asistencia=estado_asistencia
                     )
                     asistencia.save()
+
+                    #Si la asistencia fue true entonces actualizamos el porcentaje de asistencia del trabajador (progreso)
+                    if estado_asistencia:
+                        #se diferencia si se pasó el id del LP o no
+                        if learning_path_id==0:
+                            #Si LP es 0, significa que el curso es libre entonces se actualiza en la tabla EmpleadoXCursoEmpresa
+                            empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_empresa_id).first()
+                            porcentajeProgreso=empleado_curso_empresa.porcentajeProgreso
+                            cantidad_sesiones=empleado_curso_empresa.cantidad_sesiones
+                            porcentajeProgreso= porcentajeProgreso+ (100/cantidad_sesiones)
+                            empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_empresa_id).update(porcentajeProgreso= porcentajeProgreso)
+                        else:
+                            #Si el LP es distinto a 0 es que hay un LP asociado y que hay que actualizar en la tabla EmpleadoXCursoXLP
+                            empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado_id=empleado_id, curso_id=curso_empresa_id, learning_path_id=learning_path_id).first()
+                            porcentajeProgreso=empleado_curso_learning_path.progreso
+                            cantidad_sesiones=empleado_curso_learning_path.cantidad_sesiones
+                            porcentajeProgreso= porcentajeProgreso+ (100/cantidad_sesiones)
+                            empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado_id=empleado_id, curso_id=curso_empresa_id, learning_path_id=learning_path_id).update(progreso= porcentajeProgreso)
+
+
                 else:
                     # Lanzar una excepción Http404 si el empleado no existe
                     return Response(
@@ -293,29 +314,22 @@ class CompletarCursoView(APIView):
         learning_path_id = request.data.get('learning_path_id', 0)
         valoracion = request.data.get('valoracion')
         apreciacion = request.data.get('apreciacion')
-        print("Los datos obtenidos son: ",employee_id,"  - ",curso_id," - ",learning_path_id, " - ",valoracion, " - ",apreciacion)
         empleado = Employee.objects.filter(id=employee_id).first()
         curso_empresa = CursoEmpresa.objects.filter(id=curso_id).first()
         curso_general = CursoGeneral.objects.filter(id=curso_id).first()
         
         try:
             if learning_path_id == 0:
-                print("El curso empresa a evaluar es (si es libre o no): ",curso_empresa.es_libre)
                 if(curso_empresa.es_libre):
-                    print("Se entró al bloque")
                     empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado=empleado, cursoEmpresa=curso_empresa).first()
-                    print("Se buscó el empleado_curso_empresa",empleado_curso_empresa)
                     if empleado_curso_empresa is None:
-                        print("Se va a crear el empleado_curso_empresa")
                         EmpleadoXCursoEmpresa.objects.create(empleado = empleado, cursoEmpresa = curso_empresa)
                         empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado=empleado, cursoEmpresa=curso_empresa).first()
-                        print("Se creó el empleado_curso_empresa")
-                    print("Se va a asignar los datos nuevos")
+                        
                     empleado_curso_empresa.porcentajeProgreso = 100
                     empleado_curso_empresa.fechaCompletado = timezone.now()
                     empleado_curso_empresa.apreciacion = apreciacion
                     empleado_curso_empresa.save()
-                    print("Se guardó el empleado_curso_empresa")
 
                     empleado_curso = EmpleadoXCurso.objects.filter(empleado=empleado, curso=curso_general).first()
                     if(empleado_curso is None):
@@ -331,34 +345,35 @@ class CompletarCursoView(APIView):
                 else:
                     return Response({'message': 'Como no se ha pasado el id del LP y el curso no es libre, no se puede asignar'}, status=status.HTTP_200_OK)
             else:
-                print("Se entró al bloque de cuando hay un LP")
                 learning_path = LearningPath.objects.filter(id=learning_path_id).first()
                 empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general, learning_path=learning_path).first()
                 if( empleado_curso_learning_path is None):
-                    print("Se va a insertar el EmpleadoXCursoXLearningPath")
                     EmpleadoXCursoXLearningPath.objects.create(empleado = empleado, curso = curso_general,learning_path=learning_path,estado= '0')
                     empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general, learning_path=learning_path).first()
-                print("Se va a actualizar los datos de empleado_curso_learning_path")
                 empleado_curso_learning_path.progreso = 100
                 empleado_curso_learning_path.estado = '2'
                 empleado_curso_learning_path.save()
-                print("Se guardó el empleado_curso_learning_path")
 
                 empleado_curso = EmpleadoXCurso.objects.filter(empleado=empleado, curso=curso_general).first()
                 if(empleado_curso is None):
-                    print("Se va a insertar el EmpleadoXCurso")
                     EmpleadoXCurso.objects.create(empleado = empleado, curso = curso_general,valoracion=0)
                     empleado_curso = EmpleadoXCurso.objects.filter(empleado=empleado, curso=curso_general).first()
 
-                print("Se va a actualizar los datos de empleado_curso")
                 empleado_curso.valoracion = valoracion
                 empleado_curso.save()
-                print("Se guardó el empleado_curso")
-                print("Se va a actualizar los datos de curso_general")
                 curso_general.suma_valoracionees=curso_general.suma_valoracionees+valoracion
                 curso_general.cant_valoraciones=curso_general.cant_valoraciones+1
                 curso_general.save()
-                print("Se guardó el curso_general")
+
+                #Para actualizar el progreso del LP del empleado (EmpleadoXLearningPath)
+                empleado_learning_path = EmpleadoXLearningPath.objects.filter(empleado_id=employee_id, learning_path_id= learning_path_id).first()
+                cantidad_cursos_lp=empleado_learning_path.cantidad_cursos
+                if cantidad_cursos_lp==0:
+                    cantidad_cursos_lp=1
+                progreso_actual=empleado_learning_path.porcentaje_progreso
+                progreso_actual=progreso_actual+(100/cantidad_cursos_lp)
+                empleado_learning_path = EmpleadoXLearningPath.objects.filter(empleado_id=employee_id, learning_path_id= learning_path_id).update(porcentaje_progreso= progreso_actual)
+
                 return Response({'message': 'Se guardó el curso como completado'}, status=status.HTTP_200_OK)
         except:
             return Response({"message": "Ocurrió un error"}, status=status.HTTP_404_NOT_FOUND)
@@ -387,10 +402,11 @@ class CompletarLearningPathView(APIView):
             return Response({"message": "Hubo un error con la información brindada"}, status=status.HTTP_404_NOT_FOUND)
         
 class CursoEmpresaAsignarLPApiView(APIView):
-    def post(self, request):
-        curso_empresa_id_passed = request.data.get('curso_empresa_id', 0)
-        lp_id_passed = request.data.get('learning_path_id', 0)
-        lp = LearningPath.objects.filter(pk=lp_id_passed).first()
+    permission_classes = [AllowAny]
+    def post(self, request,pk):
+        curso_empresa_id_passed = request.data.get('curso_id')
+        
+        lp = LearningPath.objects.filter(pk=pk).first()
 
         if lp is None:
             return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -399,8 +415,18 @@ class CursoEmpresaAsignarLPApiView(APIView):
 
         if curso is None:
             return Response({"message": "El Curso Empresa no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
-         
-        CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
+        
+        curso_guardar = CursoGeneralXLearningPath(
+                        curso=curso,
+                        learning_path=lp,
+                        nro_orden=request.data.get('nro_orden'),
+                        cant_intentos_max=request.data.get('cant_intentos_max'),
+                        porcentaje_asistencia_aprobacion= request.data.get('porcentaje_asistencia_aprobacion',100)
+                    )
+        curso_guardar.save()
+        #Para actualizar la cantidad de cursos de un LP
+        cantidad_cursos= lp.cantidad_cursos
+        lp = LearningPath.objects.filter(pk=pk).update(cantidad_cursos= cantidad_cursos+1)
         return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
 
         

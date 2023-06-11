@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral
-from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
+from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
     LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
     EmpleadosXLearningPathSerializer
@@ -143,6 +143,11 @@ class SesionAPIView(APIView):
                     CursoEmpresa.objects.filter(id=curso_empresa_id).update(fecha_primera_sesion=min_fecha_sesion)
                     max_fecha_sesion = max(sesiones, key=lambda x: x.fecha_inicio).fecha_inicio
                     CursoEmpresa.objects.filter(id=curso_empresa_id).update(fecha_ultima_sesion=max_fecha_sesion)
+
+                #Para actualizar la cantidad de sesiones de un curso
+                cursos_emp = CursoEmpresa.objects.filter(id=curso_empresa_id).first()
+                cantidad_sesiones= cursos_emp.cantidad_sesiones
+                cursos_emp = CursoEmpresa.objects.filter(id=curso_empresa_id).update(cantidad_sesiones= cantidad_sesiones+1)
 
                 return Response({'id': sesiones_emp.id,
                                 'message': 'La sesion se ha con sus temas creado correctamente'},
