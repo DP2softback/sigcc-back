@@ -4,9 +4,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
-    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa
+    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
-    SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer
+    SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
+    LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
+    EmpleadosXLearningPathSerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
@@ -27,7 +29,7 @@ class LearningPathCreateFromTemplateAPIView(APIView):
 
     def post(self, request):
         lp_serializer = LearningPathSerializer(data=request.data,context=request.data)
-        print("wenas")
+
         if lp_serializer.is_valid():
             lp = lp_serializer.save()
 
@@ -91,7 +93,6 @@ class PersonasXHabilidadesXEmpresaAPIView(APIView):
 
 
 class SesionAPIView(APIView):
-    permission_classes = [AllowAny]
 
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
@@ -103,7 +104,6 @@ class SesionAPIView(APIView):
         return Response(sesiones_emp_serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        with transaction.atomic():
             sesiones_emp_serializer = SesionSerializer(data=request.data, context=request.data)
 
             if sesiones_emp_serializer.is_valid():
@@ -116,17 +116,14 @@ class SesionAPIView(APIView):
                     tema_serializer = TemaSerializer(data=tema_sesion)
 
                     if tema_serializer.is_valid():
-                        tema_serializer.validated_data['sesion'] = sesiones_emp
-                        tema = Tema.objects.filter(nombre=tema_serializer.validated_data['nombre']).first()
-                        if tema is None:
-                            tema = tema_serializer.save()
+                        tema = tema_serializer.save(sesion_id=sesiones_emp.id)
                     else:
                         return Response({"message": "No se pudo crear el tema {}".format(tema_sesion['nombre'])},
                                         status=status.HTTP_400_BAD_REQUEST)
                 
                 # Crear responsables para cada sesión
                 for responsable_data in request.data['responsables'] :
-                    responsable_id = responsable_data.get('responsable_id')
+                    responsable_id = responsable_data.get('id')
                     sesion_responsable_serializer = SesionXReponsableSerializer(data={
                         'responsable': responsable_id,
                         'clase': sesiones_emp.id
@@ -144,12 +141,15 @@ class SesionAPIView(APIView):
                 if sesiones.exists():
                     min_fecha_sesion = min(sesiones, key=lambda x: x.fecha_inicio).fecha_inicio
                     CursoEmpresa.objects.filter(id=curso_empresa_id).update(fecha_primera_sesion=min_fecha_sesion)
+                    max_fecha_sesion = max(sesiones, key=lambda x: x.fecha_inicio).fecha_inicio
+                    CursoEmpresa.objects.filter(id=curso_empresa_id).update(fecha_ultima_sesion=max_fecha_sesion)
 
                 return Response({'id': sesiones_emp.id,
                                 'message': 'La sesion se ha con sus temas creado correctamente'},
                                 status=status.HTTP_200_OK)
 
             return Response(sesiones_emp_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 #ya no va
 class CursosEmpresaAPIView(APIView):
@@ -160,42 +160,86 @@ class CursosEmpresaAPIView(APIView):
 
         return Response(cursos_serializer.data, status=status.HTTP_200_OK)
 
+
 class CursoEmpresaEmpleadosAPIView(APIView):
-    permission_classes = [AllowAny]
+
     def post(self, request):
         id_curso = request.data.get('id_curso', None)
         tipo_curso = CursoEmpresa.objects.filter(id=id_curso).values('tipo').first()
         curso_empresa = CursoEmpresa.objects.filter(id=id_curso).first()
-        id_empleado = request.data.get('id_empleado', None)
 
         porcentaje_asistencia_aprobacion = request.data.get('porcentaje_asistencia_aprobacion', None)
 
-        fecha_limite = request.data.get('fecha_limite', None)
-        print(porcentaje_asistencia_aprobacion)
+        fecha_req = request.data.get('fecha_limite', None)
+
+        formato = '%Y-%m-%dT%H:%M:%S.500Z'
+        fecha_limite = datetime.strptime(fecha_req, formato)
+
+        empleados = request.data.get('empleados', [])
+        num_empleados = len(empleados)
+
+        if num_empleados == 0:
+            return Response({'msg': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not porcentaje_asistencia_aprobacion:
             porcentaje_asistencia_aprobacion = curso_empresa.porcentaje_asistencia_aprobacion
 
-        if id_empleado:
+        if not tipo_curso:
+            return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
-            if not tipo_curso:
-                return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+        empleados_curso_empresa = [
+            EmpleadoXCursoEmpresa(
+                empleado_id = empleado,
+                cursoEmpresa_id = id_curso,
+                porcentajeProgreso = 0,
+                fechaAsignacion = timezone.now(),
+                fechaLimite = None if tipo_curso in ['P', 'S'] else fecha_limite,
+                fechaCompletado = None,
+                apreciacion = None,
+                porcentaje_asistencia_aprobacion = porcentaje_asistencia_aprobacion)
+            for empleado in empleados
+        ]
 
-            empleado_curso_empresa = EmpleadoXCursoEmpresa()
-            empleado_curso_empresa.empleado_id = id_empleado
-            empleado_curso_empresa.cursoEmpresa_id = id_curso
-            empleado_curso_empresa.porcentajeProgreso = 0
-            empleado_curso_empresa.fechaAsignacion = timezone.now()
-            empleado_curso_empresa.fechaLimite = None if tipo_curso in ['P', 'S'] else fecha_limite
-            empleado_curso_empresa.fechaCompletado = None
-            empleado_curso_empresa.apreciacion = None
-            empleado_curso_empresa.porcentaje_asistencia_aprobacion = porcentaje_asistencia_aprobacion
+        EmpleadoXCursoEmpresa.objects.bulk_create(empleados_curso_empresa)
 
-            empleado_curso_empresa.save()
-            empleado_curso_empresa_serializer = EmpleadoXCursoEmpresaSerializer(empleado_curso_empresa)
+        empleado_curso_empresa_serializer = EmpleadoXCursoEmpresaSerializer(empleados_curso_empresa, many=True)
 
-            return Response(empleado_curso_empresa_serializer.data, status=status.HTTP_200_OK)
+        curso_empresa.cantidad_empleados = curso_empresa.cantidad_empleados + num_empleados
+        curso_empresa.save()
 
-        return Response({"message": "Empleado no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(empleado_curso_empresa_serializer.data, status=status.HTTP_200_OK)
 
 
+class EmpleadoXLearningPathAPIView(APIView):
+
+    def get(self, request, pk):
+        empleado = Employee.objects.filter(id=pk).first()
+
+        if not empleado:
+            return Response({"message": "Empleado no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        lps = EmpleadoXLearningPath.objects.filter(empleado=pk)
+
+        lps_serializer = EmpleadoXLearningPathSerializer(lps, many=True)
+
+        return Response(lps_serializer.data, status=status.HTTP_200_OK)
+
+
+class DetalleLearningPathXEmpleadoAPIView(APIView):
+
+    def get(self, request, emp, lp):
+        detalle_lp = EmpleadoXLearningPath.objects.filter(Q(id=emp) & Q(learning_path=lp))
+
+        lp = LearningPath.objects.filter(id=lp).first()
+        lp_serializer = LearningPathXEmpleadoSerializer(lp)
+
+        return Response(lp_serializer.data, status=status.HTTP_200_OK)
+
+class EmpleadosXLearningPathAPIView(APIView):
+
+    def get(self, request, lp):
+
+        lp = EmpleadoXLearningPath.objects.filter(learning_path=lp).all()
+        empleadosXlpserializer = EmpleadosXLearningPathSerializer(lp, many=True)
+
+        return Response(empleadosXlpserializer.data, status=status.HTTP_200_OK)
