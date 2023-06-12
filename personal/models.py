@@ -30,11 +30,11 @@ class AreaxPosicion(models.Model):
     id = models.BigAutoField(primary_key=True)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    creationDate = models.DateTimeField()
-    modifiedDate = models.DateTimeField()
+    creationDate = models.DateTimeField(auto_now_add=True)
+    modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    availableQuantity = models.IntegerField()
-    unavailableQuantity = models.IntegerField()
+    availableQuantity = models.IntegerField(default=0)
+    unavailableQuantity = models.IntegerField(default=0)
 
 class Functions(models.Model):
     id = models.BigAutoField(primary_key=True)
