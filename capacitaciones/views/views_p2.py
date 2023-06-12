@@ -306,7 +306,7 @@ class ListEmployeesGeneralAPIView(APIView):
         return Response(empleados_serializer.data, status = status.HTTP_200_OK)
     
 
-class CompletarCursoView(APIView):
+class CompletarCursoEmpresaView(APIView):
     permission_classes = [AllowAny]
     def put(self, request):
         employee_id = request.data.get('employee_id')
