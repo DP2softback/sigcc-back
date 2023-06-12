@@ -37,13 +37,21 @@ class Competence(models.Model):
     description = models.CharField(max_length=300, blank=True, null=True)
     active = models.BooleanField(default=True)
     type = models.ForeignKey(CompetenceType, on_delete=models.CASCADE, null=True, blank=True)
+
+class CompetenceScale(models.Model):
+    id = models.BigAutoField(primary_key = True)
+    competence = models.ForeignKey(Competence, on_delete=models.CASCADE, null=True, blank=True)
+    descriptor = models.CharField(max_length=100, blank=True, null=True)
+    level = models.IntegerField(blank=True,null =True)
+    active = models.BooleanField(default=True)
 	
 class CompetenceXAreaXPosition(models.Model):
     id = models.BigAutoField(primary_key=True)
     competence = models.ForeignKey(Competence, on_delete=models.CASCADE, null=True, blank=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)    
     levelRequired = models.IntegerField(blank=True,null =True)
+    scalePosition = models.ForeignKey(CompetenceScale, on_delete=models.CASCADE, null=True, blank=True)    
     active = models.BooleanField(default=True)
 
 class CompetenceXEmployee(models.Model):
