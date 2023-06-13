@@ -1,9 +1,15 @@
+from datetime import datetime
+
+from dateutil.parser import parser
+from django.utils.dateparse import parse_datetime
+
 from login.models import Employee, User
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneral, CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
-    Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneral, \
+    CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
+    Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario, EmpleadoXLearningPath
 
 from django.utils import timezone
 
@@ -28,7 +34,7 @@ class CursoUdemySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CursoUdemy
-        exclude = ('curso_x_learning_path',)
+        exclude = ('curso_x_learning_path', 'preguntas')
 
     def validate_udemy_id(self, value):
 
@@ -36,6 +42,7 @@ class CursoUdemySerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('El valor de este campo no puede ser vacio')
 
         return value
+
 
 class CursoEmpresaSerializer(serializers.ModelSerializer):
     sesiones= serializers.SerializerMethodField()
@@ -85,7 +92,6 @@ class SesionXReponsableSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class SesionSerializer(serializers.ModelSerializer):
     temas= serializers.SerializerMethodField()
     responsables= serializers.SerializerMethodField()
@@ -100,8 +106,10 @@ class SesionSerializer(serializers.ModelSerializer):
         return TemaSerializer(temas,many=True).data
 
     def get_responsables(self,obj):
-        responsables= ProveedorEmpresa.objects.filter(sesion=obj)
-        return ProveedorEmpresaSerializer(responsables,many=True).data
+        sesionxresponsables = list(SesionXReponsable.objects.filter(clase=obj).values_list("responsable_id",flat=True))
+        print("SesionXResponsables: ",sesionxresponsables)
+        responsables = ProveedorUsuario.objects.filter(id__in=sesionxresponsables)
+        return ProveedorUsuarioSerializer(responsables, many=True).data
 
     def validate_nombre(self, value):
         if value == '':
@@ -124,12 +132,6 @@ class TemaSerializer(serializers.ModelSerializer):
         if value == '':
             raise serializers.ValidationError('El nombre no puede ser valor vacío')
         return value
-    
-class ProveedorUsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProveedorUsuario
-        exclude = ('habilidad_x_proveedor_usuario',)
-        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
 
 class AsistenciaSesionSerializer(serializers.ModelSerializer):
     empleado_nombre = serializers.CharField(source='empleado.user.first_name')
@@ -226,8 +228,10 @@ class CursoSesionTemaResponsableEmpleadoListSerializer(serializers.ModelSerializ
         return SesionSerializer(sesiones,many=True).data
     
     def get_empleados(self,obj):
-        empleados = EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj)
-        return EmpleadoXCursoEmpresaForBossSerializer(empleados, many=True, context=self.context).data
+        empleadosxcursoempresa = list(EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj).values_list("empleado_id",flat=True))
+        print("EmpleadoXCursoEmpresa: ",empleadosxcursoempresa)
+        empleados = Employee.objects.filter(id__in=empleadosxcursoempresa)
+        return EmployeeSerializerRead(empleados, many=True).data
 
 
 class BusquedaEmployeeSerializer(serializers.ModelSerializer):
@@ -248,6 +252,144 @@ class CursosEmpresaSerialiazer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
+    fechaAsignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fechaLimite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fechaCompletado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+
     class Meta:
         model = EmpleadoXCursoEmpresa
         fields = '__all__'
+
+
+class CursoGeneralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoGeneral
+        fields = ['id', 'nombre', 'descripcion', 'duracion', 'suma_valoracionees', 'cant_valoraciones']
+
+
+class CursoGeneralXLearningPathSerializer(serializers.ModelSerializer):
+    curso = CursoGeneralSerializer()
+
+    class Meta:
+        model = CursoGeneralXLearningPath
+        fields = ['nro_orden', 'cant_intentos_max', 'curso']
+
+
+class LearningPathXEmpleadoSerializer(serializers.ModelSerializer):
+    cursos = CursoGeneralXLearningPathSerializer(many=True, read_only=True, source='cursogeneralxlearningpath_set')
+
+    class Meta:
+        model = LearningPath
+        fields = '__all__'
+
+
+class EmpleadoXLearningPathSerializer(serializers.ModelSerializer):
+    learning_path = LearningPathSerializer()
+
+    fecha_asignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_limite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_completado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+
+    class Meta:
+        model = EmpleadoXLearningPath
+        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'apreciacion', 'fecha_asignacion', 'fecha_limite', 'fecha_completado']
+
+
+class CursoEmpresaSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CursoEmpresa
+        exclude = ('curso_x_learning_path',)
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
+
+    def validate_tipo(self, value):
+
+        if value == '':
+            raise serializers.ValidationError('El valor de este campo no puede ser vacio')
+        return value
+    
+    def validate_nombre(self, value):
+        if value == '':
+            raise serializers.ValidationError('El nombre no puede ser valor vacío')
+        return value
+
+    
+class EmpleadoXCursoEmpresaWithCourseSerializer(serializers.ModelSerializer):
+    fechaLimite = serializers.SerializerMethodField()
+    fechaAsignacion = serializers.SerializerMethodField()
+    fechaCompletado = serializers.SerializerMethodField()
+    cursoEmpresa = serializers.SerializerMethodField()
+
+    def get_fechaAsignacion(self, instance):
+        fecha_obj = instance.fechaAsignacion
+        if fecha_obj:
+            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
+            return fecha_formateada
+
+    def get_fechaLimite(self, instance):
+        fecha_obj = instance.fechaLimite
+        if fecha_obj:
+            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
+            return fecha_formateada
+
+    def get_fechaCompletado(self, instance):
+        fecha_obj = instance.fechaCompletado
+        if fecha_obj:
+            fecha_formateada = fecha_obj.strftime("%d/%m/%Y %H:%M:%S")
+            return fecha_formateada
+    
+    def get_cursoEmpresa(self,obj):
+        curso_id=obj.cursoEmpresa.id
+        curso= CursoEmpresa.objects.filter(id=curso_id).first()
+        serializer = CursoEmpresaSimpleSerializer(curso)
+        return serializer.data
+    
+    class Meta:
+        model = EmpleadoXCursoEmpresa
+        fields = '__all__'
+
+class EmployeeCoursesListSerializer(serializers.ModelSerializer):
+    empleados = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CursoEmpresa
+        exclude = ('curso_empresa_x_empleado',)
+    
+    def get_empleados(self,obj):
+        empleadosxcursoempresa = list(EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=obj).values_list("empleado_id",flat=True))
+        print("EmpleadoXCursoEmpresa: ",empleadosxcursoempresa)
+        empleados = Employee.objects.filter(id__in=empleadosxcursoempresa)
+        return EmployeeSerializerRead(empleados, many=True).data
+
+
+class UsuarioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['second_name', 'maiden_name', 'email']
+
+
+class EmpleadoSerializer(serializers.ModelSerializer):
+    usuario = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Employee
+        fields = ['usuario','position']
+
+    def get_usuario(self, obj):
+        return UsuarioSerializer(obj.user).data
+
+
+class EmpleadosXLearningPathSerializer(serializers.ModelSerializer):
+    fecha_asignacion = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_limite = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    fecha_completado = serializers.DateTimeField(format="%d/%m/%Y %H:%M:%S")
+    empleado = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EmpleadoXLearningPath
+        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'apreciacion', 'fecha_asignacion', 'fecha_limite',
+                  'fecha_completado', 'empleado']
+
+    def get_empleado(self, obj):
+        return EmpleadoSerializer(obj.empleado).data
+

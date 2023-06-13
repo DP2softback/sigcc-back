@@ -22,7 +22,7 @@ class Area(models.Model):
     isActive = models.BooleanField(default=True)
     description = models.TextField(blank=True, default='')
     name = models.CharField(max_length=100)
-    supervisorsArea = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
+    supervisorsArea = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, blank=True)
     roles = models.ManyToManyField(Position, through="AreaxPosicion")
 
 
@@ -30,11 +30,11 @@ class AreaxPosicion(models.Model):
     id = models.BigAutoField(primary_key=True)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    creationDate = models.DateTimeField()
-    modifiedDate = models.DateTimeField()
+    creationDate = models.DateTimeField(auto_now_add=True)
+    modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    availableQuantity = models.IntegerField()
-    unavailableQuantity = models.IntegerField()
+    availableQuantity = models.IntegerField(default=0)
+    unavailableQuantity = models.IntegerField(default=0)
 
 class Functions(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -100,6 +100,8 @@ class JobOffer(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
-
+    photo_url = models.TextField(blank=True, default='')
+    location = models.TextField(blank=True, default='')
+    salary_range = models.TextField(blank=True, default='')
 
 

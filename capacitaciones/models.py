@@ -77,8 +77,18 @@ class CursoGeneral(models.Model):
 
 
 class CursoUdemy(CursoGeneral):
+
+    estado_choices = [
+        ('0', 'Creado sin Formulario'),
+        ('1', 'Formulario por confirmar'),
+        ('2', 'Error formulario'),
+        ('3', 'Creado completo')
+    ]
+
     udemy_id = models.IntegerField()
     course_udemy_detail = models.JSONField()
+    preguntas = models.JSONField(default=dict)
+    estado = models.CharField(max_length=1, choices=estado_choices, default='0')
 
     class Meta:
         db_table = 'CursoUdemy'
@@ -98,6 +108,7 @@ class CursoEmpresa(CursoGeneral):
     url_foto = models.TextField(null=True)
     fecha_creacion=models.DateTimeField(default=timezone.now)
     fecha_primera_sesion=models.DateTimeField(null=True)
+    fecha_ultima_sesion=models.DateTimeField(null=True)
     cantidad_empleados= models.IntegerField(default=0)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
@@ -136,33 +147,7 @@ class CursoGeneralXLearningPath(models.Model):
 
         super().save(*args, **kwargs)
 
-        self.update_learning_path_duration()
-
-
-class Pregunta(models.Model):
-
-    texto = models.CharField(max_length=1000)
-    pregunta_x_curso = models.ManyToManyField(CursoUdemy, through='PreguntaXCursoUdemy')
-
-    class Meta:
-        db_table = 'Pregunta'
-
-
-class PreguntaXCursoUdemy(models.Model):
-    curso = models.ForeignKey(CursoUdemy, on_delete=models.CASCADE)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'PreguntaXCursoUdemy'
-
-
-class Alternativa(models.Model):
-    texto_alternativa = models.CharField(max_length=1000)
-    respuesta_correcta = models.BooleanField(default=0)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
- 
-    class Meta:
-        db_table = 'Alternativa'
+       #self.update_learning_path_duration()
 
 
 class EmpleadoXLearningPath(models.Model):
@@ -200,7 +185,7 @@ class DocumentoRespuesta(models.Model):
 class EmpleadoXCurso(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
-    valoracion = models.IntegerField()
+    valoracion = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'EmpleadoXCurso'
@@ -209,7 +194,7 @@ class EmpleadoXCurso(models.Model):
 class EmpleadoXCursoEmpresa(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
-    porcentajeProgreso= models.DecimalField(default=0, max_digits=3, decimal_places=2)
+    porcentajeProgreso= models.DecimalField(default=0, max_digits=5, decimal_places=2)
     fechaAsignacion= models.DateTimeField(null=True)
     fechaLimite= models.DateTimeField(null=True)
     fechaCompletado= models.DateTimeField(null=True)
@@ -230,27 +215,17 @@ class EmpleadoXCursoXLearningPath(models.Model):
         ('4', 'Desaprobado'),
     ] 
     empleado = models.ForeignKey(Employee, on_delete=models.   CASCADE)
-    progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
+    progreso = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
-    nota_final = models.IntegerField()
+    nota_final = models.IntegerField(default = 0)
     cant_intentos = models.IntegerField(default = 0)
-    fecha_evaluacion = models.DateTimeField()
-    ultima_evaluacion = models.BooleanField()
+    fecha_evaluacion = models.DateTimeField(null=True)
+    ultima_evaluacion = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'EmpleadoXCursoXLearningPath'
-
-
-class EmpleadoXCursoXPreguntaXAlternativa(models.Model):
-    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    curso = models.ForeignKey(CursoUdemy, on_delete=models.CASCADE)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
-    alternativa = models.ForeignKey(Alternativa, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'EmpleadoXCursoXPreguntaXAlternativa'
 
 
 class RubricaExamen(models.Model):
@@ -315,6 +290,7 @@ class Categoria(models.Model):
 
 class Habilidad(models.Model):
     habilidad = models.CharField(max_length=300)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'Habilidad'
@@ -372,16 +348,10 @@ class SesionXReponsable(models.Model):
         db_table = 'SesionXReponsable'
 
 class AsistenciaSesionXEmpleado(models.Model):
-    tipo_choices = [
-        ('P', 'Asistió puntual'),
-        ('T', 'Asistió tarde'),
-        ('N', 'No asistió'),
-        ('J', 'Falta justificada')
-    ]
     curso_empresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     sesion = models.ForeignKey(Sesion , on_delete=models.CASCADE)
-    estado_asistencia = models.CharField(max_length=1, choices=tipo_choices)
+    estado_asistencia = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'AsistenciaSesionXEmpleado'

@@ -13,16 +13,17 @@ class Command(BaseCommand):
 
         cant_rows = 1
 
-        cursos_udemy = CursoUdemyFactory.create_batch(cant_rows)
-        self.stdout.write(self.style.SUCCESS('{} Cursos Udemy creados con exito').format(cant_rows))
+        with transaction.atomic():
+            cursos_udemy = CursoUdemyFactory.create_batch(cant_rows)
+            self.stdout.write(self.style.SUCCESS('{} Cursos Udemy creados con exito').format(cant_rows))
 
-        cursos_empresa = CursoEmpresaFactory.create_batch(cant_rows)
-        self.stdout.write(self.style.SUCCESS('{} Cursos Empresa creados con exito').format(cant_rows))
+            cursos_empresa = CursoEmpresaFactory.create_batch(cant_rows)
+            self.stdout.write(self.style.SUCCESS('{} Cursos Empresa creados con exito').format(cant_rows))
 
-        learning_paths = LearningPathFactory.create_batch(cant_rows)
-        self.stdout.write(self.style.SUCCESS('{} Learning Paths creados con exito').format(cant_rows))
+            learning_paths = LearningPathFactory.create_batch(cant_rows)
+            self.stdout.write(self.style.SUCCESS('{} Learning Paths creados con exito').format(cant_rows))
 
-        curso_general_x_learning_paths = CursoGeneralXLearningPathFactory.create_batch(cant_rows*5)
-        self.stdout.write(self.style.SUCCESS('{} CursoGeneralXLearningPath creados con exito').format(cant_rows))
+            curso_general_x_learning_paths = CursoGeneralXLearningPathFactory.create_batch(cant_rows*5)
+            self.stdout.write(self.style.SUCCESS('{} CursoGeneralXLearningPath creados con exito').format(cant_rows))
 
-        self.stdout.write(self.style.SUCCESS('Datos generados correctamente.'))
+            self.stdout.write(self.style.SUCCESS('Datos generados correctamente.'))
