@@ -1,5 +1,5 @@
 from django.db import models
-from evaluations_and_promotions.models import Area, Position
+from personal.models import *
 from login.models import Employee
 
 # Create your models here.
