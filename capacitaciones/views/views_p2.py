@@ -241,7 +241,8 @@ class AsistenciaSesionAPIView(APIView):
                         AsistenciaSesionXEmpleado.objects.create(
                             sesion=sesion,
                             empleado_id=empleado_id,
-                            estado_asistencia=estado_asistencia
+                            estado_asistencia=estado_asistencia,
+                            curso_empresa_id=curso_empresa_id
                         )
 
                     #Si la asistencia fue true entonces actualizamos el porcentaje de asistencia del trabajador (progreso)
