@@ -13,7 +13,6 @@ class EvaluationCreateAPIView(APIView):
 
     def post(self, request):
         try:
-            # Extract data from the request
             data = request.data
             evaluator_id = data.get('evaluatorId')
             evaluated_id = data.get('evaluatedId')
@@ -22,16 +21,13 @@ class EvaluationCreateAPIView(APIView):
             additional_comments = data.get('additionalComments')
             has_comment = bool(additional_comments)
 
-            # Retrieve the EvaluationType based on the name
             evaluation_type_name = data.get('evaluationType')
             evaluation_type = get_object_or_404(EvaluationType, name=evaluation_type_name)
 
-            # Retrieve other fields from the request
             associated_project = data.get('associatedProject')
             category_id = data.get('categoryId')
             subcategories_data = data.get('subcategories')
 
-            # Retrieve the Category based on the category_id
             category = get_object_or_404(Category, id=category_id)
             scores = [subcategory["score"] for subcategory in subcategories_data]
             finalScore = sum(scores) / len(scores)
@@ -50,7 +46,6 @@ class EvaluationCreateAPIView(APIView):
                 
             )
 
-            # Create a list of EvaluationxSubCategory instances
             evaluationxsubcategories = []
             for subcategory_data in subcategories_data:
                 subcategory_id = subcategory_data.get('id')
@@ -63,7 +58,6 @@ class EvaluationCreateAPIView(APIView):
                 )
                 evaluationxsubcategories.append(evaluationxsubcategory)
 
-            # Bulk create the EvaluationxSubCategory instances
             EvaluationxSubCategory.objects.bulk_create(evaluationxsubcategories)
 
             return Response({'message': 'Evaluation created successfully.'}, status=status.HTTP_201_CREATED)

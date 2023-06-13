@@ -164,7 +164,6 @@ class GetPersonasACargo(APIView):
         return Response(employee_data, status=status.HTTP_200_OK)
     
 class GetHistoricoDeEvaluaciones(APIView):
-    #permission_classes = [AllowAny]
     def post(self, request):
         #request: nivel, fecha_inicio,fecha_final, tipoEva, employee_id
         employee_id = request.data.get("employee_id")
@@ -172,10 +171,7 @@ class GetHistoricoDeEvaluaciones(APIView):
         nivel = request.data.get("nivel")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")  
-        #print(request.data)
-        #pprint.pprint(request.__dict__, stream=sys.stderr)
-        #print("employee_id", employee_id)
-        #print("EvaType", tipoEva)
+
         validate_employee_and_evaluation(employee_id, tipoEva)
         
         
