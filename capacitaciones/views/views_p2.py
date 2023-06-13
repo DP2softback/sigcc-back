@@ -255,7 +255,6 @@ class AsistenciaSesionAPIView(APIView):
                             cantidad_sesiones=empleado_curso_empresa.cantidad_sesiones
                             porcentajeProgreso+= Decimal(100)/cantidad_sesiones
                             empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_empresa_id).update(porcentajeProgreso= porcentajeProgreso)
-                            return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
                         else:
                             #Si el LP es distinto a 0 es que hay un LP asociado y que hay que actualizar en la tabla EmpleadoXCursoXLP
                             empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado_id=empleado_id, curso_id=curso_empresa_id, learning_path_id=learning_path_id).first()
@@ -263,7 +262,6 @@ class AsistenciaSesionAPIView(APIView):
                             cantidad_sesiones=empleado_curso_learning_path.cantidad_sesiones
                             porcentajeProgreso+= Decimal(100)/cantidad_sesiones
                             empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado_id=empleado_id, curso_id=curso_empresa_id, learning_path_id=learning_path_id).update(progreso= porcentajeProgreso)
-                            return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)
                 else:
                     # Lanzar una excepción Http404 si el empleado no existe
                     return Response(
@@ -275,8 +273,7 @@ class AsistenciaSesionAPIView(APIView):
                     {"message": "Datos de asistencia incompletos."},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-        return Response({'message': 'Algo pasó'}, status=status.HTTP_400_BAD_REQUEST)
-    
+        return Response({'message': 'Asistencia guardada correctamente'}, status=status.HTTP_201_CREATED)    
     def put(self, request, sesion_id):
         try:            
             sesion = Sesion.objects.filter(id=sesion_id).first()
