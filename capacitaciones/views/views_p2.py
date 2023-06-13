@@ -1,4 +1,5 @@
 # Create your views here.
+from decimal import Decimal
 from login.models import Employee
 from login.serializers import EmployeeSerializerRead
 from rest_framework import status
@@ -227,14 +228,6 @@ class AsistenciaSesionAPIView(APIView):
             if empleado_id is not None and estado_asistencia is not None:
                 empleado_exists = Employee.objects.filter(id=empleado_id).exists()
                 if empleado_exists:
-                    asistencia = AsistenciaSesionXEmpleado(
-                        curso_empresa=curso,
-                        empleado_id=empleado_id,
-                        sesion_id=sesion_id,
-                        estado_asistencia=estado_asistencia
-                    )
-                    asistencia.save()
-
                     #Si la asistencia fue true entonces actualizamos el porcentaje de asistencia del trabajador (progreso)
                     if estado_asistencia:
                         #se diferencia si se pasó el id del LP o no
@@ -243,16 +236,15 @@ class AsistenciaSesionAPIView(APIView):
                             empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_empresa_id).first()
                             porcentajeProgreso=empleado_curso_empresa.porcentajeProgreso
                             cantidad_sesiones=empleado_curso_empresa.cantidad_sesiones
-                            porcentajeProgreso= porcentajeProgreso+ (100/cantidad_sesiones)
+                            porcentajeProgreso+= Decimal(100)/cantidad_sesiones
                             empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_empresa_id).update(porcentajeProgreso= porcentajeProgreso)
                         else:
                             #Si el LP es distinto a 0 es que hay un LP asociado y que hay que actualizar en la tabla EmpleadoXCursoXLP
                             empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado_id=empleado_id, curso_id=curso_empresa_id, learning_path_id=learning_path_id).first()
                             porcentajeProgreso=empleado_curso_learning_path.progreso
                             cantidad_sesiones=empleado_curso_learning_path.cantidad_sesiones
-                            porcentajeProgreso= porcentajeProgreso+ (100/cantidad_sesiones)
+                            porcentajeProgreso+= Decimal(100)/cantidad_sesiones
                             empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado_id=empleado_id, curso_id=curso_empresa_id, learning_path_id=learning_path_id).update(progreso= porcentajeProgreso)
-
 
                 else:
                     # Lanzar una excepción Http404 si el empleado no existe
