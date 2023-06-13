@@ -172,7 +172,7 @@ class CursoEmpresaEmpleadosAPIView(APIView):
         id_curso = request.data.get('id_curso', None)
         tipo_curso = CursoEmpresa.objects.filter(id=id_curso).values('tipo').first()
         curso_empresa = CursoEmpresa.objects.filter(id=id_curso).first()
-
+        cantidad_sesiones_curso=curso_empresa.cantidad_sesiones
         porcentaje_asistencia_aprobacion = request.data.get('porcentaje_asistencia_aprobacion', None)
 
         fecha_req = request.data.get('fecha_limite', None)
@@ -199,6 +199,7 @@ class CursoEmpresaEmpleadosAPIView(APIView):
                 fechaLimite = None if tipo_curso in ['P', 'S'] else fecha_limite,
                 fechaCompletado = None,
                 apreciacion = None,
+                cantidad_sesiones = cantidad_sesiones_curso,
                 porcentaje_asistencia_aprobacion = porcentaje_asistencia_aprobacion)
             for empleado in empleados
         ]
