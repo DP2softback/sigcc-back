@@ -1,35 +1,97 @@
-﻿[
+[ 
     {
-      "model": "gaps.TipoCompetencia",
+      "model": "gaps.CompetenceType",
       "pk": 1,
       "fields": {
-        "id": 1,
-        "abreviatura": "TEC",
-        "nombre": "Técnico",
-        "descripcion": "Competencias que involucran conocimientos de tecnologías",
-        "activo": true
+          "abbreviation": "SFTSKILL",
+          "name": "Habilidades blandas",
+          "description": "Este tipo de competencia indicara los tipos de habilidades blanda que tiene el empleado",
+          "active": true
       }
     },
     {
-        "model": "gaps.TipoCompetencia",
-        "pk": 2,
-        "fields": {
-            "id": 2,
-            "abreviatura": "HAB",
-            "nombre": "Habilidades blandas",
-            "descripcion": "Competencias que involucran interacciones con otras personas",
-            "activo": true
-        }
-      },
+      "model": "gaps.CompetenceType",
+      "pk": 2,
+      "fields": {
+        "abbreviation": "TECSKILL",
+        "name": "Habilidades técnicas",
+        "description": "Este tipo de competencia indicara los tipos de habilidades tecnicas que tiene el empleado",
+        "active": true
+      }
+    },    
     {
-        "model": "gaps.TipoCompetencia",
+        "model": "gaps.CompetenceType",
         "pk": 3,
         "fields": {
-            "id": 3,
-            "abreviatura": "CON",
-            "nombre": "Conocimiento",
-            "descripcion": "Competencias que involucran tener conocimiento específico de ciertos temas",
-            "activo": true    
+            "abbreviation": "GRADESKILL",
+            "name": "Grados Academicos",
+            "description": "Involucra los grados academicos del empleado",
+            "active": true    
         }
-    }  
+    },
+    {
+      "model": "gaps.CompetenceType",
+      "pk": 4,
+      "fields": {
+          "abbreviation": "CONDV",
+          "name": "Control de versiones",
+          "description": "Familiaridad con sistemas de control de versiones como Git para colaborar eficientemente en equipos de desarrollo",
+          "active": true,
+          "upperType": 2
+      }
+    },
+    {
+      "model": "gaps.CompetenceType",
+      "pk": 5,
+      "fields": {
+          "abbreviation": "BDMANG",
+          "name": "Bases de datos",
+          "description": "Conocimiento de sistemas de gestión de bases de datos y experiencia en el diseño de estructuras de datos eficientes",
+          "active": true,
+          "upperType": 2
+      }
+    },
+    {
+      "model": "gaps.CompetenceType",
+      "pk": 6,
+      "fields": {
+          "abbreviation": "LENGP",
+          "name": "Lenguajes de programación",
+          "description": "Dominio de diversos lenguajes de programacion para el desarrollo de software",
+          "active": true
+      }
+    },
+    {
+      "model": "gaps.CompetenceType",
+      "pk": 7,
+      "fields": {
+          "abbreviation": "BACHILLER",
+          "name": "BACHILLER",
+          "description": "Grado de bachiller del empleado",
+          "active": true,
+          "upperType": 3   
+      }
+    },
+    {
+      "model": "gaps.CompetenceType",
+      "pk": 8,
+      "fields": {
+          "abbreviation": "DOCTORADO",
+          "name": "DOCTORADO",
+          "description": "Grado de doctorado del empleado",
+          "active": true,
+          "upperType": 3   
+      }
+    },
+    {
+      "model": "gaps.CompetenceType",
+      "pk": 9,
+      "fields": {
+          "abbreviation":"MAESTRIA",
+          "name": "MAESTRIA",
+          "description": "Grado de maestria del empleado",
+          "active": true,
+          "upperType": 3   
+      }
+    }
 ]
