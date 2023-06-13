@@ -310,7 +310,22 @@ class ListEmployeesGeneralAPIView(APIView):
         empleados = Employee.objects.all()
         empleados_serializer = EmployeeSerializerRead(empleados, many=True)
         return Response(empleados_serializer.data, status = status.HTTP_200_OK)
-    
+
+
+class CompletarSesionCursoEmpresaView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        try:
+            empleado_id = request.data['empleado_id']
+            curso_empresa_id = request.data['curso_empresa_id']
+            empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_empresa_id).first()
+            porcentajeProgreso=empleado_curso_empresa.porcentajeProgreso
+            cantidad_sesiones=empleado_curso_empresa.cantidad_sesiones
+            porcentajeProgreso+= Decimal(100)/cantidad_sesiones
+            empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_empresa_id).update(porcentajeProgreso= porcentajeProgreso)
+            return Response({'message': 'Se actualizó el progreso del curso'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'message': 'Algo pasó'}, status=status.HTTP_404_NOT_FOUND)
 
 class CompletarCursoEmpresaView(APIView):
     permission_classes = [AllowAny]
