@@ -217,17 +217,33 @@ class AsistenciaSesionAPIView(APIView):
         curso_empresa_id = request.data['curso_empresa_id']
         curso = CursoEmpresa.objects.filter(id=curso_empresa_id).first()
         learning_path_id = request.data.get('learning_path_id', 0)
-
+        sesion = Sesion.objects.filter(id=sesion_id).first()
+        asistencias = AsistenciaSesionXEmpleado.objects.filter(sesion=sesion)
+        
         for empleado_asistencia in request.data['empleados_asistencia']:
                 
             #empleado_asistencia_serializer = AsistenciaSesionSerializer(data=empleado_asistencia)
             #print("El empleado_asistencia_serializer es: ",empleado_asistencia_serializer)
             empleado_id = empleado_asistencia.get('empleado')
             estado_asistencia = empleado_asistencia.get('estado_asistencia')
+            # Buscar la asistencia existente por empleado y sesión
+            asistencia = asistencias.filter(empleado_id=empleado_id).first()
 
             if empleado_id is not None and estado_asistencia is not None:
                 empleado_exists = Employee.objects.filter(id=empleado_id).exists()
                 if empleado_exists:
+                    if asistencia:
+                        # Actualizar el estado de asistencia
+                        asistencia.estado_asistencia = estado_asistencia
+                        asistencia.save()
+                    else:
+                        # Crear una nueva asistencia si no existe
+                        AsistenciaSesionXEmpleado.objects.create(
+                            sesion=sesion,
+                            empleado_id=empleado_id,
+                            estado_asistencia=estado_asistencia
+                        )
+
                     #Si la asistencia fue true entonces actualizamos el porcentaje de asistencia del trabajador (progreso)
                     if estado_asistencia:
                         #se diferencia si se pasó el id del LP o no
@@ -276,13 +292,13 @@ class AsistenciaSesionAPIView(APIView):
                     # Actualizar el estado de asistencia
                     asistencia.estado_asistencia = estado_asistencia
                     asistencia.save()
-                '''else:
+                else:
                     # Crear una nueva asistencia si no existe
                     AsistenciaSesionXEmpleado.objects.create(
                         sesion=sesion,
                         empleado_id=empleado_id,
                         estado_asistencia=estado_asistencia
-                    )'''
+                    )
 
             return Response({'message': 'Asistencia actualizada correctamente'}, status=status.HTTP_200_OK)
         except Sesion.DoesNotExist:
