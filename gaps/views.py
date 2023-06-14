@@ -8,10 +8,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from zappa.asynchronous import task
-from gaps.models import Competence, CompetenceType, CompetenceXEmployee, TrainingNeed, CompetenceXAreaXPosition
+from gaps.models import Competence, CompetenceScale, CompetenceType, CompetenceXEmployee, TrainingNeed, CompetenceXAreaXPosition
 from login.models import Employee
 from personal.models import Area, Position
-from gaps.serializers import CompetenceSerializer, CompetenceTypeSerializer, CompetenceXEmployeeSerializer, TrainingNeedSerializer, CompetenceXAreaXPositionSerializer
+from gaps.serializers import CompetenceSerializer, CompetenceTypeSerializer,CompetenceScaleSerializer, CompetenceXEmployeeSerializer, TrainingNeedSerializer, CompetenceXAreaXPositionSerializer
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite
 from gaps.serializers import AreaSerializer
 # Create your views here.
@@ -128,6 +128,28 @@ class SearchTrainingNeedView(APIView):
         necesidadesEmpleado = TrainingNeed.objects.filter(query).values('competence__code','competence__name','competence__type__name','levelCurrent', 'levelRequired', 'levelGap', 'description', 'state', 'type')
         return Response(list(necesidadesEmpleado), status = status.HTTP_200_OK)
 
+class CompetenceScaleView(APIView):
+    def get(self, request):
+        competenciaEscala = CompetenceScale.objects.all()
+        competenciaEscala_serializer = CompetenceScaleSerializer(competenciaEscala, many = True)
+        return Response(competenciaEscala_serializer.data, status = status.HTTP_200_OK)
+
+    def post(self, request):
+        competenciaEscala_serializer = CompetenceScaleSerializer(data = request.data, context = request.data)
+        if competenciaEscala_serializer.is_valid():
+            competenciaEscala_serializer.save()
+            return Response(competenciaEscala_serializer.data,status=status.HTTP_200_OK)
+        return Response(None,status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, id=0):# delete logico
+        competenciaEscala = CompetenceScale.objects.filter(id=id).first()
+        campos = {'active': 'false'}
+        competenciaEscala_serializer = CompetenceScaleSerializer(competenciaEscala, data = campos)
+        if competenciaEscala_serializer.is_valid():
+            competenciaEscala_serializer.save()
+            return Response(competenciaEscala_serializer.data,status=status.HTTP_200_OK)
+        return Response(None,status=status.HTTP_400_BAD_REQUEST)
+        
 class CompetenceTypeView(APIView):
     def get(self, request):
         tipoCompetencias = CompetenceType.objects.all()
@@ -141,13 +163,14 @@ class CompetenceTypeView(APIView):
             return Response(tipoCompetencia_serializer.data,status=status.HTTP_200_OK)
         return Response(None,status=status.HTTP_400_BAD_REQUEST)
     
-    def delete(self, pk, format = None):
-        try:
-            tipoCompetencia = CompetenceType.objects.get(pk = pk)
-            tipoCompetencia.delete()
-            return Response(status=status.HTTP_200_OK)
-        except CompetenceType.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    def delete(self, request, id=0):
+        tipoCompetencia = CompetenceType.objects.filter(id=id).first()
+        campos = {'active': 'false'}
+        tipoCompetencia_serializer = CompetenceTypeSerializer(tipoCompetencia, data = campos)
+        if tipoCompetencia_serializer.is_valid():
+            tipoCompetencia_serializer.save()
+            return Response(tipoCompetencia_serializer.data,status=status.HTTP_200_OK)
+        return Response(None,status=status.HTTP_400_BAD_REQUEST)
 
 class SearchCompetenteTypeView(APIView):
     def get(self,  request, pk = 0):
