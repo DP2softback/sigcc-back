@@ -22,6 +22,8 @@ from django.db.models.aggregates import Sum,Count
 from django.db.models import F, ExpressionWrapper, FloatField
 from collections import defaultdict
 from rest_framework.permissions import AllowAny
+from django.core.validators import URLValidator
+
 
 
 def validate_employee_and_evaluation(employee_id, tipoEva):
@@ -358,6 +360,7 @@ class PlantillasAPI(APIView):
         for item in data:
             plantilla_id = item['plantilla']['id']
             plantilla_name = item['plantilla']['nombre']
+            plantilla_image = item['plantilla']['image']
             evaluation_type = item['plantilla']['evaluationType']['name']
             category_id = item['subCategory']['category']['id']
             category_name = item['subCategory']['category']['name']
@@ -369,6 +372,7 @@ class PlantillasAPI(APIView):
                     'id': plantilla_id,
                     'name': plantilla_name,
                     'evaluationType': evaluation_type,
+                    'image': plantilla_image,
                     'Categories': []
                 }
             
@@ -475,6 +479,7 @@ class PlantillasEditarVistaAPI(APIView):
         response_data = {
             'plantilla-id': template.id,
             'plantilla-nombre': template.nombre,
+            'plantilla-image': template.image,
             'Categories': []
         }
 
@@ -636,10 +641,17 @@ class PlantillasEditarAPI(APIView):
         plantilla = request.data.get("plantilla-id")
         nuevanombre = request.data.get("plantilla-nombre")
         Plantilla_basica = Plantilla.objects.get(pk=plantilla)
+        image_url = request.data.get("image")
+        
+        Plantilla_basica.nombre = nuevanombre
+        if image_url:
+            try:
+                URLValidator()(image_url)
+                Plantilla_basica.image = image_url
+            except ValidationError:
+                return Response("Invalid image URL", status=status.HTTP_400_BAD_REQUEST)
 
-        if(Plantilla_basica.nombre != nuevanombre ):
-            Plantilla_basica.nombre = nuevanombre
-            Plantilla_basica.save()
+        Plantilla_basica.save()
 
         Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__isActive = True,isActive=True)
         Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
@@ -680,11 +692,18 @@ class PlantillasCrearAPI(APIView):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
         obj_evalty =   EvaluationType.objects.get(name= evaltype)
-        print(obj_evalty)
         plantilla_creada = Plantilla(nombre = request.data.get('nombre'),evaluationType = obj_evalty)
+
+        image_url = request.data.get("image")
+        if image_url:
+            try:
+                URLValidator()(image_url)
+                plantilla_creada.image = image_url
+            except ValidationError:
+                return Response("Invalid image URL", status=status.HTTP_400_BAD_REQUEST)
+        
         plantilla_creada.save()
 
-        print(plantilla_creada)
         if(plantilla_creada is None):
             return Response("No se ha creado correctamente el objeto plantilla",status=status.HTTP_400_BAD_REQUEST)
 
@@ -700,7 +719,7 @@ class PlantillasCrearAPI(APIView):
 class PlantillaPorTipo(APIView):
     def post(self,request):
         Data = Plantilla.objects.filter(isActive = True)
-        Data_serialazada = PlantillaSerializerRead(Data,many=True,fields = ('id','nombre','evaluationType'))
+        Data_serialazada = PlantillaSerializerRead(Data,many=True,fields = ('id','nombre','evaluationType', 'image'))
 
 
         result = {}
@@ -709,11 +728,12 @@ class PlantillaPorTipo(APIView):
             evaluation_type = item['evaluationType']['name']
             plantilla_id = item['id']
             plantilla_nombre = item['nombre']
+            plantilla_image = item['image']
             
             if evaluation_type not in result:
                 result[evaluation_type] = []
             
-            result[evaluation_type].append({"plantilla-id": plantilla_id, "plantilla-nombre": plantilla_nombre})
+            result[evaluation_type].append({"plantilla-id": plantilla_id, "plantilla-nombre": plantilla_nombre, "plantilla_image": plantilla_image})
 
 
         return Response(result,status=status.HTTP_200_OK)

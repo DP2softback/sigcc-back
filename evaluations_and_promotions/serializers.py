@@ -199,7 +199,7 @@ class PlantillaxSubCategoryRead(DynamicFieldsModelSerializer):
     
     def get_plantilla(self, obj):
         plantilla = obj.plantilla
-        plantilla_serializer = PlantillaSerializerRead(plantilla,fields=('id','nombre','evaluationType'))
+        plantilla_serializer = PlantillaSerializerRead(plantilla,fields=('id','nombre','evaluationType','image'))
         return plantilla_serializer.data
     
     def get_subCategory(self, obj):

@@ -110,6 +110,7 @@ class Plantilla(models.Model):
     isActive = models.BooleanField(default=True)
     nombre =  models.CharField(max_length=500, null=True, blank=True)
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE, null=True)
+    image = models.CharField(max_length=500, null=True, blank=True)
 
 class PlantillaxSubCategoria(models.Model):
     id = models.BigAutoField(primary_key=True)
