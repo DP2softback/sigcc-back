@@ -510,6 +510,7 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                 'estado':lp.estado,
                 'horas_duracion':lp.horas_duracion,
                 'suma_valoraciones':lp.suma_valoraciones,
+                'url_foto':lp.url_foto,
                 'cant_empleados': lp.cant_empleados,
                 'cant_intentos_cursos_max': lp.cant_intentos_cursos_max,
                 'cant_intentos_evaluacion_integral_max': lp.cant_intentos_evaluacion_integral_max,
