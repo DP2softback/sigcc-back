@@ -244,7 +244,7 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path_id=id_lp)
             for emp in empleados:
                 for curso_lp in cursos_lp:
-                        empleado = Employee.objects.filter(id=emp.id).first()
+                        empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
                         curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
                             empleado=empleado,
