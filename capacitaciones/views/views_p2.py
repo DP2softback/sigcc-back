@@ -527,6 +527,8 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                     'duracion':curso_general.duracion,
                     'cant_valoraciones':curso_general.cant_valoraciones,
                     'suma_valoracionees':curso_general.suma_valoracionees,
+                    'nro_orden':curso_lp.nro_orden,
+                    'cant_intentos_max':curso_lp.cant_intentos_max,
                     # Otros campos del CursoGeneral que deseas incluir
                     'datos_extras': []
                 }
