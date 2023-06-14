@@ -207,3 +207,14 @@ class PlantillaxSubCategoryRead(DynamicFieldsModelSerializer):
         subCategory_serializer = SubCategorySerializerRead(subCategory,fields=('id','name','category'))
         return subCategory_serializer.data   
        
+class CategorySerializerRead2(DynamicFieldsModelSerializer):
+    evaluationType = serializers.SerializerMethodField()  
+    
+    class Meta:
+        model = Category
+        fields = '__all__' 
+
+    def get_evaluationType(self, obj):
+        evaluationType = obj.evaluationType
+        evaluationType_serializer = EvaluationTypeSerializerRead(evaluationType,fields=('id','name'))
+        return evaluationType_serializer.data

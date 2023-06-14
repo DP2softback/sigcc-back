@@ -15,6 +15,9 @@ urlpatterns = [
     path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
     path('LineChartEvaluacionesReporte', EvaluationLineChartReporte.as_view()),
     path('LineChartEvaluacionesPersona', EvaluationLineChartPersona.as_view()),
+
+    path('ListAllCategorias',ListAllCategories.as_view()),
+    
     #Plantillas
     path('Plantilla', PlantillasAPI.as_view()),
     path('PlantillaEditarVista', PlantillasEditarVistaAPI.as_view()),

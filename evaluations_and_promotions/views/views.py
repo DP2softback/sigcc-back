@@ -828,3 +828,22 @@ class EvaluationLineChartReporte(APIView):
 
 
         return Response(transformed_data,status=status.HTTP_200_OK)
+    
+class ListAllCategories(APIView):
+    def post(self,request):
+        Categorias = Category.objects.filter(isActive = True)
+        Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
+        return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
+
+class ListAllCategories(APIView):
+    def post(self,request):
+        Categorias = Category.objects.filter(isActive = True)
+        Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
+        return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
+    
+# class listCompetencias(APIView):
+#     def post(self,request):
+#         category_id = request.data.get("category-id")
+#         Competencias = CompetenciasTable.objects.filter(isActive = True)
+#         Competencias_serializada = CompetenciasTableSerializerRead(Competencias, many=True,fields=('id','name'))
+#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
