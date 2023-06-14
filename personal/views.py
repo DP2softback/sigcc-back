@@ -151,19 +151,59 @@ class PositionView(APIView):
         serializer = PositionSerializer(positions, many=True)
 
         for position_data in serializer.data:
-            position_id = position_data['id']
+            position_id = position_data['id']            
             functions = Functions.objects.filter(position_id=position_id)
             functions_serializer = FunctionsSerializer(functions, many=True)
             position_data['functions'] = functions_serializer.data
-            
         return Response(serializer.data)
     
     def post(self, request):
-        serializer = PositionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        print(request.user)
+        print(request.data)
+
+        name = request.data["name"]
+        description = request.data["description"]
+        area = request.data["area"]
+        job_modality = request.data["job_modality"]
+        workday_type = request.data["workday_type"]
+        capacities = request.data["capacities"]            
+        functions = request.data["responsabilities"]
+
+        try:     
+            area = Area.objects.get(id=area)            
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+              
+        position = Position(
+            name = name,
+            description = description,
+            area=area,
+            modalidadTrabajo=job_modality,
+            tipoJornada=workday_type,                              
+        )    
+        position.save()
+
+        #saving every competence
+        for capacity in capacities:
+            print(capacity)
+            # print(f"{requisito['id']} {requisito['level']}")
+
+        #saving functions
+        functions = Functions.objects.create(
+            area=area,
+            position=position, 
+            description=functions
+        )
+        functions.save()
+
+        #linking position with Area
+        areaxposition = AreaxPosicion(area=area, position=position)
+        areaxposition.save()
+
+
+        return Response(data=f"Position registered", status=status.HTTP_201_CREATED)
+        
     
     def put(self, request, pk):
         position = Position.objects.filter(pk=pk).first()
