@@ -7,7 +7,7 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler
 
 from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoUdemyEmpleadoProgressPApiView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
@@ -49,6 +49,7 @@ urlpatterns = [
     path('learning_path/<int:pk>/employees/', EmpleadosLearningPath.as_view()),
     path('learning_path/empleado/<int:pk>/', EmpleadoXLearningPathAPIView.as_view()),
     path('learning_path/detalle_empleado/<int:emp>/<int:lp>/', DetalleLearningPathXEmpleadoAPIView.as_view()),
+    path('learning_path/detalle_empleado_modified/<int:emp>/<int:leap>/', DetalleLearningPathXEmpleadoModifiedAPIView.as_view()),
     path('udemy_course/generate_evaluation/', GenerateUdemyEvaluationAPIView.as_view()),
     path('list_all_employees_general/', ListEmployeesGeneralAPIView.as_view()),
     path('udemy_course/check_status/<int:pk_course>/', CheckUdemyCourseStatusAPIView.as_view()),

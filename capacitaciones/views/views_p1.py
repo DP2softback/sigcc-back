@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
-from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
+from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form, \
@@ -240,6 +240,19 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
 
         try:
             EmpleadoXLearningPath.objects.bulk_create(list_asignaciones)
+            lp = LearningPath.objects.filter(id=id_lp).first()
+            cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path_id=id_lp)
+            for emp in empleados:
+                for curso_lp in cursos_lp:
+                        empleado = Employee.objects.filter(id=emp.id).first()
+                        curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                        curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
+                            empleado=empleado,
+                            curso=curso_general,
+                            learning_path=lp,
+                            estado='0'
+                        )
+                        curso_empleado_lp_guardar.save()
         except Exception as e:
             return Response({'msg': str(e)},
                             status=status.HTTP_400_BAD_REQUEST)

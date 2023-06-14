@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -492,3 +492,61 @@ class CursoUdemyEmpleadoProgressPApiView(APIView):
             return Response(empleado_curso_empres_lp_serializer.data, status = status.HTTP_200_OK) 
         except:
             return Response({"message": "Upss, algó pasó"}, status=status.HTTP_404_NOT_FOUND)
+
+#Probando cambio al de Gianella
+class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, emp, leap):
+        empleado = Employee.objects.filter(id=emp).first()
+        lp = LearningPath.objects.filter(id=leap).first()
+
+        data = []
+        if leap:
+            cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path=lp)
+            learning_path_data = {
+                'id': lp.id,
+                'nombre': lp.nombre,
+                'descripcion': lp.descripcion,
+                'estado':lp.estado,
+                'horas_duracion':lp.horas_duracion,
+                'suma_valoraciones':lp.suma_valoraciones,
+                'cant_empleados': lp.cant_empleados,
+                'cant_intentos_cursos_max': lp.cant_intentos_cursos_max,
+                'cant_intentos_evaluacion_integral_max': lp.cant_intentos_evaluacion_integral_max,
+                'cant_valoraciones': lp.cant_valoraciones,
+                'cantidad_cursos': lp.cantidad_cursos,
+                # Otros campos del LearningPath que deseas incluir
+                'cursos': []
+            }
+            for curso_lp in cursos_lp:
+                curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                curso_data = {
+                    'id': curso_general.id,
+                    'nombre': curso_general.nombre,
+                    'descripcion': curso_general.descripcion,
+                    'duracion':curso_general.duracion,
+                    'cant_valoraciones':curso_general.cant_valoraciones,
+                    'suma_valoracionees':curso_general.suma_valoracionees,
+                    # Otros campos del CursoGeneral que deseas incluir
+                    'datos_extras': []
+                }
+
+                empleado_curso_empres_lp = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general,learning_path=lp).first()
+                if empleado_curso_empres_lp is not None:
+                    curso_lp_empleado={
+                        'progreso':empleado_curso_empres_lp.progreso,
+                        'estado':empleado_curso_empres_lp.estado,
+                        'nota_final':empleado_curso_empres_lp.nota_final,
+                        'cant_intentos':empleado_curso_empres_lp.cant_intentos,
+                        'fecha_evaluacion':empleado_curso_empres_lp.fecha_evaluacion,
+                        'ultima_evaluacion':empleado_curso_empres_lp.ultima_evaluacion,
+                        'porcentajeProgreso':empleado_curso_empres_lp.porcentajeProgreso,
+                        'cantidad_sesiones':empleado_curso_empres_lp.cantidad_sesiones
+                    }
+                    curso_data['datos_extras'].append(curso_lp_empleado)
+                learning_path_data['cursos'].append(curso_data)
+
+            data.append(learning_path_data)
+            return Response(data, status=status.HTTP_200_OK)
+        
+        return Response({"message": "Upss, algó pasó"}, status=status.HTTP_404_NOT_FOUND)
