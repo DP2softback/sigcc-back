@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -450,4 +450,45 @@ class CursoEmpresaAsignarLPApiView(APIView):
         lp = LearningPath.objects.filter(pk=pk).update(cantidad_cursos= cantidad_cursos+1)
         return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
 
+class CursoEmpresaEmpleadoProgressPApiView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        employee_id = request.data.get('employee_id')
+        curso_id = request.data.get('curso_id')
+        learning_path_id = request.data.get('learning_path_id', 0)
+        empleado = Employee.objects.filter(id=employee_id).first()
+        curso_empresa = CursoEmpresa.objects.filter(id=curso_id).first()
+        curso_general = CursoGeneral.objects.filter(id=curso_id).first()
+        lp = LearningPath.objects.filter(id=learning_path_id).first()
+        try:
+            if( learning_path_id==0):
+                #Cuando es de EmpleadoXCursoEmpresa
+                empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado=empleado, cursoEmpresa=curso_empresa).first()
+                empleado_curso_empresa_serializer = EmpleadoXCursoEmpresaSerializer(empleado_curso_empresa)
+                return Response(empleado_curso_empresa_serializer.data, status = status.HTTP_200_OK) 
+            else:
+                #Cuando es de Empleado x Curso x LearningPath
+                empleado_curso_empres_lp = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general,learning_path=lp).first()
+                empleado_curso_empres_lp_serializer = EmpleadoXCursoXLearningPathSerializer(empleado_curso_empres_lp)
+                return Response(empleado_curso_empres_lp_serializer.data, status = status.HTTP_200_OK) 
+        except:
+            return Response({"message": "Upss, algó pasó"}, status=status.HTTP_404_NOT_FOUND)
         
+
+class CursoUdemyEmpleadoProgressPApiView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        employee_id = request.data.get('employee_id')
+        curso_id = request.data.get('curso_id')
+        learning_path_id = request.data.get('learning_path_id', 0)
+        empleado = Employee.objects.filter(id=employee_id).first()
+        curso_empresa = CursoEmpresa.objects.filter(id=curso_id).first()
+        curso_general = CursoGeneral.objects.filter(id=curso_id).first()
+        lp = LearningPath.objects.filter(id=learning_path_id).first()
+        try:
+            #Cuando es de Empleado x Curso x LearningPath
+            empleado_curso_empres_lp = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general,learning_path=lp).first()
+            empleado_curso_empres_lp_serializer = EmpleadoXCursoXLearningPathSerializer(empleado_curso_empres_lp)
+            return Response(empleado_curso_empres_lp_serializer.data, status = status.HTTP_200_OK) 
+        except:
+            return Response({"message": "Upss, algó pasó"}, status=status.HTTP_404_NOT_FOUND)

@@ -6,8 +6,8 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath, \
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler
 
-from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoUdemyEmpleadoProgressPApiView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
@@ -54,5 +54,7 @@ urlpatterns = [
     path('udemy_course/check_status/<int:pk_course>/', CheckUdemyCourseStatusAPIView.as_view()),
     path('udemy_course/questionary/<int:pk_course>/', UdemyEvaluationAPIView.as_view()),
     path('setup/scheduler/', SetupScheduler.as_view()),
-    path('learning_path/empleados/<int:lp>/',EmpleadosXLearningPathAPIView.as_view())
+    path('learning_path/empleados/<int:lp>/',EmpleadosXLearningPathAPIView.as_view()),
+    path('course_company_employee_advance/',CursoEmpresaEmpleadoProgressPApiView.as_view()),
+    path('course_udemy_employee_advance/',CursoUdemyEmpleadoProgressPApiView.as_view())
 ]

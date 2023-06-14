@@ -7,7 +7,7 @@ from login.models import Employee, User
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, LearningPath, CursoGeneral, \
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneral, \
     CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
     Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario, EmpleadoXLearningPath
 
@@ -254,6 +254,11 @@ class CursosEmpresaSerialiazer(serializers.ModelSerializer):
 class EmpleadoXCursoEmpresaSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmpleadoXCursoEmpresa
+        fields = '__all__'
+
+class EmpleadoXCursoXLearningPathSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmpleadoXCursoXLearningPath
         fields = '__all__'
 
 
