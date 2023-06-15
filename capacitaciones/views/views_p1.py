@@ -399,12 +399,12 @@ class EvaluacionLPAPIView(APIView):
 
     def post(self, request, pk):
 
-        descripcion = request.data.get('descripcion', None)
+        descripcion = request.data.get('descripcion_evaluacion', None)
         rubrica = request.data.get('rubrica', None)
         documentos = request.data.get('documentos', [])
 
         if not descripcion:
-            return Response({'msg': 'No se envió una descripcion'}, status=status.HTTP_200_OK)
+            return Response({'msg': 'No se envió una descripcion para la evaluacion del learning path'}, status=status.HTTP_200_OK)
 
         if not len(documentos)!=0:
             return Response({'msg': 'No se envió documentos'}, status=status.HTTP_200_OK)
