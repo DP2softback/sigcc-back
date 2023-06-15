@@ -36,3 +36,5 @@ zappa manage dev loaddata ./personal/fixtures/democompetencexareaxposition.json
 
 zappa manage dev loaddata ./gaps/fixtures/Data_tiposCompetencia.json
 zappa manage dev loaddata ./gaps/fixtures/Data_competencias.json
+zappa manage dev loaddata ./personal/fixtures/stage_types.json
+
