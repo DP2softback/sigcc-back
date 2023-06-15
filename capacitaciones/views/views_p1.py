@@ -357,7 +357,7 @@ class ParametrosAPIView(APIView):
 
         return Response(parametro_serializer.data, status=status.HTTP_200_OK)
 
-
+'''
 class RubricaLPAPIView(APIView):
 
     def get(self, request, pk):
@@ -380,7 +380,7 @@ class RubricaLPAPIView(APIView):
         return Response({
             'msg': 'Evaluacion actualizada con exito'
         })
-
+'''
 
 class EvaluacionLPAPIView(APIView):
 
@@ -400,6 +400,7 @@ class EvaluacionLPAPIView(APIView):
     def post(self, request, pk):
 
         descripcion = request.data.get('descripcion', None)
+        rubrica = request.data.get('rubrica', None)
         documentos = request.data.get('documentos', [])
 
         if not descripcion:
@@ -408,7 +409,7 @@ class EvaluacionLPAPIView(APIView):
         if not len(documentos)!=0:
             return Response({'msg': 'No se envió documentos'}, status=status.HTTP_200_OK)
 
-        LearningPath.objects.filter(pk=pk).update(descripcion=descripcion)
+        LearningPath.objects.filter(pk=pk).update(descripcion=descripcion, rubrica=rubrica)
 
         documentos_examen = [DocumentoExamen(learning_path_id=pk, url_documento=url) for url in documentos]
 

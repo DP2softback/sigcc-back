@@ -62,5 +62,5 @@ urlpatterns = [
     path('learning_path_from_template/<int:pk>/', LearningPathFromTemplateAPIView.as_view()),
     path('learning_path_from_template/', LearningPathFromTemplateAPIView.as_view()),
     path('learning_path/<int:pk>/evaluation', EvaluacionLPAPIView.as_view()),
-    path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
+    #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]
