@@ -88,8 +88,20 @@ class JobOfferSerializer(serializers.ModelSerializer):
 
 class JobOfferSerializerRead(serializers.ModelSerializer):
 
-    position_name = serializers.CharField(source="hiring_process.position.name")
-    position_id = serializers.CharField(source="hiring_process.position.id")
+    def my_competencies(self, obj):
+        competencies = CompetenceXAreaXPosition.objects.filter(position_id=obj.hiring_process.position.position.id) 
+        return CompetenceXAreaXPositionSerializerRead(competencies, many=True).data
+
+    def my_functions(self, obj):
+        functions = Functions.objects.filter(position_id=obj.hiring_process.position.position.id, area_id=obj.hiring_process.position.area.id) 
+        return FunctionsSerializer(functions, many=True).data
+
+
+    position_name = serializers.CharField(source="hiring_process.position.position.name")
+    position_id = serializers.CharField(source="hiring_process.position.position.id")
+    competencies = serializers.SerializerMethodField('my_competencies')
+    function_detail = serializers.SerializerMethodField('my_functions')
+
     class Meta:
 
         model = JobOffer
@@ -102,12 +114,16 @@ class JobOfferSerializerRead(serializers.ModelSerializer):
             'introduction',
             'offer_introduction',
             'responsabilities_introduction',
+            'capacities_introduction',
+            'beneficies_introduction',
             'creation_date',
             'modified_date',
             'photo_url',
             'location',
             'salary_range',
-            'is_active'
+            'is_active',
+            'competencies',
+            'function_detail'
         ]
 
 class PositionSerializer(serializers.ModelSerializer):
