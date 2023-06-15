@@ -191,11 +191,14 @@ class SearchCompetenteTypeView(APIView):
 class SearchCompetenceConsolidateView(APIView):
     def post(self, request):
         idArea = request.data["idArea"]
+        idPosition = request.data["idPosicion"]
         active = request.data["activo"]
         query = Q()
 		
         if idArea is not None and idArea > 0:
             query.add(Q(employee__area__id=idArea), Q.AND)
+        if idPosition is not None and idPosition > 0:
+            query.add(Q(employee__position__id=idPosition), Q.AND)
         if(active is not None):
             if active == 0: query.add(Q(active=False), Q.AND)
             if active == 1: query.add(Q(active=True), Q.AND)
@@ -534,9 +537,12 @@ class EmployeeAreaView(APIView):
         return Response(list(areas), status = status.HTTP_200_OK)
     def post(self, request):
         area = request.data["area"]
+        position = request.data["posicion"]
         query = Q()
         # query.add(Q(active=True), Q.AND)
         if area is not None and area>0:
             query.add(Q(area__id = area), Q.AND)
+        if position is not None and position>0:
+            query.add(Q(position__id = position), Q.AND)
         employees = Employee.objects.filter(query).values('id','user__first_name','user__last_name','position__name','area__name','user__email','user__is_active')
         return Response(list(employees), status = status.HTTP_200_OK)
