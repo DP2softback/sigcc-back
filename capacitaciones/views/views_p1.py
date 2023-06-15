@@ -13,9 +13,10 @@ from rest_framework.views import APIView
 
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
-from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, EmpleadoXLearningPath
+from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
+    CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
-    BusquedaEmployeeSerializer
+    BusquedaEmployeeSerializer, ParametrosSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form, \
     transform_gpt_quiz_output
 from login.models import Employee
@@ -342,4 +343,73 @@ class SetupScheduler(APIView):
 
         return Response({'msg': 'Scheduler iniciado'}, status=status.HTTP_200_OK)
 
+
+class ParametrosAPIView(APIView):
+
+    def get(self, request):
+
+        parametros = Parametros.objects.all().first()
+
+        if not parametros:
+            return Response({'msg': 'No existe parametros establecidos'}, status=status.HTTP_200_OK)
+
+        parametro_serializer = ParametrosSerializer(parametros)
+
+        return Response(parametro_serializer.data, status=status.HTTP_200_OK)
+
+
+class RubricaLPAPIView(APIView):
+
+    def get(self, request, pk):
+
+        lp = LearningPath.objects.filter(pk=pk).values('rubrica').first()
+
+        return Response({
+            'rubrica': lp.rubrica
+        })
+
+    def post(self, request, pk):
+
+        rubrica = request.data.get('rubrica', None)
+
+        LearningPath.objects.filter(pk=pk).update(rubrica=rubrica)
+
+        return Response({
+            'msg': 'Evaluacion actualizada con exito'
+        })
+
+
+class EvaluacionLPAPIView(APIView):
+
+    def get(self, request, pk):
+
+        lp = LearningPath.objects.filter(pk=pk).values('rubrica', 'descripcion').first()
+
+        documentos = DocumentoExamen.objects.filter(learning_path_id=pk).values_list('url_documento', flat=True)
+
+        return Response({
+            'descripcion': lp.descripcion,
+            'rubrica': lp.rubrica,
+            'documentos': documentos
+        }, status=status.HTTP_200_OK)
+
+
+    def post(self, request, pk):
+
+        descripcion = request.data.get('descripcion', None)
+        documentos = request.data.get('documentos', [])
+
+        if not descripcion:
+            return Response({'msg': 'No se envió una descripcion'}, status=status.HTTP_200_OK)
+
+        if not len(documentos)!=0:
+            return Response({'msg': 'No se envió documentos'}, status=status.HTTP_200_OK)
+
+        LearningPath.objects.filter(pk=pk).update(descripcion=descripcion)
+
+        documentos_examen = [DocumentoExamen(learning_path_id=pk, url_documento=url) for url in documentos]
+
+        DocumentoExamen.objects.bulk_create(documentos_examen)
+
+        return Response({'msg': 'Evaluacion creada con exito'}, status=status.HTTP_200_OK)
 

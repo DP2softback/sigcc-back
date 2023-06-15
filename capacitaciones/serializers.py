@@ -7,9 +7,11 @@ from login.models import Employee, User
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneral, \
+from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, \
+    LearningPath, CursoGeneral, \
     CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
-    Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario, EmpleadoXLearningPath
+    Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario, EmpleadoXLearningPath, \
+    Parametros
 
 from django.utils import timezone
 
@@ -366,3 +368,9 @@ class EmpleadosXLearningPathSerializer(serializers.ModelSerializer):
     def get_empleado(self, obj):
         return EmpleadoSerializer(obj.empleado).data
 
+
+class ParametrosSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Parametros
+        fields = '__all__'
