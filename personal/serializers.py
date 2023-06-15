@@ -134,3 +134,8 @@ class FunctionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Functions
         fields = '__all__'
+
+class JobOfferNotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobOfferNotification
+        fields = '__all__'

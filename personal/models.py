@@ -126,4 +126,16 @@ class JobOffer(models.Model):
 
     def __str__(self):
         return "Oferta para el puesto "+ self.hiring_process.position.name
+    
+class JobOfferNotification(models.Model): # Tabla intermedia Empleado x Oferta laboral
+    class Meta:
+        db_table = 'NotificacionLaboral'
+    id = models.BigAutoField(primary_key=True)
+    job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
+    employee = models.ForeignKey('login.Employee', on_delete=models.CASCADE)
+    sent = models.BooleanField(default = False) # Si la notificacion fue enviada o no
+    suitable = models.BooleanField(default = False) # Si es que el empleado es compatible para la oferta laboral
+
+    
+
 

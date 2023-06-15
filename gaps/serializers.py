@@ -1,5 +1,5 @@
 ﻿from rest_framework import serializers
-from gaps.models import Competence, CompetenceXAreaXPosition, CompetenceXEmployee, TrainingNeed, CompetenceType
+from gaps.models import Competence, CompetenceScale,CompetenceXAreaXPosition, CompetenceXEmployee, TrainingNeed, CompetenceType
 from personal.models import Area, Position, AreaxPosicion
 from evaluations_and_promotions.serializers import AreaSerializer, PositionSerializer, EmployeeSerializer
 
@@ -8,6 +8,11 @@ class CompetenceSerializer(serializers.ModelSerializer):
         model = Competence
         fields = '__all__'
 		
+class CompetenceScaleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompetenceScale
+        fields = '__all__'
+        
 class CompetenceXAreaXPositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompetenceXAreaXPosition
