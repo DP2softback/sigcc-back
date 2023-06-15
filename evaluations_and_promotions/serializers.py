@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
+from gaps.models import Competence
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from evaluations_and_promotions.models import *
@@ -218,3 +219,15 @@ class CategorySerializerRead2(DynamicFieldsModelSerializer):
         evaluationType = obj.evaluationType
         evaluationType_serializer = EvaluationTypeSerializerRead(evaluationType,fields=('id','name'))
         return evaluationType_serializer.data
+    
+# class CompetenceSerializadaRead(DynamicFieldsModelSerializer):
+#     subcategory = serializers.SerializerMethodField()  
+    
+#     class Meta:
+#         model = Competence
+#         fields = '__all__' 
+
+#     def get_Competence(self, obj):
+#         subcategory = obj.subcategory
+#         subcategory_serializer = SubCategorySerializerRead(subcategory,fields=('id','name'))
+#         return subcategory_serializer.data

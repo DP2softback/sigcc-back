@@ -1,5 +1,6 @@
 import json
 from django.shortcuts import render
+from gaps.models import Competence
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -861,12 +862,19 @@ class RegistrarEvaluacionDesempen(APIView):
         obj_area = Area.objects.get(id=obj_evaluador.area.id)
         obj_position = Position.objects.get(id=obj_evaluado.position.id)
 
-        evaluacion_creada = Evaluation(finalScore = request.data.get("finalScore"),proyecto =proyectoOb ,evaluator = obj_evaluador, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position,isFinished = True,hasComment=request.data.get("hasComment"))
+        scores=[]
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                scores.append(item2["score"])
+
+        finalPuntaje = sum(scores)/len(scores)
+        evaluacion_creada = Evaluation(finalScore = finalPuntaje,proyecto =proyectoOb ,evaluator = obj_evaluador, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position,isFinished = terminado,hasComment=request.data.get("hasComment"))
 
         evaluacion_creada.save()
 
         if(evaluacion_creada is None):
             return Response("No se ha creado correctamente el objeto evaluacion",status=status.HTTP_400_BAD_REQUEST)
+        
         if(evaltype == "Evaluación de Desempeño".casefold()):
             evaluacion_creada_related = Evaluation(proyecto =proyectoOb ,evaluator = obj_evaluado, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position, relatedEvaluation = evaluacion_creada,isFinished=False,hasComment=request.data.get("hasComment"))  
             evaluacion_creada_related.save()
@@ -893,6 +901,13 @@ class RegistrarEvaluacionDesempen(APIView):
 # class listCompetencias(APIView):
 #     def post(self,request):
 #         category_id = request.data.get("category-id")
-#         Competencias = CompetenciasTable.objects.filter(isActive = True)
-#         Competencias_serializada = CompetenciasTableSerializerRead(Competencias, many=True,fields=('id','name'))
+#         Competencias = Competence.objects.filter(isActive = True,subCategory__Category_id=category_id)
+#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
+#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
+    
+# class listCompetenciasPorCategoria(APIView):
+#     def post(self,request):
+#     ###    category_id = request.data.get("category-id")
+#         Competencias = Competence.objects.filter(isActive = True)
+#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
 #         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
