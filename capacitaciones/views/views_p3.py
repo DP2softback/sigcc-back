@@ -264,7 +264,8 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
             "descripcion": learningpath.descripcion,
             "url_foto": learningpath.url_foto,
             "descripcion_evaluacion": learningpath.descripcion_evaluacion,
-            "archivo_eval": None if not archivo_eval else archivo_eval
+            "archivo_eval": None if not archivo_eval else archivo_eval,
+            "rubrica": learningpath.rubrica
         }
         data["datos_learning_path"] = learning_path_data
         cursos = []
