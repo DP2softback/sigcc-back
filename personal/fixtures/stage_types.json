@@ -1,0 +1,22 @@
+[
+{
+  "model": "personal.stagetype",
+  "pk": 1,
+  "fields": {
+    "name": "Formulario",
+    "creation_date": "2023-06-15T21:19:53.211Z",
+    "modified_date": "2023-06-15T21:19:53.211Z",
+    "is_active": true
+  }
+},
+{
+  "model": "personal.stagetype",
+  "pk": 2,
+  "fields": {
+    "name": "Entrevista",
+    "creation_date": "2023-06-15T21:20:15.576Z",
+    "modified_date": "2023-06-15T21:20:15.576Z",
+    "is_active": true
+  }
+}
+]
