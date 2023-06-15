@@ -391,7 +391,7 @@ class EvaluacionLPAPIView(APIView):
         documentos = DocumentoExamen.objects.filter(learning_path_id=pk).values_list('url_documento', flat=True)
 
         return Response({
-            'descripcion': lp.descripcion,
+            'descripcion': lp.descripcion_evaluacion,
             'rubrica': lp.rubrica,
             'documentos': documentos
         }, status=status.HTTP_200_OK)
