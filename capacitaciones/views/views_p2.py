@@ -696,8 +696,10 @@ class CursoLPEmpleadoIncreaseStateAPIView(APIView):
         if empleado_curso_learning_path is not None:
             variable=empleado_curso_learning_path.estado 
             variable=int(variable)+1
+            if variable==5:
+                variable=4
             empleado_curso_learning_path.estado = str(variable)
             empleado_curso_learning_path.save()
-            mensaje= "Se actualizó el estado del curso "+curso_empresa_id+" a estado "+variable
+            mensaje= "Se actualizó el estado del curso "+str(curso_id)+" a estado "+ str(variable)
             return Response({"message": mensaje}, status = status.HTTP_200_OK)
         return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
