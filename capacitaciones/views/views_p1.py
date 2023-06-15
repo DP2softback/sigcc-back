@@ -122,7 +122,8 @@ class CursoUdemyLpAPIView(APIView):
                 upload_new_course_in_queue(curso)
 
             CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
-
+            cantidad_cursos= lp.cantidad_cursos
+            lp = LearningPath.objects.filter(pk=pk).update(cantidad_cursos= cantidad_cursos+1)
             return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
 
         return Response(curso_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -233,10 +234,11 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
         #if not fecha_limite:
         #    return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
 
-
+        lp = LearningPath.objects.filter(id=id_lp).first()
+        cant_curso=lp.cantidad_cursos
         list_asignaciones = [
             EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
-                                  fecha_limite=emp['fecha_limite']) for emp in empleados
+                                  fecha_limite=emp['fecha_limite'],cantidad_cursos=cant_curso) for emp in empleados
         ]
 
         try:
