@@ -386,30 +386,30 @@ class EvaluacionLPAPIView(APIView):
 
     def get(self, request, pk):
 
-        lp = LearningPath.objects.filter(pk=pk).values('rubrica', 'descripcion').first()
+        lp = LearningPath.objects.filter(pk=pk).values('rubrica', 'descripcion_evaluacion').first()
 
         documentos = DocumentoExamen.objects.filter(learning_path_id=pk).values_list('url_documento', flat=True)
 
         return Response({
-            'descripcion': lp.descripcion,
-            'rubrica': lp.rubrica,
+            'descripcion_evaluacion': lp['descripcion_evaluacion'],
+            'rubrica': lp['rubrica'],
             'documentos': documentos
         }, status=status.HTTP_200_OK)
 
 
     def post(self, request, pk):
 
-        descripcion = request.data.get('descripcion', None)
+        descripcion = request.data.get('descripcion_evaluacion', None)
         rubrica = request.data.get('rubrica', None)
         documentos = request.data.get('documentos', [])
 
         if not descripcion:
-            return Response({'msg': 'No se envió una descripcion'}, status=status.HTTP_200_OK)
+            return Response({'msg': 'No se envió una descripcion para la evaluacion del learning path'}, status=status.HTTP_200_OK)
 
         if not len(documentos)!=0:
             return Response({'msg': 'No se envió documentos'}, status=status.HTTP_200_OK)
 
-        LearningPath.objects.filter(pk=pk).update(descripcion=descripcion, rubrica=rubrica)
+        LearningPath.objects.filter(pk=pk).update(descripcion_evaluacion=descripcion, rubrica=rubrica)
 
         documentos_examen = [DocumentoExamen(learning_path_id=pk, url_documento=url) for url in documentos]
 

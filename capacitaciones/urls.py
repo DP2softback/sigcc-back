@@ -61,7 +61,7 @@ urlpatterns = [
     path('course_udemy_employee_advance/',CursoUdemyEmpleadoProgressPApiView.as_view()),
     path('learning_path_from_template/<int:pk>/', LearningPathFromTemplateAPIView.as_view()),
     path('learning_path_from_template/', LearningPathFromTemplateAPIView.as_view()),
-    path('learning_path/<int:pk>/evaluation', EvaluacionLPAPIView.as_view()),
+    path('learning_path/<int:pk>/evaluation/', EvaluacionLPAPIView.as_view()),
     path('course_lp_employee_advance/<int:curso_id>/<int:learning_path_id>/<int:empleado_id>/', CursoLPEmpleadoIncreaseStateAPIView.as_view()),
     path('course_lp_employee_advance/', CursoLPEmpleadoIncreaseStateAPIView.as_view()),
     path('learning_path/<int:lp>/empleado/<int:emp>/evaluacion/', LearningPathEvaluadoXEmpleadoAPIView.as_view())
