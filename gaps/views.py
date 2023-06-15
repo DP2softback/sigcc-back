@@ -606,3 +606,29 @@ class GenerateTrainingDemandView(APIView):
             resultList.append(fields)
 			
         return Response(resultList, status = status.HTTP_200_OK)    
+    
+class TrainingNeedCourseView(APIView):
+    def post(self, request):
+        area = request.data["area"]
+        position = request.data["posicion"]
+        employee = request.data["empleado"]
+        query = Q()
+		
+        courses = request.data["cursos"]
+		
+        if employee is not None and employee > 0:
+            query.add(Q(id=employee), Q.AND)
+        else:
+            if area is not None and area > 0:
+                query.add(Q(area__id=area), Q.AND)
+            if position is not None and position > 0:
+                query.add(Q(position__id=position), Q.AND)
+		
+        employees = Employee.objects.filter(query).values('id')
+        ids = []
+        for item in employees:
+            ids.append(item['id'])
+		
+        for course in courses :
+            TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state=1) & Q(competence__id= course['competencia']) & Q(scalePosition__id= course['escala'])).update(course=course['curso'])
+
