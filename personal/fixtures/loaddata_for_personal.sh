@@ -9,3 +9,4 @@ python manage.py loaddata ./personal/fixtures/demoarea.json
 python manage.py loaddata ./personal/fixtures/demofunctions.json
 python manage.py loaddata ./personal/fixtures/demoareaxposicion.json
 python manage.py loaddata ./personal/fixtures/democompetencexareaxposition.json
+python manage.py loaddata ./personal/fixtures/stage_types.json
