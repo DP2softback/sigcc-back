@@ -43,6 +43,10 @@ class AreaxPosicion(models.Model):
     availableQuantity = models.IntegerField(default=0)
     unavailableQuantity = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f"Position {self.position.name} in area {self.area.name}"
+
+
 class Functions(models.Model):
     id = models.BigAutoField(primary_key=True)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
@@ -59,7 +63,7 @@ class HiringProcess(models.Model):
     class Meta:
         db_table = 'ProcesoSeleccion'
     id = models.BigAutoField(primary_key=True)
-    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    position = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     available_positions_quantity = models.IntegerField()
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -117,6 +121,8 @@ class JobOffer(models.Model):
     introduction = models.TextField(blank=True, default='')
     offer_introduction = models.TextField(blank=True, default='')
     responsabilities_introduction = models.TextField(blank=True, default='')
+    capacities_introduction = models.TextField(blank=True, default='')
+    beneficies_introduction = models.TextField(blank=True, default='')
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -125,7 +131,7 @@ class JobOffer(models.Model):
     salary_range = models.TextField(blank=True, default='')
 
     def __str__(self):
-        return "Oferta para el puesto "+ self.hiring_process.position.name
+        return "Oferta para el puesto "+ self.hiring_process.position.position.name
     
 class JobOfferNotification(models.Model): # Tabla intermedia Empleado x Oferta laboral
     class Meta:
