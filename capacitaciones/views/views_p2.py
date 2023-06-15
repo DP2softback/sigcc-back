@@ -524,10 +524,12 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                 curso_udemy = CursoUdemy.objects.filter(id=curso_lp.curso_id).first()
                 curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
                 datos_udemy=None
+                foto_curso_empresa=None
                 sesiones=[]
                 if(curso_empresa is not None):
                     #Si es curso Empresa se debe listar las sesiones del curso
                     tipo_curso='E'
+                    foto_curso_empresa=curso_empresa.url_foto
                     sesiones= Sesion.objects.filter(cursoEmpresa=curso_empresa)
                     sesiones_serializer = SesionSerializer(sesiones, many=True)
                     sesiones= sesiones_serializer.data
@@ -547,6 +549,7 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                     'cant_intentos_max':curso_lp.cant_intentos_max,
                     'tipo_curso':tipo_curso,
                     'datos_udemy':datos_udemy,
+                    'foto_curso_empresa':foto_curso_empresa,
                     #se va a agregar las sesiones si el curso es cursoEmpresa
                     'sesiones':sesiones,
                     # Otros campos del CursoGeneral que deseas incluir
@@ -673,12 +676,9 @@ class CursoLPEmpleadoIncreaseStateAPIView(APIView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
     
-    def get(self, request):
-        curso_id = request.data['curso_id']
+    def get(self, request,curso_id,learning_path_id,empleado_id):
         curso_general = CursoGeneral.objects.filter(id=curso_id).first()
-        learning_path_id = request.data.get('learning_path_id', 0)
         learning_path = LearningPath.objects.filter(id=learning_path_id).first()
-        empleado_id = request.data['empleado_id']
         empleado = Employee.objects.filter(id=empleado_id).first()
         empleado_curso_empres_lp = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general,learning_path=learning_path).first()
         if empleado_curso_empres_lp is not None:
@@ -687,12 +687,9 @@ class CursoLPEmpleadoIncreaseStateAPIView(APIView):
         else:
             return Response({"message": "No se encontró información con la data solicitada"}, status=status.HTTP_404_NOT_FOUND)
     
-    def post(self, request):
-        curso_id = request.data['curso_id']
+    def post(self, request,curso_id,learning_path_id,empleado_id):
         curso_general = CursoGeneral.objects.filter(id=curso_id).first()
-        learning_path_id = request.data.get('learning_path_id', 0)
         learning_path = LearningPath.objects.filter(id=learning_path_id).first()
-        empleado_id = request.data['empleado_id']
         empleado = Employee.objects.filter(id=empleado_id).first()
 
         empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general, learning_path=learning_path).first()
