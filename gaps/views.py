@@ -631,4 +631,36 @@ class TrainingNeedCourseView(APIView):
 		
         for course in courses :
             TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state=1) & Q(competence__id= course['competencia']) & Q(scalePosition__id= course['escala'])).update(course=course['curso'])
-
+        
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'cursos cargados correctamente',
+                        },)	
+    
+class SearchTrainingNeedCourseView(APIView):
+    def post(self, request):
+        area = request.data["area"]
+        position = request.data["posicion"]
+        employee = request.data["empleado"]
+        query = Q()
+		
+        if employee is not None and employee > 0:
+            query.add(Q(id=employee), Q.AND)
+        else:
+            if area is not None and area > 0:
+                query.add(Q(area__id=area), Q.AND)
+            if position is not None and position > 0:
+                query.add(Q(position__id=position), Q.AND)
+		
+        employees = Employee.objects.filter(query).values('id')
+        returnList = []
+		
+        for employee in employees:
+            employee = {"empleado": employee['id'], "cursos": []}
+            needs = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state=1)).values('competence__id','competence__name', 'scalePosition__id', 'scalePosition__descriptor', 'course__id')
+            for need in needs :
+                course = {'cursoId': need['competence__id'], 'cursoNombre': need['competence__name'], 'escalaId': need['scalePosition__id'], 'escalaNombre': need['scalePosition__descriptor'], 'cursoId': need['course__id']}
+                employee['cursos'].append(course)
+            returnList.append(employee)
+					
+        return Response(returnList, status = status.HTTP_200_OK)  
