@@ -19,7 +19,7 @@ gaps_patterns = [
     path('competenceTypesSearch/<int:pk>', SearchCompetenteTypeView.as_view()),
 
     path('competenceScale', CompetenceScaleView.as_view()),
-    path('competenceScale/<int:id>', CompetenceView.as_view()),
+    path('competenceScale/<int:id>', CompetenceScaleView.as_view()),
 
     path('competences', CompetenceView.as_view()),
     path('competences/<int:id>', CompetenceView.as_view())
