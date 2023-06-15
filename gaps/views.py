@@ -656,11 +656,11 @@ class SearchTrainingNeedCourseView(APIView):
         returnList = []
 		
         for employee in employees:
-            employee = {"empleado": employee['id'], "cursos": []}
+            employeeFields = {"empleado": employee['id'], "cursos": []}
             needs = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state=1)).values('competence__id','competence__name', 'scalePosition__id', 'scalePosition__descriptor', 'course__id')
             for need in needs :
                 course = {'cursoId': need['competence__id'], 'cursoNombre': need['competence__name'], 'escalaId': need['scalePosition__id'], 'escalaNombre': need['scalePosition__descriptor'], 'cursoId': need['course__id']}
-                employee['cursos'].append(course)
-            returnList.append(employee)
+                employeeFields['cursos'].append(course)
+            returnList.append(employeeFields)
 					
         return Response(returnList, status = status.HTTP_200_OK)  
