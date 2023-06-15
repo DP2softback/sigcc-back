@@ -845,8 +845,8 @@ class ListAllCategories(APIView):
 class RegistrarEvaluacionDesempen(APIView):
     def post(self,request):
 
-        evaluado = request.data.get("evaluatorId")
-        evaluador = request.data.get("evaluatedId")
+        evaluador = request.data.get("evaluatorId")
+        evaluado = request.data.get("evaluatedId")
         proyectoOb = request.data.get("associatedProject")
         terminado = request.data.get("isFinished")
         
@@ -875,7 +875,8 @@ class RegistrarEvaluacionDesempen(APIView):
         if(evaluacion_creada is None):
             return Response("No se ha creado correctamente el objeto evaluacion",status=status.HTTP_400_BAD_REQUEST)
         
-        if(evaltype == "Evaluación de Desempeño".casefold()):
+        if(obj_evalty.id == 2):
+            #print("ga")
             evaluacion_creada_related = Evaluation(proyecto =proyectoOb ,evaluator = obj_evaluado, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position, relatedEvaluation = evaluacion_creada,isFinished=False,hasComment=request.data.get("hasComment"))  
             evaluacion_creada_related.save()
             if(evaluacion_creada_related is None):
@@ -890,7 +891,7 @@ class RegistrarEvaluacionDesempen(APIView):
                 if(subcategoriacrear_evaluacion is None):
                     return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
                 
-                if(evaltype == "Evaluación de Desempeño".casefold()):
+                if(obj_evalty.id == 2):
                     subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = SubCategory.objects.get(id = item["id"]),evaluation=evaluacion_creada)
                     subcategoriacrear_evaluacion_related.save()
                     if(subcategoriacrear_evaluacion_related is None):
