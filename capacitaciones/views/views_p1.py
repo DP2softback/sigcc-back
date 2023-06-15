@@ -386,7 +386,7 @@ class EvaluacionLPAPIView(APIView):
 
     def get(self, request, pk):
 
-        lp = LearningPath.objects.filter(pk=pk).values('rubrica', 'descripcion').first()
+        lp = LearningPath.objects.filter(pk=pk).values('rubrica', 'descripcion_evaluacion').first()
 
         documentos = DocumentoExamen.objects.filter(learning_path_id=pk).values_list('url_documento', flat=True)
 
@@ -409,7 +409,7 @@ class EvaluacionLPAPIView(APIView):
         if not len(documentos)!=0:
             return Response({'msg': 'No se envió documentos'}, status=status.HTTP_200_OK)
 
-        LearningPath.objects.filter(pk=pk).update(descripcion=descripcion, rubrica=rubrica)
+        LearningPath.objects.filter(pk=pk).update(descripcion_evaluacion=descripcion, rubrica=rubrica)
 
         documentos_examen = [DocumentoExamen(learning_path_id=pk, url_documento=url) for url in documentos]
 
