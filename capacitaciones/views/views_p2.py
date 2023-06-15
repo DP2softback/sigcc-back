@@ -533,11 +533,13 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                     sesiones= Sesion.objects.filter(cursoEmpresa=curso_empresa)
                     sesiones_serializer = SesionSerializer(sesiones, many=True)
                     sesiones= sesiones_serializer.data
+                    tipo=curso_empresa.tipo
                     datos_udemy=None
                 if(curso_udemy is not None):
                     tipo_curso='U'
                     sesiones=[]
                     datos_udemy=curso_udemy.course_udemy_detail
+                    tipo=None
                 curso_data = {
                     'id': curso_general.id,
                     'nombre': curso_general.nombre,
@@ -549,6 +551,7 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                     'cant_intentos_max':curso_lp.cant_intentos_max,
                     'tipo_curso':tipo_curso,
                     'datos_udemy':datos_udemy,
+                    'tipo': tipo,
                     'foto_curso_empresa':foto_curso_empresa,
                     #se va a agregar las sesiones si el curso es cursoEmpresa
                     'sesiones':sesiones,
