@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
-    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral
+    ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral, \
+    DocumentoExamen, DocumentoRespuesta
 from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
     LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
@@ -239,6 +240,7 @@ class DetalleLearningPathXEmpleadoAPIView(APIView):
 
         return Response(lp_serializer.data, status=status.HTTP_200_OK)
 
+
 class EmpleadosXLearningPathAPIView(APIView):
 
     def get(self, request, lp):
@@ -247,3 +249,46 @@ class EmpleadosXLearningPathAPIView(APIView):
         empleadosXlpserializer = EmpleadosXLearningPathSerializer(lp, many=True)
 
         return Response(empleadosXlpserializer.data, status=status.HTTP_200_OK)
+
+
+class LearningPathEvaluadoXEmpleadoAPIView(APIView):
+
+    def get(self, request, lp, emp):
+        learningpath = LearningPath.objects.filter(id=lp).first()
+        data = {}
+
+        archivo_eval = DocumentoExamen.objects.filter(learning_path=lp)
+
+        learning_path_data = {
+            "nombre": learningpath.nombre,
+            "descripcion": learningpath.descripcion,
+            "url_foto": learningpath.url_foto,
+            "descripcion_evaluacion": learningpath.descripcion_evaluacion,
+            "archivo_eval": None if not archivo_eval else archivo_eval
+        }
+        data["datos_learning_path"] = learning_path_data
+        cursos = []
+
+        cursos_lp = CursoGeneralXLearningPath.objects.filter(learning_path=lp)
+
+        for curso_lp in cursos_lp:
+            curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+
+            curso_data = {
+                'id': curso_general.id,
+                'nombre': curso_general.nombre,
+                'descripcion': curso_general.descripcion,
+                'nro_orden': curso_lp.nro_orden,
+            }
+            cursos.append(curso_data)
+
+        data["cursos"] = cursos
+
+        id_empXlp = EmpleadoXLearningPath.objects.filter(Q(learning_path=lp) & Q(empleado=emp)).values('id').first()
+        archivo_emp = DocumentoRespuesta.objects.filter(empleado_learning_path_id=id_empXlp['id']).values('url_documento')
+        data["archivo_emp"] = None if not archivo_emp else archivo_emp
+        print(archivo_emp)
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
