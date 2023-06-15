@@ -4,7 +4,7 @@ from login.models import *
 from .models import *
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
-
+from gaps.serializers import *
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -30,6 +30,41 @@ class HiringProcessSerializer(serializers.ModelSerializer):
     class Meta:
         model = HiringProcess
         fields = '__all__'
+
+class AreaxPositionSerializer(serializers.ModelSerializer):
+
+    def my_position(self, obj):
+        positions = Position.objects.get(id=obj.position_id)
+        return PositionSerializer(positions, many=False).data
+
+    def my_area(self, obj):
+        areas = Area.objects.get(id=obj.area_id) 
+        return AreaSerializer(areas, many=False).data
+    
+    def my_functions(self, obj):
+        functions = Functions.objects.filter(position_id=obj.position_id, area_id=obj.area_id) 
+        return FunctionsSerializer(functions, many=True).data
+
+    position_detail = serializers.SerializerMethodField('my_position')
+    area_detail = serializers.SerializerMethodField('my_area')
+    function_detail = serializers.SerializerMethodField('my_functions')
+    position_name = serializers.CharField(source='position.name')
+    area_name = serializers.CharField(source='area.name')
+
+    class Meta:
+        model = AreaxPosicion
+        fields = ['id',
+                  'isActive',
+                  'availableQuantity',
+                  'unavailableQuantity',
+                  'area',
+                  'area_name',
+                  'position',
+                  'position_name',
+                  'position_detail',
+                  'area_detail',
+                  'function_detail'
+        ]
 
 class EmployeeXHiringProcessSerializer(serializers.ModelSerializer):
     class Meta:
@@ -76,9 +111,24 @@ class JobOfferSerializerRead(serializers.ModelSerializer):
         ]
 
 class PositionSerializer(serializers.ModelSerializer):
+
+    def my_competencies(self, obj):
+        competencies = CompetenceXAreaXPosition.objects.filter(position_id=obj.id) 
+        return CompetenceXAreaXPositionSerializerRead(competencies, many=True).data
+
+    competencies = serializers.SerializerMethodField('my_competencies')
+   
     class Meta:
         model = Position
-        fields = '__all__'
+        fields = ['id',
+                  'isActive',
+                  'name',
+                  'benefits',
+                  'description',
+                  'tipoJornada',
+                  'modalidadTrabajo',
+                  'competencies'                  
+                  ]
 
 class FunctionsSerializer(serializers.ModelSerializer):
     class Meta:

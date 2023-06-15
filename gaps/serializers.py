@@ -18,6 +18,32 @@ class CompetenceXAreaXPositionSerializer(serializers.ModelSerializer):
         model = CompetenceXAreaXPosition
         fields = '__all__'
 
+class CompetenceXAreaXPositionSerializerRead(serializers.ModelSerializer):
+    
+    competence_id = serializers.CharField(source="competence.id")
+    competence_name = serializers.CharField(source="competence.name")    
+    competence_type_id = serializers.CharField(source="competence.type.id")    
+    competence_type_name = serializers.CharField(source="competence.type.name")    
+    scalePosition_id = serializers.CharField(source="scalePosition.id")
+    scalePosition_name = serializers.CharField(source="scalePosition.descriptor")
+    scalePosition_value = serializers.CharField(source="scalePosition.level")
+ 
+    class Meta:
+        model = CompetenceXAreaXPosition
+        depth = 1
+        fields = [
+            "id",
+            "competence_id",
+            "competence_name",
+            "competence_type_id",
+            "competence_type_name",
+            "scalePosition_id",
+            "scalePosition_name",
+            "scalePosition_value",
+            "levelRequired",
+            "active"
+        ]
+
 class CompetenceXEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompetenceXEmployee
