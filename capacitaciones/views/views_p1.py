@@ -372,6 +372,9 @@ class RubricaLPAPIView(APIView):
 
         rubrica = request.data.get('rubrica', None)
 
+        if not rubrica:
+            return Response({'msg': 'No se envió una rubrica'}, status=status.HTTP_200_OK)
+
         LearningPath.objects.filter(pk=pk).update(rubrica=rubrica)
 
         return Response({
