@@ -17,6 +17,7 @@ urlpatterns = [
     path('LineChartEvaluacionesPersona', EvaluationLineChartPersona.as_view()),
 
     path('ListAllCategorias',ListAllCategories.as_view()),
+    path('CrearEvaluacionDese',RegistrarEvaluacionDesempen.as_view()),
     
     #Plantillas
     path('Plantilla', PlantillasAPI.as_view()),

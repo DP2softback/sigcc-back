@@ -840,7 +840,55 @@ class ListAllCategories(APIView):
         Categorias = Category.objects.filter(isActive = True)
         Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
         return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
-    
+
+class RegistrarEvaluacionDesempen(APIView):
+    def post(self,request):
+
+        evaluado = request.data.get("evaluatorId")
+        evaluador = request.data.get("evaluatedId")
+        proyectoOb = request.data.get("associatedProject")
+        terminado = request.data.get("isFinished")
+        
+
+        evaltype = request.data.get("evaluationType")
+        if (evaltype.casefold() != "Evaluación Continua".casefold() and evaltype.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+
+        obj_evalty =   EvaluationType.objects.get(name= evaltype)
+        obj_evaluado = Employee.objects.get(id=evaluado)
+        obj_evaluador = Employee.objects.get(id=evaluador)
+        obj_area = Area.objects.get(id=obj_evaluador.area.id)
+        obj_position = Position.objects.get(id=obj_evaluado.position.id)
+
+        evaluacion_creada = Evaluation(finalScore = request.data.get("finalScore"),proyecto =proyectoOb ,evaluator = obj_evaluador, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position,isFinished = True,hasComment=request.data.get("hasComment"))
+
+        evaluacion_creada.save()
+
+        if(evaluacion_creada is None):
+            return Response("No se ha creado correctamente el objeto evaluacion",status=status.HTTP_400_BAD_REQUEST)
+        
+        evaluacion_creada_related = Evaluation(proyecto =proyectoOb ,evaluator = obj_evaluado, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position, relatedEvaluation = evaluacion_creada,isFinished=False,hasComment=request.data.get("hasComment"))  
+
+        evaluacion_creada_related.save()
+
+        if(evaluacion_creada_related is None):
+            return Response("No se ha creado correctamente el objeto evaluacion relacionada",status=status.HTTP_400_BAD_REQUEST)
+
+
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],subCategory = SubCategory.objects.get(id = item["id"]),evaluation=evaluacion_creada)
+                subcategoriacrear_evaluacion.save()
+                if(subcategoriacrear_evaluacion is None):
+                    return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
+                
+                subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = SubCategory.objects.get(id = item["id"]),evaluation=evaluacion_creada)
+                subcategoriacrear_evaluacion_related.save()
+                if(subcategoriacrear_evaluacion_related is None):
+                    return Response("No se ha creado correctamente el objeto subcategoria related ",status=status.HTTP_400_BAD_REQUEST)
+
+        return Response("Se creó correctamente las evaluaciones ",status=status.HTTP_200_OK)
+
 # class listCompetencias(APIView):
 #     def post(self,request):
 #         category_id = request.data.get("category-id")
