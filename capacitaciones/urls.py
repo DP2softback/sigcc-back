@@ -5,10 +5,10 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath, \
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler, \
-    EvaluacionLPAPIView, RubricaLPAPIView
+    EvaluacionLPAPIView
 
 from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, LearningPathFromTemplateAPIView, ListEmployeesGeneralAPIView, SesionDetailAPIView
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, LearningPathFromTemplateAPIView, ListEmployeesGeneralAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
@@ -62,5 +62,7 @@ urlpatterns = [
     path('learning_path_from_template/<int:pk>/', LearningPathFromTemplateAPIView.as_view()),
     path('learning_path_from_template/', LearningPathFromTemplateAPIView.as_view()),
     path('learning_path/<int:pk>/evaluation/', EvaluacionLPAPIView.as_view()),
+    path('course_lp_employee_advance/<int:curso_id>/<int:learning_path_id>/<int:empleado_id>/', CursoLPEmpleadoIncreaseStateAPIView.as_view()),
+    path('course_lp_employee_advance/', CursoLPEmpleadoIncreaseStateAPIView.as_view())
     #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]

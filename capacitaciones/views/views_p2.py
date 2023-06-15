@@ -521,14 +521,23 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
             }
             for curso_lp in cursos_lp:
                 curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                curso_udemy = CursoUdemy.objects.filter(id=curso_lp.curso_id).first()
                 curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
+                datos_udemy=None
+                foto_curso_empresa=None
+                sesiones=[]
                 if(curso_empresa is not None):
                     #Si es curso Empresa se debe listar las sesiones del curso
+                    tipo_curso='E'
+                    foto_curso_empresa=curso_empresa.url_foto
                     sesiones= Sesion.objects.filter(cursoEmpresa=curso_empresa)
                     sesiones_serializer = SesionSerializer(sesiones, many=True)
                     sesiones= sesiones_serializer.data
-                else:
+                    datos_udemy=None
+                if(curso_udemy is not None):
+                    tipo_curso='U'
                     sesiones=[]
+                    datos_udemy=curso_udemy.course_udemy_detail
                 curso_data = {
                     'id': curso_general.id,
                     'nombre': curso_general.nombre,
@@ -538,6 +547,9 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                     'suma_valoracionees':curso_general.suma_valoracionees,
                     'nro_orden':curso_lp.nro_orden,
                     'cant_intentos_max':curso_lp.cant_intentos_max,
+                    'tipo_curso':tipo_curso,
+                    'datos_udemy':datos_udemy,
+                    'foto_curso_empresa':foto_curso_empresa,
                     #se va a agregar las sesiones si el curso es cursoEmpresa
                     'sesiones':sesiones,
                     # Otros campos del CursoGeneral que deseas incluir
@@ -655,4 +667,39 @@ class LearningPathFromTemplateAPIView(APIView):
 
     def post(self, request):
 
+        return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
+    
+
+class CursoLPEmpleadoIncreaseStateAPIView(APIView):
+    permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request,curso_id,learning_path_id,empleado_id):
+        curso_general = CursoGeneral.objects.filter(id=curso_id).first()
+        learning_path = LearningPath.objects.filter(id=learning_path_id).first()
+        empleado = Employee.objects.filter(id=empleado_id).first()
+        empleado_curso_empres_lp = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general,learning_path=learning_path).first()
+        if empleado_curso_empres_lp is not None:
+            empleado_curso_empres_lp_serializer = EmpleadoXCursoXLearningPathSerializer(empleado_curso_empres_lp)
+            return Response(empleado_curso_empres_lp_serializer.data, status = status.HTTP_200_OK) 
+        else:
+            return Response({"message": "No se encontró información con la data solicitada"}, status=status.HTTP_404_NOT_FOUND)
+    
+    def post(self, request,curso_id,learning_path_id,empleado_id):
+        curso_general = CursoGeneral.objects.filter(id=curso_id).first()
+        learning_path = LearningPath.objects.filter(id=learning_path_id).first()
+        empleado = Employee.objects.filter(id=empleado_id).first()
+
+        empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general, learning_path=learning_path).first()
+        if empleado_curso_learning_path is not None:
+            variable=empleado_curso_learning_path.estado 
+            variable=int(variable)+1
+            if variable==5:
+                variable=4
+            empleado_curso_learning_path.estado = str(variable)
+            empleado_curso_learning_path.save()
+            mensaje= "Se actualizó el estado del curso "+str(curso_id)+" a estado "+ str(variable)
+            return Response({"message": mensaje}, status = status.HTTP_200_OK)
         return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
