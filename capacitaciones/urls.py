@@ -7,7 +7,7 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler
 
 from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, LearningPathFromTemplateAPIView, ListEmployeesGeneralAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
@@ -57,5 +57,7 @@ urlpatterns = [
     path('setup/scheduler/', SetupScheduler.as_view()),
     path('learning_path/empleados/<int:lp>/',EmpleadosXLearningPathAPIView.as_view()),
     path('course_company_employee_advance/',CursoEmpresaEmpleadoProgressPApiView.as_view()),
-    path('course_udemy_employee_advance/',CursoUdemyEmpleadoProgressPApiView.as_view())
+    path('course_udemy_employee_advance/',CursoUdemyEmpleadoProgressPApiView.as_view()),
+    path('learning_path_from_template/<int:pk>/', LearningPathFromTemplateAPIView.as_view()),
+    path('learning_path_from_template/', LearningPathFromTemplateAPIView.as_view()),
 ]
