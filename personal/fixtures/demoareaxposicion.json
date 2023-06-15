@@ -1,1 +1,28 @@
-[{"model": "personal.areaxposicion", "pk": 1, "fields": {"area": 1, "position": 47, "creationDate": "2023-06-15T11:17:22.509Z", "modifiedDate": "2023-06-15T11:17:22.509Z", "isActive": true, "availableQuantity": 0, "unavailableQuantity": 0}}, {"model": "personal.areaxposicion", "pk": 2, "fields": {"area": 1, "position": 48, "creationDate": "2023-06-15T17:46:58.054Z", "modifiedDate": "2023-06-15T17:46:58.054Z", "isActive": true, "availableQuantity": 0, "unavailableQuantity": 0}}]
+[
+  {
+    "model": "personal.areaxposicion",
+    "pk": 1,
+    "fields": {
+      "area": 1,
+      "position": 44,
+      "creationDate": "2023-06-15T11:17:22.509Z",
+      "modifiedDate": "2023-06-15T11:17:22.509Z",
+      "isActive": true,
+      "availableQuantity": 0,
+      "unavailableQuantity": 0
+    }
+  },
+  {
+    "model": "personal.areaxposicion",
+    "pk": 2,
+    "fields": {
+      "area": 1,
+      "position": 45,
+      "creationDate": "2023-06-15T17:46:58.054Z",
+      "modifiedDate": "2023-06-15T17:46:58.054Z",
+      "isActive": true,
+      "availableQuantity": 0,
+      "unavailableQuantity": 0
+    }
+  }
+]
