@@ -523,6 +523,8 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                 curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
                 curso_udemy = CursoUdemy.objects.filter(id=curso_lp.curso_id).first()
                 curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
+                datos_udemy=None
+                sesiones=[]
                 if(curso_empresa is not None):
                     #Si es curso Empresa se debe listar las sesiones del curso
                     tipo_curso='E'
@@ -530,7 +532,7 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                     sesiones_serializer = SesionSerializer(sesiones, many=True)
                     sesiones= sesiones_serializer.data
                     datos_udemy=None
-                else:
+                if(curso_udemy is not None):
                     tipo_curso='U'
                     sesiones=[]
                     datos_udemy=curso_udemy.course_udemy_detail
@@ -662,4 +664,43 @@ class LearningPathFromTemplateAPIView(APIView):
 
     def post(self, request):
 
+        return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
+    
+
+class CursoLPEmpleadoIncreaseStateAPIView(APIView):
+    permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request):
+        curso_id = request.data['curso_id']
+        curso_general = CursoGeneral.objects.filter(id=curso_id).first()
+        learning_path_id = request.data.get('learning_path_id', 0)
+        learning_path = LearningPath.objects.filter(id=learning_path_id).first()
+        empleado_id = request.data['empleado_id']
+        empleado = Employee.objects.filter(id=empleado_id).first()
+        empleado_curso_empres_lp = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general,learning_path=learning_path).first()
+        if empleado_curso_empres_lp is not None:
+            empleado_curso_empres_lp_serializer = EmpleadoXCursoXLearningPathSerializer(empleado_curso_empres_lp)
+            return Response(empleado_curso_empres_lp_serializer.data, status = status.HTTP_200_OK) 
+        else:
+            return Response({"message": "No se encontró información con la data solicitada"}, status=status.HTTP_404_NOT_FOUND)
+    
+    def post(self, request):
+        curso_id = request.data['curso_id']
+        curso_general = CursoGeneral.objects.filter(id=curso_id).first()
+        learning_path_id = request.data.get('learning_path_id', 0)
+        learning_path = LearningPath.objects.filter(id=learning_path_id).first()
+        empleado_id = request.data['empleado_id']
+        empleado = Employee.objects.filter(id=empleado_id).first()
+
+        empleado_curso_learning_path = EmpleadoXCursoXLearningPath.objects.filter(empleado=empleado, curso=curso_general, learning_path=learning_path).first()
+        if empleado_curso_learning_path is not None:
+            variable=empleado_curso_learning_path.estado 
+            variable=int(variable)+1
+            empleado_curso_learning_path.estado = str(variable)
+            empleado_curso_learning_path.save()
+            mensaje= "Se actualizó el estado del curso "+curso_empresa_id+" a estado "+variable
+            return Response({"message": mensaje}, status = status.HTTP_200_OK)
         return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
