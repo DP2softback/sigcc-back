@@ -1,0 +1,80 @@
+﻿[
+    {
+      "fields": {
+        "created": "2023-05-25T18:36:12.354Z",
+        "deleted": null,
+        "description": "Postulante",
+        "modified": "2023-06-08T08:55:26.486Z",
+        "name": "Postulante"
+      },
+      "model": "login.role",
+      "pk": 1
+    },
+    {
+      "fields": {
+        "created": "2023-06-08T08:54:58.339Z",
+        "deleted": null,
+        "description": "Personal de RRHH (recruiter)",
+        "modified": "2023-06-08T08:55:33.922Z",
+        "name": "Personal de RRHH"
+      },
+      "model": "login.role",
+      "pk": 2
+    },
+    {
+      "fields": {
+        "created": "2023-06-08T08:55:16.289Z",
+        "deleted": null,
+        "description": "Admin de RRHH (reportes)",
+        "modified": "2023-06-08T08:55:16.289Z",
+        "name": "Admin de RRHH"
+      },
+      "model": "login.role",
+      "pk": 3
+    },
+    {
+      "fields": {
+        "created": "2023-06-08T08:55:48.940Z",
+        "deleted": null,
+        "description": "Empleado de la empresa",
+        "modified": "2023-06-08T08:55:48.940Z",
+        "name": "Empleado"
+      },
+      "model": "login.role",
+      "pk": 4
+    },
+    {
+      "fields": {
+        "created": "2023-06-08T08:56:03.346Z",
+        "deleted": null,
+        "description": "Jefe de area (trabajadores de su area)",
+        "modified": "2023-06-08T08:56:03.346Z",
+        "name": "Jefe de area"
+      },
+      "model": "login.role",
+      "pk": 5
+    },
+    {
+      "fields": {
+        "created": "2023-06-08T08:56:17.208Z",
+        "deleted": null,
+        "description": "Gerente de RRHH (dashboard de todas las areas)",
+        "modified": "2023-06-08T08:56:17.208Z",
+        "name": "Gerente de RRHH"
+      },
+      "model": "login.role",
+      "pk": 6
+    },
+    {
+      "fields": {
+        "created": "2023-06-08T08:56:30.251Z",
+        "deleted": null,
+        "description": "Gerente (todos los modulos)",
+        "modified": "2023-06-08T08:56:30.251Z",
+        "name": "Gerente"
+      },
+      "model": "login.role",
+      "pk": 7
+    }
+  ]
+  
