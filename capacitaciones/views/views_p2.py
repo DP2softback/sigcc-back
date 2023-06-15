@@ -521,6 +521,14 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
             }
             for curso_lp in cursos_lp:
                 curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
+                if(curso_empresa is not None):
+                    #Si es curso Empresa se debe listar las sesiones del curso
+                    sesiones= Sesion.objects.filter(cursoEmpresa=curso_empresa)
+                    sesiones_serializer = SesionSerializer(sesiones, many=True)
+                    sesiones= sesiones_serializer.data
+                else:
+                    sesiones=[]
                 curso_data = {
                     'id': curso_general.id,
                     'nombre': curso_general.nombre,
@@ -530,6 +538,8 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                     'suma_valoracionees':curso_general.suma_valoracionees,
                     'nro_orden':curso_lp.nro_orden,
                     'cant_intentos_max':curso_lp.cant_intentos_max,
+                    #se va a agregar las sesiones si el curso es cursoEmpresa
+                    'sesiones':sesiones,
                     # Otros campos del CursoGeneral que deseas incluir
                     'datos_extras': []
                 }
