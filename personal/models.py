@@ -8,12 +8,16 @@ class Position(models.Model):
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    name = models.CharField(max_length=40, null=True)
+    name = models.CharField(max_length=100, null=True)
     benefits = models.TextField(blank=True, default='', null=True)
-    responsabilities = models.TextField(blank=True, default='', null=True)
+    # responsabilities = models.TextField(blank=True, default='', null=True)
     description = models.TextField(blank=True, default='', null=True)
     tipoJornada = models.TextField(blank=True, default='', null=True)
     modalidadTrabajo = models.TextField(blank=True, default='', null=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Area(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -24,6 +28,9 @@ class Area(models.Model):
     name = models.CharField(max_length=100)
     supervisorsArea = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, blank=True)
     roles = models.ManyToManyField(Position, through="AreaxPosicion")
+
+    def __str__(self):
+        return self.name
 
 
 class AreaxPosicion(models.Model):
@@ -44,6 +51,10 @@ class Functions(models.Model):
     description = models.TextField(blank=True, default='', null=True)
     isActive = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.description
+
+
 class HiringProcess(models.Model):
     class Meta:
         db_table = 'ProcesoSeleccion'
@@ -54,6 +65,9 @@ class HiringProcess(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
 
 class EmployeeXHiringProcess(models.Model):
     class Meta:
@@ -74,6 +88,9 @@ class StageType(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 class ProcessStage(models.Model):
     class Meta:
         db_table = 'EtapaProceso'
@@ -88,6 +105,9 @@ class ProcessStage(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
 
 class JobOffer(models.Model):
     class Meta:
@@ -104,4 +124,6 @@ class JobOffer(models.Model):
     location = models.TextField(blank=True, default='')
     salary_range = models.TextField(blank=True, default='')
 
+    def __str__(self):
+        return "Oferta para el puesto "+ self.hiring_process.position.name
 
