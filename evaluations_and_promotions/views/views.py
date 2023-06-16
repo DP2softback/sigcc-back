@@ -876,7 +876,7 @@ class RegistrarEvaluacionDesempen(APIView):
             return Response("No se ha creado correctamente el objeto evaluacion",status=status.HTTP_400_BAD_REQUEST)
         
         if(obj_evalty.id==2):
-            evaluacion_creada_related = Evaluation(proyecto =proyectoOb ,evaluator = obj_evaluado, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position, relatedEvaluation = evaluacion_creada,isFinished=False,hasComment=request.data.get("hasComment"))  
+            evaluacion_creada_related = Evaluation(evaluationDate = datetime.now(),finalScore = 0,proyecto =proyectoOb ,evaluator = obj_evaluado, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position, relatedEvaluation = evaluacion_creada,isFinished=False,hasComment=request.data.get("hasComment"))  
             evaluacion_creada_related.save()
             if(evaluacion_creada_related is None):
                 return Response("No se ha creado correctamente el objeto evaluacion relacionada",status=status.HTTP_400_BAD_REQUEST)
