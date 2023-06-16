@@ -868,7 +868,8 @@ class RegistrarEvaluacionDesempen(APIView):
                 scores.append(item2["score"])
 
         finalPuntaje = sum(scores)/len(scores)
-        evaluacion_creada = Evaluation(finalScore = finalPuntaje,proyecto =proyectoOb ,evaluator = obj_evaluador, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position,isFinished = terminado,hasComment=request.data.get("hasComment"))
+        evaluacion_creada = Evaluation(finalScore = finalPuntaje,proyecto =proyectoOb ,evaluator = obj_evaluador, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position,isFinished = terminado,hasComment=request.data.get("hasComment"),
+        evaluationDate = datetime.now())
 
         evaluacion_creada.save()
 
@@ -891,7 +892,7 @@ class RegistrarEvaluacionDesempen(APIView):
                     return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
                 
                 if(obj_evalty.id==2):
-                    subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = SubCategory.objects.get(id = item["id"]),evaluation=evaluacion_creada)
+                    subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = SubCategory.objects.get(id = item["id"]),evaluation=evaluacion_creada,score=0)
                     subcategoriacrear_evaluacion_related.save()
                     if(subcategoriacrear_evaluacion_related is None):
                         return Response("No se ha creado correctamente el objeto subcategoria related ",status=status.HTTP_400_BAD_REQUEST)
