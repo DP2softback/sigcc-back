@@ -891,7 +891,13 @@ class RegistrarEvaluacionDesempen(APIView):
                     return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
                 
                 if(obj_evalty.id==2):
-                    subcategoriacrear_evaluacion_related= EvaluationxSubCategory(score=0,subCategory = SubCategory.objects.get(id = item["id"]),evaluation=evaluacion_creada)
+                    subcat = SubCategory.objects.get(id = item["id"])
+                    eval = EvaluationxSubCategory.objects.get(subCategory=subcat)
+                    if (eval is None or eval[score]==0):
+                        score=0
+                    else:
+                        score =  eval[score]
+                    subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = subcat,evaluation=evaluacion_creada,score=score)
                     subcategoriacrear_evaluacion_related.save()
                     if(subcategoriacrear_evaluacion_related is None):
                         return Response("No se ha creado correctamente el objeto subcategoria related ",status=status.HTTP_400_BAD_REQUEST)
