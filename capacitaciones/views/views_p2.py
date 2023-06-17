@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathSerializer, EmpleadosXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -668,9 +668,54 @@ class LearningPathFromTemplateAPIView(APIView):
         data.append(cursos)  
         return Response(data, status = status.HTTP_200_OK)
 
-    def post(self, request):
+    def post(self, request,pk):
+        datos_lp= request.data[0]
+        datos_cursos=request.data[1]
 
-        return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
+        try:
+            #se crea el lp
+            lp=LearningPath.objects.create(
+                nombre = datos_lp['nombre'],
+                descripcion= datos_lp['descripcion'],
+                url_foto= datos_lp['url_foto'],
+                suma_valoraciones= datos_lp['suma_valoraciones'],
+                cant_valoraciones= datos_lp['cant_valoraciones'],
+                cant_empleados= datos_lp['cant_empleados'],
+                horas_duracion= datos_lp['horas_duracion'],
+                cant_intentos_cursos_max= datos_lp['cant_intentos_cursos_max'],
+                cant_intentos_evaluacion_integral_max= datos_lp['cant_intentos_evaluacion_integral_max'],
+                estado= datos_lp['estado']
+                #Esto se quita porque cada vez que se agregue un curso se le aumenta
+                #cantidad_cursos= datos_lp['cantidad_cursos']
+            )
+            nro_orden=1
+            for curso in datos_cursos:
+                curso_general = CursoGeneral.objects.filter(id=curso['id']).first()
+                curso_udemy = CursoUdemy.objects.filter(id=curso['id']).first()
+                curso_empresa = CursoEmpresa.objects.filter(id=curso['id']).first()
+                
+
+                if curso_general is None:
+                    return Response({"message": "El Curso  no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+                
+                curso_guardar = CursoGeneralXLearningPath(
+                                curso=curso_general,
+                                learning_path=lp,
+                                nro_orden=nro_orden,
+                                cant_intentos_max=curso['cant_intentos_max'],
+                                porcentaje_asistencia_aprobacion= curso.get('porcentaje_asistencia_aprobacion', 100)
+                            )
+                curso_guardar.save()
+                #Para actualizar la cantidad de cursos de un LP
+                cantidad_cursos= lp.cantidad_cursos
+                learning_path = LearningPath.objects.filter(id=lp.id).update(cantidad_cursos= cantidad_cursos+1)
+                nro_orden=nro_orden+1
+            mensaje= "Se creó el learning path con el id "+str(lp.id)
+            return Response({"message": mensaje}, status = status.HTTP_200_OK)
+        except:
+            return Response({"message": "Ups, ocurrió un error:"}, status = status.HTTP_200_OK)
+        
+        
     
 
 class CursoLPEmpleadoIncreaseStateAPIView(APIView):
@@ -706,3 +751,14 @@ class CursoLPEmpleadoIncreaseStateAPIView(APIView):
             mensaje= "Se actualizó el estado del curso "+str(curso_id)+" a estado "+ str(variable)
             return Response({"message": mensaje}, status = status.HTTP_200_OK)
         return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
+    
+
+
+class ListProgressEmployeesForLearningPathAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request,learning_path_id):
+        empleados_learning_path = EmpleadoXLearningPath.objects.filter(learning_path_id= learning_path_id)
+        cursos_emp_serializer = EmpleadosXLearningPathSerializer(empleados_learning_path, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+        
