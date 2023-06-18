@@ -161,8 +161,8 @@ class GetPersonasACargo(APIView):
                 'email': persona.user.email
             })
             
-        for employee in employee_data:
-            employee['CategoryAverages'] = category_averages
+        # for employee in employee_data:
+        #     employee['CategoryAverages'] = category_averages
 
         return Response(employee_data, status=status.HTTP_200_OK)
     
@@ -237,7 +237,7 @@ class GetHistoricoDeEvaluaciones(APIView):
             # Update responseData with category averages
             for data in responseData:
                 data['CategoryAverages'] = category_averages
-                
+
         #Desempeño
         elif evaType.name.casefold() == "Evaluación de Desempeño".casefold():
             serializedData = PerformanceEvaluationSerializer(evaluations,many=True)
