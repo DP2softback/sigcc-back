@@ -875,9 +875,8 @@ class RegistrarEvaluacionDesempen(APIView):
         evaluado = request.data.get("evaluatedId")
         proyectoOb = request.data.get("associatedProject")
         terminado = request.data.get("isFinished")
-        
-
         evaltype = request.data.get("evaluationType")
+
 
         if (evaltype.casefold() != "Evaluación Continua".casefold() and evaltype.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
@@ -911,24 +910,68 @@ class RegistrarEvaluacionDesempen(APIView):
         for item in request.data.get("categories"):
             for item2 in item["subcategories"]:
                 
-                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],subCategory = SubCategory.objects.get(id = item["id"]),evaluation=evaluacion_creada)
+                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],subCategory = SubCategory.objects.get(id = item2["id"]),evaluation=evaluacion_creada)
                 subcategoriacrear_evaluacion.save()
                 if(subcategoriacrear_evaluacion is None):
                     return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
                 
                 if(obj_evalty.id==2):
-                    subcat = SubCategory.objects.get(id = item["id"])
-                    eval = EvaluationxSubCategory.objects.get(subCategory=subcat)
-                    if (eval is None or eval[score]==0):
-                        score=0
-                    else:
-                        score =  eval[score]
-                    subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = subcat,evaluation=evaluacion_creada,score=score)
+                    subcat = SubCategory.objects.get(id = item2["id"])
+                    subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = subcat,evaluation=evaluacion_creada_related,score=0)
                     subcategoriacrear_evaluacion_related.save()
                     if(subcategoriacrear_evaluacion_related is None):
                         return Response("No se ha creado correctamente el objeto subcategoria related ",status=status.HTTP_400_BAD_REQUEST)
 
         return Response("Se creó correctamente las evaluaciones ",status=status.HTTP_200_OK)
+    
+    def put(self,request):
+        evaluationId = request.data.get("evaluationId")
+
+
+        try:
+            obj_evaluation = Evaluation.objects.get(id=evaluationId)
+        except Evaluation.DoesNotExist:
+            return Response("No existe la evaluación de desempeño",status=status.HTTP_400_BAD_REQUEST)
+        
+        
+    
+        scores=[]
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                scores.append(item2["score"])
+
+        finalPuntaje = sum(scores)/len(scores)
+        obj_evaluation.finalScore = finalPuntaje
+        obj_evaluation.evaluationDate = datetime.now()
+        
+
+
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                
+                subcategoriaactualizar_evaluacion = EvaluationxSubCategory.objects.get(subCategory__id =  item2["id"],evaluation__id=evaluationId)
+
+                if(subcategoriaactualizar_evaluacion is None):
+                    return Response("No se ha ubicado la subcategoria para esta evaluacion",status=status.HTTP_400_BAD_REQUEST)
+            
+                subcategoriaactualizar_evaluacion.score = item2["score"]
+                subcategoriaactualizar_evaluacion.save()
+
+        obj_evaluation.isFinished = True
+
+        obj_evaluation.save()
+
+
+        print(obj_evaluation.relatedEvaluation.id)
+        Evaluation.objects.filter(id=obj_evaluation.relatedEvaluation.id).update(isFinished=True)
+
+ 
+
+        
+        
+                
+                
+        return Response("Se envió correcatamente la evaluación de desempeño",status=status.HTTP_200_OK)
     
 class ActualizarCategorias(APIView):
     def post(self, request):
@@ -957,6 +1000,33 @@ class ActualizarCategorias(APIView):
     
         
         return Response("Se ha actualizado correctamente la categoria",status=status.HTTP_200_OK)
+    
+    def delete(self, request):
+        idCategoria = request.data.get("idCategoria")
+        idSubCategoria = request.data.get("idSubCategoria")
+
+        if(idCategoria is None):
+            return Response("No se ha especificado el idCategoria",status=status.HTTP_400_BAD_REQUEST)
+        if(idSubCategoria is None):
+            return Response("No se ha especificado el idSubCategoria",status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            obj_subcategoria = SubCategory.objects.get(id=idSubCategoria,category__id=idCategoria)
+            
+        except SubCategory.DoesNotExist:
+            return Response("La subCategory no existe", status=status.HTTP_400_BAD_REQUEST)
+        
+        obj_categorias = SubCategory.objects.filter(name=obj_subcategoria.name)
+
+        if obj_categorias.exists():
+            obj_categorias.update(isActive=False)
+        
+
+        
+
+    
+        
+        return Response("Se ha eliminado la subcategoria correctamente de la categoria",status=status.HTTP_200_OK)
 
 # class listCompetencias(APIView):
 #     def post(self,request):
