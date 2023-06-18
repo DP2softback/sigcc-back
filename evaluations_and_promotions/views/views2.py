@@ -8,6 +8,7 @@ from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from datetime import datetime 
+from collections import defaultdict
 import pytz
 
 class EvaluationCreateAPIView(APIView):
@@ -76,9 +77,16 @@ class getEvaluation(APIView):
         try:
             evaluation = get_object_or_404(Evaluation, id=evaluation_id)
 
-            evaluationxsubcategories = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+            subcategories = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+            category_subcategories = defaultdict(list)
+            for subcategory in subcategories:
+                category = subcategory.subCategory.category
+                category_subcategories[category].append({
+                    'id': subcategory.subCategory.id,
+                    'name': subcategory.subCategory.name,
+                    'score': subcategory.score
+                })
 
-            categories = evaluationxsubcategories.values('subCategory__category_id', 'subCategory__category__name').distinct()
 
             request_data = {
                 'evaluatorId': evaluation.evaluator_id,
@@ -87,15 +95,13 @@ class getEvaluation(APIView):
                 'evaluationType': evaluation.evaluationType.name,
                 'isFinished': evaluation.isFinished,
                 'additionalComments': evaluation.generalComment,
-                'categoryId': [category['subCategory__category_id'] for category in categories],
-                'categoryName': [category['subCategory__category__name'] for category in categories],
-                'subcategories': [
+                'categories': [
                     {
-                        'id': evaluationxsubcategory.subCategory.id,
-                        'name': evaluationxsubcategory.subCategory.name,
-                        'score': evaluationxsubcategory.score
+                        'id': category.id,
+                        'name': category.name,
+                        'subcategories': category_subcategories[category]
                     }
-                    for evaluationxsubcategory in evaluationxsubcategories
+                    for category in category_subcategories.keys()
                 ]
             }
 
