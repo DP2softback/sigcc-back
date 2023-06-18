@@ -98,7 +98,7 @@ class ContinuousEvaluationIntermediateSerializer(serializers.ModelSerializer):
 class PerformanceEvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model= Evaluation
-        fields=('evaluationDate','finalScore')
+        fields=('id','evaluationDate','finalScore')
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
