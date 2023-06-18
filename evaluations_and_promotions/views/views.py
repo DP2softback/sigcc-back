@@ -716,6 +716,28 @@ class PlantillasCrearAPI(APIView):
         
         return Response("Se creó correctamente la plantilla ",status=status.HTTP_200_OK)
     
+    def delete(self,request):
+        idPlantilla = request.data.get("idPlantilla")
+        if( idPlantilla is None):
+            return Response("No se ha dado el idPlantilla",status=status.HTTP_400_BAD_REQUEST)
+            
+        try:
+            obj_plantilla = Plantilla.objects.get(id=idPlantilla)
+            obj_plantilla.isActive = False
+            obj_plantilla.save()
+        except Plantilla.DoesNotExist:
+            return Response("La plantilla no existe", status=status.HTTP_400_BAD_REQUEST)
+
+    
+        obj_PlantillaxSubCategoria = PlantillaxSubCategoria.objects.filter(plantilla=obj_plantilla)
+
+        if obj_PlantillaxSubCategoria.exists():
+            obj_PlantillaxSubCategoria.update(isActive=False)
+                
+
+        
+        return Response("Se ha eliminado correctamente la plantilla",status=status.HTTP_200_OK)
+    
 
 class PlantillaPorTipo(APIView):
     def post(self,request):
@@ -766,10 +788,14 @@ class EvaluationLineChartReporte(APIView):
         fecha_final=request.data.get("fecha_final")
 
 
+
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter(evaluation__area__id = area_id, evaluation__evaluationType__name=evaluation_type, subCategory__category__id = category_id, evaluation__isActive = True)
+        Datos = EvaluationxSubCategory.objects.filter( evaluation__evaluationType__name=evaluation_type, subCategory__category__id = category_id, evaluation__isActive = True)
+        if(area_id is not None):
+            Datos.filter(evaluation__area__id = area_id)
+        
 
         if fecha_inicio:
             try:
@@ -903,6 +929,34 @@ class RegistrarEvaluacionDesempen(APIView):
                         return Response("No se ha creado correctamente el objeto subcategoria related ",status=status.HTTP_400_BAD_REQUEST)
 
         return Response("Se creó correctamente las evaluaciones ",status=status.HTTP_200_OK)
+    
+class ActualizarCategorias(APIView):
+    def post(self, request):
+
+        idCategoria = request.data.get("idCategoria")
+        nameCategoria = request.data.get("nameCategoria")
+
+        if(idCategoria is None):
+            return Response("No se ha especificado el idCategoria",status=status.HTTP_400_BAD_REQUEST)
+        if(nameCategoria is None):
+            return Response("No se ha especificado el nameCategoria",status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            obj_categoria = Category.objects.get(id=idCategoria)
+        except Category.DoesNotExist:
+            return Response("La categoria no existe", status=status.HTTP_400_BAD_REQUEST)
+        
+        obj_categorias = Category.objects.filter(name=obj_categoria.name)
+
+        if obj_categorias.exists():
+            obj_categorias.update(name=nameCategoria)
+        
+
+        obj_categoria_serializado = CategorySerializerRead(obj_categorias,fields=('id','name'),many=True)
+
+    
+        
+        return Response("Se ha actualizado correctamente la categoria",status=status.HTTP_200_OK)
 
 # class listCompetencias(APIView):
 #     def post(self,request):

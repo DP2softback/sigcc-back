@@ -18,6 +18,7 @@ urlpatterns = [
 
     path('ListAllCategorias',ListAllCategories.as_view()),
     path('CrearEvaluacionDese',RegistrarEvaluacionDesempen.as_view()),
+    path('ActualizarCategoria',ActualizarCategorias.as_view()),
     
     #Plantillas
     path('Plantilla', PlantillasAPI.as_view()),
