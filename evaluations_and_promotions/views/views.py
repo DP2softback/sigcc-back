@@ -200,6 +200,7 @@ class GetHistoricoDeEvaluaciones(APIView):
 
         evaluations = query.all()
         responseData = []
+
         #Continua
         if evaType.name.casefold() == "Evaluación Continua".casefold():
             category_scores = {}
@@ -236,6 +237,7 @@ class GetHistoricoDeEvaluaciones(APIView):
             # Update responseData with category averages
             for data in responseData:
                 data['CategoryAverages'] = category_averages
+                
         #Desempeño
         elif evaType.name.casefold() == "Evaluación de Desempeño".casefold():
             serializedData = PerformanceEvaluationSerializer(evaluations,many=True)
@@ -864,7 +866,11 @@ class ListAllCategories(APIView):
 
 class ListAllCategories(APIView):
     def post(self,request):
-        Categorias = Category.objects.filter(isActive = True)
+        evalType = request.data.get("evalType")
+        if(evalType is None):
+            return Response("No se ha especificado el evalType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Categorias = Category.objects.filter(isActive = True,evaluationType__name=evalType)
         Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
         return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
 
