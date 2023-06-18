@@ -17,7 +17,7 @@ from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
 from django.shortcuts import get_object_or_404
-from django.db.models import F
+from django.db.models import F, Q
 from django.db.models.functions import ExtractYear, ExtractMonth
 from django.db.models.aggregates import Sum,Count   
 from django.db.models import F, ExpressionWrapper, FloatField
@@ -87,10 +87,17 @@ class GetPersonasACargo(APIView):
         evaluation_type = request.data.get("evaluationType")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")
-
+        nombre = request.data.get("nombre")
         validate_employee_and_evaluation(supervisor_id, evaluation_type)
-
+        
         personas = Employee.objects.filter(supervisor=supervisor_id)
+
+        if nombre:
+            personas = personas.filter(
+                Q(user__first_name__icontains=nombre) |
+                Q(user__last_name__icontains=nombre)  |
+                Q(user__username__icontains=nombre)
+            )
         evaluation_type_obj = get_object_or_404(EvaluationType, name=evaluation_type)
         evaluations = Evaluation.objects.filter(evaluated__in=personas, evaluationType=evaluation_type_obj, isActive=True, isFinished=True)
         employee_data = []
@@ -109,7 +116,7 @@ class GetPersonasACargo(APIView):
                 evaluations = evaluations.filter(evaluationDate__lte=fecha_final)
             except ValueError:
                 return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
-
+        
         category_scores = defaultdict(list)
         category_averages = {}
 
@@ -280,7 +287,7 @@ class EvaluationLineChart(APIView):
         evaluation_type = request.data.get("evaluationType")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")
-
+        nombre = request.data.get("nombre")
 
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
@@ -300,7 +307,13 @@ class EvaluationLineChart(APIView):
                 Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
             except ValueError:
                 return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
-        
+        if nombre:
+            Datos = Datos.filter(
+                Q(evaluation__evaluated__user__first_name__icontains=nombre)|
+                Q(evaluation__evaluated__user__last_name__icontains=nombre)|
+                Q(evaluation__evaluated__user__username__icontains=nombre)
+                )
+
         Data_serialiazada = EvaluationxSubCategoryRead(Datos,many=True,fields=('id','score','evaluation','subCategory'))
         
         
