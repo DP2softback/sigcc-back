@@ -1,3 +1,4 @@
+from evaluations_and_promotions.serializers import SubCategorySerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -7,6 +8,7 @@ from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from datetime import datetime 
+import pytz
 
 class EvaluationCreateAPIView(APIView):
     @transaction.atomic
@@ -102,3 +104,41 @@ class getEvaluation(APIView):
             return Response({'message': 'Evaluation not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'message': 'An error occurred.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class getCategory(APIView):
+    def post(self,request, categoryId):
+        subcategories = SubCategory.objects.filter(category=categoryId)
+        data = []
+        for subcategory in subcategories:
+            data.append({
+                'idSubcategory': subcategory.id,
+                'nameSubCategory': subcategory.name,
+                'isActive': subcategory.isActive,
+                'idCompetencia': '', #subcategory.category.id, 
+                'nameCompetencia': '' #subcategory.category.name  
+            })
+
+        return Response(data, status=status.HTTP_200_OK)
+
+class addSubcategory(APIView):
+    @transaction.atomic
+    def post(self,request, categoryId):
+        data = request.data
+        category = get_object_or_404(Category, id=categoryId)
+        subcategories = data.get('Subcategorias', [])
+        peru_tz = pytz.timezone('America/Lima')
+        subcats =[]
+        for subcategory_data in subcategories:
+            subcategory_data['category'] = category
+            subcat = SubCategory(
+                creationDate = datetime.now(peru_tz),
+                code = subcategory_data['code'],
+                name = subcategory_data['name'],
+                description = subcategory_data['description'], 
+                category = category,
+                #competence =  subcategory_data['competence']
+            )
+            subcats.append(subcat)
+        SubCategory.objects.bulk_create(subcats)
+        return Response({'message': 'Subcategories added successfully.'}, status=status.HTTP_201_CREATED)
+
