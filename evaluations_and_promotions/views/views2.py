@@ -134,17 +134,20 @@ class addSubcategory(APIView):
         subcategories = data.get('Subcategorias', [])
         peru_tz = pytz.timezone('America/Lima')
         subcats =[]
+        count =  SubCategory.objects.filter(category = category).count()
         for subcategory_data in subcategories:
+            count += 1
             subcategory_data['category'] = category
             subcat = SubCategory(
                 creationDate = datetime.now(peru_tz),
-                code = subcategory_data['code'],
+                code = category.code+str(count),
                 name = subcategory_data['name'],
                 description = subcategory_data['description'], 
                 category = category,
                 #competence =  subcategory_data['competence']
             )
             subcats.append(subcat)
+            
         SubCategory.objects.bulk_create(subcats)
         return Response({'message': 'Subcategories added successfully.'}, status=status.HTTP_201_CREATED)
 
