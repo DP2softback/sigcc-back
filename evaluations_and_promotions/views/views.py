@@ -1046,6 +1046,97 @@ class ActualizarCategorias(APIView):
     
         
         return Response("Se ha eliminado la subcategoria correctamente de la categoria",status=status.HTTP_200_OK)
+    
+class EvaluationLineChartReporte2(APIView):
+    def post(self,request):
+
+        area_id = request.data.get("area-id")
+        category_id = request.data.get("category-id")
+        evaluation_type = request.data.get("evaluationType")
+        fecha_inicio = request.data.get("fecha_inicio")
+        fecha_final=request.data.get("fecha_final")
+
+
+
+        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True)
+
+        print(Datos.count())
+
+        if(category_id is not None):
+            print("Sí tiene categoria")
+            Datos = Datos.filter(subCategory__category__id= category_id)
+            print(Datos.count())
+
+        if(area_id is not None):
+            print("Sí tiene area")
+            Datos = Datos.filter(evaluation__area__id = area_id)
+            print(Datos.count())
+
+        
+
+        if fecha_inicio:
+            try:
+                fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__gte=fecha_inicio)
+                print(Datos.count())
+            except ValueError:
+                return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
+        
+        if fecha_final:
+            try:
+                fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
+                print(Datos.count())
+            except ValueError:
+                return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
+        
+        Data_serialiazada = EvaluationxSubCategoryRead(Datos,many=True,fields=('id','score','evaluation','subCategory'))
+        
+        
+        data = Data_serialiazada.data
+        
+        # Transform data into the desired format
+        result = {}
+        for item in data:
+            evaluation_date = item['evaluation']['evaluationDate']
+            year = evaluation_date.split('-')[0]
+            month = evaluation_date.split('-')[1]
+
+            category_name = item['subCategory']['category']['name']
+            score_average = item['score']
+
+            if year not in result:
+                result[year] = {}
+
+            if month not in result[year]:
+                result[year][month] = {}
+
+            if category_name not in result[year][month]:
+                result[year][month][category_name] = []
+
+            result[year][month][category_name].append(score_average)
+
+        # Convert the result into the desired format
+        transformed_data = []
+        for year, year_data in result.items():
+            year_entry = {'year': year, 'month': []}
+            for month, month_data in year_data.items():
+                month_entry = {'month': month, 'category_scores': []}
+                for category_name, scores in month_data.items():
+                    average_score = sum(scores) / len(scores)
+                    category_entry = {'CategoryName': category_name, 'ScoreAverage': average_score}
+                    month_entry['category_scores'].append(category_entry)
+                year_entry['month'].append(month_entry)
+            transformed_data.append(year_entry)
+
+        # Convert the transformed data into JSON format
+        transformed_json = json.dumps(transformed_data, indent=4)
+
+
+        return Response(transformed_data,status=status.HTTP_200_OK)
 
 # class listCompetencias(APIView):
 #     def post(self,request):
