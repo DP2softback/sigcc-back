@@ -1063,17 +1063,17 @@ class EvaluationLineChartReporte2(APIView):
         
         Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True)
 
-        print(Datos.count())
+        #print(Datos.count())
 
         if(category_id is not None):
-            print("Sí tiene categoria")
+            #print("Sí tiene categoria")
             Datos = Datos.filter(subCategory__category__id= category_id)
-            print(Datos.count())
+            #print(Datos.count())
 
         if(area_id is not None):
-            print("Sí tiene area")
+            #print("Sí tiene area")
             Datos = Datos.filter(evaluation__area__id = area_id)
-            print(Datos.count())
+            #print(Datos.count())
 
         
 
@@ -1081,7 +1081,7 @@ class EvaluationLineChartReporte2(APIView):
             try:
                 fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
                 Datos = Datos.filter(evaluation__evaluationDate__gte=fecha_inicio)
-                print(Datos.count())
+                #print(Datos.count())
             except ValueError:
                 return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
         
@@ -1089,7 +1089,7 @@ class EvaluationLineChartReporte2(APIView):
             try:
                 fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
                 Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
-                print(Datos.count())
+                #print(Datos.count())
             except ValueError:
                 return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
         
