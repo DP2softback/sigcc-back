@@ -12,7 +12,8 @@ from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSes
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
-    EmpleadosXLearningPathAPIView, LearningPathEvaluadoXEmpleadoAPIView
+    EmpleadosXLearningPathAPIView, LearningPathEvaluadoXEmpleadoAPIView, ValorarCursoAPIView, \
+     ValoracionLearningPathAPIView
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
@@ -64,6 +65,8 @@ urlpatterns = [
     path('course_lp_employee_advance/<int:curso_id>/<int:learning_path_id>/<int:empleado_id>/', CursoLPEmpleadoIncreaseStateAPIView.as_view()),
     path('course_lp_employee_advance/', CursoLPEmpleadoIncreaseStateAPIView.as_view()),
     path('learning_path/<int:lp>/empleado/<int:emp>/evaluacion/', LearningPathEvaluadoXEmpleadoAPIView.as_view()),
-    path('learning_path/empleados_progress/<int:learning_path_id>/', ListProgressEmployeesForLearningPathAPIView.as_view())
+    path('learning_path/empleados_progress/<int:learning_path_id>/', ListProgressEmployeesForLearningPathAPIView.as_view()),
+    path('valorar_curso/', ValorarCursoAPIView.as_view()),
+    path('valorar_learning_path/<int:id_lp>/', ValoracionLearningPathAPIView.as_view())
     #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]

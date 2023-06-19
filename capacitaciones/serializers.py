@@ -343,7 +343,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['second_name', 'maiden_name', 'email']
+        fields = ['first_name', 'last_name', 'email']
 
 
 class EmpleadoSerializer(serializers.ModelSerializer):

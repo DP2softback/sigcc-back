@@ -170,7 +170,8 @@ class EmpleadoXLearningPath(models.Model):
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
     porcentaje_progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
-    apreciacion = models.TextField(null=True)
+    valoracion = models.IntegerField(default=0)
+    comentario_valoracion = models.TextField(null=True)
     fecha_asignacion = models.DateTimeField(null=True, default=timezone.now)
     fecha_limite = models.DateTimeField(null=True)
     fecha_completado = models.DateTimeField(null=True)
@@ -196,6 +197,7 @@ class EmpleadoXCurso(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     valoracion = models.IntegerField(default=0)
+    comentario = models.CharField(max_length=1000, null=True)
 
     class Meta:
         db_table = 'EmpleadoXCurso'
@@ -209,7 +211,6 @@ class EmpleadoXCursoEmpresa(models.Model):
     fechaAsignacion= models.DateTimeField(null=True)
     fechaLimite= models.DateTimeField(null=True)
     fechaCompletado= models.DateTimeField(null=True)
-    apreciacion= models.CharField(max_length=1000,null=True)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
     class Meta:

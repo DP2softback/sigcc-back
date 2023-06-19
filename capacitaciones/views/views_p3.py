@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral, \
-    DocumentoExamen, DocumentoRespuesta
+    DocumentoExamen, DocumentoRespuesta, EmpleadoXCurso
 from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
     LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
@@ -292,4 +292,53 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
+class ValorarCursoAPIView(APIView):
 
+    def post(self, request):
+        id_curso = request.data.get('curso', None)
+        id_empleado = request.data.get('empleado', None)
+        valoracion = request.data.get('valoracion', None)
+        comentario = request.data.get('comentario', None)
+
+        curso_asignado = EmpleadoXCurso.objects.filter(Q(curso=id_curso) & Q(empleado=id_empleado)).first()
+        empleado = Employee.objects.filter(id=id_empleado).first()
+        curso = CursoGeneral.objects.filter(id=id_curso).first()
+
+        if curso_asignado:
+            EmpleadoXCurso.objects.create( curso = curso, empleado=empleado, valoracion=valoracion, comentario=comentario)
+            return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+
+        return Response({'msg': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ValoracionLearningPathAPIView(APIView):
+
+    def post(self, request):
+        id_lp = request.data.get('learning_path', None)
+        id_empleado = request.data.get('empleado', None)
+        valoracion = request.data.get('valoracion', None)
+        comentario = request.data.get('comentario', None)
+
+        lp_asignado = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_empleado)).first()
+        empleado = Employee.objects.filter(id=id_empleado).first()
+        lp = LearningPath.objects.filter(id=id_lp).first()
+
+        if lp_asignado:
+            EmpleadoXLearningPath.objects.create( learning_path = lp, empleado=empleado, valoracion=valoracion, comentario_valoracion=comentario)
+            return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+
+        return Response({'msg': 'No se encontro el learning path asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self,request,id_lp):
+        lp = LearningPath.objects.filter(id=id_lp).values('nombre','descripcion','suma_valoraciones','cant_valoraciones','cant_empleados').first()
+
+        if lp is None:
+            return Response({"message": "Learning Path no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = {}
+        data["datos_learning_path"] = lp
+        valoraciones = EmpleadoXLearningPath.objects.filter(learning_path=id_lp).values('valoracion','comentario_valoracion')
+
+        data["valoraciones"] = valoraciones
+
+        return Response(data, status=status.HTTP_200_OK)
