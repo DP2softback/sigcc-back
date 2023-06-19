@@ -1054,7 +1054,7 @@ class EvaluationLineChartReporte2(APIView):
         category_id = request.data.get("category-id")
         evaluation_type = request.data.get("evaluationType")
         fecha_inicio = request.data.get("fecha_inicio")
-        fecha_final=request.data.get("fecha_final")
+        fecha_final=request.data.get("fecha_fin")
 
 
 
