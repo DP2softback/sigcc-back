@@ -1056,32 +1056,15 @@ class EvaluationLineChartReporte2(APIView):
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_fin")
 
-
-
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
         Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True)
 
-        #print(Datos.count())
-
-        if(category_id is not None):
-            #print("Sí tiene categoria")
-            Datos = Datos.filter(subCategory__category__id= category_id)
-            #print(Datos.count())
-
-        if(area_id is not None):
-            #print("Sí tiene area")
-            Datos = Datos.filter(evaluation__area__id = area_id)
-            #print(Datos.count())
-
-        
-
         if fecha_inicio:
             try:
                 fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
                 Datos = Datos.filter(evaluation__evaluationDate__gte=fecha_inicio)
-                #print(Datos.count())
             except ValueError:
                 return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
         
@@ -1089,55 +1072,310 @@ class EvaluationLineChartReporte2(APIView):
             try:
                 fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
                 Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
-                #print(Datos.count())
             except ValueError:
                 return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
-        
-        Data_serialiazada = EvaluationxSubCategoryRead(Datos,many=True,fields=('id','score','evaluation','subCategory'))
+
+        if(category_id is not None):
+            Datos = Datos.filter(subCategory__category__id= category_id)
+            
+        if(area_id is not None):
+            Datos = Datos.filter(evaluation__area__id = area_id)
+
+        Data_serialiazada = EvaluationxSubCategoryRead2(Datos,many=True,fields=('id','score','evaluation','subCategory'))
         
         
         data = Data_serialiazada.data
+
         
-        # Transform data into the desired format
-        result = {}
-        for item in data:
-            evaluation_date = item['evaluation']['evaluationDate']
-            year = evaluation_date.split('-')[0]
-            month = evaluation_date.split('-')[1]
+        
+        # 
 
-            category_name = item['subCategory']['category']['name']
-            score_average = item['score']
+        # elif(category_id is not None and area_id is  None):
 
-            if year not in result:
-                result[year] = {}
-
-            if month not in result[year]:
-                result[year][month] = {}
-
-            if category_name not in result[year][month]:
-                result[year][month][category_name] = []
-
-            result[year][month][category_name].append(score_average)
-
-        # Convert the result into the desired format
-        transformed_data = []
-        for year, year_data in result.items():
-            year_entry = {'year': year, 'month': []}
-            for month, month_data in year_data.items():
-                month_entry = {'month': month, 'category_scores': []}
-                for category_name, scores in month_data.items():
-                    average_score = sum(scores) / len(scores)
-                    category_entry = {'CategoryName': category_name, 'ScoreAverage': average_score}
-                    month_entry['category_scores'].append(category_entry)
-                year_entry['month'].append(month_entry)
-            transformed_data.append(year_entry)
-
-        # Convert the transformed data into JSON format
-        transformed_json = json.dumps(transformed_data, indent=4)
+        
+        
 
 
-        return Response(transformed_data,status=status.HTTP_200_OK)
+        # return Response(transformed_data,status=status.HTTP_200_OK)
+        json1 = Data_serialiazada.data
+        json2=[]
+        json_data=json1
+        result = []
 
+        if(category_id is  None and area_id is  None):
+            for item in json1:
+                evaluation_date = item["evaluation"]["evaluationDate"]
+                date_obj = datetime.fromisoformat(evaluation_date)
+                year = date_obj.strftime("%Y")
+                month = date_obj.strftime("%m")
+                area_name = item["evaluation"]["area"]["name"]
+                score = item["score"]
+
+                existing_year = next((x for x in json2 if x["Year"] == year), None)
+                if existing_year:
+                    existing_month = next((m for m in existing_year["Month"] if m["Month"] == month), None)
+                    if existing_month:
+                        existing_area = next((a for a in existing_month["category_scores"] if a["Area"] == area_name), None)
+                        if existing_area:
+                            existing_area["ScoreAverage"].append(score)
+                        else:
+                            existing_month["category_scores"].append({"Area": area_name, "ScoreAverage": [score]})
+                    else:
+                        existing_year["Month"].append({"Month": month, "category_scores": [{"Area": area_name, "ScoreAverage": [score]}]})
+                else:
+                    json2.append({
+                        "Year": year,
+                        "Month": [
+                            {
+                                "Month": month,
+                                "category_scores": [
+                                    {"Area": area_name, "ScoreAverage": [score]}
+                                ]
+                            }
+                        ]
+                    })
+
+            # Calculate the average score for each month per area
+            for year in json2:
+                for month in year["Month"]:
+                    for area in month["category_scores"]:
+                        scores = area["ScoreAverage"]
+                        score_average = sum(scores) / len(scores)
+                        area["ScoreAverage"] = score_average
+            return Response(json2,status=status.HTTP_200_OK)
+        
+        
+
+        elif(category_id is not None and area_id is None):
+            result = []
+            for data in json_data:
+                area_name = data["evaluation"]["area"]["name"]
+                evaluation_date = datetime.fromisoformat(data["evaluation"]["evaluationDate"])
+                year = str(evaluation_date.year)
+                month = str(evaluation_date.month).zfill(2)
+
+                # Check if the area and year already exist in the result dictionary
+                area_exists = False
+                for area_data in result:
+                    if area_data["Area"] == area_name and area_data["Year"] == year:
+                        area_exists = True
+                        month_exists = False
+
+                        # Check if the month already exists in the area
+                        for month_data in area_data["Month"]:
+                            if month_data["month"] == month:
+                                month_exists = True
+
+                                # Check if the subcategory already exists in the month
+                                subcategory_exists = False
+                                for subcategory_score in month_data["subCategory_scores"]:
+                                    if subcategory_score["SubCategory"] == data["subCategory"]["name"]:
+                                        subcategory_exists = True
+                                        subcategory_score["ScoreAverage"] = (
+                                            subcategory_score["ScoreAverage"]
+                                            + data["score"]
+                                        ) / 2
+                                        break
+
+                                # If the subcategory doesn't exist, add it to the month
+                                if not subcategory_exists:
+                                    month_data["subCategory_scores"].append(
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    )
+                                break
+
+                        # If the month doesn't exist, add it to the area
+                        if not month_exists:
+                            area_data["Month"].append(
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            )
+                        break
+
+                # If the area doesn't exist, create a new entry
+                if not area_exists:
+                    result.append(
+                        {
+                            "Area": area_name,
+                            "Year": year,
+                            "Month": [
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            ],
+                        }
+                    )
+
+
+                
+            return Response(result,status=status.HTTP_200_OK)
+        elif(category_id is  None and area_id is not None):    
+            for data in json_data:
+                category_name = data["subCategory"]["category"]["name"]
+                evaluation_date = datetime.fromisoformat(data["evaluation"]["evaluationDate"])
+                year = str(evaluation_date.year)
+                month = str(evaluation_date.month).zfill(2)
+
+                # Check if the category and year already exist in the result dictionary
+                category_exists = False
+                for category_data in result:
+                    if category_data["Category"] == category_name and category_data["Year"] == year:
+                        category_exists = True
+                        month_exists = False
+
+                        # Check if the month already exists in the category
+                        for month_data in category_data["Month"]:
+                            if month_data["month"] == month:
+                                month_exists = True
+
+                                # Check if the subcategory already exists in the month
+                                subcategory_exists = False
+                                for subcategory_score in month_data["subCategory_scores"]:
+                                    if subcategory_score["SubCategory"] == data["subCategory"]["name"]:
+                                        subcategory_exists = True
+                                        subcategory_score["ScoreAverage"] = (
+                                            subcategory_score["ScoreAverage"]
+                                            + data["score"]
+                                        ) / 2
+                                        break
+
+                                # If the subcategory doesn't exist, add it to the month
+                                if not subcategory_exists:
+                                    month_data["subCategory_scores"].append(
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    )
+                                break
+
+                        # If the month doesn't exist, add it to the category
+                        if not month_exists:
+                            category_data["Month"].append(
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            )
+                        break
+
+                # If the category doesn't exist, create a new entry
+                if not category_exists:
+                    result.append(
+                        {
+                            "Category": category_name,
+                            "Year": year,
+                            "Month": [
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            ],
+                        }
+                    )
+
+            return Response(result,status=status.HTTP_200_OK)
+        elif(category_id is not None and area_id is not None):
+            for data in json_data:
+                evaluation_date = datetime.fromisoformat(data["evaluation"]["evaluationDate"])
+                year = str(evaluation_date.year)
+                month = str(evaluation_date.month).zfill(2)
+
+                # Check if the year already exists in the result dictionary
+                year_exists = False
+                for year_data in result:
+                    if year_data["Year"] == year:
+                        year_exists = True
+                        month_exists = False
+
+                        # Check if the month already exists in the year
+                        for month_data in year_data["Month"]:
+                            if month_data["month"] == month:
+                                month_exists = True
+
+                                # Check if the subcategory already exists in the month
+                                subcategory_exists = False
+                                for subcategory_score in month_data["subCategory_scores"]:
+                                    if subcategory_score["SubCategory"] == data["subCategory"]["name"]:
+                                        subcategory_exists = True
+                                        subcategory_score["ScoreAverage"] = (
+                                            subcategory_score["ScoreAverage"]
+                                            + data["score"]
+                                        ) / 2
+                                        break
+
+                                # If the subcategory doesn't exist, add it to the month
+                                if not subcategory_exists:
+                                    month_data["subCategory_scores"].append(
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    )
+                                break
+
+                        # If the month doesn't exist, add it to the year
+                        if not month_exists:
+                            year_data["Month"].append(
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            )
+                        break
+
+                # If the year doesn't exist, create a new entry
+                if not year_exists:
+                    result.append(
+                        {
+                            "Year": year,
+                            "Month": [
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            ],
+                        }
+                    )
+            return Response(result,status=status.HTTP_200_OK)
+        else:
+            return Response("No se ha brindado correctamente los parametros",status=status.HTTP_400_BAD_REQUEST)
 # class listCompetencias(APIView):
 #     def post(self,request):
 #         category_id = request.data.get("category-id")

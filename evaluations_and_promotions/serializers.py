@@ -140,6 +140,14 @@ class CategorySerializerRead(DynamicFieldsModelSerializer):
         model = Category
         fields = '__all__'   
 
+class AreaSerializerRead(DynamicFieldsModelSerializer):
+    
+    
+
+    class Meta:
+        model = Area
+        fields = '__all__'   
+
 class SubCategorySerializerRead(DynamicFieldsModelSerializer):
     category = CategoryNameSerializer()
     class Meta:
@@ -168,8 +176,66 @@ class EvaluationxSubCategoryRead(DynamicFieldsModelSerializer):
         subCategory = obj.subCategory
         subCategory_serializer = SubCategorySerializerRead(subCategory,fields=('id','name','category'))
         return subCategory_serializer.data
+    
+    
         
+##API LINECHART2 NO MOVER
 
+
+class CategorySerializerRead2(DynamicFieldsModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = '__all__'   
+
+class AreaSerializerRead2(DynamicFieldsModelSerializer):
+    
+    
+    class Meta:
+        model = Area
+        fields = '__all__'   
+
+class SubCategorySerializerRead2(DynamicFieldsModelSerializer):
+    category = serializers.SerializerMethodField()   
+    class Meta:
+        model =SubCategory
+        fields = '__all__' 
+
+    def get_category(self, obj):
+        category = obj.category
+        category_serializer = CategorySerializerRead(category,fields=('id','name'))
+        return category_serializer.data
+
+class EvaluationSerializerRead2(DynamicFieldsModelSerializer):
+    area = serializers.SerializerMethodField() 
+    class Meta:
+        model = Evaluation
+        fields = '__all__'   
+
+    def get_area(self, obj):
+        area = obj.area
+        area_serializer = AreaSerializerRead2(area,fields=('id','name'))
+        return area_serializer.data   
+
+class EvaluationxSubCategoryRead2(DynamicFieldsModelSerializer):
+    evaluation = serializers.SerializerMethodField()    
+    subCategory = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = EvaluationxSubCategory
+        fields = '__all__'
+    
+    def get_evaluation(self, obj):
+        evaluation = obj.evaluation
+        evaluation_serializer = EvaluationSerializerRead2(evaluation,fields=('id','evaluationDate','finalScore','area'))
+        return evaluation_serializer.data
+    
+    def get_subCategory(self, obj):
+        subCategory = obj.subCategory
+        subCategory_serializer = SubCategorySerializerRead2(subCategory,fields=('id','name','category'))
+        return subCategory_serializer.data
+
+##API LINECHART2 NO MOVER w
 
 
 class EvaluationTypeSerializerRead(DynamicFieldsModelSerializer):
