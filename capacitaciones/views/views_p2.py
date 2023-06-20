@@ -405,7 +405,8 @@ class CompletarLearningPathView(APIView):
     def put(self, request):
         employee_id = request.data.get('employee_id')
         learning_path_id = request.data.get('learning_path_id')
-        apreciacion = request.data.get('apreciacion')
+        valoracion = request.data.get('valoracion',0)
+        comentario_valoracion = request.data.get('comentario_valoracion')
         empleado = Employee.objects.filter(id=employee_id).first()
         learning_path= LearningPath.objects.filter(id=learning_path_id).first()
         
@@ -414,7 +415,8 @@ class CompletarLearningPathView(APIView):
             if(empleado_learning_path):
                 empleado_learning_path.porcentajeProgreso = 100
                 empleado_learning_path.fechaCompletado = timezone.now()
-                empleado_learning_path.apreciacion = apreciacion
+                empleado_learning_path.valoracion = valoracion
+                empleado_learning_path.comentario_valoracion = comentario_valoracion
                 empleado_learning_path.estado='2'
                 empleado_learning_path.save()
                 return Response({'message': 'Se guardó el learning path como completado'}, status=status.HTTP_200_OK)
