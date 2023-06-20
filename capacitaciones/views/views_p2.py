@@ -764,3 +764,13 @@ class ListProgressEmployeesForLearningPathAPIView(APIView):
         cursos_emp_serializer = EmpleadosXLearningPathSerializer(empleados_learning_path, many=True)
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
         
+
+class LearningPathsForEmployeeAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request,empleado_id):
+        learnings_path = EmpleadoXLearningPath.objects.filter(empleado_id= empleado_id)
+        learnings_path_serializer = EmpleadosXLearningPathSerializer(learnings_path, many=True)
+        return Response(learnings_path_serializer.data, status = status.HTTP_200_OK)
+        
+

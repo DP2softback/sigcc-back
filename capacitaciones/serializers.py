@@ -362,8 +362,8 @@ class EmpleadosXLearningPathSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EmpleadoXLearningPath
-        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'apreciacion', 'fecha_asignacion', 'fecha_limite',
-                  'fecha_completado', 'empleado']
+        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'valoracion','comentario_valoracion', 'fecha_asignacion', 
+                  'fecha_limite','fecha_completado', 'empleado']
 
     def get_empleado(self, obj):
         return EmpleadoSerializer(obj.empleado).data
