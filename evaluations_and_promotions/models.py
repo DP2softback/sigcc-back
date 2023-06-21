@@ -91,6 +91,19 @@ class SubCategory(models.Model):
     description = models.TextField(blank=True, default='')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        db_table = 'Competence'
+
+# class CompetencessXEmployee(models.Model):
+#     id = models.BigAutoField(primary_key=True)
+#     creationDate = models.DateTimeField(auto_now_add=True)
+#     modifiedDate = models.DateTimeField(auto_now=True)
+#     isActive = models.BooleanField(default=True)
+#     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+#     competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+#     level = models.IntegerField(blank=True,null =True)
+#     score = models.FloatField(blank=True,null =True)  
+
 
 class EvaluationxSubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
