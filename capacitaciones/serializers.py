@@ -291,7 +291,7 @@ class EmpleadoXLearningPathSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EmpleadoXLearningPath
-        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'apreciacion', 'fecha_asignacion', 'fecha_limite', 'fecha_completado']
+        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'valoracion','comentario_valoracion', 'fecha_asignacion', 'fecha_limite', 'fecha_completado']
 
 
 class CursoEmpresaSimpleSerializer(serializers.ModelSerializer):
