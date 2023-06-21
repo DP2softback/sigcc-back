@@ -132,17 +132,17 @@ class addSubcategory(APIView):
         data = request.data
         category = get_object_or_404(Category, id=categoryId)
         subcategories = data.get('Subcategorias', [])
-        peru_tz = pytz.timezone('America/Lima')
+        peruTz = pytz.timezone('America/Lima')
         subcats =[]
         count =  SubCategory.objects.filter(category = category).count()
-        for subcategory_data in subcategories:
+        for subcategoryData in subcategories:
             count += 1
-            subcategory_data['category'] = category
+            subcategoryData['category'] = category
             subcat = SubCategory(
-                creationDate = datetime.now(peru_tz),
+                creationDate = datetime.now(peruTz),
                 code = category.code+str(count),
-                name = subcategory_data['name'],
-                description = subcategory_data['description'], 
+                name = subcategoryData['name'],
+                description = subcategoryData['description'], 
                 category = category,
                 #competence =  subcategory_data['competence']
             )
@@ -150,4 +150,45 @@ class addSubcategory(APIView):
             
         SubCategory.objects.bulk_create(subcats)
         return Response({'message': 'Subcategories added successfully.'}, status=status.HTTP_201_CREATED)
+
+class addCategory(APIView):
+    @transaction.atomic
+    def post(self, request):
+        data = request.data
+        catName = data.get('nombre')
+        peruTz = pytz.timezone('America/Lima')
+        now=datetime.now(peruTz)
+        subcategories = data.get('Subcategorias', [])
+        types = EvaluationType.objects.all()
+        cats = []
+        for type in types:
+            cat = Category(
+            creationDate = now,
+            modifiedDate =now,
+            name = catName,
+            code = 'USR',
+            evaluationType= type
+            )
+            cats.append(cat)
+        Category.objects.bulk_create(cats)
+        subcats =[]
+        count = 0 
+        for subcategoryData in subcategories:
+            count += 1
+            for category in cats: 
+                subcategoryData['category'] = category
+                subcat = SubCategory(
+                    creationDate = datetime.now(peruTz),
+                    code = category.code+str(count),
+                    name = subcategoryData['name'],
+                    description = subcategoryData['description'], 
+                    category = category,
+                    #competence =  subcategory_data['competence']
+                )
+                subcats.append(subcat)
+        SubCategory.objects.bulk_create(subcats)
+        return Response({'message': 'Category created.'}, status=status.HTTP_201_CREATED)
+        
+
+            
 
