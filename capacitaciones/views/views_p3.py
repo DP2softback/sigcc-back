@@ -257,7 +257,7 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
         learningpath = LearningPath.objects.filter(id=lp).first()
         data = {}
 
-        archivo_eval = DocumentoExamen.objects.filter(learning_path=lp)
+        archivo_eval = DocumentoExamen.objects.filter(learning_path_id=lp).values('url_documento').first()
 
         learning_path_data = {
             "nombre": learningpath.nombre,
@@ -358,8 +358,7 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
             archivo_emp = DocumentoRespuesta.objects.filter(empleado_learning_path_id=registro['id']).values(
                 'url_documento')
             data["archivo_emp"] = None if not archivo_emp else archivo_emp
-            archivo_eval = DocumentoExamen.objects.filter(learning_path_id=id_lp).values(
-                'url_documento').first()
+            archivo_eval = DocumentoExamen.objects.filter(learning_path_id=id_lp).values('url_documento').first()
             data["archivo_eval"] = None if not archivo_eval else archivo_eval
             return Response(data, status=status.HTTP_200_OK)
 
