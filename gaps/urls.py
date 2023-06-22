@@ -30,6 +30,7 @@ gaps_patterns = [
     path('trainingNeedCourseSearch', SearchTrainingNeedCourseView.as_view()),
 
     path('saveListedEmployeeForOffer', SaveShortlistedEmployeexJobOffer.as_view()),
+    path('searchJobOfferxEmployeePreRegistered', SearchJobOfferxEmployeePreRegistered.as_view())
 ]
 
 urlpatterns = [
