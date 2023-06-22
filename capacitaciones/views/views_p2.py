@@ -603,7 +603,8 @@ class LearningPathFromTemplateAPIView(APIView):
                 "cant_intentos_cursos_max": lp.cant_intentos_cursos_max,
                 "cant_intentos_evaluacion_integral_max": lp.cant_intentos_evaluacion_integral_max,
                 "estado": lp.estado,
-                "cantidad_cursos": lp.cantidad_cursos
+                "cantidad_cursos": lp.cantidad_cursos,
+                "rubrica":lp.rubrica
             }
             data["larning_path"]=learning_path_data
             cursos=[]
@@ -689,7 +690,8 @@ class LearningPathFromTemplateAPIView(APIView):
                 horas_duracion= datos_lp['horas_duracion'],
                 cant_intentos_cursos_max= datos_lp['cant_intentos_cursos_max'],
                 cant_intentos_evaluacion_integral_max= datos_lp['cant_intentos_evaluacion_integral_max'],
-                estado= datos_lp['estado']
+                estado= datos_lp['estado'],
+                rubrica=datos_lp['rubrica']
                 #Esto se quita porque cada vez que se agregue un curso se le aumenta
                 #cantidad_cursos= datos_lp['cantidad_cursos']
             )
