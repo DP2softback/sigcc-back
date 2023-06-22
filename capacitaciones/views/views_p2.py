@@ -606,7 +606,7 @@ class LearningPathFromTemplateAPIView(APIView):
                 "cantidad_cursos": lp.cantidad_cursos,
                 "rubrica":lp.rubrica
             }
-            data["larning_path"]=learning_path_data
+            data["learning_path"]=learning_path_data
             cursos=[]
 
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path=lp)
@@ -675,8 +675,8 @@ class LearningPathFromTemplateAPIView(APIView):
             return Response({"message": "Upss, algó pasó"}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request,pk):
-        datos_lp= request.data[0]
-        datos_cursos=request.data[1]
+        datos_lp= request.data["learning_path"]
+        datos_cursos=request.data["cursos"]
 
         try:
             #se crea el lp
@@ -700,7 +700,6 @@ class LearningPathFromTemplateAPIView(APIView):
                 curso_general = CursoGeneral.objects.filter(id=curso['id']).first()
                 curso_udemy = CursoUdemy.objects.filter(id=curso['id']).first()
                 curso_empresa = CursoEmpresa.objects.filter(id=curso['id']).first()
-                
 
                 if curso_general is None:
                     return Response({"message": "El Curso  no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
