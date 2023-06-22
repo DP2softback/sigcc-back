@@ -310,7 +310,7 @@ class ValorarCursoAPIView(APIView):
             curso.suma_valoracionees = curso.suma_valoracionees + 1
 
             curso.save()
-            
+
             return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
 
         return Response({'msg': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
@@ -326,7 +326,7 @@ class ValorarCursoAPIView(APIView):
         data["datos_curso"] = curso
         valoraciones = EmpleadoXCurso.objects.filter(curso=id_cr).values('valoracion','comentario')
 
-        data["valoraciones"] = valoraciones
+        data["valoraciones"] = None if not valoraciones[0]['valoracion'] else valoraciones
 
         return Response(data, status=status.HTTP_200_OK)
 
@@ -364,8 +364,9 @@ class ValoracionLearningPathAPIView(APIView):
         data = {}
         data["datos_learning_path"] = lp
         valoraciones = EmpleadoXLearningPath.objects.filter(learning_path=id_lp).values('valoracion','comentario_valoracion')
-
-        data["valoraciones"] = valoraciones
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print(valoraciones)
+        data["valoraciones"] = None if not valoraciones[0]['valoracion'] else valoraciones
 
         return Response(data, status=status.HTTP_200_OK)
 
