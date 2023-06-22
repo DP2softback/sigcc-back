@@ -135,7 +135,7 @@ class SearchTrainingNeedView(APIView):
             query.add(Q(state = estado), Q.AND)
         if tipo is not None and tipo>0:
             query.add(Q(type = tipo), Q.AND)
-        necesidadesEmpleado = TrainingNeed.objects.filter(query).values('Capacity__code','Capacity__name','Capacity__type__name','levelCurrent', 'levelRequired', 'levelGap', 'description', 'state', 'type', 'scalePosition__id', 'scalePosition__descriptor')
+        necesidadesEmpleado = TrainingNeed.objects.filter(query).values('id','capacity__id','capacity__name','employee__id','description','state','levelCurrent','levelRequired','levelGap','type','active','score')
         return Response(list(necesidadesEmpleado), status = status.HTTP_200_OK)
 
 # class CapacityScaleView(APIView):
