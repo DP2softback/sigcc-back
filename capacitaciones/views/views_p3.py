@@ -385,6 +385,8 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
             empleado = User.objects.filter(id=id_emp).values('first_name', 'last_name', 'email').first()
             data['empleado']= empleado['first_name'] + " "+ empleado['last_name']
             data['rubrica_calificada']= lp.rubrica if not registro['rubrica_calificada_evaluacion'] else lp.rubrica
+            data['nombre_lp'] = lp.nombre
+            data['descripcion_lp'] = lp.descripcion
             data['descripcion_evaluacion']= lp.descripcion_evaluacion
             data['comentario_evaluacion']= registro['comentario_evaluacion']
             archivo_emp = DocumentoRespuesta.objects.filter(empleado_learning_path_id=registro['id']).values(
