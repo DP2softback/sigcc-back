@@ -11,7 +11,8 @@ from zappa.asynchronous import task
 from gaps.models import Capacity, CapacityType, CapacityXEmployee, TrainingNeed, CapacityXAreaXPosition
 from login.models import Employee
 from personal.models import *
-from gaps.serializers import CapacitySerializer, CapacityTypeSerializer,CapacityScaleSerializer, CapacityXEmployeeSerializer, TrainingNeedSerializer, CapacityXAreaXPositionSerializer
+from personal.serializers import *
+from gaps.serializers import CapacitySerializer, CapacityTypeSerializer, CapacityXEmployeeSerializer, TrainingNeedSerializer, CapacityXAreaXPositionSerializer
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite
 from gaps.serializers import AreaSerializer
 import openai as ai
@@ -685,3 +686,22 @@ class SearchTrainingNeedCourseView(APIView):
             returnList.append(employeeFields)
 					
         return Response(returnList, status = status.HTTP_200_OK)  
+
+class SaveShortlistedEmployeexJobOffer(APIView):
+	def post(self, request):
+		offer = request.data['oferta']
+		empleados = [e['empleado'] for e in request.data['empleados']]
+
+		for id in empleados:
+			json_data = {}
+			json_data['job_offer'] = offer 
+			json_data['employee'] = id
+			try:
+				serializer = JobOfferNotificationSerializer(data = json_data)
+				serializer.is_valid(raise_exception = True)
+				serializer.save()
+			except Exception as e:
+				return Response(str(e),status=status.HTTP_400_BAD_REQUEST)
+		return Response("Se registraron correctamente los empleados",status=status.HTTP_200_OK)
+
+
