@@ -340,6 +340,11 @@ class ValoracionLearningPathAPIView(APIView):
 
         if lp_asignado:
             EmpleadoXLearningPath.objects.create( learning_path = lp, empleado=empleado, valoracion=valoracion, comentario_valoracion=comentario)
+            lp.suma_valoraciones = lp.suma_valoraciones + valoracion
+            lp.cant_valoraciones = lp.cant_valoraciones + 1
+            lp.cant_empleados = lp.cant_empleados + 1
+
+            lp.save()
             return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
 
         return Response({'msg': 'No se encontro el learning path asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
