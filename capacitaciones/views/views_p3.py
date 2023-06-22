@@ -1,4 +1,5 @@
 # Create your views here.
+from login.models import Employee, User
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -378,10 +379,13 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
     def get(self, request, id_lp, id_emp):
 
         registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id','rubrica_calificada_evaluacion','comentario_evaluacion').first()
-        rubrica = LearningPath.objects.filter(id=id_lp).values('rubrica')
+        lp = LearningPath.objects.filter(id=id_lp).first()
         if registro:
             data = {}
-            data['rubrica_calificada']= rubrica if not registro['rubrica_calificada_evaluacion'] else registro['rubrica_calificada_evaluacion']
+            empleado = User.objects.filter(id=id_emp).values('first_name', 'last_name', 'email').first()
+            data['empleado']= empleado['first_name'] + " "+ empleado['last_name']
+            data['rubrica_calificada']= lp.rubrica if not registro['rubrica_calificada_evaluacion'] else lp.rubrica
+            data['descripcion_evaluacion']= lp.descripcion_evaluacion
             data['comentario_evaluacion']= registro['comentario_evaluacion']
             archivo_emp = DocumentoRespuesta.objects.filter(empleado_learning_path_id=registro['id']).values(
                 'url_documento')
