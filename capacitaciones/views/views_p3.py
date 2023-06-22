@@ -306,6 +306,11 @@ class ValorarCursoAPIView(APIView):
 
         if curso_asignado:
             EmpleadoXCurso.objects.create( curso = curso, empleado=empleado, valoracion=valoracion, comentario=comentario)
+            curso.cant_valoraciones = curso.cant_valoraciones + valoracion
+            curso.suma_valoracionees = curso.suma_valoracionees + 1
+
+            curso.save()
+            
             return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
 
         return Response({'msg': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
