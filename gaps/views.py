@@ -135,7 +135,7 @@ class SearchTrainingNeedView(APIView):
             query.add(Q(state = estado), Q.AND)
         if tipo is not None and tipo>0:
             query.add(Q(type = tipo), Q.AND)
-        necesidadesEmpleado = TrainingNeed.objects.filter(query).values('Capacity__code','Capacity__name','Capacity__type__name','levelCurrent', 'levelRequired', 'levelGap', 'description', 'state', 'type', 'scalePosition__id', 'scalePosition__descriptor')
+        necesidadesEmpleado = TrainingNeed.objects.filter(query).values('id','capacity__id','capacity__name','employee__id','description','state','levelCurrent','levelRequired','levelGap','type','active','score')
         return Response(list(necesidadesEmpleado), status = status.HTTP_200_OK)
 
 # class CapacityScaleView(APIView):
@@ -403,25 +403,39 @@ class CapacityEmployeeView(APIView):
     def post(self, request,id=0):
         CapacityList = request.data["competencias"]
         # poner en no requeridas las actuales
-        CapacityXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"])).update(levelRequired=0, levelGap=0, likeness=0.0,requiredForPosition=False)
+        CapacityXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"])).update(levelRequired="Nivel no requerido", levelGap=0, likeness=0.0,requiredForPosition=False)
         # reactivar y agregar las nuevas
         for CapacityItem in CapacityList:
+            levelGap = 0
+            likeness = 100.00
+            if CapacityItem['nivelRequerido'] == 'A':
+                if CapacityItem['nivelActual'] == 'B':
+                    likeness = 33.33#(CapacityItem['nota']/200)
+                    levelGap = 2# 100 - CapacityItem['nota'] + 100
+                elif CapacityItem['nivelActual'] == 'M':
+                    likeness = 66.66#((CapacityItem['nota']+100)/200)
+                    levelGap = 1#100 - CapacityItem['nota']
+            elif CapacityItem['nivelRequerido'] == 'M':
+                if CapacityItem['nivelActual'] == 'B':
+                    likeness = 50.00#100*(CapacityItem['nota']/100)
+                    levelGap = 1#100 - CapacityItem['nota']
+
             fields = {
                     'levelCurrent': CapacityItem['nivelActual'],
                     'levelRequired': CapacityItem['nivelRequerido'], 
-                    'levelGap': CapacityItem['nivelRequerido'] - CapacityItem['nivelActual'] if CapacityItem['nivelRequerido'] > CapacityItem['nivelActual'] else 0,
-                    'likeness': 100*(CapacityItem['nivelActual'] / CapacityItem['nivelRequerido']) if CapacityItem['nivelRequerido'] > CapacityItem['nivelActual'] else 100.00,
+                    'levelGap': levelGap,
+                    'likeness': likeness,
                     'hasCertificate': CapacityItem['tieneCertificado'],
                     'requiredForPosition': CapacityItem['requeridoParaPuesto'],
+                    'score': CapacityItem['nota'],
                     'active': True}
-            if CapacityXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(Capacity__id = CapacityItem['idCompetencia'])& Q(scalePosition__id =CapacityItem['idEscala'])).count() > 0 :
-                register = CapacityXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(Capacity__id = CapacityItem['idCompetencia'])& Q(scalePosition__id = CapacityItem['idEscala'])).first()
+            if CapacityXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(capacity__id = CapacityItem['idCompetencia'])).count() > 0 :
+                register = CapacityXEmployee.objects.filter(Q(employee__id = request.data["idEmpleado"]) & Q(Capacity__id = CapacityItem['idCompetencia'])).first()
                 CapacitysEmployee_serializer = CapacityXEmployeeSerializer(register, data = fields)
                 if CapacitysEmployee_serializer.is_valid():
                     CapacitysEmployee_serializer.save()
             else:
-                fields['Capacity'] = CapacityItem['idCompetencia']
-                fields['scalePosition'] = CapacityItem['idEscala']
+                fields['capacity'] = CapacityItem['idCompetencia']
                 fields['employee'] = request.data["idEmpleado"]
                 fields['registerByEmployee'] = CapacityItem['registradoPorEmpleado']
                 CapacitysEmployee_serializer = CapacityXEmployeeSerializer(data = fields)
@@ -429,24 +443,24 @@ class CapacityEmployeeView(APIView):
                     CapacitysEmployee_serializer.save()
             
             #necesidades
-            if CapacityItem['nivelRequerido'] > CapacityItem['nivelActual']:
-                level = CapacityItem['nivelRequerido'] - CapacityItem['nivelActual']
-                needFields = {'description': 'Necesita capacitacion de nivel ' + str(level), 
+            if levelGap != 0:
+                #level = CapacityItem['nivelRequerido'] - CapacityItem['nivelActual']
+                needFields = {'description': 'Necesita capacitacion',# + str(level), 
                                               'levelCurrent': CapacityItem['nivelActual'],
                                               'levelRequired': CapacityItem['nivelRequerido'],
-                                              'levelGap': CapacityItem['nivelRequerido'] - CapacityItem['nivelActual'],
-                                              'type': 1 if request.data["esNuevo"] ==  1 else 2,
-                                                'state': 1,
+                                              'levelGap': levelGap,
+                                              'type': 'Incorporacion' if request.data["esNuevo"] ==  1 else 'Evaluacion Continua',
+                                              'score':  CapacityItem['nota'],
+                                                'state': 'Por solucionar',
                                               'active': True}
-                if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(Capacity__id = CapacityItem['idCompetencia']) & Q(scalePosition__id =CapacityItem['idEscala']) & Q(state=2)).count() == 0:
-                    if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(Capacity__id = CapacityItem['idCompetencia']) & Q(scalePosition__id =CapacityItem['idEscala']) & Q(state__gte=1) & Q(state__lte=3)).count() > 0:
-                        registerNeed = TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(Capacity__id = CapacityItem['idCompetencia']) & Q(scalePosition__id =CapacityItem['idEscala']) & Q(state__gte=1) & Q(state__lte=3)).first()
+                if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(capacity__id = CapacityItem['idCompetencia'])).count() == 0:
+                    if TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(capacity__id = CapacityItem['idCompetencia'])).count() > 0:
+                        registerNeed = TrainingNeed.objects.filter(Q(employee__id=request.data["idEmpleado"]) & Q(capacity__id = CapacityItem['idCompetencia'])).first()
                         trainingNeed_serializer = TrainingNeedSerializer(registerNeed,data=needFields)
                         if trainingNeed_serializer.is_valid():
                                         trainingNeed_serializer.save()
                     else:
-                        needFields['Capacity'] = CapacityItem['idCompetencia']
-                        needFields['scalePosition'] = CapacityItem['idEscala']
+                        needFields['capacity'] = CapacityItem['idCompetencia']
                         needFields['employee'] = request.data["idEmpleado"]
                         trainingNeed_serializer = TrainingNeedSerializer(data=needFields)
                         if trainingNeed_serializer.is_valid():
@@ -515,10 +529,10 @@ class SearchCapacityAreaPositionView(APIView):
         query = Q()
         query.add(Q(active=True), Q.AND)
         if area is not None and area>0:
-            query.add(Q(area__id = area), Q.AND)
+            query.add(Q(positionArea__area__id = area), Q.AND)
         if position is not None and position>0:
-            query.add(Q(position__id = position), Q.AND)
-        areaPositionCapacity = CapacityXAreaXPosition.objects.filter(query).values('id','capacity__id','capacity__name','area__id','area__name','position__id','position__name','levelRequired', 'active')
+            query.add(Q(positionArea__position__id = position), Q.AND)
+        areaPositionCapacity = CapacityXAreaXPosition.objects.filter(query).values('id','capacity__id','capacity__name','positionArea__area__id','positionArea__area__name','positionArea__position__id','positionArea__position__name','levelRequired', 'active')
         return Response(list(areaPositionCapacity), status = status.HTTP_200_OK)
     
 class SearchCapacityEmployeeView(APIView):
