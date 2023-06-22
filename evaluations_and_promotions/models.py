@@ -60,6 +60,7 @@ class SubCategory(models.Model):
     name = models.TextField(blank=True, default='')
     description = models.TextField(blank=True, default='')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+
     class Meta:
         db_table = 'Competence'
 
@@ -71,10 +72,15 @@ class CompetencessXEmployeeXLearningPath(models.Model):
     isActive = models.BooleanField(default=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+    evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE, null=True, blank=True)
     lp = models.ForeignKey(LearningPath, on_delete=models.CASCADE, null=True, blank=True)
     isInitial = models.BooleanField(default=False)
     level = models.TextField(blank=True,null =True)
     score = models.FloatField(blank=True,null =True)
+
+    isActual = models.BooleanField(null=True,blank=True)
+    modifiedBy = models.TextField(blank=True, default='',null =True)
+
 
 
 class EvaluationxSubCategory(models.Model):
