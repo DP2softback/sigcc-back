@@ -1,6 +1,7 @@
 from django.db import models
-from evaluations_and_promotions.models import Area, Position,SubCategory
+from personal.models import *
 from login.models import Employee
+from capacitaciones.models import CursoGeneral
 
 # Create your models here.
 
@@ -57,9 +58,11 @@ class CompetenceXAreaXPosition(models.Model):
     active = models.BooleanField(default=True)
     
 
+
 class CompetenceXEmployee(models.Model):
     id = models.BigAutoField(primary_key=True)
     competence = models.ForeignKey(Competence, on_delete=models.CASCADE, null=True, blank=True)
+    scalePosition = models.ForeignKey(CompetenceScale, on_delete=models.CASCADE, null=True, blank=True) 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     levelCurrent = models.IntegerField(blank=True,null =True)
     levelRequired = models.IntegerField(blank=True,null =True)
@@ -73,7 +76,9 @@ class CompetenceXEmployee(models.Model):
 class TrainingNeed(models.Model):
     id = models.BigAutoField(primary_key=True)
     competence = models.ForeignKey(Competence, on_delete=models.CASCADE, null=True, blank=True)
+    scalePosition = models.ForeignKey(CompetenceScale, on_delete=models.CASCADE, null=True, blank=True) 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    course = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE, null=True, blank=True, default=None)
     description = models.CharField(max_length=200, blank=True, null=True)
     state = models.IntegerField(blank=True,null =True)  #1: por solucionar, 2: en proceso, 3: solucionado 
     levelCurrent = models.IntegerField(blank=True,null =True)
