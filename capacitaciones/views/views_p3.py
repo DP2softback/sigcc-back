@@ -326,8 +326,10 @@ class ValorarCursoAPIView(APIView):
         data["datos_curso"] = curso
         valoraciones = EmpleadoXCurso.objects.filter(curso=id_cr).values('valoracion','comentario')
 
-        data["valoraciones"] = [] if not valoraciones[0]['valoracion'] else valoraciones
-
+        if valoraciones:
+            data["valoraciones"] = [] if not valoraciones[0]['valoracion'] else valoraciones
+        else:
+            data["valoraciones"] = []
         return Response(data, status=status.HTTP_200_OK)
 
 
@@ -364,10 +366,10 @@ class ValoracionLearningPathAPIView(APIView):
         data = {}
         data["datos_learning_path"] = lp
         valoraciones = EmpleadoXLearningPath.objects.filter(learning_path=id_lp).values('valoracion','comentario_valoracion')
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        print(valoraciones)
-        data["valoraciones"] = [] if not valoraciones[0]['valoracion'] else valoraciones
-
+        if valoraciones:
+            data["valoraciones"] = [] if not valoraciones[0]['valoracion'] else valoraciones
+        else:
+            data["valoraciones"] = []
         return Response(data, status=status.HTTP_200_OK)
 
 
