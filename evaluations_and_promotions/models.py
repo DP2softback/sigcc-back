@@ -1,4 +1,6 @@
 from django.db import models
+
+from capacitaciones.models import LearningPath
 from login.models import Employee
 from personal.models import Area, AreaxPosicion, Position
 
@@ -61,15 +63,18 @@ class SubCategory(models.Model):
     class Meta:
         db_table = 'Competence'
 
-class CompetencessXEmployee(models.Model):
+
+class CompetencessXEmployeeXLearningPath(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+    lp = models.ForeignKey(LearningPath, on_delete=models.CASCADE, null=True, blank=True)
+    isInitial = models.BooleanField(default=False)
     level = models.TextField(blank=True,null =True)
-    score = models.FloatField(blank=True,null =True)  
+    score = models.FloatField(blank=True,null =True)
 
 
 class EvaluationxSubCategory(models.Model):

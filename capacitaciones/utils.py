@@ -91,6 +91,7 @@ def get_gpt_form(curso):
 def GenerateUdemyEvaluation(id_course):
 
     course_detail = CursoUdemy.objects.filter(pk=id_course).values('course_udemy_detail').first()
+    print(type(course_detail))
     course_name = course_detail['course_udemy_detail']['title'] + ' ' + course_detail['course_udemy_detail']['headline']
 
     try:
