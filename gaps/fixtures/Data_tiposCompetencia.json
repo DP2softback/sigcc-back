@@ -1,6 +1,6 @@
 [ 
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 1,
       "fields": {
           "abbreviation": "SFTSKILL",
@@ -10,7 +10,7 @@
       }
     },
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 2,
       "fields": {
         "abbreviation": "TECSKILL",
@@ -20,7 +20,7 @@
       }
     },    
     {
-        "model": "gaps.CompetenceType",
+        "model": "gaps.CapacityType",
         "pk": 3,
         "fields": {
             "abbreviation": "GRADESKILL",
@@ -30,7 +30,7 @@
         }
     },
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 4,
       "fields": {
           "abbreviation": "CONDV",
@@ -41,7 +41,7 @@
       }
     },
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 5,
       "fields": {
           "abbreviation": "BDMANG",
@@ -52,7 +52,7 @@
       }
     },
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 6,
       "fields": {
           "abbreviation": "LENGP",
@@ -62,7 +62,7 @@
       }
     },
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 7,
       "fields": {
           "abbreviation": "BACHILLER",
@@ -73,7 +73,7 @@
       }
     },
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 8,
       "fields": {
           "abbreviation": "DOCTORADO",
@@ -84,7 +84,7 @@
       }
     },
     {
-      "model": "gaps.CompetenceType",
+      "model": "gaps.CapacityType",
       "pk": 9,
       "fields": {
           "abbreviation":"MAESTRIA",
