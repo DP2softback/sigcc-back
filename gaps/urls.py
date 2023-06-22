@@ -3,6 +3,7 @@ from gaps.views import *
 
 gaps_patterns = [
     path('employeeArea', EmployeeAreaView.as_view()),
+    path('employeePosition', EmployeePositionView.as_view()),
 
     path('competenceAreaPosition', CapacityAreaPositionView.as_view()),
     path('competenceEmployee', CapacityEmployeeView.as_view()),

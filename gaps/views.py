@@ -556,6 +556,16 @@ class EmployeeAreaView(APIView):
             query.add(Q(position__id = position), Q.AND)
         employees = Employee.objects.filter(query).values('id','user__first_name','user__last_name','position__name','area__name','user__email','user__is_active')
         return Response(list(employees), status = status.HTTP_200_OK)
+    
+class EmployeePositionView(APIView):
+    def post(self, request):
+        area = request.data["area"]
+        query = Q()
+        query.add(Q(isActive=True), Q.AND)
+        if area is not None and area>0:
+            query.add(Q(area__id = area), Q.AND)
+        positions = AreaxPosicion.objects.filter(query).values('position__id','position__name')
+        return Response(list(positions), status = status.HTTP_200_OK)
 
 class SearchJobOfferView(APIView):
     def post(self, request):
