@@ -104,4 +104,15 @@ class JobOffer(models.Model):
     location = models.TextField(blank=True, default='')
     salary_range = models.TextField(blank=True, default='')
 
+class JobOfferNotification(models.Model): # Tabla intermedia Empleado x Oferta laboral
+    class Meta:
+        db_table = 'NotificacionLaboral'
+    id = models.BigAutoField(primary_key=True)
+    job_offer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
+    employee = models.ForeignKey('login.Employee', on_delete=models.CASCADE)
+    sent = models.BooleanField(default = False) # Si la notificacion fue enviada o no
+    suitable = models.BooleanField(default = False) # Si es que el empleado es compatible para la oferta laboral
+
+    
+
 

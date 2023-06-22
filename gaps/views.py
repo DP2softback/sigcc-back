@@ -558,3 +558,121 @@ class SearchJobOfferView(APIView):
             
         areaPositionCompetence = JobOffer.objects.filter(query).values('id','hiring_process','introduction','offer_introduction','responsabilities_introduction','is_active','photo_url','location', 'salary_range')
         return Response(list(areaPositionCompetence), status = status.HTTP_200_OK)
+      
+def GetUniqueDictionaries(listofDicts):
+    """Get a List unique dictionaries
+    List to contain unique dictionaries"""
+    listOfUniqueDicts = []
+    # A set object
+    setOfValues = set()
+    # iterate over all dictionaries in list
+    for dictObj in listofDicts:
+        list_Of_tuples = []
+        # For each dictionary, iterate over all key
+        # and append that to a list as tuples
+        for key, value in dictObj.items():
+            list_Of_tuples.append( (key, value))
+        strValue = ""
+        # convert list of tuples to a string
+        for key, value in sorted(list_Of_tuples):
+            # sort list of tuples, and iterate over them
+            # append each pair to string
+            strValue += str(key) + "_" + str(value) + "_"
+        # Add string to set if not already exist in set
+        if strValue not in setOfValues:
+            # If string is not in set, then it means
+            # this dictionary is unique
+            setOfValues.add(strValue)
+            listOfUniqueDicts.append (dictObj)
+    
+    return listOfUniqueDicts
+
+class GenerateTrainingDemandView(APIView):
+    def post(self, request):
+        area = request.data["area"]
+        position = request.data["posicion"]
+        employee = request.data["empleado"]
+        query = Q()
+		
+        if employee is not None and employee > 0:
+            query.add(Q(id=employee), Q.AND)
+        else:
+            if area is not None and area > 0:
+                query.add(Q(area__id=area), Q.AND)
+            if position is not None and position > 0:
+                query.add(Q(position__id=position), Q.AND)
+		
+        employees = Employee.objects.filter(query).values('id')
+        ids = []
+        for item in employees:
+            ids.append(item['id'])
+		
+        needs = TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state=1)).values('competence__id', 'scalePosition__id')
+        needsUnique = GetUniqueDictionaries(needs)
+		
+        resultList = []
+		
+        for need in needsUnique:
+            count = TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state=1) & Q(competence__id = need['competence__id']) & Q(scalePosition__id = need['scalePosition__id'])).count()
+            fields = {'competencia': need['competence__id'], 'escala': need['scalePosition__id'], 'cantidad': count}
+            resultList.append(fields)
+			
+        return Response(resultList, status = status.HTTP_200_OK)    
+    
+class TrainingNeedCourseView(APIView):
+    def post(self, request):
+        area = request.data["area"]
+        position = request.data["posicion"]
+        employee = request.data["empleado"]
+        query = Q()
+		
+        courses = request.data["cursos"]
+		
+        if employee is not None and employee > 0:
+            query.add(Q(id=employee), Q.AND)
+        else:
+            if area is not None and area > 0:
+                query.add(Q(area__id=area), Q.AND)
+            if position is not None and position > 0:
+                query.add(Q(position__id=position), Q.AND)
+		
+        employees = Employee.objects.filter(query).values('id')
+        ids = []
+        for item in employees:
+            ids.append(item['id'])
+		
+        for course in courses :
+            TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state=1) & Q(competence__id= course['competencia']) & Q(scalePosition__id= course['escala'])).update(course=course['curso'])
+        
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'cursos cargados correctamente',
+                        },)	
+    
+class SearchTrainingNeedCourseView(APIView):
+    def post(self, request):
+        area = request.data["area"]
+        position = request.data["posicion"]
+        employee = request.data["empleado"]
+        query = Q()
+		
+        if employee is not None and employee > 0:
+            query.add(Q(id=employee), Q.AND)
+        else:
+            if area is not None and area > 0:
+                query.add(Q(area__id=area), Q.AND)
+            if position is not None and position > 0:
+                query.add(Q(position__id=position), Q.AND)
+		
+        employees = Employee.objects.filter(query).values('id')
+        returnList = []
+		
+        for employee in employees:
+            employeeFields = {"empleado": employee['id'], "cursos": []}
+            needs = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state=1)).values('competence__id','competence__name', 'scalePosition__id', 'scalePosition__descriptor', 'course__id')
+            for need in needs :
+                course = {'cursoId': need['competence__id'], 'cursoNombre': need['competence__name'], 'escalaId': need['scalePosition__id'], 'escalaNombre': need['scalePosition__descriptor'], 'cursoId': need['course__id']}
+                employeeFields['cursos'].append(course)
+            returnList.append(employeeFields)
+					
+        return Response(returnList, status = status.HTTP_200_OK)  

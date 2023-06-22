@@ -1,4 +1,4 @@
-﻿from django.urls import include, path
+from django.urls import include, path
 from gaps.views import *
 
 gaps_patterns = [
@@ -19,12 +19,15 @@ gaps_patterns = [
     path('competenceTypesSearch/<int:pk>', SearchCompetenteTypeView.as_view()),
 
     path('competenceScale', CompetenceScaleView.as_view()),
-    path('competenceScale/<int:id>', CompetenceView.as_view()),
+    path('competenceScale/<int:id>', CompetenceScaleView.as_view()),
 
     path('competences', CompetenceView.as_view()),
     path('competences/<int:id>', CompetenceView.as_view()),
 
-    path('jobOfferSearch', SearchJobOfferView.as_view())
+    path('jobOfferSearch', SearchJobOfferView.as_view()),
+    path('trainingNeedDemand', GenerateTrainingDemandView.as_view()),
+    path('trainingNeedCourse', TrainingNeedCourseView.as_view()),
+    path('trainingNeedCourseSearch', SearchTrainingNeedCourseView.as_view())
 ]
 
 urlpatterns = [

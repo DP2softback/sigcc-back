@@ -1,6 +1,7 @@
 from django.db import models
 from personal.models import *
 from login.models import Employee
+from capacitaciones.models import CursoGeneral
 
 # Create your models here.
 
@@ -73,6 +74,7 @@ class TrainingNeed(models.Model):
     competence = models.ForeignKey(Competence, on_delete=models.CASCADE, null=True, blank=True)
     scalePosition = models.ForeignKey(CompetenceScale, on_delete=models.CASCADE, null=True, blank=True) 
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    course = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE, null=True, blank=True, default=None)
     description = models.CharField(max_length=200, blank=True, null=True)
     state = models.IntegerField(blank=True,null =True)  #1: por solucionar, 2: en proceso, 3: solucionado 
     levelCurrent = models.IntegerField(blank=True,null =True)
