@@ -13,7 +13,7 @@ from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView,
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
     EmpleadosXLearningPathAPIView, LearningPathEvaluadoXEmpleadoAPIView, ValorarCursoAPIView, \
-     ValoracionLearningPathAPIView
+    ValoracionLearningPathAPIView, DetalleEvaluacionEmpleadoAPIView
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
@@ -69,6 +69,7 @@ urlpatterns = [
     path('learning_path/progress_course/employees/<int:lp_id>/<int:course_id>/', ProgressCourseForLearningPathForEmployeesAPIView.as_view()),
     path('learning_path/learning_path_for_empleado/<int:empleado_id>/', LearningPathsForEmployeeAPIView.as_view()),
     path('valorar_curso/', ValorarCursoAPIView.as_view()),
-    path('valorar_learning_path/<int:id_lp>/', ValoracionLearningPathAPIView.as_view())
+    path('valorar_learning_path/<int:id_lp>/', ValoracionLearningPathAPIView.as_view()),
+    path('learning_path/<int:id_lp>/empleado/<int:id_emp>/', DetalleEvaluacionEmpleadoAPIView.as_view()),
     #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]
