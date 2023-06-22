@@ -117,6 +117,7 @@ class CursoEmpresa(CursoGeneral):
     cantidad_empleados= models.IntegerField(default=0)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
     cantidad_sesiones= models.IntegerField(default=0)
+    preguntas = models.JSONField(default=dict,null=True,default=None)
 
     class Meta:
         db_table = 'CursoEmpresa'

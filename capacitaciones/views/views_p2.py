@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
 from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathProgressSerializer, EmpleadoXCursoXLearningPathSerializer, EmpleadosXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
-from capacitaciones.utils import get_udemy_courses, clean_course_detail
+from capacitaciones.utils import get_gpt_form, get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
 from django.utils import timezone
@@ -797,3 +797,28 @@ class ProgressCourseForLearningPathForEmployeesAPIView(APIView):
         data.append(curso_data)
         data.append(learnings_path_serializer.data)
         return Response(data, status = status.HTTP_200_OK)
+
+
+class GenerateCourseEmpresaEvaluationAPIView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+
+        id_course = request.data.get('id_course', None)
+
+        if not id_course:
+            return Response({'msg': 'No se recibió el nombre del curso'}, status=status.HTTP_400_BAD_REQUEST)
+
+        course_detail = CursoEmpresa.objects.filter(id=id_course).first()
+        course_name = course_detail.nombre + ' ' + course_detail.descripcion
+
+        try:
+            course_form = get_gpt_form(course_name)
+        except Exception as e:
+            #CursoEmpresa.objects.filter(id=id_course).update(estado='2')
+            return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        CursoEmpresa.objects.filter(id=id_course).update(preguntas=course_form)
+
+        return Response({'msg': 'Se creó la evaluacion con exito'}, status=status.HTTP_200_OK)
