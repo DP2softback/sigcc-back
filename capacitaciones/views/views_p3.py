@@ -395,8 +395,10 @@ class SubirDocumentoRespuestaAPIView(APIView):
         id_registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id').first()
 
         if id_registro:
-            doc_respuesta = DocumentoRespuesta.objects.filter(id=id_registro).first()
+            doc_respuesta = DocumentoRespuesta()
             doc_respuesta.url_documento = archivo_emp
+            doc_respuesta.empleado_learning_path_id = id_registro['id']
+
             doc_respuesta.save()
 
             return Response({"message": "Se guardó con exito"}, status=status.HTTP_200_OK)
