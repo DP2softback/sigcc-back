@@ -376,8 +376,30 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
         if registro:
             lp = LearningPath.objects.filter(id=id_lp).first()
             empleado = Employee.objects.filter(id=id_emp).first()
-            EmpleadoXLearningPath.objects.create( learning_path = lp, empleado=empleado, rubrica_calificada_evaluacion=rubrica_calificada, comentario_evaluacion=comentario_evaluacion)
+            registro.rubrica_calificada_evaluacion = rubrica_calificada
+            registro.comentario_evaluacion = comentario_evaluacion
+            registro.save()
+            #EmpleadoXLearningPath.objects.create( learning_path = lp, empleado=empleado, rubrica_calificada_evaluacion=rubrica_calificada, comentario_evaluacion=comentario_evaluacion)
 
             return Response({"message": "Se registró con exito"}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubirDocumentoRespuestaAPIView(APIView):
+
+    def post(self, request):
+        id_lp = request.data.get('learning_path', None)
+        id_emp = request.data.get('empleado', None)
+        archivo_emp = request.data.get('archivo_emp', None)
+
+        id_registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id').first()
+
+        if id_registro:
+            doc_respuesta = DocumentoRespuesta.objects.filter(id=id_registro).first()
+            doc_respuesta.url_documento = archivo_emp
+            doc_respuesta.save()
+
+            return Response({"message": "Se guardó con exito"}, status=status.HTTP_200_OK)
 
         return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
