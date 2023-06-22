@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from zappa.asynchronous import task
 from gaps.models import Competence, CompetenceScale, CompetenceType, CompetenceXEmployee, TrainingNeed, CompetenceXAreaXPosition
 from login.models import Employee
-from personal.models import Area, Position
+from personal.models import *
 from gaps.serializers import CompetenceSerializer, CompetenceTypeSerializer,CompetenceScaleSerializer, CompetenceXEmployeeSerializer, TrainingNeedSerializer, CompetenceXAreaXPositionSerializer
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite
 from gaps.serializers import AreaSerializer
@@ -547,6 +547,18 @@ class EmployeeAreaView(APIView):
         employees = Employee.objects.filter(query).values('id','user__first_name','user__last_name','position__name','area__name','user__email','user__is_active')
         return Response(list(employees), status = status.HTTP_200_OK)
 
+class SearchJobOfferView(APIView):
+    def post(self, request):
+        position = request.data["posicion"]
+        area = request.data["area"]
+        query = Q()
+        query.add(Q(is_active = True), Q.AND)
+        if position is not None and position > 0:
+            query.add(Q(hiring_process__position__id = position), Q.AND)
+            
+        areaPositionCompetence = JobOffer.objects.filter(query).values('id','hiring_process','introduction','offer_introduction','responsabilities_introduction','is_active','photo_url','location', 'salary_range')
+        return Response(list(areaPositionCompetence), status = status.HTTP_200_OK)
+      
 def GetUniqueDictionaries(listofDicts):
     """Get a List unique dictionaries
     List to contain unique dictionaries"""
