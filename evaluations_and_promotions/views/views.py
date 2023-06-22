@@ -1038,7 +1038,7 @@ class ActualizarCategorias(APIView):
         obj_categorias = SubCategory.objects.filter(name=obj_subcategoria.name)
 
         if obj_categorias.exists():
-            obj_categorias.update(isActive=False)
+            obj_categorias.update(category = None)
         
 
         

@@ -188,6 +188,12 @@ class addCategory(APIView):
                 subcats.append(subcat)
         SubCategory.objects.bulk_create(subcats)
         return Response({'message': 'Category created.'}, status=status.HTTP_201_CREATED)
+
+class getFreeCompetences(APIView):
+    def get(self, request):
+        competences =  SubCategory.objects.filter(category = None)
+        serialized = SubCategorySerializer(competences, many=True)
+        return Response(serialized.data, status=status.HTTP_200_OK)
         
 
             
