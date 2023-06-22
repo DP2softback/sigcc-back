@@ -36,6 +36,7 @@ urlpatterns = [
     path('eval/<int:evaluation_id>', getEvaluation.as_view()),
     path('category/<int:categoryId>', getCategory.as_view()),
     path('category', addCategory.as_view()),
+    path('competences/free', getFreeCompetences.as_view()),
     path('category/<int:categoryId>/subcategory', addSubcategory.as_view()),
     path('areas', GetAreas.as_view(), name='get-areas'),
     path('categorias/continuas', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
