@@ -137,15 +137,20 @@ class addSubcategory(APIView):
         count =  SubCategory.objects.filter(category = category).count()
         for subcategoryData in subcategories:
             count += 1
-            subcategoryData['category'] = category
-            subcat = SubCategory(
-                creationDate = datetime.now(peruTz),
-                code = category.code+str(count),
-                name = subcategoryData['name'],
-                description = subcategoryData['description'], 
-                category = category,
-                #competence =  subcategory_data['competence']
-            )
+            if(subcategoryData.id is not None):
+                subcat =SubCategory.objects.get(id= subcategoryData.id)
+                subcat.category = category
+                subcat.code = category.code+str(count)
+                subcat.modifiedDate = datetime.now(peruTz)
+            else:    
+                subcat = SubCategory(
+                    creationDate = datetime.now(peruTz),
+                    code = category.code+str(count),
+                    name = subcategoryData['name'],
+                    description = subcategoryData['description'], 
+                    category = category,
+                    #competence =  subcategory_data['competence']
+                )
             subcats.append(subcat)
             
         SubCategory.objects.bulk_create(subcats)
