@@ -15,8 +15,8 @@ from personal.serializers import *
 from gaps.serializers import CapacitySerializer, CapacityTypeSerializer, CapacityXEmployeeSerializer, TrainingNeedSerializer, CapacityXAreaXPositionSerializer
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite
 from gaps.serializers import AreaSerializer
-import openai as ai
-ai.api_key = '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'
+#import openai as ai
+#ai.api_key = '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'
 # Create your views here.
 
 class CapacityView(APIView):
@@ -38,7 +38,7 @@ class CapacityView(APIView):
             #                 engine='text-davinci-003',
             #                 prompt='Dame una descripción de máximo 100 caracteres de la competencia de ' + competencias_serializer.data['name'],
             #                 max_tokens=200,)
-            campos = {'code': str(tipoCompetencia[0]['abbreviation'][0:3]) + str(competencias_serializer.data['name'][0:3]).upper() + str(competencias_serializer.data['id'])
+            campos = {'code': str(tipoCompetencia[0]['abbreviation'][0:3]) + '-' + str(competencias_serializer.data['name'][0:3]).upper() + str(competencias_serializer.data['id'])
             }
             #          'description': str(response.choices[0].text.strip()).replace('\n', '')}
             competencias_serializer2 = CapacitySerializer(competencia, data = campos)
@@ -55,7 +55,7 @@ class CapacityView(APIView):
             # Generador de codigo de competencia
             idTipoComp = request.data["type"]
             tipoCompetencia = CapacityType.objects.filter(id=idTipoComp).values()
-            campos = {'code': str(tipoCompetencia[0]['abbreviation'][0:3]) + str(request.data['name'][0:3]).upper() + str(request.data['id'])}
+            campos = {'code': str(tipoCompetencia[0]['abbreviation'][0:3]) + '-'+ str(request.data['name'][0:3]).upper() + str(request.data['id'])}
             request.data["code"] = campos['code']
         competencia = Capacity.objects.filter(id=idComp).first()
         competencias_serializer = CapacitySerializer(competencia, data = request.data, context = request.data)
