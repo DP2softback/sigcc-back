@@ -294,8 +294,8 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
 
 class ValorarCursoAPIView(APIView):
 
-    def post(self, request):
-        id_curso = request.data.get('curso', None)
+    def post(self, request,id_cr):
+        id_curso = id_cr
         id_empleado = request.data.get('empleado', None)
         valoracion = request.data.get('valoracion', None)
         comentario = request.data.get('comentario', None)
@@ -309,6 +309,21 @@ class ValorarCursoAPIView(APIView):
             return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
 
         return Response({'msg': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self,request,id_cr):
+
+        curso = CursoGeneral.objects.filter(id=id_cr).values('nombre','descripcion','suma_valoracionees','cant_valoraciones').first()
+
+        if curso is None:
+            return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = {}
+        data["datos_curso"] = curso
+        valoraciones = EmpleadoXCurso.objects.filter(curso=id_cr).values('valoracion','comentario')
+
+        data["valoraciones"] = valoraciones
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class ValoracionLearningPathAPIView(APIView):
@@ -404,3 +419,20 @@ class SubirDocumentoRespuestaAPIView(APIView):
             return Response({"message": "Se guardó con exito"}, status=status.HTTP_200_OK)
 
         return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ValoracionesCursosAPIVIEW(APIView):
+
+    def get(self,request,id_cr):
+        curso = CursoGeneral.objects.filter(id=id_cr).values('nombre','descripcion','suma_valoraciones','cant_valoraciones').first()
+
+        if curso is None:
+            return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = {}
+        data["datos_curso"] = curso
+        valoraciones = EmpleadoXCurso.objects.filter(curso=id_cr).values('valoracion','comentario')
+
+        data["valoraciones"] = valoraciones
+
+        return Response(data, status=status.HTTP_200_OK)
