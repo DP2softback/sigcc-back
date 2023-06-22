@@ -110,7 +110,7 @@ class ProcessStage(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     # First Stage
-    position_similarity = models.IntegerField(null=True, blank=True)
+    position_similarity = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.name
