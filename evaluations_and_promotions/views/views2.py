@@ -196,7 +196,7 @@ class addCategory(APIView):
 
 class getFreeCompetences(APIView):
     def get(self, request):
-        competences =  SubCategory.objects.filter(category = None)
+        competences =  SubCategory.objects.filter(category = None).values('name').distinct()
         serialized = SubCategorySerializer(competences, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
         
