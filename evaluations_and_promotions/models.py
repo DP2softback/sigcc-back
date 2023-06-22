@@ -77,7 +77,6 @@ class CompetencessXEmployeeXLearningPath(models.Model):
     isInitial = models.BooleanField(default=False)
     level = models.TextField(blank=True,null =True)
     score = models.FloatField(blank=True,null =True)
-
     isActual = models.BooleanField(null=True,blank=True)
     modifiedBy = models.TextField(blank=True, default='',null =True)
 
