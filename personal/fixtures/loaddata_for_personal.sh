@@ -14,6 +14,7 @@ python manage.py loaddata ./personal/fixtures/democompetencescale.json
 python manage.py loaddata ./personal/fixtures/demoareaxposicion.json
 python manage.py loaddata ./personal/fixtures/democompetencexareaxposition.json
 python manage.py loaddata ./personal/fixtures/stage_types.json
+
 python manage.py loaddata ./gaps/fixtures/Data_tiposCompetencia.json
 python manage.py loaddata ./gaps/fixtures/Data_competencias.json
 
