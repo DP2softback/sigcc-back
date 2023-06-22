@@ -13,6 +13,8 @@ class Parametros(models.Model):
     nota_minima = models.IntegerField()
     numero_intentos_curso = models.IntegerField()
     numero_intentos_lp = models.IntegerField()
+    num_preg_min_aprobar_curso_udemy = models.IntegerField()
+    num_preg_eval_udemy = models.IntegerField()
 
     class Meta:
         db_table = 'Parametros' 
@@ -37,6 +39,9 @@ class LearningPath(models.Model):
     cant_intentos_cursos_max = models.IntegerField()
     cant_intentos_evaluacion_integral_max = models.IntegerField()
     estado = models.CharField(max_length=1, choices=estado_choices, default='0')
+    cantidad_cursos= models.IntegerField(default=0)
+    descripcion_evaluacion = models.TextField(null=True)
+    rubrica = models.JSONField(null=True)
 
     def get_cant_intentos_cursos_max_default(self):
         return Parametros.objects.first().numero_intentos_curso
@@ -111,6 +116,7 @@ class CursoEmpresa(CursoGeneral):
     fecha_ultima_sesion=models.DateTimeField(null=True)
     cantidad_empleados= models.IntegerField(default=0)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
+    cantidad_sesiones= models.IntegerField(default=0)
 
     class Meta:
         db_table = 'CursoEmpresa'
@@ -121,7 +127,7 @@ class CursoGeneralXLearningPath(models.Model):
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     nro_orden = models.IntegerField()
-    cant_intentos_max = models.IntegerField()
+    cant_intentos_max = models.IntegerField(default=3)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
     class Meta:
@@ -164,11 +170,16 @@ class EmpleadoXLearningPath(models.Model):
     learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
     estado = models.CharField(max_length=30, choices=estado_choices)
     porcentaje_progreso = models.DecimalField(default=0, max_digits=3, decimal_places=2)
-    apreciacion = models.TextField(null=True)
+    valoracion = models.IntegerField(default=0)
+    comentario_valoracion = models.TextField(null=True)
     fecha_asignacion = models.DateTimeField(null=True, default=timezone.now)
     fecha_limite = models.DateTimeField(null=True)
     fecha_completado = models.DateTimeField(null=True)
-
+    cantidad_cursos= models.IntegerField(default=0)
+    rubrica_calificada_evaluacion = models.JSONField(null=True)
+    nota_evaluacion = models.IntegerField(null=True)
+    comentario_evaluacion = models.TextField(null=True)
+    
     class Meta:
         db_table = 'EmpleadoXLearningPath'
 
@@ -186,6 +197,7 @@ class EmpleadoXCurso(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     valoracion = models.IntegerField(default=0)
+    comentario = models.CharField(max_length=1000, null=True)
 
     class Meta:
         db_table = 'EmpleadoXCurso'
@@ -195,10 +207,10 @@ class EmpleadoXCursoEmpresa(models.Model):
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     porcentajeProgreso= models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    cantidad_sesiones= models.IntegerField(default=0)
     fechaAsignacion= models.DateTimeField(null=True)
     fechaLimite= models.DateTimeField(null=True)
     fechaCompletado= models.DateTimeField(null=True)
-    apreciacion= models.CharField(max_length=1000,null=True)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
 
     class Meta:
@@ -223,19 +235,12 @@ class EmpleadoXCursoXLearningPath(models.Model):
     cant_intentos = models.IntegerField(default = 0)
     fecha_evaluacion = models.DateTimeField(null=True)
     ultima_evaluacion = models.BooleanField(default=False)
-
+    porcentajeProgreso= models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    cantidad_sesiones= models.IntegerField(default=0)
+    
     class Meta:
         db_table = 'EmpleadoXCursoXLearningPath'
 
-
-class RubricaExamen(models.Model):
-
-    descripcion = models.CharField(max_length=200)
-    learning_path = models.ForeignKey(LearningPath, on_delete=models.CASCADE)
-    rubrica_examen_x_empleado = models.ManyToManyField(Employee, through='RubricaExamenXEmpleado')
-
-    class Meta:
-        db_table = 'RubricaExamen'
 
 
 class DocumentoExamen(models.Model):
@@ -247,38 +252,6 @@ class DocumentoExamen(models.Model):
     class Meta:
         db_table = 'DocumentoExamen'
 
-
-class DetalleRubricaExamen(models.Model):
-
-    criterio_evaluacion = models.CharField(max_length=200)
-    nota_maxima = models.IntegerField()
-    rubrica_examen = models.ForeignKey(RubricaExamen, on_delete=models.CASCADE)
-    detalle_rubrica_x_empleado = models.ManyToManyField(Employee, through='DetalleRubricaExamenXEmpleado')
-
-    class Meta:
-        db_table = 'DetalleRubricaExamen'
-
-
-class DetalleRubricaExamenXEmpleado(models.Model):
-
-    detalle_rubrica_examen = models.ForeignKey(DetalleRubricaExamen, on_delete=models.CASCADE)
-    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    nota = models.IntegerField()
-    comentario = models.TextField()
-
-    class Meta:
-        db_table = 'DetalleRubricaExamenXEmpleado'
-
-
-class RubricaExamenXEmpleado(models.Model):
-
-    rubrica_examen = models.ForeignKey(RubricaExamen, on_delete=models.CASCADE)
-    empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    nota = models.IntegerField()
-    comentario = models.TextField()
-
-    class Meta:
-        db_table = 'RubricaExamenXEmpleado'
 
 
 class Categoria(models.Model):

@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render
-from gaps.models import Competence
+#from gaps.models import Competence
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
