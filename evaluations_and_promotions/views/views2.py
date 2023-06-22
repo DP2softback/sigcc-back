@@ -137,8 +137,8 @@ class addSubcategory(APIView):
         count =  SubCategory.objects.filter(category = category).count()
         for subcategoryData in subcategories:
             count += 1
-            if(subcategoryData.id is not None):
-                subcat =SubCategory.objects.get(id= subcategoryData.id)
+            if(subcategoryData['id'] is not None):
+                subcat =SubCategory.objects.get(id= subcategoryData['id'])
                 subcat.category = category
                 subcat.code = category.code+str(count)
                 subcat.modifiedDate = datetime.now(peruTz)
@@ -196,7 +196,7 @@ class addCategory(APIView):
 
 class getFreeCompetences(APIView):
     def get(self, request):
-        competences =  SubCategory.objects.filter(category = None).values('name').distinct()
+        competences =  SubCategory.objects.filter(category = None).order_by('name').distinct('name')
         serialized = SubCategorySerializer(competences, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
         
