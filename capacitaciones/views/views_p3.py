@@ -257,7 +257,7 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
         learningpath = LearningPath.objects.filter(id=lp).first()
         data = {}
 
-        archivo_eval = DocumentoExamen.objects.filter(learning_path=lp)
+        archivo_eval = DocumentoExamen.objects.filter(learning_path_id=lp).values('url_documento').first()
 
         learning_path_data = {
             "nombre": learningpath.nombre,
@@ -313,8 +313,8 @@ class ValorarCursoAPIView(APIView):
 
 class ValoracionLearningPathAPIView(APIView):
 
-    def post(self, request):
-        id_lp = request.data.get('learning_path', None)
+    def post(self, request,id_lp):
+        #id_lp = request.data.get('learning_path', None)
         id_empleado = request.data.get('empleado', None)
         valoracion = request.data.get('valoracion', None)
         comentario = request.data.get('comentario', None)
@@ -329,6 +329,7 @@ class ValoracionLearningPathAPIView(APIView):
 
         return Response({'msg': 'No se encontro el learning path asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
 
+
     def get(self,request,id_lp):
         lp = LearningPath.objects.filter(id=id_lp).values('nombre','descripcion','suma_valoraciones','cant_valoraciones','cant_empleados').first()
 
@@ -342,3 +343,62 @@ class ValoracionLearningPathAPIView(APIView):
         data["valoraciones"] = valoraciones
 
         return Response(data, status=status.HTTP_200_OK)
+
+
+class DetalleEvaluacionEmpleadoAPIView(APIView):
+
+    def get(self, request, id_lp, id_emp):
+
+        registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id','rubrica_calificada_evaluacion','comentario_evaluacion').first()
+
+        if registro:
+            data = {}
+            data['rubrica_calificada']= registro['rubrica_calificada_evaluacion']
+            data['comentario_evaluacion']= registro['comentario_evaluacion']
+            archivo_emp = DocumentoRespuesta.objects.filter(empleado_learning_path_id=registro['id']).values(
+                'url_documento')
+            data["archivo_emp"] = None if not archivo_emp else archivo_emp
+            archivo_eval = DocumentoExamen.objects.filter(learning_path_id=id_lp).values('url_documento').first()
+            data["archivo_eval"] = None if not archivo_eval else archivo_eval
+            return Response(data, status=status.HTTP_200_OK)
+
+        return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request, id_lp, id_emp):
+        #id_lp = request.data.get('learning_path', None)
+        #id_emp = request.data.get('empleado', None)
+        rubrica_calificada = request.data.get('rubrica_calificada', None)
+        comentario_evaluacion = request.data.get('comentario_evaluacion', None)
+
+        registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).first()
+
+        if registro:
+            lp = LearningPath.objects.filter(id=id_lp).first()
+            empleado = Employee.objects.filter(id=id_emp).first()
+            registro.rubrica_calificada_evaluacion = rubrica_calificada
+            registro.comentario_evaluacion = comentario_evaluacion
+            registro.save()
+            #EmpleadoXLearningPath.objects.create( learning_path = lp, empleado=empleado, rubrica_calificada_evaluacion=rubrica_calificada, comentario_evaluacion=comentario_evaluacion)
+
+            return Response({"message": "Se registró con exito"}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubirDocumentoRespuestaAPIView(APIView):
+
+    def post(self, request):
+        id_lp = request.data.get('learning_path', None)
+        id_emp = request.data.get('empleado', None)
+        archivo_emp = request.data.get('archivo_emp', None)
+
+        id_registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id').first()
+
+        if id_registro:
+            doc_respuesta = DocumentoRespuesta.objects.filter(id=id_registro).first()
+            doc_respuesta.url_documento = archivo_emp
+            doc_respuesta.save()
+
+            return Response({"message": "Se guardó con exito"}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
