@@ -7,6 +7,7 @@ from .models import *
 from django.db import transaction
 from django.core.serializers import serialize
 from gaps.models import *
+from evaluations_and_promotions.models import *
 
 
 class HiringProcessView(APIView):
@@ -186,19 +187,32 @@ class PositionView(APIView):
         area = request.data["area"]
         job_modality = request.data["job_modality"]
         workday_type = request.data["workday_type"]
+
         competencies = request.data["competencies"]            
+        capacities = request.data["capacities"]
+        training = request.data["training"]
+
         functions = request.data["responsabilities"]
 
         # check if all data exits
         try:             
             area = Area.objects.get(id=area)
-            #saving every competence
-            competencies_and_levels=[]
-            for capacity in competencies:
-                competencyobj = Competence.objects.get(id=capacity['competency'])
-                levelobj = CompetenceScale.objects.get(competence=competencyobj, level=capacity['level'])
-                print(f"Competence: {levelobj.competence.name} - level: {levelobj.level}")
-                competencies_and_levels.append([competencyobj,levelobj])
+            #saving every competence, capacity and training
+            competency_list=[]
+            capacity_list=[]
+            training_list=[]
+            for com in competencies:
+                competencyobj = SubCategory.objects.get(id=com)                
+                print(f"Competence: {competencyobj.name}")
+                competency_list.append(competencyobj)
+            for cap in capacities:
+                capacityobj = Capacity.objects.get(id=cap)                
+                print(f"Capacity: {capacityobj.name}")
+                competency_list.append(capacityobj)
+            for tr in training:
+                trainingobj = TrainingxLevel.objects.get(id=tr)                
+                print(f"Training: {trainingobj.name}")
+                competency_list.append(trainingobj)                        
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
@@ -228,15 +242,30 @@ class PositionView(APIView):
         areaxposition = AreaxPosicion(area=area, position=position)
         areaxposition.save()
 
-        #linking competencies with position
-        for competency_and_level in competencies_and_levels:
-            obj = CompetenceXAreaXPosition(
-                competence=competency_and_level[0],
-                position=position,
-                area=area,
-                scalePosition=competency_and_level[1],
+        #linking capacities, competencies and training with position
+        for com in competencies:
+            obj = CompetencyxAreaxPosition(
+                competency=com, 
+                areaxposition = areaxposition,
+                score='M'
             )
             obj.save()
+        #linking capacities, competencies and training with position
+        for cap in capacities:
+            obj = CapacityXAreaXPosition(
+                capacity=cap, 
+                positionArea = areaxposition,
+                levelRequired='M'
+            )
+            obj.save()
+        #linking capacities, competencies and training with position
+        for tr in training:
+            obj = TrainingxAreaxPosition(
+                training=tr, 
+                areaxposition = areaxposition,
+                score='M'
+            )
+            obj.save()                        
 
         return Response(data=f"Position registered", status=status.HTTP_201_CREATED)
         

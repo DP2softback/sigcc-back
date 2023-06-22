@@ -2,8 +2,9 @@ from django.db import models
 
 from capacitaciones.models import LearningPath
 from login.models import Employee
-from personal.models import Area, AreaxPosicion, Position
-
+from personal.models import Area, Position, AreaxPosicion
+from model_utils.models import TimeStampedModel
+from safedelete.models import SOFT_DELETE, SOFT_DELETE_CASCADE, SafeDeleteModel
 from .models import *
 
 # Create your models here.
@@ -112,3 +113,10 @@ class PlantillaxSubCategoria(models.Model):
     plantilla = models.ForeignKey(Plantilla, on_delete=models.CASCADE, null=True)
     subCategory = models.ForeignKey(SubCategory, null=True, blank=True, on_delete=models.SET_NULL)
     posicion = models.IntegerField(null=True,blank=True)
+
+class CompetencyxAreaxPosition(TimeStampedModel, SafeDeleteModel):    
+    competency = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+    areaxposition = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE, null=True, blank=True)
+    score = models.CharField(max_length=20, blank=True, null=True)    
+    def __str__(self):
+        return f"{self.competency.name} for position {self.areaxposition}"    

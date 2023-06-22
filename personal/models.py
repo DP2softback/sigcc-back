@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from model_utils.models import TimeStampedModel
+from safedelete.models import SOFT_DELETE, SOFT_DELETE_CASCADE, SafeDeleteModel
 
 # Create your models here.
 class Position(models.Model):
@@ -27,8 +29,7 @@ class Area(models.Model):
     description = models.TextField(blank=True, default='')
     name = models.CharField(max_length=100)
     supervisorsArea = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, blank=True)
-    roles = models.ManyToManyField(Position, through="AreaxPosicion")
-
+    positions = models.ManyToManyField(Position, through="AreaxPosicion")
     def __str__(self):
         return self.name
 
@@ -142,6 +143,53 @@ class JobOfferNotification(models.Model): # Tabla intermedia Empleado x Oferta l
     sent = models.BooleanField(default = False) # Si la notificacion fue enviada o no
     suitable = models.BooleanField(default = False) # Si es que el empleado es compatible para la oferta laboral
 
-    
 
+class TrainingType(TimeStampedModel, SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    code = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default='')
+    
+    def __str__(self):
+        return self.code
+    
+class TrainingLevel(TimeStampedModel, SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    code = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default='')
+    level = models.IntegerField(blank=True, null=True)
+    
+    def __str__(self):
+        return self.code    
+
+class Training(TimeStampedModel, SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    code = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default='')    
+    training_type = models.ForeignKey(TrainingType, on_delete=models.SET_NULL, null=True, blank=True)
+    levels = models.ManyToManyField(TrainingLevel, through="TrainingxLevel")
+    def __str__(self):
+        return self.name
+
+# this is the real EDUCACIÓN
+class TrainingxLevel(TimeStampedModel, SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    training = models.ForeignKey(Training, on_delete=models.SET_NULL, null=True, blank=True)
+    level = models.ForeignKey(TrainingLevel, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.training.training_type.name} {self.level.name} en {self.training.name}"
+
+
+# intersections
+
+class TrainingxAreaxPosition(TimeStampedModel, SafeDeleteModel):    
+    training = models.ForeignKey(TrainingxLevel, on_delete=models.CASCADE, null=True, blank=True)
+    areaxposition = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE, null=True, blank=True)
+    score = models.CharField(max_length=20, blank=True, null=True)    
+    def __str__(self):
+        return f"{self.training} for position {self.areaxposition}"
+    
 
