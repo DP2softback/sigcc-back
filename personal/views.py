@@ -6,6 +6,7 @@ from .serializers import *
 from .models import *
 from django.db import transaction
 from django.core.serializers import serialize
+from gaps.models import *
 
 
 class HiringProcessView(APIView):
@@ -145,25 +146,100 @@ class JobOfferView(APIView):
             return Response(job_offer_serializer.data, status=status.HTTP_201_CREATED)
         return Response(job_offer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class PositionView(APIView):
+class AreaxPositionView(APIView):
     def get(self, request):
-        positions = Position.objects.all()
+        axp= AreaxPosicion.objects.all() 
+        axp_serializer = AreaxPositionSerializer(axp, many=True)
+        return Response(axp_serializer.data, status = status.HTTP_200_OK)
+
+class PositionView(APIView):
+    def get(self, request, pk):
+        print(pk)
+        positions = Position.objects.filter(id=pk)
+        print(positions)
         serializer = PositionSerializer(positions, many=True)
 
         for position_data in serializer.data:
-            position_id = position_data['id']
+            print(position_data)
+            position_id = position_data['id']            
             functions = Functions.objects.filter(position_id=position_id)
             functions_serializer = FunctionsSerializer(functions, many=True)
             position_data['functions'] = functions_serializer.data
+            areasxposition = AreaxPosicion.objects.filter(position_id=position_id)
+            areas_serializer = AreaxPositionSerializer(areasxposition, many=True)
             
+            areas = []
+            for area in areas_serializer.data:
+                areas.append((area['id'], area['area_name']))
+            
+            position_data['areas'] = dict(areas)
+
         return Response(serializer.data)
     
     def post(self, request):
-        serializer = PositionSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        print(request.user)
+        print(request.data)
+
+        name = request.data["name"]
+        description = request.data["description"]
+        area = request.data["area"]
+        job_modality = request.data["job_modality"]
+        workday_type = request.data["workday_type"]
+        competencies = request.data["competencies"]            
+        functions = request.data["responsabilities"]
+
+        # check if all data exits
+        try:             
+            area = Area.objects.get(id=area)
+            #saving every competence
+            competencies_and_levels=[]
+            for capacity in competencies:
+                competencyobj = Competence.objects.get(id=capacity['competency'])
+                levelobj = CompetenceScale.objects.get(competence=competencyobj, level=capacity['level'])
+                print(f"Competence: {levelobj.competence.name} - level: {levelobj.level}")
+                competencies_and_levels.append([competencyobj,levelobj])
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+
+        # insert position
+        position = Position(
+            name = name,
+            description = description,
+            area=area,
+            modalidadTrabajo=job_modality,
+            tipoJornada=workday_type,                              
+        )    
+        position.save()      
+
+        #saving functions
+        for function in functions:
+            functionobj = Functions.objects.create(
+                area=area,
+                position=position, 
+                description=function
+            )
+            functionobj.save()
+            position.functions_set.add(functionobj)
+
+        #linking position with Area
+        areaxposition = AreaxPosicion(area=area, position=position)
+        areaxposition.save()
+
+        #linking competencies with position
+        for competency_and_level in competencies_and_levels:
+            obj = CompetenceXAreaXPosition(
+                competence=competency_and_level[0],
+                position=position,
+                area=area,
+                scalePosition=competency_and_level[1],
+            )
+            obj.save()
+
+        return Response(data=f"Position registered", status=status.HTTP_201_CREATED)
+        
     
     def put(self, request, pk):
         position = Position.objects.filter(pk=pk).first()

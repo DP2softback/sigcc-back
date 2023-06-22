@@ -1,4 +1,4 @@
-﻿from rest_framework import serializers
+from rest_framework import serializers
 from gaps.models import Capacity, CapacityXAreaXPosition, CapacityXEmployee, TrainingNeed, CapacityType
 from personal.models import Area, Position, AreaxPosicion
 from evaluations_and_promotions.serializers import AreaSerializer, PositionSerializer, EmployeeSerializer

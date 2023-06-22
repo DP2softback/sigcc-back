@@ -10,6 +10,8 @@ urlpatterns = [
     path('job-offers', JobOfferView.as_view()),
     path('positions', PositionView.as_view()),
     path('positions/<int:pk>', PositionView.as_view()),
+    path('areaxposition', AreaxPositionView.as_view()),
+    path('areaxposition/<int:pk>', PositionView.as_view()),
     path('functions', FunctionsView.as_view()),
     path('functions/<int:pk>', FunctionsView.as_view()),
 ]
