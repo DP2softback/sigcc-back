@@ -1,6 +1,7 @@
 from django.db import models
 from personal.models import *
 from login.models import Employee
+from evaluations_and_promotions.models import SubCategory
 from capacitaciones.models import CursoGeneral
 
 # Create your models here.
