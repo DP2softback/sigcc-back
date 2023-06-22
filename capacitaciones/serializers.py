@@ -263,6 +263,17 @@ class EmpleadoXCursoXLearningPathSerializer(serializers.ModelSerializer):
         model = EmpleadoXCursoXLearningPath
         fields = '__all__'
 
+class EmpleadoXCursoXLearningPathProgressSerializer(serializers.ModelSerializer):
+    empleado = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EmpleadoXCursoXLearningPath
+        fields = ['empleado','progreso', 'curso', 'learning_path','estado','porcentajeProgreso','cantidad_sesiones']
+
+    def get_empleado(self, obj):
+        return EmpleadoSerializer(obj.empleado).data
+
+
 
 class CursoGeneralSerializer(serializers.ModelSerializer):
     class Meta:

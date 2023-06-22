@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathSerializer, EmpleadosXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathProgressSerializer, EmpleadoXCursoXLearningPathSerializer, EmpleadosXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -773,4 +773,22 @@ class LearningPathsForEmployeeAPIView(APIView):
         learnings_path_serializer = EmpleadosXLearningPathSerializer(learnings_path, many=True)
         return Response(learnings_path_serializer.data, status = status.HTTP_200_OK)
         
-
+class ProgressCourseForLearningPathForEmployeesAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request,lp_id,course_id):
+        curso=CursoGeneral.objects.filter(id=course_id).first()
+        employees_course_learning_path = EmpleadoXCursoXLearningPath.objects.filter(learning_path_id= lp_id,curso_id=course_id)
+        learnings_path_serializer = EmpleadoXCursoXLearningPathProgressSerializer(employees_course_learning_path, many=True)
+        data = []
+        curso_data = {
+            'id': curso.id,
+            'nombre': curso.nombre,
+            'descripcion': curso.descripcion,
+            'duracion':curso.duracion,
+            'cant_valoraciones':curso.cant_valoraciones,
+            'suma_valoracionees':curso.suma_valoracionees,
+        }
+        data.append(curso_data)
+        data.append(learnings_path_serializer.data)
+        return Response(data, status = status.HTTP_200_OK)
