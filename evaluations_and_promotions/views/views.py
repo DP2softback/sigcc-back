@@ -1,5 +1,6 @@
 import json
 from django.shortcuts import render
+from gaps.models import Competence
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
@@ -16,12 +17,14 @@ from datetime import datetime
 from django.utils import timezone
 from datetime import timedelta
 from django.shortcuts import get_object_or_404
-from django.db.models import F
+from django.db.models import F, Q
 from django.db.models.functions import ExtractYear, ExtractMonth
 from django.db.models.aggregates import Sum,Count   
 from django.db.models import F, ExpressionWrapper, FloatField
 from collections import defaultdict
 from rest_framework.permissions import AllowAny
+from django.core.validators import URLValidator
+
 
 
 def validate_employee_and_evaluation(employee_id, tipoEva):
@@ -84,10 +87,17 @@ class GetPersonasACargo(APIView):
         evaluation_type = request.data.get("evaluationType")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")
-
+        nombre = request.data.get("nombre")
         validate_employee_and_evaluation(supervisor_id, evaluation_type)
-
+        
         personas = Employee.objects.filter(supervisor=supervisor_id)
+
+        if nombre:
+            personas = personas.filter(
+                Q(user__first_name__icontains=nombre) |
+                Q(user__last_name__icontains=nombre)  |
+                Q(user__username__icontains=nombre)
+            )
         evaluation_type_obj = get_object_or_404(EvaluationType, name=evaluation_type)
         evaluations = Evaluation.objects.filter(evaluated__in=personas, evaluationType=evaluation_type_obj, isActive=True, isFinished=True)
         employee_data = []
@@ -106,7 +116,7 @@ class GetPersonasACargo(APIView):
                 evaluations = evaluations.filter(evaluationDate__lte=fecha_final)
             except ValueError:
                 return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
-
+        
         category_scores = defaultdict(list)
         category_averages = {}
 
@@ -158,13 +168,12 @@ class GetPersonasACargo(APIView):
                 'email': persona.user.email
             })
             
-        for employee in employee_data:
-            employee['CategoryAverages'] = category_averages
+        # for employee in employee_data:
+        #     employee['CategoryAverages'] = category_averages
 
         return Response(employee_data, status=status.HTTP_200_OK)
     
 class GetHistoricoDeEvaluaciones(APIView):
-    #permission_classes = [AllowAny]
     def post(self, request):
         #request: nivel, fecha_inicio,fecha_final, tipoEva, employee_id
         employee_id = request.data.get("employee_id")
@@ -172,15 +181,12 @@ class GetHistoricoDeEvaluaciones(APIView):
         nivel = request.data.get("nivel")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")  
-        #print(request.data)
-        #pprint.pprint(request.__dict__, stream=sys.stderr)
-        #print("employee_id", employee_id)
-        #print("EvaType", tipoEva)
+
         validate_employee_and_evaluation(employee_id, tipoEva)
         
         
         evaType = get_object_or_404(EvaluationType, name=tipoEva)
-        query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True, isFinished=True)
+        query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True)
         
         if nivel:
             query = query.filter(finalScore=nivel)
@@ -201,6 +207,7 @@ class GetHistoricoDeEvaluaciones(APIView):
 
         evaluations = query.all()
         responseData = []
+
         #Continua
         if evaType.name.casefold() == "Evaluación Continua".casefold():
             category_scores = {}
@@ -237,6 +244,7 @@ class GetHistoricoDeEvaluaciones(APIView):
             # Update responseData with category averages
             for data in responseData:
                 data['CategoryAverages'] = category_averages
+
         #Desempeño
         elif evaType.name.casefold() == "Evaluación de Desempeño".casefold():
             serializedData = PerformanceEvaluationSerializer(evaluations,many=True)
@@ -279,7 +287,7 @@ class EvaluationLineChart(APIView):
         evaluation_type = request.data.get("evaluationType")
         fecha_inicio = request.data.get("fecha_inicio")
         fecha_final=request.data.get("fecha_final")
-
+        nombre = request.data.get("nombre")
 
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
@@ -299,7 +307,13 @@ class EvaluationLineChart(APIView):
                 Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
             except ValueError:
                 return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
-        
+        if nombre:
+            Datos = Datos.filter(
+                Q(evaluation__evaluated__user__first_name__icontains=nombre)|
+                Q(evaluation__evaluated__user__last_name__icontains=nombre)|
+                Q(evaluation__evaluated__user__username__icontains=nombre)
+                )
+
         Data_serialiazada = EvaluationxSubCategoryRead(Datos,many=True,fields=('id','score','evaluation','subCategory'))
         
         
@@ -362,6 +376,7 @@ class PlantillasAPI(APIView):
         for item in data:
             plantilla_id = item['plantilla']['id']
             plantilla_name = item['plantilla']['nombre']
+            plantilla_image = item['plantilla']['image']
             evaluation_type = item['plantilla']['evaluationType']['name']
             category_id = item['subCategory']['category']['id']
             category_name = item['subCategory']['category']['name']
@@ -373,6 +388,7 @@ class PlantillasAPI(APIView):
                     'id': plantilla_id,
                     'name': plantilla_name,
                     'evaluationType': evaluation_type,
+                    'image': plantilla_image,
                     'Categories': []
                 }
             
@@ -479,6 +495,7 @@ class PlantillasEditarVistaAPI(APIView):
         response_data = {
             'plantilla-id': template.id,
             'plantilla-nombre': template.nombre,
+            'plantilla-image': template.image,
             'Categories': []
         }
 
@@ -640,10 +657,17 @@ class PlantillasEditarAPI(APIView):
         plantilla = request.data.get("plantilla-id")
         nuevanombre = request.data.get("plantilla-nombre")
         Plantilla_basica = Plantilla.objects.get(pk=plantilla)
+        image_url = request.data.get("image")
+        
+        Plantilla_basica.nombre = nuevanombre
+        if image_url:
+            try:
+                URLValidator()(image_url)
+                Plantilla_basica.image = image_url
+            except ValidationError:
+                return Response("Invalid image URL", status=status.HTTP_400_BAD_REQUEST)
 
-        if(Plantilla_basica.nombre != nuevanombre ):
-            Plantilla_basica.nombre = nuevanombre
-            Plantilla_basica.save()
+        Plantilla_basica.save()
 
         Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__isActive = True,isActive=True)
         Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
@@ -684,11 +708,18 @@ class PlantillasCrearAPI(APIView):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
         obj_evalty =   EvaluationType.objects.get(name= evaltype)
-        print(obj_evalty)
         plantilla_creada = Plantilla(nombre = request.data.get('nombre'),evaluationType = obj_evalty)
+
+        image_url = request.data.get("image")
+        if image_url:
+            try:
+                URLValidator()(image_url)
+                plantilla_creada.image = image_url
+            except ValidationError:
+                return Response("Invalid image URL", status=status.HTTP_400_BAD_REQUEST)
+        
         plantilla_creada.save()
 
-        print(plantilla_creada)
         if(plantilla_creada is None):
             return Response("No se ha creado correctamente el objeto plantilla",status=status.HTTP_400_BAD_REQUEST)
 
@@ -700,11 +731,33 @@ class PlantillasCrearAPI(APIView):
         
         return Response("Se creó correctamente la plantilla ",status=status.HTTP_200_OK)
     
+    def delete(self,request):
+        idPlantilla = request.data.get("idPlantilla")
+        if( idPlantilla is None):
+            return Response("No se ha dado el idPlantilla",status=status.HTTP_400_BAD_REQUEST)
+            
+        try:
+            obj_plantilla = Plantilla.objects.get(id=idPlantilla)
+            obj_plantilla.isActive = False
+            obj_plantilla.save()
+        except Plantilla.DoesNotExist:
+            return Response("La plantilla no existe", status=status.HTTP_400_BAD_REQUEST)
+
+    
+        obj_PlantillaxSubCategoria = PlantillaxSubCategoria.objects.filter(plantilla=obj_plantilla)
+
+        if obj_PlantillaxSubCategoria.exists():
+            obj_PlantillaxSubCategoria.update(isActive=False)
+                
+
+        
+        return Response("Se ha eliminado correctamente la plantilla",status=status.HTTP_200_OK)
+    
 
 class PlantillaPorTipo(APIView):
     def post(self,request):
         Data = Plantilla.objects.filter(isActive = True)
-        Data_serialazada = PlantillaSerializerRead(Data,many=True,fields = ('id','nombre','evaluationType'))
+        Data_serialazada = PlantillaSerializerRead(Data,many=True,fields = ('id','nombre','evaluationType', 'image'))
 
 
         result = {}
@@ -713,11 +766,12 @@ class PlantillaPorTipo(APIView):
             evaluation_type = item['evaluationType']['name']
             plantilla_id = item['id']
             plantilla_nombre = item['nombre']
+            plantilla_image = item['image']
             
             if evaluation_type not in result:
                 result[evaluation_type] = []
             
-            result[evaluation_type].append({"plantilla-id": plantilla_id, "plantilla-nombre": plantilla_nombre})
+            result[evaluation_type].append({"plantilla-id": plantilla_id, "plantilla-nombre": plantilla_nombre, "plantilla_image": plantilla_image})
 
 
         return Response(result,status=status.HTTP_200_OK)
@@ -749,10 +803,14 @@ class EvaluationLineChartReporte(APIView):
         fecha_final=request.data.get("fecha_final")
 
 
+
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter(evaluation__area__id = area_id, evaluation__evaluationType__name=evaluation_type, subCategory__category__id = category_id, evaluation__isActive = True)
+        Datos = EvaluationxSubCategory.objects.filter( evaluation__evaluationType__name=evaluation_type, subCategory__category__id = category_id, evaluation__isActive = True)
+        if(area_id is not None):
+            Datos.filter(evaluation__area__id = area_id)
+        
 
         if fecha_inicio:
             try:
@@ -812,3 +870,522 @@ class EvaluationLineChartReporte(APIView):
 
 
         return Response(transformed_data,status=status.HTTP_200_OK)
+    
+class ListAllCategories(APIView):
+    def post(self,request):
+        Categorias = Category.objects.filter(isActive = True)
+        Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
+        return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
+
+class ListAllCategories(APIView):
+    def post(self,request):
+        evalType = request.data.get("evalType")
+        if(evalType is None):
+            return Response("No se ha especificado el evalType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Categorias = Category.objects.filter(isActive = True,evaluationType__name=evalType)
+        Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
+        return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
+
+class RegistrarEvaluacionDesempen(APIView):
+    def post(self,request):
+
+        evaluador = request.data.get("evaluatorId")
+        evaluado = request.data.get("evaluatedId")
+        proyectoOb = request.data.get("associatedProject")
+        terminado = request.data.get("isFinished")
+        evaltype = request.data.get("evaluationType")
+
+
+        if (evaltype.casefold() != "Evaluación Continua".casefold() and evaltype.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+
+        obj_evalty =   EvaluationType.objects.get(name= evaltype)
+        obj_evaluado = Employee.objects.get(id=evaluado)
+        obj_evaluador = Employee.objects.get(id=evaluador)
+        obj_area = Area.objects.get(id=obj_evaluador.area.id)
+        obj_position = Position.objects.get(id=obj_evaluado.position.id)
+
+        scores=[]
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                scores.append(item2["score"])
+
+        finalPuntaje = sum(scores)/len(scores)
+        evaluacion_creada = Evaluation(evaluationDate = datetime.now(),finalScore = finalPuntaje,proyecto =proyectoOb ,evaluator = obj_evaluador, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position,isFinished = terminado,hasComment=request.data.get("hasComment"))
+
+        evaluacion_creada.save()
+
+        if(evaluacion_creada is None):
+            return Response("No se ha creado correctamente el objeto evaluacion",status=status.HTTP_400_BAD_REQUEST)
+        
+        if(obj_evalty.id==2):
+            evaluacion_creada_related = Evaluation(evaluationDate = datetime.now(),finalScore = 0,proyecto =proyectoOb ,evaluator = obj_evaluado, evaluated = obj_evaluado,evaluationType = obj_evalty,area = obj_area, position=obj_position, relatedEvaluation = evaluacion_creada,isFinished=False,hasComment=request.data.get("hasComment"))  
+            evaluacion_creada_related.save()
+            if(evaluacion_creada_related is None):
+                return Response("No se ha creado correctamente el objeto evaluacion relacionada",status=status.HTTP_400_BAD_REQUEST)
+
+
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                
+                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],subCategory = SubCategory.objects.get(id = item2["id"]),evaluation=evaluacion_creada)
+                subcategoriacrear_evaluacion.save()
+                if(subcategoriacrear_evaluacion is None):
+                    return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
+                
+                if(obj_evalty.id==2):
+                    subcat = SubCategory.objects.get(id = item2["id"])
+                    subcategoriacrear_evaluacion_related= EvaluationxSubCategory(subCategory = subcat,evaluation=evaluacion_creada_related,score=0)
+                    subcategoriacrear_evaluacion_related.save()
+                    if(subcategoriacrear_evaluacion_related is None):
+                        return Response("No se ha creado correctamente el objeto subcategoria related ",status=status.HTTP_400_BAD_REQUEST)
+
+        return Response("Se creó correctamente las evaluaciones ",status=status.HTTP_200_OK)
+    
+    def put(self,request):
+        evaluationId = request.data.get("evaluationId")
+
+
+        try:
+            obj_evaluation = Evaluation.objects.get(id=evaluationId)
+        except Evaluation.DoesNotExist:
+            return Response("No existe la evaluación de desempeño",status=status.HTTP_400_BAD_REQUEST)
+        
+        
+    
+        scores=[]
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                scores.append(item2["score"])
+
+        finalPuntaje = sum(scores)/len(scores)
+        obj_evaluation.finalScore = finalPuntaje
+        obj_evaluation.evaluationDate = datetime.now()
+        
+
+
+        for item in request.data.get("categories"):
+            for item2 in item["subcategories"]:
+                
+                subcategoriaactualizar_evaluacion = EvaluationxSubCategory.objects.get(subCategory__id =  item2["id"],evaluation__id=evaluationId)
+
+                if(subcategoriaactualizar_evaluacion is None):
+                    return Response("No se ha ubicado la subcategoria para esta evaluacion",status=status.HTTP_400_BAD_REQUEST)
+            
+                subcategoriaactualizar_evaluacion.score = item2["score"]
+                subcategoriaactualizar_evaluacion.save()
+
+        obj_evaluation.isFinished = True
+
+        obj_evaluation.save()
+
+
+        print(obj_evaluation.relatedEvaluation.id)
+        Evaluation.objects.filter(id=obj_evaluation.relatedEvaluation.id).update(isFinished=True)
+
+ 
+
+        
+        
+                
+                
+        return Response("Se envió correcatamente la evaluación de desempeño",status=status.HTTP_200_OK)
+    
+class ActualizarCategorias(APIView):
+    def post(self, request):
+
+        idCategoria = request.data.get("idCategoria")
+        nameCategoria = request.data.get("nameCategoria")
+
+        if(idCategoria is None):
+            return Response("No se ha especificado el idCategoria",status=status.HTTP_400_BAD_REQUEST)
+        if(nameCategoria is None):
+            return Response("No se ha especificado el nameCategoria",status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            obj_categoria = Category.objects.get(id=idCategoria)
+        except Category.DoesNotExist:
+            return Response("La categoria no existe", status=status.HTTP_400_BAD_REQUEST)
+        
+        obj_categorias = Category.objects.filter(name=obj_categoria.name)
+
+        if obj_categorias.exists():
+            obj_categorias.update(name=nameCategoria)
+        
+
+        obj_categoria_serializado = CategorySerializerRead(obj_categorias,fields=('id','name'),many=True)
+
+    
+        
+        return Response("Se ha actualizado correctamente la categoria",status=status.HTTP_200_OK)
+    
+    def delete(self, request):
+        idCategoria = request.data.get("idCategoria")
+        idSubCategoria = request.data.get("idSubCategoria")
+
+        if(idCategoria is None):
+            return Response("No se ha especificado el idCategoria",status=status.HTTP_400_BAD_REQUEST)
+        if(idSubCategoria is None):
+            return Response("No se ha especificado el idSubCategoria",status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            obj_subcategoria = SubCategory.objects.get(id=idSubCategoria,category__id=idCategoria)
+            
+        except SubCategory.DoesNotExist:
+            return Response("La subCategory no existe", status=status.HTTP_400_BAD_REQUEST)
+        
+        obj_categorias = SubCategory.objects.filter(name=obj_subcategoria.name)
+
+        if obj_categorias.exists():
+            obj_categorias.update(category = None)
+        
+
+        
+
+    
+        
+        return Response("Se ha eliminado la subcategoria correctamente de la categoria",status=status.HTTP_200_OK)
+    
+class EvaluationLineChartReporte2(APIView):
+    def post(self,request):
+
+        area_id = request.data.get("area-id")
+        category_id = request.data.get("category-id")
+        evaluation_type = request.data.get("evaluationType")
+        fecha_inicio = request.data.get("fecha_inicio")
+        fecha_final=request.data.get("fecha_fin")
+
+        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True)
+
+        if fecha_inicio:
+            try:
+                fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__gte=fecha_inicio)
+            except ValueError:
+                return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
+        
+        if fecha_final:
+            try:
+                fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
+                Datos = Datos.filter(evaluation__evaluationDate__lte=fecha_final)
+            except ValueError:
+                return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
+
+        if(category_id is not None):
+            Datos = Datos.filter(subCategory__category__id= category_id)
+            
+        if(area_id is not None):
+            Datos = Datos.filter(evaluation__area__id = area_id)
+
+        Data_serialiazada = EvaluationxSubCategoryRead2(Datos,many=True,fields=('id','score','evaluation','subCategory'))
+        
+        
+        data = Data_serialiazada.data
+
+        
+        
+        # 
+
+        # elif(category_id is not None and area_id is  None):
+
+        
+        
+
+
+        # return Response(transformed_data,status=status.HTTP_200_OK)
+        json1 = Data_serialiazada.data
+        json2=[]
+        json_data=json1
+        result = []
+
+        if(category_id is  None and area_id is  None):
+            for item in json1:
+                evaluation_date = item["evaluation"]["evaluationDate"]
+                date_obj = datetime.fromisoformat(evaluation_date)
+                year = date_obj.strftime("%Y")
+                month = date_obj.strftime("%m")
+                area_name = item["evaluation"]["area"]["name"]
+                score = item["score"]
+
+                existing_year = next((x for x in json2 if x["Year"] == year), None)
+                if existing_year:
+                    existing_month = next((m for m in existing_year["Month"] if m["Month"] == month), None)
+                    if existing_month:
+                        existing_area = next((a for a in existing_month["category_scores"] if a["Area"] == area_name), None)
+                        if existing_area:
+                            existing_area["ScoreAverage"].append(score)
+                        else:
+                            existing_month["category_scores"].append({"Area": area_name, "ScoreAverage": [score]})
+                    else:
+                        existing_year["Month"].append({"Month": month, "category_scores": [{"Area": area_name, "ScoreAverage": [score]}]})
+                else:
+                    json2.append({
+                        "Year": year,
+                        "Month": [
+                            {
+                                "Month": month,
+                                "category_scores": [
+                                    {"Area": area_name, "ScoreAverage": [score]}
+                                ]
+                            }
+                        ]
+                    })
+
+            # Calculate the average score for each month per area
+            for year in json2:
+                for month in year["Month"]:
+                    for area in month["category_scores"]:
+                        scores = area["ScoreAverage"]
+                        score_average = sum(scores) / len(scores)
+                        area["ScoreAverage"] = score_average
+            return Response(json2,status=status.HTTP_200_OK)
+        
+        
+
+        elif(category_id is not None and area_id is None):
+            result = []
+            for data in json_data:
+                area_name = data["evaluation"]["area"]["name"]
+                evaluation_date = datetime.fromisoformat(data["evaluation"]["evaluationDate"])
+                year = str(evaluation_date.year)
+                month = str(evaluation_date.month).zfill(2)
+
+                # Check if the area and year already exist in the result dictionary
+                area_exists = False
+                for area_data in result:
+                    if area_data["Area"] == area_name and area_data["Year"] == year:
+                        area_exists = True
+                        month_exists = False
+
+                        # Check if the month already exists in the area
+                        for month_data in area_data["Month"]:
+                            if month_data["month"] == month:
+                                month_exists = True
+
+                                # Check if the subcategory already exists in the month
+                                subcategory_exists = False
+                                for subcategory_score in month_data["subCategory_scores"]:
+                                    if subcategory_score["SubCategory"] == data["subCategory"]["name"]:
+                                        subcategory_exists = True
+                                        subcategory_score["ScoreAverage"] = (
+                                            subcategory_score["ScoreAverage"]
+                                            + data["score"]
+                                        ) / 2
+                                        break
+
+                                # If the subcategory doesn't exist, add it to the month
+                                if not subcategory_exists:
+                                    month_data["subCategory_scores"].append(
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    )
+                                break
+
+                        # If the month doesn't exist, add it to the area
+                        if not month_exists:
+                            area_data["Month"].append(
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            )
+                        break
+
+                # If the area doesn't exist, create a new entry
+                if not area_exists:
+                    result.append(
+                        {
+                            "Area": area_name,
+                            "Year": year,
+                            "Month": [
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            ],
+                        }
+                    )
+
+
+                
+            return Response(result,status=status.HTTP_200_OK)
+        elif(category_id is  None and area_id is not None):    
+            for data in json_data:
+                category_name = data["subCategory"]["category"]["name"]
+                evaluation_date = datetime.fromisoformat(data["evaluation"]["evaluationDate"])
+                year = str(evaluation_date.year)
+                month = str(evaluation_date.month).zfill(2)
+
+                # Check if the category and year already exist in the result dictionary
+                category_exists = False
+                for category_data in result:
+                    if category_data["Category"] == category_name and category_data["Year"] == year:
+                        category_exists = True
+                        month_exists = False
+
+                        # Check if the month already exists in the category
+                        for month_data in category_data["Month"]:
+                            if month_data["month"] == month:
+                                month_exists = True
+
+                                # Check if the subcategory already exists in the month
+                                subcategory_exists = False
+                                for subcategory_score in month_data["subCategory_scores"]:
+                                    if subcategory_score["SubCategory"] == data["subCategory"]["name"]:
+                                        subcategory_exists = True
+                                        subcategory_score["ScoreAverage"] = (
+                                            subcategory_score["ScoreAverage"]
+                                            + data["score"]
+                                        ) / 2
+                                        break
+
+                                # If the subcategory doesn't exist, add it to the month
+                                if not subcategory_exists:
+                                    month_data["subCategory_scores"].append(
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    )
+                                break
+
+                        # If the month doesn't exist, add it to the category
+                        if not month_exists:
+                            category_data["Month"].append(
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            )
+                        break
+
+                # If the category doesn't exist, create a new entry
+                if not category_exists:
+                    result.append(
+                        {
+                            "Category": category_name,
+                            "Year": year,
+                            "Month": [
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            ],
+                        }
+                    )
+
+            return Response(result,status=status.HTTP_200_OK)
+        elif(category_id is not None and area_id is not None):
+            for data in json_data:
+                evaluation_date = datetime.fromisoformat(data["evaluation"]["evaluationDate"])
+                year = str(evaluation_date.year)
+                month = str(evaluation_date.month).zfill(2)
+
+                # Check if the year already exists in the result dictionary
+                year_exists = False
+                for year_data in result:
+                    if year_data["Year"] == year:
+                        year_exists = True
+                        month_exists = False
+
+                        # Check if the month already exists in the year
+                        for month_data in year_data["Month"]:
+                            if month_data["month"] == month:
+                                month_exists = True
+
+                                # Check if the subcategory already exists in the month
+                                subcategory_exists = False
+                                for subcategory_score in month_data["subCategory_scores"]:
+                                    if subcategory_score["SubCategory"] == data["subCategory"]["name"]:
+                                        subcategory_exists = True
+                                        subcategory_score["ScoreAverage"] = (
+                                            subcategory_score["ScoreAverage"]
+                                            + data["score"]
+                                        ) / 2
+                                        break
+
+                                # If the subcategory doesn't exist, add it to the month
+                                if not subcategory_exists:
+                                    month_data["subCategory_scores"].append(
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    )
+                                break
+
+                        # If the month doesn't exist, add it to the year
+                        if not month_exists:
+                            year_data["Month"].append(
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            )
+                        break
+
+                # If the year doesn't exist, create a new entry
+                if not year_exists:
+                    result.append(
+                        {
+                            "Year": year,
+                            "Month": [
+                                {
+                                    "month": month,
+                                    "subCategory_scores": [
+                                        {
+                                            "SubCategory": data["subCategory"]["name"],
+                                            "ScoreAverage": data["score"],
+                                        }
+                                    ],
+                                }
+                            ],
+                        }
+                    )
+            return Response(result,status=status.HTTP_200_OK)
+        else:
+            return Response("No se ha brindado correctamente los parametros",status=status.HTTP_400_BAD_REQUEST)
+# class listCompetencias(APIView):
+#     def post(self,request):
+#         category_id = request.data.get("category-id")
+#         Competencias = Competence.objects.filter(isActive = True,subCategory__Category_id=category_id)
+#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
+#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
+    
+# class listCompetenciasPorCategoria(APIView):
+#     def post(self,request):
+#     ###    category_id = request.data.get("category-id")
+#         Competencias = Competence.objects.filter(isActive = True)
+#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
+#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)

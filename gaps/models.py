@@ -1,6 +1,7 @@
 from django.db import models
 from personal.models import *
 from login.models import Employee
+from evaluations_and_promotions.models import SubCategory
 from capacitaciones.models import CursoGeneral
 
 # Create your models here.
@@ -38,6 +39,8 @@ class Competence(models.Model):
     description = models.CharField(max_length=300, blank=True, null=True)
     active = models.BooleanField(default=True)
     type = models.ForeignKey(CompetenceType, on_delete=models.CASCADE, null=True, blank=True)
+    subCategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)    
+    
 
 class CompetenceScale(models.Model):
     id = models.BigAutoField(primary_key = True)
@@ -54,6 +57,8 @@ class CompetenceXAreaXPosition(models.Model):
     levelRequired = models.IntegerField(blank=True,null =True)
     scalePosition = models.ForeignKey(CompetenceScale, on_delete=models.CASCADE, null=True, blank=True)    
     active = models.BooleanField(default=True)
+    
+
 
 class CompetenceXEmployee(models.Model):
     id = models.BigAutoField(primary_key=True)

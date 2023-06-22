@@ -58,6 +58,18 @@ class SubCategory(models.Model):
     name = models.TextField(blank=True, default='')
     description = models.TextField(blank=True, default='')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    class Meta:
+        db_table = 'Competence'
+
+class CompetencessXEmployee(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    creationDate = models.DateTimeField(auto_now_add=True)
+    modifiedDate = models.DateTimeField(auto_now=True)
+    isActive = models.BooleanField(default=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+    level = models.TextField(blank=True,null =True)
+    score = models.FloatField(blank=True,null =True)  
 
 
 class EvaluationxSubCategory(models.Model):
@@ -78,6 +90,7 @@ class Plantilla(models.Model):
     isActive = models.BooleanField(default=True)
     nombre =  models.CharField(max_length=500, null=True, blank=True)
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE, null=True)
+    image = models.CharField(max_length=500, null=True, blank=True)
 
 class PlantillaxSubCategoria(models.Model):
     id = models.BigAutoField(primary_key=True)
