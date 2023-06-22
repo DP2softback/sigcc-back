@@ -49,8 +49,9 @@ class Capacity(models.Model):
 class CapacityXAreaXPosition(models.Model):
     id = models.BigAutoField(primary_key=True)
     capacity = models.ForeignKey(Capacity, on_delete=models.CASCADE, null=True, blank=True)
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)    
+    positionArea = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE, null=True, blank=True)
+    #position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True)
+    #area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)    
     levelRequired = models.CharField(max_length=200, blank=True, null=True)    
     active = models.BooleanField(default=True)
 
