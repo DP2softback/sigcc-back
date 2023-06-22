@@ -1,6 +1,6 @@
 from django.db import models
 from personal.models import *
-from login.models import Employee
+from login.models import *
 from capacitaciones.models import CursoGeneral
 
 # Create your models here.
