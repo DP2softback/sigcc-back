@@ -75,8 +75,7 @@ class CompetencessXEmployeeXLearningPath(models.Model):
     evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE, null=True, blank=True)
     lp = models.ForeignKey(LearningPath, on_delete=models.CASCADE, null=True, blank=True)
     isInitial = models.BooleanField(default=False)
-    level = models.TextField(blank=True,null =True)
-    score = models.FloatField(blank=True,null =True)
+    score = models.IntegerField(blank=True,null =True)
 
     isActual = models.BooleanField(null=True,blank=True)
     modifiedBy = models.TextField(blank=True, default='',null =True)
