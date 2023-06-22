@@ -9,12 +9,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from zappa.asynchronous import task
 from gaps.models import Capacity, CapacityType, CapacityXEmployee, TrainingNeed, CapacityXAreaXPosition
-from login.models import Employee
+from login.models import *
 from personal.models import *
 from personal.serializers import *
-from gaps.serializers import CapacitySerializer, CapacityTypeSerializer, CapacityXEmployeeSerializer, TrainingNeedSerializer, CapacityXAreaXPositionSerializer
-from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite
-from gaps.serializers import AreaSerializer
+from login.serializers import *
+from gaps.serializers import *
 #import openai as ai
 #ai.api_key = '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'
 # Create your views here.
