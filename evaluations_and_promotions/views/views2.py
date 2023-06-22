@@ -1,3 +1,4 @@
+from evaluations_and_promotions.serializers import SubCategorySerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -7,13 +8,14 @@ from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from datetime import datetime 
+from collections import defaultdict
+import pytz
 
 class EvaluationCreateAPIView(APIView):
     @transaction.atomic
 
     def post(self, request):
         try:
-            # Extract data from the request
             data = request.data
             evaluator_id = data.get('evaluatorId')
             evaluated_id = data.get('evaluatedId')
@@ -22,16 +24,13 @@ class EvaluationCreateAPIView(APIView):
             additional_comments = data.get('additionalComments')
             has_comment = bool(additional_comments)
 
-            # Retrieve the EvaluationType based on the name
             evaluation_type_name = data.get('evaluationType')
             evaluation_type = get_object_or_404(EvaluationType, name=evaluation_type_name)
 
-            # Retrieve other fields from the request
             associated_project = data.get('associatedProject')
             category_id = data.get('categoryId')
             subcategories_data = data.get('subcategories')
 
-            # Retrieve the Category based on the category_id
             category = get_object_or_404(Category, id=category_id)
             scores = [subcategory["score"] for subcategory in subcategories_data]
             finalScore = sum(scores) / len(scores)
@@ -50,7 +49,6 @@ class EvaluationCreateAPIView(APIView):
                 
             )
 
-            # Create a list of EvaluationxSubCategory instances
             evaluationxsubcategories = []
             for subcategory_data in subcategories_data:
                 subcategory_id = subcategory_data.get('id')
@@ -63,7 +61,6 @@ class EvaluationCreateAPIView(APIView):
                 )
                 evaluationxsubcategories.append(evaluationxsubcategory)
 
-            # Bulk create the EvaluationxSubCategory instances
             EvaluationxSubCategory.objects.bulk_create(evaluationxsubcategories)
 
             return Response({'message': 'Evaluation created successfully.'}, status=status.HTTP_201_CREATED)
@@ -80,9 +77,16 @@ class getEvaluation(APIView):
         try:
             evaluation = get_object_or_404(Evaluation, id=evaluation_id)
 
-            evaluationxsubcategories = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+            subcategories = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+            category_subcategories = defaultdict(list)
+            for subcategory in subcategories:
+                category = subcategory.subCategory.category
+                category_subcategories[category].append({
+                    'id': subcategory.subCategory.id,
+                    'name': subcategory.subCategory.name,
+                    'score': subcategory.score
+                })
 
-            categories = evaluationxsubcategories.values('subCategory__category_id', 'subCategory__category__name').distinct()
 
             request_data = {
                 'evaluatorId': evaluation.evaluator_id,
@@ -91,15 +95,13 @@ class getEvaluation(APIView):
                 'evaluationType': evaluation.evaluationType.name,
                 'isFinished': evaluation.isFinished,
                 'additionalComments': evaluation.generalComment,
-                'categoryId': [category['subCategory__category_id'] for category in categories],
-                'categoryName': [category['subCategory__category__name'] for category in categories],
-                'subcategories': [
+                'categories': [
                     {
-                        'id': evaluationxsubcategory.subCategory.id,
-                        'name': evaluationxsubcategory.subCategory.name,
-                        'score': evaluationxsubcategory.score
+                        'id': category.id,
+                        'name': category.name,
+                        'subcategories': category_subcategories[category]
                     }
-                    for evaluationxsubcategory in evaluationxsubcategories
+                    for category in category_subcategories.keys()
                 ]
             }
 
@@ -108,3 +110,106 @@ class getEvaluation(APIView):
             return Response({'message': 'Evaluation not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'message': 'An error occurred.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class getCategory(APIView):
+    def post(self,request, categoryId):
+        subcategories = SubCategory.objects.filter(category=categoryId)
+        data = []
+        for subcategory in subcategories:
+            data.append({
+                'idSubcategory': subcategory.id,
+                'nameSubCategory': subcategory.name,
+                'isActive': subcategory.isActive,
+                'idCompetencia': '', #subcategory.category.id, 
+                'nameCompetencia': '' #subcategory.category.name  
+            })
+
+        return Response(data, status=status.HTTP_200_OK)
+
+class addSubcategory(APIView):
+    @transaction.atomic
+    def post(self,request, categoryId):
+        data = request.data
+        category = get_object_or_404(Category, id=categoryId)
+        subcategories = data.get('Subcategorias', [])
+        peruTz = pytz.timezone('America/Lima')
+        subcats =[]
+        count =  SubCategory.objects.filter(category = category).count()
+        for subcategoryData in subcategories:
+            count += 1
+            subcategoryId = subcategoryData.get('id')
+            if(subcategoryId is not None):
+                subcat =SubCategory.objects.get(id= subcategoryId)
+                subcat.code = category.code+str(count)
+                subcat.modifiedDate = datetime.now(peruTz)
+                subcat.category = category
+                subcat.code = category.code+str(count)
+                subcat.modifiedDate = datetime.now(peruTz)
+                subcat.save()
+            else:    
+                subcat = SubCategory(
+                    creationDate = datetime.now(peruTz),
+                    code = category.code+str(count),
+                    name = subcategoryData['name'],
+                    description = subcategoryData['description'], 
+                    category = category,
+                )
+                subcats.append(subcat)
+            
+        SubCategory.objects.bulk_create(subcats)
+        return Response({'message': 'Subcategories added successfully.'}, status=status.HTTP_201_CREATED)
+
+class addCategory(APIView):
+    @transaction.atomic
+    def post(self, request):
+        data = request.data
+        catName = data.get('nombre')
+        peruTz = pytz.timezone('America/Lima')
+        now=datetime.now(peruTz)
+        subcategories = data.get('Subcategorias', [])
+        types = EvaluationType.objects.all()
+        cats = []
+        for type in types:
+            cat = Category(
+            creationDate = now,
+            modifiedDate =now,
+            name = catName,
+            code = 'USR',
+            evaluationType= type
+            )
+            cats.append(cat)
+        Category.objects.bulk_create(cats)
+        subcats =[]
+        count = 0 
+        for subcategoryData in subcategories:
+            count += 1
+            subcategoryId = subcategoryData.get('id')
+            for category in cats: 
+                if(subcategoryId is not None):
+                    subcat =SubCategory.objects.get(id= subcategoryId)
+                    subcat.category = category
+                    subcat.code = category.code+str(count)
+                    subcat.modifiedDate = datetime.now(peruTz)
+                    subcat.save()
+                else:    
+                    subcat = SubCategory(
+                        creationDate = datetime.now(peruTz),
+                        code = category.code+str(count),
+                        name = subcategoryData['name'],
+                        description = subcategoryData['description'], 
+                        category = category,
+                    )
+                    subcats.append(subcat)
+        SubCategory.objects.bulk_create(subcats)
+        return Response({'message': 'Category created.'}, status=status.HTTP_201_CREATED)
+
+class getFreeCompetences(APIView):
+    def get(self, request):
+        competences =  SubCategory.objects.all().order_by('name').distinct('name')
+        competences = [subcategory for subcategory in competences if subcategory.category is None]
+        serialized = SubCategorySerializer(competences, many=True)
+        return Response(serialized.data, status=status.HTTP_200_OK)
+        
+
+            
+

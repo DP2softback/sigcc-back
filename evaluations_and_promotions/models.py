@@ -1,4 +1,6 @@
 from django.db import models
+
+from capacitaciones.models import LearningPath
 from login.models import Employee
 from personal.models import Area, AreaxPosicion, Position
 
@@ -59,6 +61,27 @@ class SubCategory(models.Model):
     description = models.TextField(blank=True, default='')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        db_table = 'Competence'
+
+
+class CompetencessXEmployeeXLearningPath(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    creationDate = models.DateTimeField(auto_now_add=True)
+    modifiedDate = models.DateTimeField(auto_now=True)
+    isActive = models.BooleanField(default=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+    evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE, null=True, blank=True)
+    lp = models.ForeignKey(LearningPath, on_delete=models.CASCADE, null=True, blank=True)
+    isInitial = models.BooleanField(default=False)
+    level = models.TextField(blank=True,null =True)
+    score = models.FloatField(blank=True,null =True)
+
+    isActual = models.BooleanField(null=True,blank=True)
+    modifiedBy = models.TextField(blank=True, default='',null =True)
+
+
 
 class EvaluationxSubCategory(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -78,6 +101,7 @@ class Plantilla(models.Model):
     isActive = models.BooleanField(default=True)
     nombre =  models.CharField(max_length=500, null=True, blank=True)
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE, null=True)
+    image = models.CharField(max_length=500, null=True, blank=True)
 
 class PlantillaxSubCategoria(models.Model):
     id = models.BigAutoField(primary_key=True)

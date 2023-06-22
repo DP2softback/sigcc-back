@@ -1,52 +1,21 @@
-﻿from rest_framework import serializers
-from gaps.models import Competence, CompetenceScale,CompetenceXAreaXPosition, CompetenceXEmployee, TrainingNeed, CompetenceType
+from rest_framework import serializers
+from gaps.models import Capacity, CapacityXAreaXPosition, CapacityXEmployee, TrainingNeed, CapacityType
 from personal.models import Area, Position, AreaxPosicion
 from evaluations_and_promotions.serializers import AreaSerializer, PositionSerializer, EmployeeSerializer
 
-class CompetenceSerializer(serializers.ModelSerializer):
+class CapacitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Competence
-        fields = '__all__'
-		
-class CompetenceScaleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CompetenceScale
+        model = Capacity
         fields = '__all__'
         
-class CompetenceXAreaXPositionSerializer(serializers.ModelSerializer):
+class CapacityXAreaXPositionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CompetenceXAreaXPosition
+        model = CapacityXAreaXPosition
         fields = '__all__'
 
-class CompetenceXAreaXPositionSerializerRead(serializers.ModelSerializer):
-    
-    competence_id = serializers.CharField(source="competence.id")
-    competence_name = serializers.CharField(source="competence.name")    
-    competence_type_id = serializers.CharField(source="competence.type.id")    
-    competence_type_name = serializers.CharField(source="competence.type.name")    
-    scalePosition_id = serializers.CharField(source="scalePosition.id")
-    scalePosition_name = serializers.CharField(source="scalePosition.descriptor")
-    scalePosition_value = serializers.CharField(source="scalePosition.level")
- 
+class CapacityXEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CompetenceXAreaXPosition
-        depth = 1
-        fields = [
-            "id",
-            "competence_id",
-            "competence_name",
-            "competence_type_id",
-            "competence_type_name",
-            "scalePosition_id",
-            "scalePosition_name",
-            "scalePosition_value",
-            "levelRequired",
-            "active"
-        ]
-
-class CompetenceXEmployeeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CompetenceXEmployee
+        model = CapacityXEmployee
         fields = '__all__'
 
 class TrainingNeedSerializer(serializers.ModelSerializer):
@@ -54,9 +23,9 @@ class TrainingNeedSerializer(serializers.ModelSerializer):
         model = TrainingNeed
         fields = '__all__'
 
-class CompetenceTypeSerializer(serializers.ModelSerializer):
+class CapacityTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CompetenceType
+        model = CapacityType
         fields = '__all__'
 
 class AreaSerializer(serializers.ModelSerializer):
