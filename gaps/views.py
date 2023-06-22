@@ -549,12 +549,12 @@ class EmployeeAreaView(APIView):
 
 class SearchJobOfferView(APIView):
     def post(self, request):
-        hiring_process = request.data["hiring_process"]
-        is_active = request.data["is_active"]
+        position = request.data["posicion"]
+        area = request.data["area"]
         query = Q()
-        query.add(Q(is_active=True), Q.AND)
-        if hiring_process is not None and hiring_process > 0:
-            query.add(Q(hiring_process__id = hiring_process), Q.AND)
+        query.add(Q(is_active = True), Q.AND)
+        if position is not None and position > 0:
+            query.add(Q(hiring_process__position__id = position), Q.AND)
             
         areaPositionCompetence = JobOffer.objects.filter(query).values('id','hiring_process','introduction','offer_introduction','responsabilities_introduction','is_active','photo_url','location', 'salary_range')
         return Response(list(areaPositionCompetence), status = status.HTTP_200_OK)
