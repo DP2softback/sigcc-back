@@ -137,11 +137,15 @@ class addSubcategory(APIView):
         count =  SubCategory.objects.filter(category = category).count()
         for subcategoryData in subcategories:
             count += 1
-            if(subcategoryData.id is not None):
-                subcat =SubCategory.objects.get(id= subcategoryData.id)
+            subcategoryId = subcategoryData.get('id')
+            if(subcategoryId is not None):
+                subcat =SubCategory.objects.get(id= subcategoryId)
+                subcat.code = category.code+str(count)
+                subcat.modifiedDate = datetime.now(peruTz)
                 subcat.category = category
                 subcat.code = category.code+str(count)
                 subcat.modifiedDate = datetime.now(peruTz)
+                subcat.save()
             else:    
                 subcat = SubCategory(
                     creationDate = datetime.now(peruTz),
@@ -149,9 +153,8 @@ class addSubcategory(APIView):
                     name = subcategoryData['name'],
                     description = subcategoryData['description'], 
                     category = category,
-                    #competence =  subcategory_data['competence']
                 )
-            subcats.append(subcat)
+                subcats.append(subcat)
             
         SubCategory.objects.bulk_create(subcats)
         return Response({'message': 'Subcategories added successfully.'}, status=status.HTTP_201_CREATED)
@@ -180,23 +183,30 @@ class addCategory(APIView):
         count = 0 
         for subcategoryData in subcategories:
             count += 1
+            subcategoryId = subcategoryData.get('id')
             for category in cats: 
-                subcategoryData['category'] = category
-                subcat = SubCategory(
-                    creationDate = datetime.now(peruTz),
-                    code = category.code+str(count),
-                    name = subcategoryData['name'],
-                    description = subcategoryData['description'], 
-                    category = category,
-                    #competence =  subcategory_data['competence']
-                )
-                subcats.append(subcat)
+                if(subcategoryId is not None):
+                    subcat =SubCategory.objects.get(id= subcategoryId)
+                    subcat.category = category
+                    subcat.code = category.code+str(count)
+                    subcat.modifiedDate = datetime.now(peruTz)
+                    subcat.save()
+                else:    
+                    subcat = SubCategory(
+                        creationDate = datetime.now(peruTz),
+                        code = category.code+str(count),
+                        name = subcategoryData['name'],
+                        description = subcategoryData['description'], 
+                        category = category,
+                    )
+                    subcats.append(subcat)
         SubCategory.objects.bulk_create(subcats)
         return Response({'message': 'Category created.'}, status=status.HTTP_201_CREATED)
 
 class getFreeCompetences(APIView):
     def get(self, request):
-        competences =  SubCategory.objects.filter(category = None)
+        competences =  SubCategory.objects.all().order_by('name').distinct('name')
+        competences = [subcategory for subcategory in competences if subcategory.category is None]
         serialized = SubCategorySerializer(competences, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
         
