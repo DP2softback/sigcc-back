@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
-from gaps.models import Competence
+#from gaps.models import Competence
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from evaluations_and_promotions.models import *
