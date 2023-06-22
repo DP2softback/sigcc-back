@@ -4,14 +4,16 @@ from capacitaciones import views
 from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDetail, LearningPathAPIView, \
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath, \
-    GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler
+    GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler, \
+    EvaluacionLPAPIView
 
-from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoView, CompletarLearningPathView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, ListEmployeesGeneralAPIView, SesionDetailAPIView
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, LearningPathFromTemplateAPIView, LearningPathsForEmployeeAPIView, ListEmployeesGeneralAPIView, ListProgressEmployeesForLearningPathAPIView, ProgressCourseForLearningPathForEmployeesAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
-    EmpleadosXLearningPathAPIView
+    EmpleadosXLearningPathAPIView, LearningPathEvaluadoXEmpleadoAPIView, ValorarCursoAPIView, \
+     ValoracionLearningPathAPIView
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
@@ -29,10 +31,12 @@ urlpatterns = [
     path('course_company_course_boss/<int:pk>', CursoEmpresaDetailBossAPIView.as_view()),
     path('course_company_course_list_empployees/<int:curso_id>', AsistenciaSesionInicialAPIView.as_view()),
     path('course_company_special', CursoEmpresaSearchEspecialAPIView.as_view()),
-    path('course_complete/', CompletarCursoView.as_view()),
+    path('course_company_assgine_lp/<int:pk>', CursoEmpresaAsignarLPApiView.as_view()),
+    path('course_complete/', CompletarCursoEmpresaView.as_view()),
     path('learning_path_complete/', CompletarLearningPathView.as_view()),
     path('sesion_course_company/', SesionAPIView.as_view()),
     path('sesion_course_company/<int:pk>', SesionDetailAPIView.as_view()),
+    path('sesion_course_company_complete/', CompletarSesionCursoEmpresaView.as_view()),
     path('upload_file/', UploadFilesInS3APIView.as_view()),
     path('delete_file/', DeleteFilesInS3APIView.as_view()),
     path('get_categoria/', CategoriaAPIView.as_view()),
@@ -47,10 +51,24 @@ urlpatterns = [
     path('learning_path/<int:pk>/employees/', EmpleadosLearningPath.as_view()),
     path('learning_path/empleado/<int:pk>/', EmpleadoXLearningPathAPIView.as_view()),
     path('learning_path/detalle_empleado/<int:emp>/<int:lp>/', DetalleLearningPathXEmpleadoAPIView.as_view()),
+    path('learning_path/detalle_empleado_modified/<int:emp>/<int:leap>/', DetalleLearningPathXEmpleadoModifiedAPIView.as_view()),
     path('udemy_course/generate_evaluation/', GenerateUdemyEvaluationAPIView.as_view()),
     path('list_all_employees_general/', ListEmployeesGeneralAPIView.as_view()),
     path('udemy_course/check_status/<int:pk_course>/', CheckUdemyCourseStatusAPIView.as_view()),
     path('udemy_course/questionary/<int:pk_course>/', UdemyEvaluationAPIView.as_view()),
     path('setup/scheduler/', SetupScheduler.as_view()),
-    path('learning_path/empleados/<int:lp>/',EmpleadosXLearningPathAPIView.as_view())
+    path('learning_path/empleados/<int:lp>/',EmpleadosXLearningPathAPIView.as_view()),
+    path('course_company_employee_advance/',CursoEmpresaEmpleadoProgressPApiView.as_view()),
+    path('course_udemy_employee_advance/',CursoUdemyEmpleadoProgressPApiView.as_view()),
+    path('learning_path_from_template/<int:pk>/', LearningPathFromTemplateAPIView.as_view()),
+    path('learning_path/<int:pk>/evaluation/', EvaluacionLPAPIView.as_view()),
+    path('course_lp_employee_advance/<int:curso_id>/<int:learning_path_id>/<int:empleado_id>/', CursoLPEmpleadoIncreaseStateAPIView.as_view()),
+    path('course_lp_employee_advance/', CursoLPEmpleadoIncreaseStateAPIView.as_view()),
+    path('learning_path/<int:lp>/empleado/<int:emp>/evaluacion/', LearningPathEvaluadoXEmpleadoAPIView.as_view()),
+    path('learning_path/empleados_progress/<int:learning_path_id>/', ListProgressEmployeesForLearningPathAPIView.as_view()),
+    path('learning_path/progress_course/employees/<int:lp_id>/<int:course_id>/', ProgressCourseForLearningPathForEmployeesAPIView.as_view()),
+    path('learning_path/learning_path_for_empleado/<int:empleado_id>/', LearningPathsForEmployeeAPIView.as_view()),
+    path('valorar_curso/', ValorarCursoAPIView.as_view()),
+    path('valorar_learning_path/<int:id_lp>/', ValoracionLearningPathAPIView.as_view())
+    #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]
