@@ -19,7 +19,8 @@
     "keep_warm": true,
     "project_name": "DP2softback",
     "runtime": "python3.7",
-    "timeout_seconds": 900
+    "timeout_seconds": 900,
+    "cors": true
   },
   "dev": {
     "extends": "base",
@@ -49,7 +50,7 @@
       ]
     }
   },
-  "dev-evaluations": {
+  "dev-eval": {
     "extends": "base",
     "profile_name": "dp2",
     "s3_bucket": "dp2-bucket-dev",

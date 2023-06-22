@@ -1,0 +1,182 @@
+[
+    {
+        "model": "gaps.Competence",
+        "pk": 1,
+        "fields": {
+          "code": "COMEF",
+          "name": "Comunicación efectiva",
+          "description": "Capacidad para comunicarse claramente con el equipo y los clientes, y transmitir ideas técnicas de manera comprensible",
+          "active": true,
+          "type": 1
+        }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 2,
+      "fields": {
+        "code": "TRABEQ",
+        "name": "Trabajo en equipo",
+        "description": "Habilidad para colaborar y trabajar en equipo, ya sea con otros desarrolladores o con profesionales de diferentes áreas",
+        "active": true,
+        "type": 1
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 3,
+      "fields": {
+        "code": "RESPRO",
+        "name": "Resolución de problemas",
+        "description": "Capacidad para analizar y resolver problemas de manera eficiente y creativa",
+        "active": true,
+        "type": 1
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 4,
+      "fields": {
+        "code": "ADAPT",
+        "name": "Adaptabilidad",
+        "description": "Flexibilidad para adaptarse a los cambios y aprender nuevas tecnologías y conceptos rápidamente",
+        "active": true,
+        "type": 1
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 5,
+      "fields": {
+        "code": "PENSCT",
+        "name": "Pensamiento crítico",
+        "description": "Habilidad para evaluar y analizar de manera objetiva situaciones y decisiones relacionadas con el desarrollo de software",
+        "active": true,
+        "type": 1
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 6,
+      "fields": {
+        "code": "JSCRIPT",
+        "name": "JavaScript",
+        "description": "Manejo del lenguaje javascript",
+        "active": true,
+        "type": 6
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 7,
+      "fields": {
+        "code": "PYTHN",
+        "name": "Python",
+        "description": "Manejo del lenguaje python",
+        "active": true,
+        "type": 6
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 8,
+      "fields": {
+        "code": "MYSQL",
+        "name": "MySQL",
+        "description": "Manejo de base de datos Mysql",
+        "active": true,
+        "type": 5
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 9,
+      "fields": {
+        "code": "POSTGRL",
+        "name": "PostgreSQL",
+        "description": "Manejo de base de datos PostgreSQL",
+        "active": true,
+        "type": 5
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 10,
+      "fields": {
+        "code": "INF274",
+        "name": "Ingenieria Informatica",
+        "description": "Bachiller en ingenieria informatica",
+        "active": true,
+        "type": 7
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 11,
+      "fields": {
+        "code": "IND294",
+        "name": "Ingenieria Industrial",
+        "description": "Bachiller en ingenieria industrial",
+        "active": true,
+        "type": 7
+      }
+    },
+    {
+      "model": "gaps.Competence",
+      "pk": 12,
+      "fields": {
+        "code": "TEC924",
+        "name": "Ingenieria de telecomuniaciones",
+        "description": "Bachiller en ingenieria de las telecomuniaciones",
+        "active": true,
+        "type": 7
+      }
+    },
+
+    {
+      "model": "gaps.Competence",
+      "pk": 13,
+      "fields": {
+        "code": "DOCI21",
+        "name": "Doctorado en ciencias de la computacion",
+        "description": "Doctorado en ciencias de la computacion en la PUCP",
+        "active": true,
+        "type": 8
+      }
+    },
+
+    {
+      "model": "gaps.Competence",
+      "pk": 14,
+      "fields": {
+        "code": "DOCEDU",
+        "name": "Doctorado en ciencias educativas",
+        "description": "Doctorado en ciencias educativas en la PUCP",
+        "active": true,
+        "type": 8
+      }
+    },
+
+    {
+      "model": "gaps.Competence",
+      "pk": 15,
+      "fields": {
+        "code": "MASTRE3",
+        "name": "Maestria en matematicas avanzadas",
+        "description": "Maestria en matematicas puras en la PUCP",
+        "active": true,
+        "type": 9
+      }
+    },
+
+    {
+      "model": "gaps.Competence",
+      "pk": 16,
+      "fields": {
+        "code": "MASTR8",
+        "name": "Maestria en estadistica avanzada",
+        "description": "Maestria en estadistica avanzada en la PUCP",
+        "active": true,
+        "type": 9
+      }
+    }
+]

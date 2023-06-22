@@ -1,33 +1,34 @@
-﻿from rest_framework import serializers
-from gaps.models import Competence, CompetenceXAreaXPosition, CompetenceXEmployee, TrainingNeed, CompetenceType
+from rest_framework import serializers
+from gaps.models import Capacity, CapacityXAreaXPosition, CapacityXEmployee, TrainingNeed, CapacityType
+from personal.models import Area, Position, AreaxPosicion
 from evaluations_and_promotions.serializers import AreaSerializer, PositionSerializer, EmployeeSerializer
 
-class CompetenceSerializer(serializers.ModelSerializer):
+class CapacitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Competence
+        model = Capacity
         fields = '__all__'
-		
-class CompetenceXAreaXPositionSerializer(serializers.ModelSerializer):
-    position = PositionSerializer()
-    area = AreaSerializer()
+        
+class CapacityXAreaXPositionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CompetenceXAreaXPosition
+        model = CapacityXAreaXPosition
         fields = '__all__'
 
-class CompetenceXEmployeeSerializer(serializers.ModelSerializer):
-    employee = EmployeeSerializer()
+class CapacityXEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CompetenceXEmployee
+        model = CapacityXEmployee
         fields = '__all__'
 
 class TrainingNeedSerializer(serializers.ModelSerializer):
-    empleado = EmployeeSerializer()
     class Meta:
         model = TrainingNeed
         fields = '__all__'
 
-class CompetenceTypeSerializer(serializers.ModelSerializer):
+class CapacityTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CompetenceType
+        model = CapacityType
         fields = '__all__'
-        
+
+class AreaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Area
+        fields = '__all__'

@@ -19,28 +19,6 @@ class EvaluationType(models.Model):
         return self.name
 
 
-# class Position(models.Model):
-#     id = models.BigAutoField(primary_key=True)
-#     creationDate = models.DateTimeField(auto_now_add = True)
-#     modifiedDate = models.DateTimeField(auto_now = True)
-#     isActive = models.BooleanField(default=True)
-#     name = models.CharField(max_length=40)
-#     benefits = models.TextField(blank=True, default='')
-#     responsabilities = models.TextField(blank=True, default='')
-#     description =  models.TextField(blank=True, default='')
-#     tipoJornada =  models.TextField(blank=True, default='')
-#     modalidadTrabajo = models.TextField(blank=True, default='')
-
-# class Area(models.Model):
-#     id = models.BigAutoField(primary_key=True)
-#     creationDate = models.DateTimeField(auto_now_add = True)
-#     modifiedDate = models.DateTimeField(auto_now = True)
-#     isActive = models.BooleanField(default=True)
-#     description =  models.TextField(blank=True, default='')
-#     name = models.CharField(max_length=100)
-#     supervisorsArea = models.ForeignKey('self',null=True, on_delete=models.SET_NULL)
-#     roles = models.ManyToManyField(Position, through="AreaxPosicion")
-
 class Category(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateTimeField()
@@ -51,23 +29,13 @@ class Category(models.Model):
     description = models.TextField(blank=True, default='')
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.SET_NULL, null=True)
 
-# class AreaxPosicion(models.Model):
-#     id = models.BigAutoField(primary_key=True)
-#     area = models.ForeignKey(Area, on_delete=models.CASCADE)
-#     position = models.ForeignKey(Position, on_delete=models.CASCADE)
-#     creationDate = models.DateTimeField()
-#     modifiedDate = models.DateTimeField()
-#     isActive = models.BooleanField(default=True)
-#     availableQuantity = models.IntegerField()
-#     unavailableQuantity = models.IntegerField()
-
 
 class Evaluation(models.Model):
     id = models.BigAutoField(primary_key=True)
     creationDate = models.DateTimeField(auto_now_add=True)
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
-    evaluationDate = models.DateTimeField()
+    evaluationDate = models.DateTimeField(null=True)
     hasComment = models.BooleanField()
     generalComment = models.CharField(max_length=500, null=True, blank=True)
     isFinished = models.BooleanField()
@@ -78,6 +46,7 @@ class Evaluation(models.Model):
     area = models.ForeignKey(Area,on_delete=models.SET_NULL, blank=True, null=True)
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, blank=True, null=True)
     proyecto = models.TextField(blank=True, default='')
+    relatedEvaluation = models.ForeignKey('self', blank=True,null=True, on_delete=models.SET_NULL)
 
 
 class SubCategory(models.Model):
@@ -89,6 +58,18 @@ class SubCategory(models.Model):
     name = models.TextField(blank=True, default='')
     description = models.TextField(blank=True, default='')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    class Meta:
+        db_table = 'Competence'
+
+class CompetencessXEmployee(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    creationDate = models.DateTimeField(auto_now_add=True)
+    modifiedDate = models.DateTimeField(auto_now=True)
+    isActive = models.BooleanField(default=True)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+    level = models.TextField(blank=True,null =True)
+    score = models.FloatField(blank=True,null =True)  
 
 
 class EvaluationxSubCategory(models.Model):
@@ -109,6 +90,7 @@ class Plantilla(models.Model):
     isActive = models.BooleanField(default=True)
     nombre =  models.CharField(max_length=500, null=True, blank=True)
     evaluationType = models.ForeignKey(EvaluationType, on_delete=models.CASCADE, null=True)
+    image = models.CharField(max_length=500, null=True, blank=True)
 
 class PlantillaxSubCategoria(models.Model):
     id = models.BigAutoField(primary_key=True)

@@ -1,0 +1,98 @@
+[
+  {
+    "fields": {
+      "created": "2023-05-25T18:34:57.432Z",
+      "date_joined": "2023-05-25T18:34:57Z",
+      "deleted": null,
+      "email": "demoadmin@demoadmin.com",
+      "first_name": "demoadmin",
+      "groups": [],
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "last_login": "2023-06-08T08:53:40.391Z",
+      "last_name": "demoadmin",
+      "maiden_name": "",
+      "modified": "2023-06-01T15:31:08.017Z",
+      "password": "pbkdf2_sha256$216000$x2KIVR1mT5YU$rCbKHOGbaJYB1m1MgCkzhWSOklz65J9l6QsyQ7N297Y=",
+      "recovery_code": null,
+      "second_name": "",
+      "user_permissions": [],
+      "username": "demoadmin"
+    },
+    "model": "login.user",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "created": "2023-05-25T18:35:51.109Z",
+      "date_joined": "2023-05-25T18:35:51Z",
+      "deleted": null,
+      "email": "Jose@joseson.com",
+      "first_name": "Jose",
+      "groups": [],
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "last_login": null,
+      "last_name": "Joseson",
+      "maiden_name": "",
+      "modified": "2023-06-01T15:31:41.234Z",
+      "password": "pbkdf2_sha256$216000$smhYwuNQNpRV$2loGVwY2W3TSeowjsPSdk08goKrYn70j0s5I/aVkX0Q=",
+      "recovery_code": null,
+      "second_name": "",
+      "user_permissions": [],
+      "username": "Joseson"
+    },
+    "model": "login.user",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "created": "2023-06-01T15:19:36.126Z",
+      "date_joined": "2023-06-01T15:19:36Z",
+      "deleted": null,
+      "email": "marco.bossio@pucp.pe",
+      "first_name": "Marco",
+      "groups": [],
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "last_login": "2023-06-01T16:44:42.122Z",
+      "last_name": "Bossio",
+      "maiden_name": "",
+      "modified": "2023-06-02T01:32:24.962Z",
+      "password": "pbkdf2_sha256$216000$QQTmdEJutuyl$8OfB7EiliTcSZhhVSMhgMteRmttGPaZe1zGpLS7YpGs=",
+      "recovery_code": "f376bf25",
+      "second_name": "",
+      "user_permissions": [],
+      "username": "MrBossio"
+    },
+    "model": "login.user",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "created": "2023-06-01T15:30:19.072Z",
+      "date_joined": "2023-06-01T15:30:19Z",
+      "deleted": null,
+      "email": "demoadmin2@demoadmin2.com",
+      "first_name": "demoadmin2",
+      "groups": [],
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "last_login": "2023-06-01T16:33:00Z",
+      "last_name": "demoadmin2",
+      "maiden_name": "",
+      "modified": "2023-06-08T08:57:55.459Z",
+      "password": "pbkdf2_sha256$216000$gO3nsBMuy0n3$pB/k9R7ufWZWS9HHL5cYxHQRcSA+wsfh5CSeio98bWs=",
+      "recovery_code": null,
+      "second_name": "",
+      "user_permissions": [],
+      "username": "demoadmin2"
+    },
+    "model": "login.user",
+    "pk": 4
+  }
+]
