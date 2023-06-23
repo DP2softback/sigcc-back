@@ -200,7 +200,6 @@ class CursoEmpresaEmpleadosAPIView(APIView):
                 fechaAsignacion = timezone.now(),
                 fechaLimite = None if tipo_curso in ['P', 'S'] else fecha_limite,
                 fechaCompletado = None,
-                apreciacion = None,
                 cantidad_sesiones = cantidad_sesiones_curso,
                 porcentaje_asistencia_aprobacion = porcentaje_asistencia_aprobacion)
             for empleado in empleados
