@@ -588,87 +588,90 @@ class LearningPathFromTemplateAPIView(APIView):
         return super().dispatch(request, *args, **kwargs)
     
     def get(self, request,pk):
-        lp = LearningPath.objects.filter(id=pk).first()
-        data = []
+        try:
+            lp = LearningPath.objects.filter(id=pk).first()
+            data = {}
 
-        learning_path_data = {
-            "nombre": lp.nombre,
-            "descripcion": lp.descripcion,
-            "url_foto": lp.url_foto,
-            "suma_valoraciones": lp.suma_valoraciones,
-            "cant_valoraciones": lp.cant_valoraciones,
-            "cant_empleados": lp.cant_empleados,
-            "horas_duracion": lp.horas_duracion,
-            "cant_intentos_cursos_max": lp.cant_intentos_cursos_max,
-            "cant_intentos_evaluacion_integral_max": lp.cant_intentos_evaluacion_integral_max,
-            "estado": lp.estado,
-            "cantidad_cursos": lp.cantidad_cursos
-        }
-        data.append(learning_path_data)
-        cursos=[]
-
-        cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path=lp)
-        for curso_lp in cursos_lp:
-            curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
-            curso_udemy = CursoUdemy.objects.filter(id=curso_lp.curso_id).first()
-            curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
-            if(curso_empresa is not None):
-                #Esto es cuando es curso Empresa
-                tipo_curso='E'
-                udemy_id=None
-                course_udemy_detail=None
-                estado_course_udemy=None
-                tipo=curso_empresa.tipo
-                es_libre=curso_empresa.es_libre
-                url_foto=curso_empresa.url_foto
-                fecha_creacion=curso_empresa.fecha_creacion
-                fecha_primera_sesion=curso_empresa.fecha_primera_sesion
-                fecha_ultima_sesion=curso_empresa.fecha_ultima_sesion
-                cantidad_empleados=curso_empresa.cantidad_empleados
-                cantidad_sesiones=curso_empresa.cantidad_sesiones
-            else:
-                tipo_curso='U'
-                udemy_id=curso_udemy.udemy_id
-                course_udemy_detail= curso_udemy.course_udemy_detail
-                estado_course_udemy=curso_udemy.estado
-                tipo=None
-                es_libre=None
-                url_foto=None
-                fecha_creacion=None
-                fecha_primera_sesion=None
-                fecha_ultima_sesion=None
-                cantidad_empleados=None
-                cantidad_sesiones=None
-
-            curso_data = {
-                'id': curso_general.id,
-                'nombre': curso_general.nombre,
-                'descripcion': curso_general.descripcion,
-                'duracion':curso_general.duracion,
-                'cant_valoraciones':curso_general.cant_valoraciones,
-                'suma_valoracionees':curso_general.suma_valoracionees,
-                'nro_orden':curso_lp.nro_orden,
-                'cant_intentos_max':curso_lp.cant_intentos_max,
-                'tipo_curso':tipo_curso,
-                #acá ahora sí va la partición de acuerdo al tipo_curso
-                #primero ponemos los datos que son netos de Udemy
-                'udemy_id':udemy_id,
-                'course_udemy_detail':course_udemy_detail,
-                'estado':estado_course_udemy,
-                #Ahora los datos del Empresa
-                'tipo': tipo,
-                'es_libre': es_libre,
-                'url_foto':url_foto,
-                'fecha_creacion':fecha_creacion,
-                'fecha_primera_sesion':fecha_primera_sesion,
-                'fecha_ultima_sesion':fecha_ultima_sesion,
-                'cantidad_empleados':cantidad_empleados,
-                'cantidad_sesiones':cantidad_sesiones
+            learning_path_data = {
+                "nombre": lp.nombre,
+                "descripcion": lp.descripcion,
+                "url_foto": lp.url_foto,
+                "suma_valoraciones": lp.suma_valoraciones,
+                "cant_valoraciones": lp.cant_valoraciones,
+                "cant_empleados": lp.cant_empleados,
+                "horas_duracion": lp.horas_duracion,
+                "cant_intentos_cursos_max": lp.cant_intentos_cursos_max,
+                "cant_intentos_evaluacion_integral_max": lp.cant_intentos_evaluacion_integral_max,
+                "estado": lp.estado,
+                "cantidad_cursos": lp.cantidad_cursos
             }
-            cursos.append(curso_data)
+            data["larning_path"]=learning_path_data
+            cursos=[]
 
-        data.append(cursos)  
-        return Response(data, status = status.HTTP_200_OK)
+            cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path=lp)
+            for curso_lp in cursos_lp:
+                curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                curso_udemy = CursoUdemy.objects.filter(id=curso_lp.curso_id).first()
+                curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
+                if(curso_empresa is not None):
+                    #Esto es cuando es curso Empresa
+                    tipo_curso='E'
+                    udemy_id=None
+                    course_udemy_detail=None
+                    estado_course_udemy=None
+                    tipo=curso_empresa.tipo
+                    es_libre=curso_empresa.es_libre
+                    url_foto=curso_empresa.url_foto
+                    fecha_creacion=curso_empresa.fecha_creacion
+                    fecha_primera_sesion=curso_empresa.fecha_primera_sesion
+                    fecha_ultima_sesion=curso_empresa.fecha_ultima_sesion
+                    cantidad_empleados=curso_empresa.cantidad_empleados
+                    cantidad_sesiones=curso_empresa.cantidad_sesiones
+                else:
+                    tipo_curso='U'
+                    udemy_id=curso_udemy.udemy_id
+                    course_udemy_detail= curso_udemy.course_udemy_detail
+                    estado_course_udemy=curso_udemy.estado
+                    tipo=None
+                    es_libre=None
+                    url_foto=None
+                    fecha_creacion=None
+                    fecha_primera_sesion=None
+                    fecha_ultima_sesion=None
+                    cantidad_empleados=None
+                    cantidad_sesiones=None
+
+                curso_data = {
+                    'id': curso_general.id,
+                    'nombre': curso_general.nombre,
+                    'descripcion': curso_general.descripcion,
+                    'duracion':curso_general.duracion,
+                    'cant_valoraciones':curso_general.cant_valoraciones,
+                    'suma_valoracionees':curso_general.suma_valoracionees,
+                    'nro_orden':curso_lp.nro_orden,
+                    'cant_intentos_max':curso_lp.cant_intentos_max,
+                    'tipo_curso':tipo_curso,
+                    #acá ahora sí va la partición de acuerdo al tipo_curso
+                    #primero ponemos los datos que son netos de Udemy
+                    'udemy_id':udemy_id,
+                    'course_udemy_detail':course_udemy_detail,
+                    'estado':estado_course_udemy,
+                    #Ahora los datos del Empresa
+                    'tipo': tipo,
+                    'es_libre': es_libre,
+                    'url_foto':url_foto,
+                    'fecha_creacion':fecha_creacion,
+                    'fecha_primera_sesion':fecha_primera_sesion,
+                    'fecha_ultima_sesion':fecha_ultima_sesion,
+                    'cantidad_empleados':cantidad_empleados,
+                    'cantidad_sesiones':cantidad_sesiones
+                }
+                cursos.append(curso_data)
+
+            data["cursos"]=cursos
+            return Response(data, status = status.HTTP_200_OK)
+        except:
+            return Response({"message": "Upss, algó pasó"}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request,pk):
         datos_lp= request.data[0]
