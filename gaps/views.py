@@ -14,6 +14,10 @@ from personal.models import *
 from personal.serializers import *
 from login.serializers import *
 from gaps.serializers import *
+
+from datetime import datetime
+from django.utils import timezone
+
 #import openai as ai
 #ai.api_key = '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'
 # Create your views here.
@@ -740,4 +744,47 @@ class SearchJobOfferxEmployeePreRegistered(APIView):
         notifications = JobOfferNotification.objects.filter(query).values("job_offer__id, job_offer__hiring_process, job_offer__introduction, job_offer__offer_introduction, job_offer__responsabilities_introduction, job_offer__is_active, job_offer__photo_url, job_offer__location, job_offer__salary_range")
         return Response(list(notifications), status = status.HTTP_200_OK)
 
+class AcceptOrDeclineJobOfferPreRegistered(APIView):
+
+    def post(self, request):
+
+        offer = request.data['oferta']
+        employee = request.data['empleado']
+        accept = request.data['acepta']
+
+        query = Q()
+        if accept == 0:# eliminamos la notificacion de la oferta laboral.
+            if employee is not None and employee > 0 and offer is not None and offer > 0:
+                # Primero, tenemos que hallar el hiring process adecuado
+                query.add(Q(job_offer__id = offer), Q.AND)
+                query.add(Q(employee__id = employee))
+                # Una vez que tenemos el query armado, obtenemos la notificacion de la oferta laboral
+                job_offer_notification = JobOfferNotification.objects.get(query)
+                # Luego, toca eliminarlo
+                try:
+                    job_offer_notification.delete()
+                    Response("Postulación retirada correctamente",status=status.HTTP_200_OK)
+                except Exception as e:
+                    return Response(str(e),status=status.HTTP_400_BAD_REQUEST)    
+        else: # Si ahora queremos insertar esta informacion en la tabla EmployeexHiringProcess
+            json_data = {}
+            json_data['employee'] = employee
+            # Tenemos que obtener el hiring process, dentro del job offer
+            # nostros ya tenemos la oferta laboral, falta ver 
+            query.add(Q(job_offer__id = offer))
+            job_offer = JobOffer.objects.get(query)
+            hiring_process = job_offer.hiring_process
+            hiring_process_id = hiring_process.id
+            json_data['hiring_process'] = hiring_process_id
+            current_datetime = timezone.now()
+            json_data['creation_date'] = current_datetime
+            json_data['modified_date'] = current_datetime
+            json_data['is_active'] = True
+            try:
+                serializer = EmployeeXHiringProcess(data = json_data)
+                serializer.is_valid(raise_exception = True)
+                serializer.save()
+            except Exception as e:
+                return Response(str(e),status=status.HTTP_400_BAD_REQUEST)
+            return Response("Postulación registrada correctamente",status=status.HTTP_200_OK)
             
