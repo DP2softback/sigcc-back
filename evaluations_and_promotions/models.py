@@ -88,8 +88,10 @@ class CompetencessXEmployeeXLearningPath(models.Model):
     evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE, null=True, blank=True)
     lp = models.ForeignKey(LearningPath, on_delete=models.CASCADE, null=True, blank=True)
     isInitial = models.BooleanField(default=False)
+
     level = models.TextField(blank=True, null=True)
     score = models.FloatField(blank=True, null=True)
+
 
     class Scale(models.IntegerChoices):  # PONGANLE EL NOMBRE QUE QUIERAN, EN LA BD SE GUARDA SOLO EL INTEGER
         NO_INICIADO = 0, 'de 0 a 20, no iniciado'
