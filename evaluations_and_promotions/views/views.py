@@ -1253,7 +1253,8 @@ class EvaluationLineChartReporte2(APIView):
                                         subcategory_score["ScoreAverage"] = (
                                             subcategory_score["ScoreAverage"]
                                             + data["score"]
-                                        ) / 2
+                                        )
+                                        subcategory_score["Quantity"] += 1
                                         break
 
                                 # If the subcategory doesn't exist, add it to the month
@@ -1262,6 +1263,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     )
                                 break
@@ -1275,6 +1277,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
@@ -1294,12 +1297,17 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
                             ],
                         }
                     )
+            # for item in result:
+            #     for month in item["Month"]:
+            #         for subcat in month["subCategory_scores"]:
+            #             subcat["ScoreAverage"] /= subcat["Quantity"]
 
             return Response(result,status=status.HTTP_200_OK)
         elif(category_id is not None and area_id is not None):
