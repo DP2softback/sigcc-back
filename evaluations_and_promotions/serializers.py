@@ -329,3 +329,8 @@ class CompetencyxAreaxPositionSerializerRead(serializers.ModelSerializer):
     class Meta:
         model = CompetencyxAreaxPosition
         fields = '__all__'
+
+class CompetencessXEmployeeXLearningPathSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompetencessXEmployeeXLearningPath
+        fields = '__all__'
