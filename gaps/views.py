@@ -728,3 +728,16 @@ class SaveShortlistedEmployeexJobOffer(APIView):
 		return Response("Se registraron correctamente los empleados",status=status.HTTP_200_OK)
 
 
+class SearchJobOfferxEmployeePreRegistered(APIView):
+        
+    def post(self, request):
+        employee = request.data['empleado']
+        query = Q()
+
+        if employee is not None and employee > 0:
+            query.add(Q(employee__id = employee))
+            
+        notifications = JobOfferNotification.objects.filter(query).values("job_offer__id, job_offer__hiring_process, job_offer__introduction, job_offer__offer_introduction, job_offer__responsabilities_introduction, job_offer__is_active, job_offer__photo_url, job_offer__location, job_offer__salary_range")
+        return Response(list(notifications), status = status.HTTP_200_OK)
+
+            
