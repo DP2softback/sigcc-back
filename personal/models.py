@@ -52,7 +52,6 @@ class AreaxPosicion(models.Model):  # THIS IS THE REAL POSITION
 class Functions(models.Model):  # DEPENDS OF AREAXPOSITION
     id = models.BigAutoField(primary_key=True)
     areaxposition = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE, blank=True, null=True)
-    name = models.CharField(max_length=100)
     description = models.TextField(blank=True, default='', null=True)
     isActive = models.BooleanField(default=True)
 

@@ -326,9 +326,22 @@ class CategorySerializerRead2(DynamicFieldsModelSerializer):
 
 
 class CompetencyxAreaxPositionSerializerRead(serializers.ModelSerializer):
+
+    def my_competencies(self, obj):
+        competencies = SubCategory.objects.get(id=obj.competency_id)
+        return SubCategorySerializer(competencies, many=False).data
+
+    competency_detail = serializers.SerializerMethodField('my_competencies')
+
     class Meta:
         model = CompetencyxAreaxPosition
-        fields = '__all__'
+
+        fields = ['competency',
+                  'competency_detail',
+                  'areaxposition',
+                  'score',
+                  'scale']
+
 
 class CompetencessXEmployeeXLearningPathSerializer(serializers.ModelSerializer):
     class Meta:

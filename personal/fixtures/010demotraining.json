@@ -1,0 +1,41 @@
+[
+  {
+    "fields": {
+      "code": "INF001",
+      "created": "2023-06-27T03:28:01.444Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:28:01.444Z",
+      "name": "Ingenier\u00eda Inform\u00e1tica",
+      "training_type": 1
+    },
+    "model": "personal.training",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "code": "ENG001",
+      "created": "2023-06-27T03:28:16.764Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:28:16.764Z",
+      "name": "Ingles",
+      "training_type": 2
+    },
+    "model": "personal.training",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "code": "AWSC001",
+      "created": "2023-06-27T03:28:51.204Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:28:51.204Z",
+      "name": "AWS Certified Developer",
+      "training_type": 3
+    },
+    "model": "personal.training",
+    "pk": 3
+  }
+]
