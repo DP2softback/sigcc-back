@@ -155,43 +155,19 @@ class AreaxPositionView(APIView):
 
 class PositionView(APIView):
     def get(self, request, pk):
-        pos = Position.objects.all()
-        pos_serializer = AreaxPositionSerializer(pos, many=True)
-        return Response(pos_serializer.data, status=status.HTTP_200_OK)
-
-    def get(self, request, pk):
-        '''
-        La posicion devuelve:
-        Nombre.
-        Descripcion.
-        id del Area a la que pertenece.
-        job_modality (presencial, remoto, hibrido).
-        workday_type (Tiempo completo, medio tiempo).
-        competencies (arreglo de ids de competencias).
-        training (arreglo de ids de estudios).
-        responsabilities (arreglo de responsabilidades).
-        '''
-        print(pk)
         positions = Position.objects.filter(id=pk)
-        print(positions)
         # obtener id, nombre, descripción, job_modality, workday_type
         serializer = PositionSerializer(positions, many=True)
 
         for position_data in serializer.data:
-            print(position_data)
             position_id = position_data['id']
-            # responsabilities
-            functions = Functions.objects.filter(position_id=position_id)
-            functions_serializer = FunctionsSerializer(functions, many=True)
-            position_data['functions'] = functions_serializer.data
             # area
             areasxposition = AreaxPosicion.objects.filter(position_id=position_id)
-            areas_serializer = AreaxPositionSerializer(areasxposition, many=True)
-
+            print(areasxposition)
             areas = []
-            for area in areas_serializer.data:
-                areas.append((area['id'], area['area_name']))
-
+            for axp in areasxposition:
+                areas.append((axp.area.id, axp.area.name))
+            print(areas)
             position_data['areas'] = dict(areas)
 
         return Response(serializer.data)
@@ -234,7 +210,7 @@ class PositionView(APIView):
                 competency_list.append(competencyobj)
             for tr in training:
                 trainingobj = TrainingxLevel.objects.get(id=tr)
-                print(f"Training: {trainingobj.name}")
+                print(f"Training: {trainingobj.training.name}")
                 training_list.append(trainingobj)
 
         except Exception as e:
@@ -263,18 +239,16 @@ class PositionView(APIView):
             functionobj.save()
 
         # linking competencies and training with position
-        for com in competencies:
+        for com in competency_list:
             obj = CompetencyxAreaxPosition(
                 competency=com,
-                areaxposition=areaxposition,
-                scale='LOGRADO'
+                areaxposition=areaxposition
             )
             obj.save()
-        for tr in training:
+        for tr in training_list:
             obj = TrainingxAreaxPosition(
                 training=tr,
-                areaxposition=areaxposition,
-                score='M'
+                areaxposition=areaxposition
             )
             obj.save()
 

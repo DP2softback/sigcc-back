@@ -1,0 +1,106 @@
+[
+  {
+    "fields": {
+      "areaxposition": 2,
+      "competency": 1,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "competency": 2,
+      "created": "2023-06-26T23:23:40.810Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:40.810Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 3,
+      "created": "2023-06-26T23:25:06.054Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:25:06.054Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 5,
+      "created": "2023-06-26T23:25:14.477Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:25:39.272Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 4,
+      "created": "2023-06-26T23:25:47.710Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:25:47.710Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "competency": 3,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "competency": 2,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "competency": 1,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 8
+  }
+]

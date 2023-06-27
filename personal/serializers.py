@@ -120,10 +120,34 @@ class JobOfferNotificationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TrainingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Training
+        fields = '__all__'
+
+
+class TrainingxLevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrainingxLevel
+        fields = '__all__'
+
+
 class TrainingxAreaxPositionSerializer(serializers.ModelSerializer):
+    def my_training(self, obj):
+        training = TrainingxLevel.objects.get(id=obj.training_id)
+        print(training)
+        return str(training)
+
+    position_detail = serializers.SerializerMethodField('my_training')
+
     class Meta:
         model = TrainingxAreaxPosition
-        fields = '__all__'
+        fields = ['id',
+                  'position_detail',
+                  'score',
+                  'training',
+                  'areaxposition',
+                  ]
 
 
 class AreaxPositionSerializer(serializers.ModelSerializer):
