@@ -27,6 +27,10 @@ Backend from SIGCC system, capstone course in PUCP
 
         $ pip install -r requirements.txt
 
+        if an error about werkzeug appear use:
+            $ pip uninstall Flask Werkzeug
+            $ pip install Flask Werkzeug
+
     5. Run migrations
 
         $ python manage.py migrate
@@ -64,7 +68,7 @@ Backend from SIGCC system, capstone course in PUCP
 ## resetear migraciones
 
     1. Eliminar los archivos de migraciones, excepto el init:
-        __init__.py         //este no        
+        __init__.py         //este no
 
     2. En un terminal del sistema (no el de zappa) buscar el id del contenedor de la base de datos
         $ docker ps   (y ubican el id)
@@ -86,3 +90,10 @@ Backend from SIGCC system, capstone course in PUCP
 
 ## Api documentation (temporal):
         https://documenter.getpostman.com/view/19467606/2s93m4Y3bm
+
+## Chat Gepeto
+
+    Necesitan un token de ChatGPT para ciertas funciones. Por favor créense una cuenta de OpenAI y creen su propia Key porque la cantidad de peticiones es limitada
+    Deben agregar a su .env lo siguiente:
+    OPENAI_API_KEY= XXXXXXXxxxxxXXXXXX
+

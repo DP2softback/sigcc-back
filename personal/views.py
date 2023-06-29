@@ -1,7 +1,10 @@
 from django.core.serializers import serialize
 from django.db import transaction
 from django.shortcuts import render
+from DP2softback.constants import messages
+from DP2softback.services.api_gpt import ChatGptService
 from evaluations_and_promotions.models import *
+from flask import Flask, redirect, render_template, request, url_for
 from gaps.models import *
 from rest_framework import status
 from rest_framework.response import Response
@@ -138,12 +141,59 @@ class JobOfferView(APIView):
         serializer_class = JobOfferSerializerRead(queryset, many=True)
         return Response(serializer_class.data, status=status.HTTP_200_OK)
 
-    def post(self, request, id=0):
-        job_offer_serializer = JobOfferSerializer(data=request.data, context=request.data)
-        if job_offer_serializer.is_valid():
-            job_offer_serializer.save()
-            return Response(job_offer_serializer.data, status=status.HTTP_201_CREATED)
-        return Response(job_offer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+
+        try:
+
+            hiring_process_id = request.data.get('hiring_process_id')
+            hiring_process = HiringProcess.objects.get(id=hiring_process_id)
+            areaxposition = AreaxPosicion.objects.get(id=hiring_process.position.id)
+            responsabilities = areaxposition.functions_set.all()
+            print(responsabilities)
+            responsabilities_introduction = ''
+            for res in responsabilities:
+                responsabilities_introduction += res.description + '\n'
+            print(responsabilities_introduction)
+            introduction = messages.COMPANY_INTRODUCTION
+            offer_introduction = request.data.get('offer_introduction')
+            tech = CompetencyxAreaxPosition.objects.filter(
+                areaxposition=areaxposition,
+                competency__type=SubCategory.Type.TECNICA
+            ).values_list('competency__name', flat=True)
+            tech_capacities = ','.join(list(tech))
+            human = CompetencyxAreaxPosition.objects.filter(
+                areaxposition=areaxposition,
+                competency__type=SubCategory.Type.BLANDA
+            ).values_list('competency__name', flat=True)
+            human_capacities = ','.join(list(human))
+
+            capacities_introduction = messages.TECH_INTRODUCTION + ChatGptService.chatgpt_request(tech_capacities, 1.4)
+
+            # for tc in tech: capacities_introduction+='\t'+tc+'\n'
+            capacities_introduction += '\n\n' + messages.HUMAN_INTRODUCTION + ChatGptService.chatgpt_request(human_capacities, 1.4)
+
+            # for hc in human: capacities_introduction+='\t'+hc+'\n'
+            print(capacities_introduction)
+
+            beneficies_introduction = messages.BENEFICIES_INTRODUCTION
+            location = request.data.get('location')
+            salary_range = request.data.get('salary_range')
+
+            jobOffer = JobOffer.objects.create(
+                hiring_process=hiring_process,
+                introduction=introduction,
+                offer_introduction=offer_introduction,
+                responsabilities_introduction=responsabilities_introduction,
+                capacities_introduction=capacities_introduction,
+                beneficies_introduction=beneficies_introduction,
+                location=location,
+                salary_range=salary_range
+            )
+            jobOffer.save()
+
+            return Response("Job offer sucessfully created", status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AreaxPositionView(APIView):
