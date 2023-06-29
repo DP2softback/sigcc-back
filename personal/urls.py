@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import *
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path('areaxposition/<int:pk>', PositionView.as_view()),
     path('functions', FunctionsView.as_view()),
     path('functions/<int:pk>', FunctionsView.as_view()),
+    path('training', TrainingxLevelView.as_view()),
 ]
