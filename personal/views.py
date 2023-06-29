@@ -341,3 +341,10 @@ class FunctionsView(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TrainingxLevelView(APIView):
+    def get(self, request):
+        training = TrainingxLevel.objects.all()
+        serializer = TrainingxLevelSerializer(training, many=True)
+        return Response(serializer.data)

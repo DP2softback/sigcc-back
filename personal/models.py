@@ -212,3 +212,6 @@ class TrainingxAreaxPosition(TimeStampedModel, SafeDeleteModel):
 
     def __str__(self):
         return f"{self.training} for position {self.areaxposition}"
+
+    def to_str(self):
+        return f"{self.training}"
