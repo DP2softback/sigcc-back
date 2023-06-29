@@ -1,0 +1,4926 @@
+[
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T04:28:55.626Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 30,
+      "object_id": "5",
+      "object_repr": " ",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "action_flag": 2,
+      "action_time": "2023-06-29T04:29:29.696Z",
+      "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\", \"Email address\"]}}]",
+      "content_type": 30,
+      "object_id": "5",
+      "object_repr": "empleadoncio ",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T04:29:44.630Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 31,
+      "object_id": "1",
+      "object_repr": "Applicant object (1)",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T05:57:26.996Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 8,
+      "object_id": "1",
+      "object_repr": "Proceso de contrataci\u00f3n de Ingenieros de Software",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T06:26:08.718Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 23,
+      "object_id": "13",
+      "object_repr": "Habilidad para hablar en p\u00fablico for position Position Ingeniero de software in area Area de desarrollo de software",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T06:26:20.843Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 23,
+      "object_id": "14",
+      "object_repr": "Facilidad de comunicar ideas for position Position Ingeniero de software in area Area de desarrollo de software",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T08:39:47.346Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 27,
+      "object_id": "6",
+      "object_repr": "Liderazgo de equipos medianos y grandes",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T08:40:05.518Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 23,
+      "object_id": "15",
+      "object_repr": "Liderazgo de equipos medianos y grandes for position Position Ingeniero de software in area Area de desarrollo de software",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-06-29T17:28:31.028Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 8,
+      "object_id": "2",
+      "object_repr": "Proceso de selecci\u00f3n de supervisor de recursos humanos",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "codename": "add_logentry",
+      "content_type": 1,
+      "name": "Can add log entry"
+    },
+    "model": "auth.permission",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "codename": "change_logentry",
+      "content_type": 1,
+      "name": "Can change log entry"
+    },
+    "model": "auth.permission",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "codename": "delete_logentry",
+      "content_type": 1,
+      "name": "Can delete log entry"
+    },
+    "model": "auth.permission",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "codename": "view_logentry",
+      "content_type": 1,
+      "name": "Can view log entry"
+    },
+    "model": "auth.permission",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "codename": "add_permission",
+      "content_type": 2,
+      "name": "Can add permission"
+    },
+    "model": "auth.permission",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "codename": "change_permission",
+      "content_type": 2,
+      "name": "Can change permission"
+    },
+    "model": "auth.permission",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "codename": "delete_permission",
+      "content_type": 2,
+      "name": "Can delete permission"
+    },
+    "model": "auth.permission",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "codename": "view_permission",
+      "content_type": 2,
+      "name": "Can view permission"
+    },
+    "model": "auth.permission",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "codename": "add_group",
+      "content_type": 3,
+      "name": "Can add group"
+    },
+    "model": "auth.permission",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "codename": "change_group",
+      "content_type": 3,
+      "name": "Can change group"
+    },
+    "model": "auth.permission",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "codename": "delete_group",
+      "content_type": 3,
+      "name": "Can delete group"
+    },
+    "model": "auth.permission",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "codename": "view_group",
+      "content_type": 3,
+      "name": "Can view group"
+    },
+    "model": "auth.permission",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "codename": "add_contenttype",
+      "content_type": 4,
+      "name": "Can add content type"
+    },
+    "model": "auth.permission",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "codename": "change_contenttype",
+      "content_type": 4,
+      "name": "Can change content type"
+    },
+    "model": "auth.permission",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "codename": "delete_contenttype",
+      "content_type": 4,
+      "name": "Can delete content type"
+    },
+    "model": "auth.permission",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "codename": "view_contenttype",
+      "content_type": 4,
+      "name": "Can view content type"
+    },
+    "model": "auth.permission",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "codename": "add_session",
+      "content_type": 5,
+      "name": "Can add session"
+    },
+    "model": "auth.permission",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "codename": "change_session",
+      "content_type": 5,
+      "name": "Can change session"
+    },
+    "model": "auth.permission",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "codename": "delete_session",
+      "content_type": 5,
+      "name": "Can delete session"
+    },
+    "model": "auth.permission",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "codename": "view_session",
+      "content_type": 5,
+      "name": "Can view session"
+    },
+    "model": "auth.permission",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "codename": "add_area",
+      "content_type": 6,
+      "name": "Can add area"
+    },
+    "model": "auth.permission",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "codename": "change_area",
+      "content_type": 6,
+      "name": "Can change area"
+    },
+    "model": "auth.permission",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "codename": "delete_area",
+      "content_type": 6,
+      "name": "Can delete area"
+    },
+    "model": "auth.permission",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "codename": "view_area",
+      "content_type": 6,
+      "name": "Can view area"
+    },
+    "model": "auth.permission",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "codename": "add_areaxposicion",
+      "content_type": 7,
+      "name": "Can add areax posicion"
+    },
+    "model": "auth.permission",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "codename": "change_areaxposicion",
+      "content_type": 7,
+      "name": "Can change areax posicion"
+    },
+    "model": "auth.permission",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "codename": "delete_areaxposicion",
+      "content_type": 7,
+      "name": "Can delete areax posicion"
+    },
+    "model": "auth.permission",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "codename": "view_areaxposicion",
+      "content_type": 7,
+      "name": "Can view areax posicion"
+    },
+    "model": "auth.permission",
+    "pk": 28
+  },
+  {
+    "fields": {
+      "codename": "add_hiringprocess",
+      "content_type": 8,
+      "name": "Can add hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 29
+  },
+  {
+    "fields": {
+      "codename": "change_hiringprocess",
+      "content_type": 8,
+      "name": "Can change hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 30
+  },
+  {
+    "fields": {
+      "codename": "delete_hiringprocess",
+      "content_type": 8,
+      "name": "Can delete hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 31
+  },
+  {
+    "fields": {
+      "codename": "view_hiringprocess",
+      "content_type": 8,
+      "name": "Can view hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 32
+  },
+  {
+    "fields": {
+      "codename": "add_joboffer",
+      "content_type": 9,
+      "name": "Can add job offer"
+    },
+    "model": "auth.permission",
+    "pk": 33
+  },
+  {
+    "fields": {
+      "codename": "change_joboffer",
+      "content_type": 9,
+      "name": "Can change job offer"
+    },
+    "model": "auth.permission",
+    "pk": 34
+  },
+  {
+    "fields": {
+      "codename": "delete_joboffer",
+      "content_type": 9,
+      "name": "Can delete job offer"
+    },
+    "model": "auth.permission",
+    "pk": 35
+  },
+  {
+    "fields": {
+      "codename": "view_joboffer",
+      "content_type": 9,
+      "name": "Can view job offer"
+    },
+    "model": "auth.permission",
+    "pk": 36
+  },
+  {
+    "fields": {
+      "codename": "add_position",
+      "content_type": 10,
+      "name": "Can add position"
+    },
+    "model": "auth.permission",
+    "pk": 37
+  },
+  {
+    "fields": {
+      "codename": "change_position",
+      "content_type": 10,
+      "name": "Can change position"
+    },
+    "model": "auth.permission",
+    "pk": 38
+  },
+  {
+    "fields": {
+      "codename": "delete_position",
+      "content_type": 10,
+      "name": "Can delete position"
+    },
+    "model": "auth.permission",
+    "pk": 39
+  },
+  {
+    "fields": {
+      "codename": "view_position",
+      "content_type": 10,
+      "name": "Can view position"
+    },
+    "model": "auth.permission",
+    "pk": 40
+  },
+  {
+    "fields": {
+      "codename": "add_stagetype",
+      "content_type": 11,
+      "name": "Can add stage type"
+    },
+    "model": "auth.permission",
+    "pk": 41
+  },
+  {
+    "fields": {
+      "codename": "change_stagetype",
+      "content_type": 11,
+      "name": "Can change stage type"
+    },
+    "model": "auth.permission",
+    "pk": 42
+  },
+  {
+    "fields": {
+      "codename": "delete_stagetype",
+      "content_type": 11,
+      "name": "Can delete stage type"
+    },
+    "model": "auth.permission",
+    "pk": 43
+  },
+  {
+    "fields": {
+      "codename": "view_stagetype",
+      "content_type": 11,
+      "name": "Can view stage type"
+    },
+    "model": "auth.permission",
+    "pk": 44
+  },
+  {
+    "fields": {
+      "codename": "add_training",
+      "content_type": 12,
+      "name": "Can add training"
+    },
+    "model": "auth.permission",
+    "pk": 45
+  },
+  {
+    "fields": {
+      "codename": "change_training",
+      "content_type": 12,
+      "name": "Can change training"
+    },
+    "model": "auth.permission",
+    "pk": 46
+  },
+  {
+    "fields": {
+      "codename": "delete_training",
+      "content_type": 12,
+      "name": "Can delete training"
+    },
+    "model": "auth.permission",
+    "pk": 47
+  },
+  {
+    "fields": {
+      "codename": "view_training",
+      "content_type": 12,
+      "name": "Can view training"
+    },
+    "model": "auth.permission",
+    "pk": 48
+  },
+  {
+    "fields": {
+      "codename": "add_traininglevel",
+      "content_type": 13,
+      "name": "Can add training level"
+    },
+    "model": "auth.permission",
+    "pk": 49
+  },
+  {
+    "fields": {
+      "codename": "change_traininglevel",
+      "content_type": 13,
+      "name": "Can change training level"
+    },
+    "model": "auth.permission",
+    "pk": 50
+  },
+  {
+    "fields": {
+      "codename": "delete_traininglevel",
+      "content_type": 13,
+      "name": "Can delete training level"
+    },
+    "model": "auth.permission",
+    "pk": 51
+  },
+  {
+    "fields": {
+      "codename": "view_traininglevel",
+      "content_type": 13,
+      "name": "Can view training level"
+    },
+    "model": "auth.permission",
+    "pk": 52
+  },
+  {
+    "fields": {
+      "codename": "add_trainingtype",
+      "content_type": 14,
+      "name": "Can add training type"
+    },
+    "model": "auth.permission",
+    "pk": 53
+  },
+  {
+    "fields": {
+      "codename": "change_trainingtype",
+      "content_type": 14,
+      "name": "Can change training type"
+    },
+    "model": "auth.permission",
+    "pk": 54
+  },
+  {
+    "fields": {
+      "codename": "delete_trainingtype",
+      "content_type": 14,
+      "name": "Can delete training type"
+    },
+    "model": "auth.permission",
+    "pk": 55
+  },
+  {
+    "fields": {
+      "codename": "view_trainingtype",
+      "content_type": 14,
+      "name": "Can view training type"
+    },
+    "model": "auth.permission",
+    "pk": 56
+  },
+  {
+    "fields": {
+      "codename": "add_trainingxlevel",
+      "content_type": 15,
+      "name": "Can add trainingx level"
+    },
+    "model": "auth.permission",
+    "pk": 57
+  },
+  {
+    "fields": {
+      "codename": "change_trainingxlevel",
+      "content_type": 15,
+      "name": "Can change trainingx level"
+    },
+    "model": "auth.permission",
+    "pk": 58
+  },
+  {
+    "fields": {
+      "codename": "delete_trainingxlevel",
+      "content_type": 15,
+      "name": "Can delete trainingx level"
+    },
+    "model": "auth.permission",
+    "pk": 59
+  },
+  {
+    "fields": {
+      "codename": "view_trainingxlevel",
+      "content_type": 15,
+      "name": "Can view trainingx level"
+    },
+    "model": "auth.permission",
+    "pk": 60
+  },
+  {
+    "fields": {
+      "codename": "add_trainingxareaxposition",
+      "content_type": 16,
+      "name": "Can add trainingx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 61
+  },
+  {
+    "fields": {
+      "codename": "change_trainingxareaxposition",
+      "content_type": 16,
+      "name": "Can change trainingx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 62
+  },
+  {
+    "fields": {
+      "codename": "delete_trainingxareaxposition",
+      "content_type": 16,
+      "name": "Can delete trainingx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 63
+  },
+  {
+    "fields": {
+      "codename": "view_trainingxareaxposition",
+      "content_type": 16,
+      "name": "Can view trainingx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 64
+  },
+  {
+    "fields": {
+      "codename": "add_processstage",
+      "content_type": 17,
+      "name": "Can add process stage"
+    },
+    "model": "auth.permission",
+    "pk": 65
+  },
+  {
+    "fields": {
+      "codename": "change_processstage",
+      "content_type": 17,
+      "name": "Can change process stage"
+    },
+    "model": "auth.permission",
+    "pk": 66
+  },
+  {
+    "fields": {
+      "codename": "delete_processstage",
+      "content_type": 17,
+      "name": "Can delete process stage"
+    },
+    "model": "auth.permission",
+    "pk": 67
+  },
+  {
+    "fields": {
+      "codename": "view_processstage",
+      "content_type": 17,
+      "name": "Can view process stage"
+    },
+    "model": "auth.permission",
+    "pk": 68
+  },
+  {
+    "fields": {
+      "codename": "add_joboffernotification",
+      "content_type": 18,
+      "name": "Can add job offer notification"
+    },
+    "model": "auth.permission",
+    "pk": 69
+  },
+  {
+    "fields": {
+      "codename": "change_joboffernotification",
+      "content_type": 18,
+      "name": "Can change job offer notification"
+    },
+    "model": "auth.permission",
+    "pk": 70
+  },
+  {
+    "fields": {
+      "codename": "delete_joboffernotification",
+      "content_type": 18,
+      "name": "Can delete job offer notification"
+    },
+    "model": "auth.permission",
+    "pk": 71
+  },
+  {
+    "fields": {
+      "codename": "view_joboffernotification",
+      "content_type": 18,
+      "name": "Can view job offer notification"
+    },
+    "model": "auth.permission",
+    "pk": 72
+  },
+  {
+    "fields": {
+      "codename": "add_functions",
+      "content_type": 19,
+      "name": "Can add functions"
+    },
+    "model": "auth.permission",
+    "pk": 73
+  },
+  {
+    "fields": {
+      "codename": "change_functions",
+      "content_type": 19,
+      "name": "Can change functions"
+    },
+    "model": "auth.permission",
+    "pk": 74
+  },
+  {
+    "fields": {
+      "codename": "delete_functions",
+      "content_type": 19,
+      "name": "Can delete functions"
+    },
+    "model": "auth.permission",
+    "pk": 75
+  },
+  {
+    "fields": {
+      "codename": "view_functions",
+      "content_type": 19,
+      "name": "Can view functions"
+    },
+    "model": "auth.permission",
+    "pk": 76
+  },
+  {
+    "fields": {
+      "codename": "add_employeexhiringprocess",
+      "content_type": 20,
+      "name": "Can add employee x hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 77
+  },
+  {
+    "fields": {
+      "codename": "change_employeexhiringprocess",
+      "content_type": 20,
+      "name": "Can change employee x hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 78
+  },
+  {
+    "fields": {
+      "codename": "delete_employeexhiringprocess",
+      "content_type": 20,
+      "name": "Can delete employee x hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 79
+  },
+  {
+    "fields": {
+      "codename": "view_employeexhiringprocess",
+      "content_type": 20,
+      "name": "Can view employee x hiring process"
+    },
+    "model": "auth.permission",
+    "pk": 80
+  },
+  {
+    "fields": {
+      "codename": "add_category",
+      "content_type": 21,
+      "name": "Can add category"
+    },
+    "model": "auth.permission",
+    "pk": 81
+  },
+  {
+    "fields": {
+      "codename": "change_category",
+      "content_type": 21,
+      "name": "Can change category"
+    },
+    "model": "auth.permission",
+    "pk": 82
+  },
+  {
+    "fields": {
+      "codename": "delete_category",
+      "content_type": 21,
+      "name": "Can delete category"
+    },
+    "model": "auth.permission",
+    "pk": 83
+  },
+  {
+    "fields": {
+      "codename": "view_category",
+      "content_type": 21,
+      "name": "Can view category"
+    },
+    "model": "auth.permission",
+    "pk": 84
+  },
+  {
+    "fields": {
+      "codename": "add_competencessxemployeexlearningpath",
+      "content_type": 22,
+      "name": "Can add competencess x employee x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 85
+  },
+  {
+    "fields": {
+      "codename": "change_competencessxemployeexlearningpath",
+      "content_type": 22,
+      "name": "Can change competencess x employee x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 86
+  },
+  {
+    "fields": {
+      "codename": "delete_competencessxemployeexlearningpath",
+      "content_type": 22,
+      "name": "Can delete competencess x employee x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 87
+  },
+  {
+    "fields": {
+      "codename": "view_competencessxemployeexlearningpath",
+      "content_type": 22,
+      "name": "Can view competencess x employee x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 88
+  },
+  {
+    "fields": {
+      "codename": "add_competencyxareaxposition",
+      "content_type": 23,
+      "name": "Can add competencyx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 89
+  },
+  {
+    "fields": {
+      "codename": "change_competencyxareaxposition",
+      "content_type": 23,
+      "name": "Can change competencyx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 90
+  },
+  {
+    "fields": {
+      "codename": "delete_competencyxareaxposition",
+      "content_type": 23,
+      "name": "Can delete competencyx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 91
+  },
+  {
+    "fields": {
+      "codename": "view_competencyxareaxposition",
+      "content_type": 23,
+      "name": "Can view competencyx areax position"
+    },
+    "model": "auth.permission",
+    "pk": 92
+  },
+  {
+    "fields": {
+      "codename": "add_evaluation",
+      "content_type": 24,
+      "name": "Can add evaluation"
+    },
+    "model": "auth.permission",
+    "pk": 93
+  },
+  {
+    "fields": {
+      "codename": "change_evaluation",
+      "content_type": 24,
+      "name": "Can change evaluation"
+    },
+    "model": "auth.permission",
+    "pk": 94
+  },
+  {
+    "fields": {
+      "codename": "delete_evaluation",
+      "content_type": 24,
+      "name": "Can delete evaluation"
+    },
+    "model": "auth.permission",
+    "pk": 95
+  },
+  {
+    "fields": {
+      "codename": "view_evaluation",
+      "content_type": 24,
+      "name": "Can view evaluation"
+    },
+    "model": "auth.permission",
+    "pk": 96
+  },
+  {
+    "fields": {
+      "codename": "add_evaluationtype",
+      "content_type": 25,
+      "name": "Can add evaluation type"
+    },
+    "model": "auth.permission",
+    "pk": 97
+  },
+  {
+    "fields": {
+      "codename": "change_evaluationtype",
+      "content_type": 25,
+      "name": "Can change evaluation type"
+    },
+    "model": "auth.permission",
+    "pk": 98
+  },
+  {
+    "fields": {
+      "codename": "delete_evaluationtype",
+      "content_type": 25,
+      "name": "Can delete evaluation type"
+    },
+    "model": "auth.permission",
+    "pk": 99
+  },
+  {
+    "fields": {
+      "codename": "view_evaluationtype",
+      "content_type": 25,
+      "name": "Can view evaluation type"
+    },
+    "model": "auth.permission",
+    "pk": 100
+  },
+  {
+    "fields": {
+      "codename": "add_plantilla",
+      "content_type": 26,
+      "name": "Can add plantilla"
+    },
+    "model": "auth.permission",
+    "pk": 101
+  },
+  {
+    "fields": {
+      "codename": "change_plantilla",
+      "content_type": 26,
+      "name": "Can change plantilla"
+    },
+    "model": "auth.permission",
+    "pk": 102
+  },
+  {
+    "fields": {
+      "codename": "delete_plantilla",
+      "content_type": 26,
+      "name": "Can delete plantilla"
+    },
+    "model": "auth.permission",
+    "pk": 103
+  },
+  {
+    "fields": {
+      "codename": "view_plantilla",
+      "content_type": 26,
+      "name": "Can view plantilla"
+    },
+    "model": "auth.permission",
+    "pk": 104
+  },
+  {
+    "fields": {
+      "codename": "add_subcategory",
+      "content_type": 27,
+      "name": "Can add sub category"
+    },
+    "model": "auth.permission",
+    "pk": 105
+  },
+  {
+    "fields": {
+      "codename": "change_subcategory",
+      "content_type": 27,
+      "name": "Can change sub category"
+    },
+    "model": "auth.permission",
+    "pk": 106
+  },
+  {
+    "fields": {
+      "codename": "delete_subcategory",
+      "content_type": 27,
+      "name": "Can delete sub category"
+    },
+    "model": "auth.permission",
+    "pk": 107
+  },
+  {
+    "fields": {
+      "codename": "view_subcategory",
+      "content_type": 27,
+      "name": "Can view sub category"
+    },
+    "model": "auth.permission",
+    "pk": 108
+  },
+  {
+    "fields": {
+      "codename": "add_plantillaxsubcategoria",
+      "content_type": 28,
+      "name": "Can add plantillax sub categoria"
+    },
+    "model": "auth.permission",
+    "pk": 109
+  },
+  {
+    "fields": {
+      "codename": "change_plantillaxsubcategoria",
+      "content_type": 28,
+      "name": "Can change plantillax sub categoria"
+    },
+    "model": "auth.permission",
+    "pk": 110
+  },
+  {
+    "fields": {
+      "codename": "delete_plantillaxsubcategoria",
+      "content_type": 28,
+      "name": "Can delete plantillax sub categoria"
+    },
+    "model": "auth.permission",
+    "pk": 111
+  },
+  {
+    "fields": {
+      "codename": "view_plantillaxsubcategoria",
+      "content_type": 28,
+      "name": "Can view plantillax sub categoria"
+    },
+    "model": "auth.permission",
+    "pk": 112
+  },
+  {
+    "fields": {
+      "codename": "add_evaluationxsubcategory",
+      "content_type": 29,
+      "name": "Can add evaluationx sub category"
+    },
+    "model": "auth.permission",
+    "pk": 113
+  },
+  {
+    "fields": {
+      "codename": "change_evaluationxsubcategory",
+      "content_type": 29,
+      "name": "Can change evaluationx sub category"
+    },
+    "model": "auth.permission",
+    "pk": 114
+  },
+  {
+    "fields": {
+      "codename": "delete_evaluationxsubcategory",
+      "content_type": 29,
+      "name": "Can delete evaluationx sub category"
+    },
+    "model": "auth.permission",
+    "pk": 115
+  },
+  {
+    "fields": {
+      "codename": "view_evaluationxsubcategory",
+      "content_type": 29,
+      "name": "Can view evaluationx sub category"
+    },
+    "model": "auth.permission",
+    "pk": 116
+  },
+  {
+    "fields": {
+      "codename": "add_user",
+      "content_type": 30,
+      "name": "Can add user"
+    },
+    "model": "auth.permission",
+    "pk": 117
+  },
+  {
+    "fields": {
+      "codename": "change_user",
+      "content_type": 30,
+      "name": "Can change user"
+    },
+    "model": "auth.permission",
+    "pk": 118
+  },
+  {
+    "fields": {
+      "codename": "delete_user",
+      "content_type": 30,
+      "name": "Can delete user"
+    },
+    "model": "auth.permission",
+    "pk": 119
+  },
+  {
+    "fields": {
+      "codename": "view_user",
+      "content_type": 30,
+      "name": "Can view user"
+    },
+    "model": "auth.permission",
+    "pk": 120
+  },
+  {
+    "fields": {
+      "codename": "add_applicant",
+      "content_type": 31,
+      "name": "Can add applicant"
+    },
+    "model": "auth.permission",
+    "pk": 121
+  },
+  {
+    "fields": {
+      "codename": "change_applicant",
+      "content_type": 31,
+      "name": "Can change applicant"
+    },
+    "model": "auth.permission",
+    "pk": 122
+  },
+  {
+    "fields": {
+      "codename": "delete_applicant",
+      "content_type": 31,
+      "name": "Can delete applicant"
+    },
+    "model": "auth.permission",
+    "pk": 123
+  },
+  {
+    "fields": {
+      "codename": "view_applicant",
+      "content_type": 31,
+      "name": "Can view applicant"
+    },
+    "model": "auth.permission",
+    "pk": 124
+  },
+  {
+    "fields": {
+      "codename": "add_employee",
+      "content_type": 32,
+      "name": "Can add employee"
+    },
+    "model": "auth.permission",
+    "pk": 125
+  },
+  {
+    "fields": {
+      "codename": "change_employee",
+      "content_type": 32,
+      "name": "Can change employee"
+    },
+    "model": "auth.permission",
+    "pk": 126
+  },
+  {
+    "fields": {
+      "codename": "delete_employee",
+      "content_type": 32,
+      "name": "Can delete employee"
+    },
+    "model": "auth.permission",
+    "pk": 127
+  },
+  {
+    "fields": {
+      "codename": "view_employee",
+      "content_type": 32,
+      "name": "Can view employee"
+    },
+    "model": "auth.permission",
+    "pk": 128
+  },
+  {
+    "fields": {
+      "codename": "add_role",
+      "content_type": 33,
+      "name": "Can add role"
+    },
+    "model": "auth.permission",
+    "pk": 129
+  },
+  {
+    "fields": {
+      "codename": "change_role",
+      "content_type": 33,
+      "name": "Can change role"
+    },
+    "model": "auth.permission",
+    "pk": 130
+  },
+  {
+    "fields": {
+      "codename": "delete_role",
+      "content_type": 33,
+      "name": "Can delete role"
+    },
+    "model": "auth.permission",
+    "pk": 131
+  },
+  {
+    "fields": {
+      "codename": "view_role",
+      "content_type": 33,
+      "name": "Can view role"
+    },
+    "model": "auth.permission",
+    "pk": 132
+  },
+  {
+    "fields": {
+      "codename": "add_userxrole",
+      "content_type": 34,
+      "name": "Can add userx role"
+    },
+    "model": "auth.permission",
+    "pk": 133
+  },
+  {
+    "fields": {
+      "codename": "change_userxrole",
+      "content_type": 34,
+      "name": "Can change userx role"
+    },
+    "model": "auth.permission",
+    "pk": 134
+  },
+  {
+    "fields": {
+      "codename": "delete_userxrole",
+      "content_type": 34,
+      "name": "Can delete userx role"
+    },
+    "model": "auth.permission",
+    "pk": 135
+  },
+  {
+    "fields": {
+      "codename": "view_userxrole",
+      "content_type": 34,
+      "name": "Can view userx role"
+    },
+    "model": "auth.permission",
+    "pk": 136
+  },
+  {
+    "fields": {
+      "codename": "add_token",
+      "content_type": 35,
+      "name": "Can add Token"
+    },
+    "model": "auth.permission",
+    "pk": 137
+  },
+  {
+    "fields": {
+      "codename": "change_token",
+      "content_type": 35,
+      "name": "Can change Token"
+    },
+    "model": "auth.permission",
+    "pk": 138
+  },
+  {
+    "fields": {
+      "codename": "delete_token",
+      "content_type": 35,
+      "name": "Can delete Token"
+    },
+    "model": "auth.permission",
+    "pk": 139
+  },
+  {
+    "fields": {
+      "codename": "view_token",
+      "content_type": 35,
+      "name": "Can view Token"
+    },
+    "model": "auth.permission",
+    "pk": 140
+  },
+  {
+    "fields": {
+      "codename": "add_tokenproxy",
+      "content_type": 36,
+      "name": "Can add token"
+    },
+    "model": "auth.permission",
+    "pk": 141
+  },
+  {
+    "fields": {
+      "codename": "change_tokenproxy",
+      "content_type": 36,
+      "name": "Can change token"
+    },
+    "model": "auth.permission",
+    "pk": 142
+  },
+  {
+    "fields": {
+      "codename": "delete_tokenproxy",
+      "content_type": 36,
+      "name": "Can delete token"
+    },
+    "model": "auth.permission",
+    "pk": 143
+  },
+  {
+    "fields": {
+      "codename": "view_tokenproxy",
+      "content_type": 36,
+      "name": "Can view token"
+    },
+    "model": "auth.permission",
+    "pk": 144
+  },
+  {
+    "fields": {
+      "codename": "add_asistenciasesionxempleado",
+      "content_type": 37,
+      "name": "Can add asistencia sesion x empleado"
+    },
+    "model": "auth.permission",
+    "pk": 145
+  },
+  {
+    "fields": {
+      "codename": "change_asistenciasesionxempleado",
+      "content_type": 37,
+      "name": "Can change asistencia sesion x empleado"
+    },
+    "model": "auth.permission",
+    "pk": 146
+  },
+  {
+    "fields": {
+      "codename": "delete_asistenciasesionxempleado",
+      "content_type": 37,
+      "name": "Can delete asistencia sesion x empleado"
+    },
+    "model": "auth.permission",
+    "pk": 147
+  },
+  {
+    "fields": {
+      "codename": "view_asistenciasesionxempleado",
+      "content_type": 37,
+      "name": "Can view asistencia sesion x empleado"
+    },
+    "model": "auth.permission",
+    "pk": 148
+  },
+  {
+    "fields": {
+      "codename": "add_categoria",
+      "content_type": 38,
+      "name": "Can add categoria"
+    },
+    "model": "auth.permission",
+    "pk": 149
+  },
+  {
+    "fields": {
+      "codename": "change_categoria",
+      "content_type": 38,
+      "name": "Can change categoria"
+    },
+    "model": "auth.permission",
+    "pk": 150
+  },
+  {
+    "fields": {
+      "codename": "delete_categoria",
+      "content_type": 38,
+      "name": "Can delete categoria"
+    },
+    "model": "auth.permission",
+    "pk": 151
+  },
+  {
+    "fields": {
+      "codename": "view_categoria",
+      "content_type": 38,
+      "name": "Can view categoria"
+    },
+    "model": "auth.permission",
+    "pk": 152
+  },
+  {
+    "fields": {
+      "codename": "add_cursogeneral",
+      "content_type": 39,
+      "name": "Can add curso general"
+    },
+    "model": "auth.permission",
+    "pk": 153
+  },
+  {
+    "fields": {
+      "codename": "change_cursogeneral",
+      "content_type": 39,
+      "name": "Can change curso general"
+    },
+    "model": "auth.permission",
+    "pk": 154
+  },
+  {
+    "fields": {
+      "codename": "delete_cursogeneral",
+      "content_type": 39,
+      "name": "Can delete curso general"
+    },
+    "model": "auth.permission",
+    "pk": 155
+  },
+  {
+    "fields": {
+      "codename": "view_cursogeneral",
+      "content_type": 39,
+      "name": "Can view curso general"
+    },
+    "model": "auth.permission",
+    "pk": 156
+  },
+  {
+    "fields": {
+      "codename": "add_cursogeneralxlearningpath",
+      "content_type": 40,
+      "name": "Can add curso general x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 157
+  },
+  {
+    "fields": {
+      "codename": "change_cursogeneralxlearningpath",
+      "content_type": 40,
+      "name": "Can change curso general x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 158
+  },
+  {
+    "fields": {
+      "codename": "delete_cursogeneralxlearningpath",
+      "content_type": 40,
+      "name": "Can delete curso general x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 159
+  },
+  {
+    "fields": {
+      "codename": "view_cursogeneralxlearningpath",
+      "content_type": 40,
+      "name": "Can view curso general x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 160
+  },
+  {
+    "fields": {
+      "codename": "add_documentoexamen",
+      "content_type": 41,
+      "name": "Can add documento examen"
+    },
+    "model": "auth.permission",
+    "pk": 161
+  },
+  {
+    "fields": {
+      "codename": "change_documentoexamen",
+      "content_type": 41,
+      "name": "Can change documento examen"
+    },
+    "model": "auth.permission",
+    "pk": 162
+  },
+  {
+    "fields": {
+      "codename": "delete_documentoexamen",
+      "content_type": 41,
+      "name": "Can delete documento examen"
+    },
+    "model": "auth.permission",
+    "pk": 163
+  },
+  {
+    "fields": {
+      "codename": "view_documentoexamen",
+      "content_type": 41,
+      "name": "Can view documento examen"
+    },
+    "model": "auth.permission",
+    "pk": 164
+  },
+  {
+    "fields": {
+      "codename": "add_documentorespuesta",
+      "content_type": 42,
+      "name": "Can add documento respuesta"
+    },
+    "model": "auth.permission",
+    "pk": 165
+  },
+  {
+    "fields": {
+      "codename": "change_documentorespuesta",
+      "content_type": 42,
+      "name": "Can change documento respuesta"
+    },
+    "model": "auth.permission",
+    "pk": 166
+  },
+  {
+    "fields": {
+      "codename": "delete_documentorespuesta",
+      "content_type": 42,
+      "name": "Can delete documento respuesta"
+    },
+    "model": "auth.permission",
+    "pk": 167
+  },
+  {
+    "fields": {
+      "codename": "view_documentorespuesta",
+      "content_type": 42,
+      "name": "Can view documento respuesta"
+    },
+    "model": "auth.permission",
+    "pk": 168
+  },
+  {
+    "fields": {
+      "codename": "add_empleadoxcurso",
+      "content_type": 43,
+      "name": "Can add empleado x curso"
+    },
+    "model": "auth.permission",
+    "pk": 169
+  },
+  {
+    "fields": {
+      "codename": "change_empleadoxcurso",
+      "content_type": 43,
+      "name": "Can change empleado x curso"
+    },
+    "model": "auth.permission",
+    "pk": 170
+  },
+  {
+    "fields": {
+      "codename": "delete_empleadoxcurso",
+      "content_type": 43,
+      "name": "Can delete empleado x curso"
+    },
+    "model": "auth.permission",
+    "pk": 171
+  },
+  {
+    "fields": {
+      "codename": "view_empleadoxcurso",
+      "content_type": 43,
+      "name": "Can view empleado x curso"
+    },
+    "model": "auth.permission",
+    "pk": 172
+  },
+  {
+    "fields": {
+      "codename": "add_empleadoxcursoempresa",
+      "content_type": 44,
+      "name": "Can add empleado x curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 173
+  },
+  {
+    "fields": {
+      "codename": "change_empleadoxcursoempresa",
+      "content_type": 44,
+      "name": "Can change empleado x curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 174
+  },
+  {
+    "fields": {
+      "codename": "delete_empleadoxcursoempresa",
+      "content_type": 44,
+      "name": "Can delete empleado x curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 175
+  },
+  {
+    "fields": {
+      "codename": "view_empleadoxcursoempresa",
+      "content_type": 44,
+      "name": "Can view empleado x curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 176
+  },
+  {
+    "fields": {
+      "codename": "add_empleadoxcursoxlearningpath",
+      "content_type": 45,
+      "name": "Can add empleado x curso x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 177
+  },
+  {
+    "fields": {
+      "codename": "change_empleadoxcursoxlearningpath",
+      "content_type": 45,
+      "name": "Can change empleado x curso x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 178
+  },
+  {
+    "fields": {
+      "codename": "delete_empleadoxcursoxlearningpath",
+      "content_type": 45,
+      "name": "Can delete empleado x curso x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 179
+  },
+  {
+    "fields": {
+      "codename": "view_empleadoxcursoxlearningpath",
+      "content_type": 45,
+      "name": "Can view empleado x curso x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 180
+  },
+  {
+    "fields": {
+      "codename": "add_empleadoxlearningpath",
+      "content_type": 46,
+      "name": "Can add empleado x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 181
+  },
+  {
+    "fields": {
+      "codename": "change_empleadoxlearningpath",
+      "content_type": 46,
+      "name": "Can change empleado x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 182
+  },
+  {
+    "fields": {
+      "codename": "delete_empleadoxlearningpath",
+      "content_type": 46,
+      "name": "Can delete empleado x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 183
+  },
+  {
+    "fields": {
+      "codename": "view_empleadoxlearningpath",
+      "content_type": 46,
+      "name": "Can view empleado x learning path"
+    },
+    "model": "auth.permission",
+    "pk": 184
+  },
+  {
+    "fields": {
+      "codename": "add_habilidad",
+      "content_type": 47,
+      "name": "Can add habilidad"
+    },
+    "model": "auth.permission",
+    "pk": 185
+  },
+  {
+    "fields": {
+      "codename": "change_habilidad",
+      "content_type": 47,
+      "name": "Can change habilidad"
+    },
+    "model": "auth.permission",
+    "pk": 186
+  },
+  {
+    "fields": {
+      "codename": "delete_habilidad",
+      "content_type": 47,
+      "name": "Can delete habilidad"
+    },
+    "model": "auth.permission",
+    "pk": 187
+  },
+  {
+    "fields": {
+      "codename": "view_habilidad",
+      "content_type": 47,
+      "name": "Can view habilidad"
+    },
+    "model": "auth.permission",
+    "pk": 188
+  },
+  {
+    "fields": {
+      "codename": "add_habilidadxproveedorusuario",
+      "content_type": 48,
+      "name": "Can add habilidad x proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 189
+  },
+  {
+    "fields": {
+      "codename": "change_habilidadxproveedorusuario",
+      "content_type": 48,
+      "name": "Can change habilidad x proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 190
+  },
+  {
+    "fields": {
+      "codename": "delete_habilidadxproveedorusuario",
+      "content_type": 48,
+      "name": "Can delete habilidad x proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 191
+  },
+  {
+    "fields": {
+      "codename": "view_habilidadxproveedorusuario",
+      "content_type": 48,
+      "name": "Can view habilidad x proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 192
+  },
+  {
+    "fields": {
+      "codename": "add_learningpath",
+      "content_type": 49,
+      "name": "Can add learning path"
+    },
+    "model": "auth.permission",
+    "pk": 193
+  },
+  {
+    "fields": {
+      "codename": "change_learningpath",
+      "content_type": 49,
+      "name": "Can change learning path"
+    },
+    "model": "auth.permission",
+    "pk": 194
+  },
+  {
+    "fields": {
+      "codename": "delete_learningpath",
+      "content_type": 49,
+      "name": "Can delete learning path"
+    },
+    "model": "auth.permission",
+    "pk": 195
+  },
+  {
+    "fields": {
+      "codename": "view_learningpath",
+      "content_type": 49,
+      "name": "Can view learning path"
+    },
+    "model": "auth.permission",
+    "pk": 196
+  },
+  {
+    "fields": {
+      "codename": "add_parametros",
+      "content_type": 50,
+      "name": "Can add parametros"
+    },
+    "model": "auth.permission",
+    "pk": 197
+  },
+  {
+    "fields": {
+      "codename": "change_parametros",
+      "content_type": 50,
+      "name": "Can change parametros"
+    },
+    "model": "auth.permission",
+    "pk": 198
+  },
+  {
+    "fields": {
+      "codename": "delete_parametros",
+      "content_type": 50,
+      "name": "Can delete parametros"
+    },
+    "model": "auth.permission",
+    "pk": 199
+  },
+  {
+    "fields": {
+      "codename": "view_parametros",
+      "content_type": 50,
+      "name": "Can view parametros"
+    },
+    "model": "auth.permission",
+    "pk": 200
+  },
+  {
+    "fields": {
+      "codename": "add_proveedorempresa",
+      "content_type": 51,
+      "name": "Can add proveedor empresa"
+    },
+    "model": "auth.permission",
+    "pk": 201
+  },
+  {
+    "fields": {
+      "codename": "change_proveedorempresa",
+      "content_type": 51,
+      "name": "Can change proveedor empresa"
+    },
+    "model": "auth.permission",
+    "pk": 202
+  },
+  {
+    "fields": {
+      "codename": "delete_proveedorempresa",
+      "content_type": 51,
+      "name": "Can delete proveedor empresa"
+    },
+    "model": "auth.permission",
+    "pk": 203
+  },
+  {
+    "fields": {
+      "codename": "view_proveedorempresa",
+      "content_type": 51,
+      "name": "Can view proveedor empresa"
+    },
+    "model": "auth.permission",
+    "pk": 204
+  },
+  {
+    "fields": {
+      "codename": "add_sesion",
+      "content_type": 52,
+      "name": "Can add sesion"
+    },
+    "model": "auth.permission",
+    "pk": 205
+  },
+  {
+    "fields": {
+      "codename": "change_sesion",
+      "content_type": 52,
+      "name": "Can change sesion"
+    },
+    "model": "auth.permission",
+    "pk": 206
+  },
+  {
+    "fields": {
+      "codename": "delete_sesion",
+      "content_type": 52,
+      "name": "Can delete sesion"
+    },
+    "model": "auth.permission",
+    "pk": 207
+  },
+  {
+    "fields": {
+      "codename": "view_sesion",
+      "content_type": 52,
+      "name": "Can view sesion"
+    },
+    "model": "auth.permission",
+    "pk": 208
+  },
+  {
+    "fields": {
+      "codename": "add_cursoempresa",
+      "content_type": 53,
+      "name": "Can add curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 209
+  },
+  {
+    "fields": {
+      "codename": "change_cursoempresa",
+      "content_type": 53,
+      "name": "Can change curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 210
+  },
+  {
+    "fields": {
+      "codename": "delete_cursoempresa",
+      "content_type": 53,
+      "name": "Can delete curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 211
+  },
+  {
+    "fields": {
+      "codename": "view_cursoempresa",
+      "content_type": 53,
+      "name": "Can view curso empresa"
+    },
+    "model": "auth.permission",
+    "pk": 212
+  },
+  {
+    "fields": {
+      "codename": "add_cursoudemy",
+      "content_type": 54,
+      "name": "Can add curso udemy"
+    },
+    "model": "auth.permission",
+    "pk": 213
+  },
+  {
+    "fields": {
+      "codename": "change_cursoudemy",
+      "content_type": 54,
+      "name": "Can change curso udemy"
+    },
+    "model": "auth.permission",
+    "pk": 214
+  },
+  {
+    "fields": {
+      "codename": "delete_cursoudemy",
+      "content_type": 54,
+      "name": "Can delete curso udemy"
+    },
+    "model": "auth.permission",
+    "pk": 215
+  },
+  {
+    "fields": {
+      "codename": "view_cursoudemy",
+      "content_type": 54,
+      "name": "Can view curso udemy"
+    },
+    "model": "auth.permission",
+    "pk": 216
+  },
+  {
+    "fields": {
+      "codename": "add_tema",
+      "content_type": 55,
+      "name": "Can add tema"
+    },
+    "model": "auth.permission",
+    "pk": 217
+  },
+  {
+    "fields": {
+      "codename": "change_tema",
+      "content_type": 55,
+      "name": "Can change tema"
+    },
+    "model": "auth.permission",
+    "pk": 218
+  },
+  {
+    "fields": {
+      "codename": "delete_tema",
+      "content_type": 55,
+      "name": "Can delete tema"
+    },
+    "model": "auth.permission",
+    "pk": 219
+  },
+  {
+    "fields": {
+      "codename": "view_tema",
+      "content_type": 55,
+      "name": "Can view tema"
+    },
+    "model": "auth.permission",
+    "pk": 220
+  },
+  {
+    "fields": {
+      "codename": "add_sesionxreponsable",
+      "content_type": 56,
+      "name": "Can add sesion x reponsable"
+    },
+    "model": "auth.permission",
+    "pk": 221
+  },
+  {
+    "fields": {
+      "codename": "change_sesionxreponsable",
+      "content_type": 56,
+      "name": "Can change sesion x reponsable"
+    },
+    "model": "auth.permission",
+    "pk": 222
+  },
+  {
+    "fields": {
+      "codename": "delete_sesionxreponsable",
+      "content_type": 56,
+      "name": "Can delete sesion x reponsable"
+    },
+    "model": "auth.permission",
+    "pk": 223
+  },
+  {
+    "fields": {
+      "codename": "view_sesionxreponsable",
+      "content_type": 56,
+      "name": "Can view sesion x reponsable"
+    },
+    "model": "auth.permission",
+    "pk": 224
+  },
+  {
+    "fields": {
+      "codename": "add_proveedorusuario",
+      "content_type": 57,
+      "name": "Can add proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 225
+  },
+  {
+    "fields": {
+      "codename": "change_proveedorusuario",
+      "content_type": 57,
+      "name": "Can change proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 226
+  },
+  {
+    "fields": {
+      "codename": "delete_proveedorusuario",
+      "content_type": 57,
+      "name": "Can delete proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 227
+  },
+  {
+    "fields": {
+      "codename": "view_proveedorusuario",
+      "content_type": 57,
+      "name": "Can view proveedor usuario"
+    },
+    "model": "auth.permission",
+    "pk": 228
+  },
+  {
+    "fields": {
+      "codename": "add_capacity",
+      "content_type": 58,
+      "name": "Can add capacity"
+    },
+    "model": "auth.permission",
+    "pk": 229
+  },
+  {
+    "fields": {
+      "codename": "change_capacity",
+      "content_type": 58,
+      "name": "Can change capacity"
+    },
+    "model": "auth.permission",
+    "pk": 230
+  },
+  {
+    "fields": {
+      "codename": "delete_capacity",
+      "content_type": 58,
+      "name": "Can delete capacity"
+    },
+    "model": "auth.permission",
+    "pk": 231
+  },
+  {
+    "fields": {
+      "codename": "view_capacity",
+      "content_type": 58,
+      "name": "Can view capacity"
+    },
+    "model": "auth.permission",
+    "pk": 232
+  },
+  {
+    "fields": {
+      "codename": "add_capacitytype",
+      "content_type": 59,
+      "name": "Can add capacity type"
+    },
+    "model": "auth.permission",
+    "pk": 233
+  },
+  {
+    "fields": {
+      "codename": "change_capacitytype",
+      "content_type": 59,
+      "name": "Can change capacity type"
+    },
+    "model": "auth.permission",
+    "pk": 234
+  },
+  {
+    "fields": {
+      "codename": "delete_capacitytype",
+      "content_type": 59,
+      "name": "Can delete capacity type"
+    },
+    "model": "auth.permission",
+    "pk": 235
+  },
+  {
+    "fields": {
+      "codename": "view_capacitytype",
+      "content_type": 59,
+      "name": "Can view capacity type"
+    },
+    "model": "auth.permission",
+    "pk": 236
+  },
+  {
+    "fields": {
+      "codename": "add_capacityxareaxposition",
+      "content_type": 60,
+      "name": "Can add capacity x area x position"
+    },
+    "model": "auth.permission",
+    "pk": 237
+  },
+  {
+    "fields": {
+      "codename": "change_capacityxareaxposition",
+      "content_type": 60,
+      "name": "Can change capacity x area x position"
+    },
+    "model": "auth.permission",
+    "pk": 238
+  },
+  {
+    "fields": {
+      "codename": "delete_capacityxareaxposition",
+      "content_type": 60,
+      "name": "Can delete capacity x area x position"
+    },
+    "model": "auth.permission",
+    "pk": 239
+  },
+  {
+    "fields": {
+      "codename": "view_capacityxareaxposition",
+      "content_type": 60,
+      "name": "Can view capacity x area x position"
+    },
+    "model": "auth.permission",
+    "pk": 240
+  },
+  {
+    "fields": {
+      "codename": "add_capacityxemployee",
+      "content_type": 61,
+      "name": "Can add capacity x employee"
+    },
+    "model": "auth.permission",
+    "pk": 241
+  },
+  {
+    "fields": {
+      "codename": "change_capacityxemployee",
+      "content_type": 61,
+      "name": "Can change capacity x employee"
+    },
+    "model": "auth.permission",
+    "pk": 242
+  },
+  {
+    "fields": {
+      "codename": "delete_capacityxemployee",
+      "content_type": 61,
+      "name": "Can delete capacity x employee"
+    },
+    "model": "auth.permission",
+    "pk": 243
+  },
+  {
+    "fields": {
+      "codename": "view_capacityxemployee",
+      "content_type": 61,
+      "name": "Can view capacity x employee"
+    },
+    "model": "auth.permission",
+    "pk": 244
+  },
+  {
+    "fields": {
+      "codename": "add_trainingneed",
+      "content_type": 62,
+      "name": "Can add training need"
+    },
+    "model": "auth.permission",
+    "pk": 245
+  },
+  {
+    "fields": {
+      "codename": "change_trainingneed",
+      "content_type": 62,
+      "name": "Can change training need"
+    },
+    "model": "auth.permission",
+    "pk": 246
+  },
+  {
+    "fields": {
+      "codename": "delete_trainingneed",
+      "content_type": 62,
+      "name": "Can delete training need"
+    },
+    "model": "auth.permission",
+    "pk": 247
+  },
+  {
+    "fields": {
+      "codename": "view_trainingneed",
+      "content_type": 62,
+      "name": "Can view training need"
+    },
+    "model": "auth.permission",
+    "pk": 248
+  },
+  {
+    "fields": {
+      "app_label": "admin",
+      "model": "logentry"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "app_label": "auth",
+      "model": "permission"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "app_label": "auth",
+      "model": "group"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "app_label": "contenttypes",
+      "model": "contenttype"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "app_label": "sessions",
+      "model": "session"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "area"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "areaxposicion"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "hiringprocess"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "joboffer"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "position"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "stagetype"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "training"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "traininglevel"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "trainingtype"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "trainingxlevel"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "trainingxareaxposition"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "processstage"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "joboffernotification"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "functions"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "app_label": "personal",
+      "model": "employeexhiringprocess"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "category"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "competencessxemployeexlearningpath"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "competencyxareaxposition"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "evaluation"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "evaluationtype"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "plantilla"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "subcategory"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "plantillaxsubcategoria"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 28
+  },
+  {
+    "fields": {
+      "app_label": "evaluations_and_promotions",
+      "model": "evaluationxsubcategory"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 29
+  },
+  {
+    "fields": {
+      "app_label": "login",
+      "model": "user"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 30
+  },
+  {
+    "fields": {
+      "app_label": "login",
+      "model": "applicant"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 31
+  },
+  {
+    "fields": {
+      "app_label": "login",
+      "model": "employee"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 32
+  },
+  {
+    "fields": {
+      "app_label": "login",
+      "model": "role"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 33
+  },
+  {
+    "fields": {
+      "app_label": "login",
+      "model": "userxrole"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 34
+  },
+  {
+    "fields": {
+      "app_label": "authtoken",
+      "model": "token"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 35
+  },
+  {
+    "fields": {
+      "app_label": "authtoken",
+      "model": "tokenproxy"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 36
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "asistenciasesionxempleado"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 37
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "categoria"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 38
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "cursogeneral"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 39
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "cursogeneralxlearningpath"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 40
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "documentoexamen"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 41
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "documentorespuesta"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 42
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "empleadoxcurso"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 43
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "empleadoxcursoempresa"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 44
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "empleadoxcursoxlearningpath"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 45
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "empleadoxlearningpath"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 46
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "habilidad"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 47
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "habilidadxproveedorusuario"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 48
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "learningpath"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 49
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "parametros"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 50
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "proveedorempresa"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 51
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "sesion"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 52
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "cursoempresa"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 53
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "cursoudemy"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 54
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "tema"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 55
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "sesionxreponsable"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 56
+  },
+  {
+    "fields": {
+      "app_label": "capacitaciones",
+      "model": "proveedorusuario"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 57
+  },
+  {
+    "fields": {
+      "app_label": "gaps",
+      "model": "capacity"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 58
+  },
+  {
+    "fields": {
+      "app_label": "gaps",
+      "model": "capacitytype"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 59
+  },
+  {
+    "fields": {
+      "app_label": "gaps",
+      "model": "capacityxareaxposition"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 60
+  },
+  {
+    "fields": {
+      "app_label": "gaps",
+      "model": "capacityxemployee"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 61
+  },
+  {
+    "fields": {
+      "app_label": "gaps",
+      "model": "trainingneed"
+    },
+    "model": "contenttypes.contenttype",
+    "pk": 62
+  },
+  {
+    "fields": {
+      "expire_date": "2023-07-13T04:25:59.757Z",
+      "session_data": ".eJxVjDsOwjAQBe_iGlne-Icp6XMGa9de4wCypXwqxN0hUgpo38y8l4i4rTVuC89xyuIiQJx-N8L04LaDfMd26zL1ts4TyV2RB13k2DM_r4f7d1Bxqd-6BFWcYx50UKSMNkhnpxkysnaQ_QDWOWUs4UCaCgYogBDIerCIPon3B9hcN7g:1qEjEF:9G8_V-28yyiOlgmd1XUuF-rzTyEnT6_RAe4Ax5dp5Ec"
+    },
+    "model": "sessions.session",
+    "pk": "tuaz5c6kp5ebu3v290bot8xaxjo471zg"
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Desarrollador de aplicaciones",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Desarrollador de aplicaciones",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Arquitecto de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Arquitecto de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Analista de sistemas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Analista de sistemas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en bases de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en bases de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en seguridad de la informaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en seguridad de la informaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Consultor de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Consultor de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Gerente de proyectos de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Gerente de proyectos de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de redes",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de redes",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en virtualizaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en virtualizaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Dise\u00f1ador de interfaces de usuario",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Dise\u00f1ador de interfaces de usuario",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de pruebas de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de pruebas de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Administrador de sistemas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Administrador de sistemas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Cient\u00edfico de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Cient\u00edfico de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en inteligencia artificial (IA)",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en inteligencia artificial (IA)",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Desarrollador web",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Desarrollador web",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en ciberseguridad",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en ciberseguridad",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en infraestructura de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en infraestructura de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Gerente de productos de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Gerente de productos de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en implementaci\u00f3n y soporte t\u00e9cnico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en implementaci\u00f3n y soporte t\u00e9cnico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en gesti\u00f3n de la nube",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en gesti\u00f3n de la nube",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en Internet de las cosas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en Internet de las cosas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en an\u00e1lisis de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en an\u00e1lisis de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de aprendizaje autom\u00e1tico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de aprendizaje autom\u00e1tico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en integraci\u00f3n de sistemas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en integraci\u00f3n de sistemas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de pruebas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de pruebas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de desarrollo",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de desarrollo",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de consultor\u00eda",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de consultor\u00eda",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 28
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de gesti\u00f3n de proyecto",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de gesti\u00f3n de proyecto",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 29
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de soporte t\u00e9cnico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de soporte t\u00e9cnico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 30
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de experiencia de usuario",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de experiencia de usuario",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 31
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de control de calidad",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de control de calidad",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 32
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de gesti\u00f3n de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de gesti\u00f3n de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 33
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de seguridad de la informaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de seguridad de la informaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 34
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de infraestructura",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de infraestructura",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 35
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de desarrollo web",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de desarrollo web",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 36
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de inteligencia artificial",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de inteligencia artificial",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 37
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de capacitaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de capacitaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 38
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Gerente general",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Gerente general",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 39
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en pruebas de software:",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en pruebas de software:",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 40
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Analista de calidad de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Analista de calidad de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 41
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en automatizaci\u00f3n de pruebas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en automatizaci\u00f3n de pruebas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 42
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en capacitaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en capacitaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 43
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Instructor t\u00e9cnico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Instructor t\u00e9cnico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 44
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Coordinador de capacitaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Coordinador de capacitaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 45
+  },
+  {
+    "fields": {
+      "benefits": "",
+      "creationDate": "2023-06-27T05:06:23.797Z",
+      "description": "Persona encargada de desarrollo middleware",
+      "isActive": true,
+      "modalidadTrabajo": "Tiempo completo",
+      "modifiedDate": "2023-06-27T05:06:23.797Z",
+      "name": "Desarrollador middleware",
+      "tipoJornada": "Presencial"
+    },
+    "model": "personal.position",
+    "pk": 46
+  },
+  {
+    "fields": {
+      "benefits": "",
+      "creationDate": "2023-06-27T05:08:09.926Z",
+      "description": "Persona encargada de desarrollo middleware",
+      "isActive": true,
+      "modalidadTrabajo": "Tiempo completo",
+      "modifiedDate": "2023-06-27T05:08:09.926Z",
+      "name": "Desarrollador middleware",
+      "tipoJornada": "Presencial"
+    },
+    "model": "personal.position",
+    "pk": 47
+  },
+  {
+    "fields": {
+      "benefits": "",
+      "creationDate": "2023-06-27T05:13:06.446Z",
+      "description": "Persona encargada de desarrollo middleware",
+      "isActive": true,
+      "modalidadTrabajo": "Tiempo completo",
+      "modifiedDate": "2023-06-27T05:13:06.446Z",
+      "name": "Desarrollador middleware",
+      "tipoJornada": "Presencial"
+    },
+    "model": "personal.position",
+    "pk": 48
+  },
+  {
+    "fields": {
+      "creationDate": "2023-06-15T11:15:44.260Z",
+      "description": "Se centra principalmente en mejorar y ayudar al desarrollo y retenci\u00f3n del talento humano que compone la empresa y que puede suponer el \u00e9xito o el fracaso de la misma",
+      "isActive": true,
+      "modifiedDate": "2023-06-15T11:15:44.260Z",
+      "name": "Area de recursos humanos",
+      "supervisorsArea": null
+    },
+    "model": "personal.area",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "creationDate": "2023-06-26T23:24:11.306Z",
+      "description": "",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:24:11.306Z",
+      "name": "Area de desarrollo de software",
+      "supervisorsArea": null
+    },
+    "model": "personal.area",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "area": 1,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-15T11:17:22.509Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-15T11:17:22.509Z",
+      "position": 44,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "area": 1,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-15T17:46:58.054Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-15T17:46:58.054Z",
+      "position": 45,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "area": 2,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-26T23:24:43.048Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:24:43.048Z",
+      "position": 1,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "area": 1,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-27T05:06:23.799Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-27T05:06:23.799Z",
+      "position": 46,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "area": 1,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-27T05:08:09.927Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-27T05:08:09.927Z",
+      "position": 47,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "area": 1,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-27T05:13:06.449Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-27T05:13:06.449Z",
+      "position": 48,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "description": "Coordinar y ejecutar la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Coordinar y ejecutar la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "description": "Asegurar a trav\u00e9s de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "description": "Realizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Proponer e implementar ideas para agilizar e innovar nuestros procesos de atracci\u00f3n de talento.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Dirigir la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Dirigir los procesos de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Analizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Proponer e implementar ideas para agilizar e innovar nuestros procesos de atracci\u00f3n de talento.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "description": "Colocar un coco dentro del c\u00f3digo para que no se caiga",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "description": "Documentar los procesos de desarrollo y el c\u00f3digo legado",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "description": "Desarrollar codigo backend respetando las buenas pr\u00e1cticas de c\u00f3digo",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "areaxposition": 4,
+      "description": "Dirigir la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "areaxposition": 4,
+      "description": "Dirigir los procesos de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "areaxposition": 4,
+      "description": "Analizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "areaxposition": 4,
+      "description": "Proponer e implementar ideas para agilizar e innovar nuestros procesos de atracci\u00f3n de talento.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "areaxposition": 5,
+      "description": "Dirigir la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "areaxposition": 5,
+      "description": "Dirigir los procesos de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "areaxposition": 5,
+      "description": "Analizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "areaxposition": 5,
+      "description": "Proponer e implementar ideas para agilizar e innovar nuestros procesos de atracci\u00f3n de talento.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "description": "Dirigir la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "description": "Dirigir los procesos de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "description": "Analizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "description": "Proponer e implementar ideas para agilizar e innovar nuestros procesos de atracci\u00f3n de talento.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "available_positions_quantity": 2,
+      "creation_date": "2023-06-29T05:57:26.996Z",
+      "is_active": true,
+      "modified_date": "2023-06-29T05:57:26.996Z",
+      "name": "Proceso de contrataci\u00f3n de Ingenieros de Software",
+      "position": 3
+    },
+    "model": "personal.hiringprocess",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "available_positions_quantity": 3,
+      "creation_date": "2023-06-29T17:28:31.027Z",
+      "is_active": true,
+      "modified_date": "2023-06-29T17:28:31.027Z",
+      "name": "Proceso de selecci\u00f3n de supervisor de recursos humanos",
+      "position": 1
+    },
+    "model": "personal.hiringprocess",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "beneficies_introduction": "Trabajo h\u00edbrido (Oficina 2 veces a la semana).\nIngreso a planilla desde el primer d\u00eda.\nOpci\u00f3n a EPS (Cobertura al 50%).\nContrato 6 meses.\nD\u00eda libre por cumplea\u00f1os.\n",
+      "capacities_introduction": "Perfil requerido para el puesto:\n\n- Experiencia en el desarrollo de aplicaciones utilizando React y la capacidad de escribir c\u00f3digo eficiente y limpio\n- Conocimiento de los conceptos de seguridad en la nube, como el cumplimiento normativo, la protecci\u00f3n de datos y la prevenci\u00f3n de ataques cibern\u00e9ticos\n- Capacidad para aplicar diferentes t\u00e9cnicas de recuperaci\u00f3n de datos en casos de p\u00e9rdidas o fallas en los sistemas, tales como backups, replication, redundancia, y otros.\n\nAdem\u00e1s buscamos las siguientes caracter\u00edsticas:\n\n- Capacidad sobresaliente para hablar de manera efectiva en p\u00fablico\n- Expresa ideas de forma clara y concisa\n- Experiencia en liderar equipos de tama\u00f1o mediano y grande con \u00e9xito",
+      "creation_date": "2023-06-29T17:05:37.628Z",
+      "hiring_process": 1,
+      "introduction": "Nuestra compa\u00f1\u00eda fue concebida para ser una empresa atractiva tanto para clientes como para nuestros colaboradores, nos basamos en una cultura de trabajo en equipo, experiencia, diversi\u00f3n, compromiso, pasi\u00f3n y compa\u00f1erismo.",
+      "is_active": true,
+      "location": "Lima, Per\u00fa",
+      "modified_date": "2023-06-29T17:05:37.635Z",
+      "offer_introduction": "Intro a la oferta",
+      "photo_url": "",
+      "responsabilities_introduction": "Colocar un coco dentro del c\u00f3digo para que no se caiga\nDocumentar los procesos de desarrollo y el c\u00f3digo legado\nDesarrollar codigo backend respetando las buenas pr\u00e1cticas de c\u00f3digo\n",
+      "salary_range": "S/.2000-S/.3000"
+    },
+    "model": "personal.joboffer",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "beneficies_introduction": "Trabajo h\u00edbrido (Oficina 2 veces a la semana).\nIngreso a planilla desde el primer d\u00eda.\nOpci\u00f3n a EPS (Cobertura al 50%).\nContrato 6 meses.\nD\u00eda libre por cumplea\u00f1os.\n",
+      "capacities_introduction": "Perfil requerido para el puesto:\n\n- S\u00f3lidos conocimientos y experiencia en Javascript y desarrollo de aplicaciones web en React.\n- Conocimiento profundo de los fundamentos de React, incluyendo componentes, propiedades y estados.\n- Capacidad para utilizar eficientemente las herramientas necesarias para desarrollar, probar y desplegar aplicaciones en React.\n- Experiencia en la implementaci\u00f3n de estructuras de datos y patrones de dise\u00f1o en React.\n- Conocimiento en t\u00e9cnicas y soluciones de rendimiento en aplicaciones React.\n- Familiaridad con el ecosistema de React y su ecosistema de desarrollo como npm, webpack, Babel, etc.\n- Habilidad para desarrollar interfaces de usuario modernas y responsivas utilizando React y sus librer\u00edas asociadas.\n\nAdem\u00e1s buscamos las siguientes caracter\u00edsticas:\n\n- Capacidad de expresar ideas clara y efectivamente\n- Aptitud para presentar informaci\u00f3n de manera persuasiva en p\u00fablico",
+      "creation_date": "2023-06-29T17:29:47.845Z",
+      "hiring_process": 2,
+      "introduction": "Nuestra compa\u00f1\u00eda fue concebida para ser una empresa atractiva tanto para clientes como para nuestros colaboradores, nos basamos en una cultura de trabajo en equipo, experiencia, diversi\u00f3n, compromiso, pasi\u00f3n y compa\u00f1erismo.",
+      "is_active": true,
+      "location": "Lima, Per\u00fa",
+      "modified_date": "2023-06-29T17:29:47.848Z",
+      "offer_introduction": "Necesitamos un supervisor de recursos humanos pilas",
+      "photo_url": "",
+      "responsabilities_introduction": "Coordinar y ejecutar la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.\nAsegurar a trav\u00e9s de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.\nRealizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).\n",
+      "salary_range": "S/.3000-S/.4000"
+    },
+    "model": "personal.joboffer",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "code": "GRA001",
+      "created": "2023-06-27T03:17:53.791Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:17:53.791Z",
+      "name": "Grado acad\u00e9mico"
+    },
+    "model": "personal.trainingtype",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "code": "IDI001",
+      "created": "2023-06-27T03:18:11.134Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:18:11.134Z",
+      "name": "Idioma"
+    },
+    "model": "personal.trainingtype",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "code": "CERT001",
+      "created": "2023-06-27T03:18:24.950Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:18:24.950Z",
+      "name": "Certificaci\u00f3n"
+    },
+    "model": "personal.trainingtype",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "code": "GL001",
+      "created": "2023-06-27T03:19:16.988Z",
+      "deleted": null,
+      "description": "Grado incompleto",
+      "level": 1,
+      "modified": "2023-06-27T03:20:07.928Z",
+      "name": "Incompleto"
+    },
+    "model": "personal.traininglevel",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "code": "GL002",
+      "created": "2023-06-27T03:19:26.827Z",
+      "deleted": null,
+      "description": "",
+      "level": 2,
+      "modified": "2023-06-27T03:20:19.836Z",
+      "name": "Bachiller"
+    },
+    "model": "personal.traininglevel",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "code": "GL003",
+      "created": "2023-06-27T03:19:41.410Z",
+      "deleted": null,
+      "description": "",
+      "level": 3,
+      "modified": "2023-06-27T03:20:25.639Z",
+      "name": "Licenciatura"
+    },
+    "model": "personal.traininglevel",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "code": "GL004",
+      "created": "2023-06-27T03:19:52.216Z",
+      "deleted": null,
+      "description": "",
+      "level": 4,
+      "modified": "2023-06-27T03:19:52.216Z",
+      "name": "Magister"
+    },
+    "model": "personal.traininglevel",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "code": "GL005",
+      "created": "2023-06-27T03:20:03.074Z",
+      "deleted": null,
+      "description": "",
+      "level": 5,
+      "modified": "2023-06-27T03:20:03.074Z",
+      "name": "Doctorado"
+    },
+    "model": "personal.traininglevel",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "code": "IDIL001",
+      "created": "2023-06-27T03:20:59.954Z",
+      "deleted": null,
+      "description": "",
+      "level": 1,
+      "modified": "2023-06-27T03:20:59.954Z",
+      "name": "A1"
+    },
+    "model": "personal.traininglevel",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "code": "IDIL002",
+      "created": "2023-06-27T03:21:08.373Z",
+      "deleted": null,
+      "description": "",
+      "level": 2,
+      "modified": "2023-06-27T03:21:08.373Z",
+      "name": "A2"
+    },
+    "model": "personal.traininglevel",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "code": "IDIL003",
+      "created": "2023-06-27T03:21:17.159Z",
+      "deleted": null,
+      "description": "",
+      "level": 3,
+      "modified": "2023-06-27T03:21:17.159Z",
+      "name": "B1"
+    },
+    "model": "personal.traininglevel",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "code": "IDIL004",
+      "created": "2023-06-27T03:21:26.083Z",
+      "deleted": null,
+      "description": "",
+      "level": 4,
+      "modified": "2023-06-27T03:21:26.083Z",
+      "name": "B2"
+    },
+    "model": "personal.traininglevel",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "code": "IDIL005",
+      "created": "2023-06-27T03:21:36.086Z",
+      "deleted": null,
+      "description": "",
+      "level": 5,
+      "modified": "2023-06-27T03:21:36.086Z",
+      "name": "C1"
+    },
+    "model": "personal.traininglevel",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "code": "IDIL006",
+      "created": "2023-06-27T03:21:52.499Z",
+      "deleted": null,
+      "description": "",
+      "level": 6,
+      "modified": "2023-06-27T03:21:52.499Z",
+      "name": "C2"
+    },
+    "model": "personal.traininglevel",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "code": "CERTL001",
+      "created": "2023-06-27T03:23:59.232Z",
+      "deleted": null,
+      "description": "",
+      "level": 1,
+      "modified": "2023-06-27T03:23:59.232Z",
+      "name": "Asociate"
+    },
+    "model": "personal.traininglevel",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "code": "CERTL002",
+      "created": "2023-06-27T03:25:31.345Z",
+      "deleted": null,
+      "description": "",
+      "level": 2,
+      "modified": "2023-06-27T03:25:31.345Z",
+      "name": "Professional"
+    },
+    "model": "personal.traininglevel",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "code": "INF001",
+      "created": "2023-06-27T03:28:01.444Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:28:01.444Z",
+      "name": "Ingenier\u00eda Inform\u00e1tica",
+      "training_type": 1
+    },
+    "model": "personal.training",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "code": "ENG001",
+      "created": "2023-06-27T03:28:16.764Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:28:16.764Z",
+      "name": "Ingles",
+      "training_type": 2
+    },
+    "model": "personal.training",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "code": "AWSC001",
+      "created": "2023-06-27T03:28:51.204Z",
+      "deleted": null,
+      "description": "",
+      "modified": "2023-06-27T03:28:51.204Z",
+      "name": "AWS Certified Developer",
+      "training_type": 3
+    },
+    "model": "personal.training",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:31:25.661Z",
+      "deleted": null,
+      "level": 6,
+      "modified": "2023-06-27T03:31:25.661Z",
+      "training": 2
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:31:30.787Z",
+      "deleted": null,
+      "level": 7,
+      "modified": "2023-06-27T03:31:30.787Z",
+      "training": 2
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:31:35.086Z",
+      "deleted": null,
+      "level": 8,
+      "modified": "2023-06-27T03:31:35.086Z",
+      "training": 2
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:31:39.389Z",
+      "deleted": null,
+      "level": 9,
+      "modified": "2023-06-27T03:31:39.389Z",
+      "training": 2
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:31:43.231Z",
+      "deleted": null,
+      "level": 10,
+      "modified": "2023-06-27T03:31:43.231Z",
+      "training": 2
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:31:48.130Z",
+      "deleted": null,
+      "level": 11,
+      "modified": "2023-06-27T03:31:48.130Z",
+      "training": 2
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:31:56.676Z",
+      "deleted": null,
+      "level": 12,
+      "modified": "2023-06-27T03:31:56.676Z",
+      "training": 3
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:32:00.746Z",
+      "deleted": null,
+      "level": 13,
+      "modified": "2023-06-27T03:32:00.746Z",
+      "training": 3
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:32:13.079Z",
+      "deleted": null,
+      "level": 1,
+      "modified": "2023-06-27T03:32:13.079Z",
+      "training": 1
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:32:19.542Z",
+      "deleted": null,
+      "level": 2,
+      "modified": "2023-06-27T03:32:19.542Z",
+      "training": 1
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:32:23.671Z",
+      "deleted": null,
+      "level": 3,
+      "modified": "2023-06-27T03:32:23.671Z",
+      "training": 1
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:32:31.421Z",
+      "deleted": null,
+      "level": 4,
+      "modified": "2023-06-27T03:32:31.421Z",
+      "training": 1
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T03:32:36.746Z",
+      "deleted": null,
+      "level": 5,
+      "modified": "2023-06-27T03:32:36.746Z",
+      "training": 1
+    },
+    "model": "personal.trainingxlevel",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "created": "2023-06-27T03:33:09.621Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:09.621Z",
+      "score": null,
+      "training": 10
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "created": "2023-06-27T03:33:23.521Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:23.521Z",
+      "score": null,
+      "training": 7
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "created": "2023-06-27T03:33:32.111Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:32.111Z",
+      "score": null,
+      "training": 4
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "created": "2023-06-27T03:33:38.806Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:38.806Z",
+      "score": null,
+      "training": 2
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "created": "2023-06-27T03:33:55.755Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:55.755Z",
+      "score": null,
+      "training": 6
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "created": "2023-06-27T05:13:06.468Z",
+      "deleted": null,
+      "modified": "2023-06-27T05:13:06.468Z",
+      "score": null,
+      "training": 3
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "created": "2023-06-27T05:13:06.471Z",
+      "deleted": null,
+      "modified": "2023-06-27T05:13:06.471Z",
+      "score": null,
+      "training": 4
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "created": "2023-06-27T05:13:06.472Z",
+      "deleted": null,
+      "modified": "2023-06-27T05:13:06.472Z",
+      "score": null,
+      "training": 5
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "category": null,
+      "code": "P001",
+      "creationDate": "2023-06-26T23:20:03.196Z",
+      "description": "Habilidad para hablar en p\u00fablico",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:20:20.230Z",
+      "name": "Habilidad para hablar en p\u00fablico",
+      "type": 1
+    },
+    "model": "evaluations_and_promotions.subcategory",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "category": null,
+      "code": "P002",
+      "creationDate": "2023-06-26T23:20:56.516Z",
+      "description": "Facilidad de comunicar ideas",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:20:56.516Z",
+      "name": "Facilidad de comunicar ideas",
+      "type": 1
+    },
+    "model": "evaluations_and_promotions.subcategory",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "category": null,
+      "code": "T001",
+      "creationDate": "2023-06-26T23:21:18.981Z",
+      "description": "Proeficiencia en react",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:21:18.981Z",
+      "name": "Proeficiencia en react",
+      "type": 0
+    },
+    "model": "evaluations_and_promotions.subcategory",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "category": null,
+      "code": "T002",
+      "creationDate": "2023-06-26T23:21:36.199Z",
+      "description": "Habilidad en t\u00e9cnicas de recuperaci\u00f3n de datos",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:22:32.258Z",
+      "name": "Habilidad en t\u00e9cnicas de recuperaci\u00f3n de datos",
+      "type": 0
+    },
+    "model": "evaluations_and_promotions.subcategory",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "category": null,
+      "code": "T003",
+      "creationDate": "2023-06-26T23:22:18.460Z",
+      "description": "Conocimientos de seguridad en la nube",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:22:18.460Z",
+      "name": "Conocimientos de seguridad en la nube",
+      "type": 0
+    },
+    "model": "evaluations_and_promotions.subcategory",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "category": null,
+      "code": "GGG001",
+      "creationDate": "2023-06-29T08:39:47.344Z",
+      "description": "Liderazgo de equipos medianos y grandes",
+      "isActive": true,
+      "modifiedDate": "2023-06-29T08:39:47.344Z",
+      "name": "Liderazgo de equipos medianos y grandes",
+      "type": 1
+    },
+    "model": "evaluations_and_promotions.subcategory",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "competency": 1,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "competency": 2,
+      "created": "2023-06-26T23:23:40.810Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:40.810Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 3,
+      "created": "2023-06-26T23:25:06.054Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:25:06.054Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 5,
+      "created": "2023-06-26T23:25:14.477Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:25:39.272Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 4,
+      "created": "2023-06-26T23:25:47.710Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:25:47.710Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "competency": 3,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "competency": 2,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "competency": 1,
+      "created": "2023-06-26T23:23:34.702Z",
+      "deleted": null,
+      "modified": "2023-06-26T23:23:34.702Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "competency": 2,
+      "created": "2023-06-27T05:13:06.462Z",
+      "deleted": null,
+      "modified": "2023-06-27T05:13:06.462Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "competency": 3,
+      "created": "2023-06-27T05:13:06.464Z",
+      "deleted": null,
+      "modified": "2023-06-27T05:13:06.464Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "competency": 4,
+      "created": "2023-06-27T05:13:06.465Z",
+      "deleted": null,
+      "modified": "2023-06-27T05:13:06.465Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "areaxposition": 6,
+      "competency": 5,
+      "created": "2023-06-27T05:13:06.468Z",
+      "deleted": null,
+      "modified": "2023-06-27T05:13:06.468Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 1,
+      "created": "2023-06-29T06:26:08.710Z",
+      "deleted": null,
+      "modified": "2023-06-29T06:26:08.710Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 2,
+      "created": "2023-06-29T06:26:20.835Z",
+      "deleted": null,
+      "modified": "2023-06-29T06:26:20.835Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "competency": 6,
+      "created": "2023-06-29T08:40:05.513Z",
+      "deleted": null,
+      "modified": "2023-06-29T08:40:05.513Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxareaxposition",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "created": "2023-05-25T18:36:12.354Z",
+      "deleted": null,
+      "description": "Postulante",
+      "modified": "2023-06-08T08:55:26.486Z",
+      "name": "Postulante"
+    },
+    "model": "login.role",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "created": "2023-06-08T08:54:58.339Z",
+      "deleted": null,
+      "description": "Personal de RRHH (recruiter)",
+      "modified": "2023-06-08T08:55:33.922Z",
+      "name": "Personal de RRHH"
+    },
+    "model": "login.role",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "created": "2023-06-08T08:55:16.289Z",
+      "deleted": null,
+      "description": "Admin de RRHH (reportes)",
+      "modified": "2023-06-08T08:55:16.289Z",
+      "name": "Admin de RRHH"
+    },
+    "model": "login.role",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "created": "2023-06-08T08:55:48.940Z",
+      "deleted": null,
+      "description": "Empleado de la empresa",
+      "modified": "2023-06-08T08:55:48.940Z",
+      "name": "Empleado"
+    },
+    "model": "login.role",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "created": "2023-06-08T08:56:03.346Z",
+      "deleted": null,
+      "description": "Jefe de area (trabajadores de su area)",
+      "modified": "2023-06-08T08:56:03.346Z",
+      "name": "Jefe de area"
+    },
+    "model": "login.role",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "created": "2023-06-08T08:56:17.208Z",
+      "deleted": null,
+      "description": "Gerente de RRHH (dashboard de todas las areas)",
+      "modified": "2023-06-08T08:56:17.208Z",
+      "name": "Gerente de RRHH"
+    },
+    "model": "login.role",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "created": "2023-06-08T08:56:30.251Z",
+      "deleted": null,
+      "description": "Gerente (todos los modulos)",
+      "modified": "2023-06-08T08:56:30.251Z",
+      "name": "Gerente"
+    },
+    "model": "login.role",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "created": "2023-05-25T18:34:57.432Z",
+      "date_joined": "2023-05-25T18:34:57Z",
+      "deleted": null,
+      "email": "demoadmin@demoadmin.com",
+      "first_name": "demoadmin",
+      "groups": [],
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "last_login": "2023-06-29T04:25:59.752Z",
+      "last_name": "demoadmin",
+      "maiden_name": "",
+      "modified": "2023-06-01T15:31:08.017Z",
+      "password": "pbkdf2_sha256$216000$x2KIVR1mT5YU$rCbKHOGbaJYB1m1MgCkzhWSOklz65J9l6QsyQ7N297Y=",
+      "recovery_code": null,
+      "second_name": "",
+      "user_permissions": [],
+      "username": "demoadmin"
+    },
+    "model": "login.user",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "created": "2023-05-25T18:35:51.109Z",
+      "date_joined": "2023-05-25T18:35:51Z",
+      "deleted": null,
+      "email": "Jose@joseson.com",
+      "first_name": "Jose",
+      "groups": [],
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "last_login": null,
+      "last_name": "Joseson",
+      "maiden_name": "",
+      "modified": "2023-06-01T15:31:41.234Z",
+      "password": "pbkdf2_sha256$216000$smhYwuNQNpRV$2loGVwY2W3TSeowjsPSdk08goKrYn70j0s5I/aVkX0Q=",
+      "recovery_code": null,
+      "second_name": "",
+      "user_permissions": [],
+      "username": "Joseson"
+    },
+    "model": "login.user",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "created": "2023-06-01T15:19:36.126Z",
+      "date_joined": "2023-06-01T15:19:36Z",
+      "deleted": null,
+      "email": "marco.bossio@pucp.pe",
+      "first_name": "Marco",
+      "groups": [],
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "last_login": "2023-06-01T16:44:42.122Z",
+      "last_name": "Bossio",
+      "maiden_name": "",
+      "modified": "2023-06-02T01:32:24.962Z",
+      "password": "pbkdf2_sha256$216000$QQTmdEJutuyl$8OfB7EiliTcSZhhVSMhgMteRmttGPaZe1zGpLS7YpGs=",
+      "recovery_code": "f376bf25",
+      "second_name": "",
+      "user_permissions": [],
+      "username": "MrBossio"
+    },
+    "model": "login.user",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "created": "2023-06-01T15:30:19.072Z",
+      "date_joined": "2023-06-01T15:30:19Z",
+      "deleted": null,
+      "email": "demoadmin2@demoadmin2.com",
+      "first_name": "demoadmin2",
+      "groups": [],
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true,
+      "last_login": "2023-06-01T16:33:00Z",
+      "last_name": "demoadmin2",
+      "maiden_name": "",
+      "modified": "2023-06-08T08:57:55.459Z",
+      "password": "pbkdf2_sha256$216000$gO3nsBMuy0n3$pB/k9R7ufWZWS9HHL5cYxHQRcSA+wsfh5CSeio98bWs=",
+      "recovery_code": null,
+      "second_name": "",
+      "user_permissions": [],
+      "username": "demoadmin2"
+    },
+    "model": "login.user",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "created": "2023-06-29T04:28:55.490Z",
+      "date_joined": "2023-06-29T04:28:55Z",
+      "deleted": null,
+      "email": "empleadoncio@empleadirez.com",
+      "first_name": "empleadoncio",
+      "groups": [],
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "last_login": null,
+      "last_name": "empleadirez",
+      "maiden_name": "",
+      "modified": "2023-06-29T04:29:29.691Z",
+      "password": "pbkdf2_sha256$216000$G0H1eanJdFJ7$AnABrjC5IugMx5+025e68aqeduBwJLMu86E+hyqNSzs=",
+      "recovery_code": null,
+      "second_name": "",
+      "user_permissions": [],
+      "username": "empleadoncio"
+    },
+    "model": "login.user",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "created": "2023-05-25T18:44:53.024Z",
+      "deleted": null,
+      "modified": "2023-06-08T08:57:16.932Z",
+      "roles": 2,
+      "user": 2
+    },
+    "model": "login.userxrole",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "created": "2023-06-01T15:20:01.556Z",
+      "deleted": null,
+      "modified": "2023-06-01T15:20:01.556Z",
+      "roles": 1,
+      "user": 3
+    },
+    "model": "login.userxrole",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "created": "2023-06-01T15:20:09.583Z",
+      "deleted": null,
+      "modified": "2023-06-08T08:57:09.484Z",
+      "roles": 7,
+      "user": 1
+    },
+    "model": "login.userxrole",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "created": "2023-06-08T08:58:38.488Z",
+      "deleted": null,
+      "modified": "2023-06-08T08:58:38.488Z",
+      "roles": 3,
+      "user": 4
+    },
+    "model": "login.userxrole",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "created": "2023-06-29T04:29:44.626Z",
+      "deleted": null,
+      "modified": "2023-06-29T04:29:44.626Z",
+      "user": 5
+    },
+    "model": "login.applicant",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "created": "2023-06-27T05:00:32.705Z",
+      "user": 1
+    },
+    "model": "authtoken.token",
+    "pk": "2bbc4d9119e71f7b656790189eb2ead68d890691"
+  }
+]

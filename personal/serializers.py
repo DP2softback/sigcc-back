@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
+from DP2softback.constants import messages
 from evaluations_and_promotions.models import *
 from evaluations_and_promotions.serializers import *
 from gaps.serializers import *
@@ -64,42 +65,22 @@ class JobOfferSerializer(serializers.ModelSerializer):
 
 class JobOfferSerializerRead(serializers.ModelSerializer):
 
-    def my_competencies(self, obj):
-        competencies = CompetencyxAreaxPosition.objects.filter(areaxposition__position=obj.hiring_process.position.position)
-        return CompetencyxAreaxPositionSerializerRead(competencies, many=True).data
+    def my_training(self, obj):
+        training = TrainingxAreaxPosition.objects.filter(areaxposition_id=obj.hiring_process.position_id)
+        training_list = messages.TRAINING_INTRODUCTION
+        for t in training:
+            training_list += t.to_str() + '\n'
 
-    def my_functions(self, obj):
-        functions = Functions.objects.filter(position_id=obj.hiring_process.position.position.id, area_id=obj.hiring_process.position.area.id)
-        return FunctionsSerializer(functions, many=True).data
+        print(training_list)
+        return training_list
 
+    training_detail = serializers.SerializerMethodField('my_training')
     position_name = serializers.CharField(source="hiring_process.position.position.name")
     position_id = serializers.CharField(source="hiring_process.position.position.id")
-    competencies = serializers.SerializerMethodField('my_competencies')
-    function_detail = serializers.SerializerMethodField('my_functions')
 
     class Meta:
-
         model = JobOffer
-        depth = 1
-        fields = [
-            'id',
-            'hiring_process',
-            'position_id',
-            'position_name',
-            'introduction',
-            'offer_introduction',
-            'responsabilities_introduction',
-            'capacities_introduction',
-            'beneficies_introduction',
-            'creation_date',
-            'modified_date',
-            'photo_url',
-            'location',
-            'salary_range',
-            'is_active',
-            'competencies',
-            'function_detail'
-        ]
+        fields = '__all__'
 
 
 class PositionSerializer(serializers.ModelSerializer):
@@ -127,6 +108,18 @@ class TrainingSerializer(serializers.ModelSerializer):
 
 
 class TrainingxLevelSerializer(serializers.ModelSerializer):
+
+    def my_training(self, obj):
+        training = Training.objects.get(id=obj.training_id)
+        return str(training.name)
+
+    def my_level(self, obj):
+        level = TrainingLevel.objects.get(id=obj.level_id)
+        return str(level.name)
+
+    training_detail = serializers.SerializerMethodField('my_training')
+    level_detail = serializers.SerializerMethodField('my_level')
+
     class Meta:
         model = TrainingxLevel
         fields = '__all__'
