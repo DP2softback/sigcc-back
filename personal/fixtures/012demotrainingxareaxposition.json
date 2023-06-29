@@ -1,0 +1,62 @@
+[
+  {
+    "fields": {
+      "areaxposition": 3,
+      "created": "2023-06-27T03:33:09.621Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:09.621Z",
+      "score": null,
+      "training": 10
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "created": "2023-06-27T03:33:23.521Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:23.521Z",
+      "score": null,
+      "training": 7
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "created": "2023-06-27T03:33:32.111Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:32.111Z",
+      "score": null,
+      "training": 4
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "created": "2023-06-27T03:33:38.806Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:38.806Z",
+      "score": null,
+      "training": 2
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "created": "2023-06-27T03:33:55.755Z",
+      "deleted": null,
+      "modified": "2023-06-27T03:33:55.755Z",
+      "score": null,
+      "training": 6
+    },
+    "model": "personal.trainingxareaxposition",
+    "pk": 5
+  }
+]

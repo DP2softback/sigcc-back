@@ -1,0 +1,41 @@
+[
+  {
+    "fields": {
+      "area": 1,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-15T11:17:22.509Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-15T11:17:22.509Z",
+      "position": 44,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "area": 1,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-15T17:46:58.054Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-15T17:46:58.054Z",
+      "position": 45,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "area": 2,
+      "availableQuantity": 0,
+      "creationDate": "2023-06-26T23:24:43.048Z",
+      "isActive": true,
+      "modifiedDate": "2023-06-26T23:24:43.048Z",
+      "position": 1,
+      "unavailableQuantity": 0
+    },
+    "model": "personal.areaxposicion",
+    "pk": 3
+  }
+]

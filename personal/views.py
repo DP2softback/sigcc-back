@@ -1,7 +1,10 @@
 from django.core.serializers import serialize
 from django.db import transaction
 from django.shortcuts import render
+from DP2softback.constants import messages
+from DP2softback.services.api_gpt import ChatGptService
 from evaluations_and_promotions.models import *
+from flask import Flask, redirect, render_template, request, url_for
 from gaps.models import *
 from rest_framework import status
 from rest_framework.response import Response
@@ -138,12 +141,59 @@ class JobOfferView(APIView):
         serializer_class = JobOfferSerializerRead(queryset, many=True)
         return Response(serializer_class.data, status=status.HTTP_200_OK)
 
-    def post(self, request, id=0):
-        job_offer_serializer = JobOfferSerializer(data=request.data, context=request.data)
-        if job_offer_serializer.is_valid():
-            job_offer_serializer.save()
-            return Response(job_offer_serializer.data, status=status.HTTP_201_CREATED)
-        return Response(job_offer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+
+        try:
+
+            hiring_process_id = request.data.get('hiring_process_id')
+            hiring_process = HiringProcess.objects.get(id=hiring_process_id)
+            areaxposition = AreaxPosicion.objects.get(id=hiring_process.position.id)
+            responsabilities = areaxposition.functions_set.all()
+            print(responsabilities)
+            responsabilities_introduction = ''
+            for res in responsabilities:
+                responsabilities_introduction += res.description + '\n'
+            print(responsabilities_introduction)
+            introduction = messages.COMPANY_INTRODUCTION
+            offer_introduction = request.data.get('offer_introduction')
+            tech = CompetencyxAreaxPosition.objects.filter(
+                areaxposition=areaxposition,
+                competency__type=SubCategory.Type.TECNICA
+            ).values_list('competency__name', flat=True)
+            tech_capacities = ','.join(list(tech))
+            human = CompetencyxAreaxPosition.objects.filter(
+                areaxposition=areaxposition,
+                competency__type=SubCategory.Type.BLANDA
+            ).values_list('competency__name', flat=True)
+            human_capacities = ','.join(list(human))
+
+            capacities_introduction = messages.TECH_INTRODUCTION + ChatGptService.chatgpt_request(tech_capacities, 1.4)
+
+            # for tc in tech: capacities_introduction+='\t'+tc+'\n'
+            capacities_introduction += '\n\n' + messages.HUMAN_INTRODUCTION + ChatGptService.chatgpt_request(human_capacities, 1.4)
+
+            # for hc in human: capacities_introduction+='\t'+hc+'\n'
+            print(capacities_introduction)
+
+            beneficies_introduction = messages.BENEFICIES_INTRODUCTION
+            location = request.data.get('location')
+            salary_range = request.data.get('salary_range')
+
+            jobOffer = JobOffer.objects.create(
+                hiring_process=hiring_process,
+                introduction=introduction,
+                offer_introduction=offer_introduction,
+                responsabilities_introduction=responsabilities_introduction,
+                capacities_introduction=capacities_introduction,
+                beneficies_introduction=beneficies_introduction,
+                location=location,
+                salary_range=salary_range
+            )
+            jobOffer.save()
+
+            return Response("Job offer sucessfully created", status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AreaxPositionView(APIView):
@@ -155,43 +205,19 @@ class AreaxPositionView(APIView):
 
 class PositionView(APIView):
     def get(self, request, pk):
-        pos = Position.objects.all()
-        pos_serializer = AreaxPositionSerializer(pos, many=True)
-        return Response(pos_serializer.data, status=status.HTTP_200_OK)
-
-    def get(self, request, pk):
-        '''
-        La posicion devuelve:
-        Nombre.
-        Descripcion.
-        id del Area a la que pertenece.
-        job_modality (presencial, remoto, hibrido).
-        workday_type (Tiempo completo, medio tiempo).
-        competencies (arreglo de ids de competencias).
-        training (arreglo de ids de estudios).
-        responsabilities (arreglo de responsabilidades).
-        '''
-        print(pk)
         positions = Position.objects.filter(id=pk)
-        print(positions)
         # obtener id, nombre, descripción, job_modality, workday_type
         serializer = PositionSerializer(positions, many=True)
 
         for position_data in serializer.data:
-            print(position_data)
             position_id = position_data['id']
-            # responsabilities
-            functions = Functions.objects.filter(position_id=position_id)
-            functions_serializer = FunctionsSerializer(functions, many=True)
-            position_data['functions'] = functions_serializer.data
             # area
             areasxposition = AreaxPosicion.objects.filter(position_id=position_id)
-            areas_serializer = AreaxPositionSerializer(areasxposition, many=True)
-
+            print(areasxposition)
             areas = []
-            for area in areas_serializer.data:
-                areas.append((area['id'], area['area_name']))
-
+            for axp in areasxposition:
+                areas.append((axp.area.id, axp.area.name))
+            print(areas)
             position_data['areas'] = dict(areas)
 
         return Response(serializer.data)
@@ -234,7 +260,7 @@ class PositionView(APIView):
                 competency_list.append(competencyobj)
             for tr in training:
                 trainingobj = TrainingxLevel.objects.get(id=tr)
-                print(f"Training: {trainingobj.name}")
+                print(f"Training: {trainingobj.training.name}")
                 training_list.append(trainingobj)
 
         except Exception as e:
@@ -263,18 +289,16 @@ class PositionView(APIView):
             functionobj.save()
 
         # linking competencies and training with position
-        for com in competencies:
+        for com in competency_list:
             obj = CompetencyxAreaxPosition(
                 competency=com,
-                areaxposition=areaxposition,
-                scale='LOGRADO'
+                areaxposition=areaxposition
             )
             obj.save()
-        for tr in training:
+        for tr in training_list:
             obj = TrainingxAreaxPosition(
                 training=tr,
-                areaxposition=areaxposition,
-                score='M'
+                areaxposition=areaxposition
             )
             obj.save()
 
@@ -317,3 +341,10 @@ class FunctionsView(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TrainingxLevelView(APIView):
+    def get(self, request):
+        training = TrainingxLevel.objects.all()
+        serializer = TrainingxLevelSerializer(training, many=True)
+        return Response(serializer.data)

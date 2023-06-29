@@ -1,0 +1,632 @@
+[
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Desarrollador de aplicaciones",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Desarrollador de aplicaciones",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Arquitecto de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Arquitecto de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Analista de sistemas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Analista de sistemas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en bases de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en bases de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en seguridad de la informaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en seguridad de la informaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Consultor de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Consultor de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Gerente de proyectos de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Gerente de proyectos de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de redes",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de redes",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en virtualizaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en virtualizaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Dise\u00f1ador de interfaces de usuario",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Dise\u00f1ador de interfaces de usuario",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de pruebas de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de pruebas de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Administrador de sistemas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Administrador de sistemas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Cient\u00edfico de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Cient\u00edfico de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en inteligencia artificial (IA)",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en inteligencia artificial (IA)",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Desarrollador web",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Desarrollador web",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en ciberseguridad",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en ciberseguridad",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en infraestructura de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en infraestructura de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Gerente de productos de TI",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Gerente de productos de TI",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en implementaci\u00f3n y soporte t\u00e9cnico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en implementaci\u00f3n y soporte t\u00e9cnico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en gesti\u00f3n de la nube",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en gesti\u00f3n de la nube",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en Internet de las cosas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en Internet de las cosas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en an\u00e1lisis de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en an\u00e1lisis de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Ingeniero de aprendizaje autom\u00e1tico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Ingeniero de aprendizaje autom\u00e1tico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en integraci\u00f3n de sistemas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en integraci\u00f3n de sistemas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 25
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de pruebas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de pruebas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 26
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de desarrollo",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de desarrollo",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 27
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de consultor\u00eda",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de consultor\u00eda",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 28
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de gesti\u00f3n de proyecto",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de gesti\u00f3n de proyecto",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 29
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de soporte t\u00e9cnico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de soporte t\u00e9cnico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 30
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de experiencia de usuario",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de experiencia de usuario",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 31
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de control de calidad",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de control de calidad",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 32
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de gesti\u00f3n de datos",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de gesti\u00f3n de datos",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 33
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de seguridad de la informaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de seguridad de la informaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 34
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de infraestructura",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de infraestructura",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 35
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de desarrollo web",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de desarrollo web",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 36
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de inteligencia artificial",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de inteligencia artificial",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 37
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Jefe de \u00e1rea de capacitaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Jefe de \u00e1rea de capacitaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 38
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Gerente general",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Gerente general",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 39
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en pruebas de software:",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en pruebas de software:",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 40
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Analista de calidad de software",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Analista de calidad de software",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 41
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en automatizaci\u00f3n de pruebas",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en automatizaci\u00f3n de pruebas",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 42
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Especialista en capacitaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Especialista en capacitaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 43
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Instructor t\u00e9cnico",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Instructor t\u00e9cnico",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 44
+  },
+  {
+    "fields": {
+      "benefits": "-",
+      "creationDate": "2023-05-26T00:00:00Z",
+      "description": "Coordinador de capacitaci\u00f3n",
+      "isActive": true,
+      "modalidadTrabajo": "Presencial",
+      "modifiedDate": "2023-05-26T00:00:00Z",
+      "name": "Coordinador de capacitaci\u00f3n",
+      "tipoJornada": "40 horas semanales"
+    },
+    "model": "personal.position",
+    "pk": 45
+  }
+]

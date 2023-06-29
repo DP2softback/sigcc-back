@@ -1,0 +1,171 @@
+[
+  {
+    "fields": {
+      "code": "GL001",
+      "created": "2023-06-27T03:19:16.988Z",
+      "deleted": null,
+      "description": "Grado incompleto",
+      "level": 1,
+      "modified": "2023-06-27T03:20:07.928Z",
+      "name": "Incompleto"
+    },
+    "model": "personal.traininglevel",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "code": "GL002",
+      "created": "2023-06-27T03:19:26.827Z",
+      "deleted": null,
+      "description": "",
+      "level": 2,
+      "modified": "2023-06-27T03:20:19.836Z",
+      "name": "Bachiller"
+    },
+    "model": "personal.traininglevel",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "code": "GL003",
+      "created": "2023-06-27T03:19:41.410Z",
+      "deleted": null,
+      "description": "",
+      "level": 3,
+      "modified": "2023-06-27T03:20:25.639Z",
+      "name": "Licenciatura"
+    },
+    "model": "personal.traininglevel",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "code": "GL004",
+      "created": "2023-06-27T03:19:52.216Z",
+      "deleted": null,
+      "description": "",
+      "level": 4,
+      "modified": "2023-06-27T03:19:52.216Z",
+      "name": "Magister"
+    },
+    "model": "personal.traininglevel",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "code": "GL005",
+      "created": "2023-06-27T03:20:03.074Z",
+      "deleted": null,
+      "description": "",
+      "level": 5,
+      "modified": "2023-06-27T03:20:03.074Z",
+      "name": "Doctorado"
+    },
+    "model": "personal.traininglevel",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "code": "IDIL001",
+      "created": "2023-06-27T03:20:59.954Z",
+      "deleted": null,
+      "description": "",
+      "level": 1,
+      "modified": "2023-06-27T03:20:59.954Z",
+      "name": "A1"
+    },
+    "model": "personal.traininglevel",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "code": "IDIL002",
+      "created": "2023-06-27T03:21:08.373Z",
+      "deleted": null,
+      "description": "",
+      "level": 2,
+      "modified": "2023-06-27T03:21:08.373Z",
+      "name": "A2"
+    },
+    "model": "personal.traininglevel",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "code": "IDIL003",
+      "created": "2023-06-27T03:21:17.159Z",
+      "deleted": null,
+      "description": "",
+      "level": 3,
+      "modified": "2023-06-27T03:21:17.159Z",
+      "name": "B1"
+    },
+    "model": "personal.traininglevel",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "code": "IDIL004",
+      "created": "2023-06-27T03:21:26.083Z",
+      "deleted": null,
+      "description": "",
+      "level": 4,
+      "modified": "2023-06-27T03:21:26.083Z",
+      "name": "B2"
+    },
+    "model": "personal.traininglevel",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "code": "IDIL005",
+      "created": "2023-06-27T03:21:36.086Z",
+      "deleted": null,
+      "description": "",
+      "level": 5,
+      "modified": "2023-06-27T03:21:36.086Z",
+      "name": "C1"
+    },
+    "model": "personal.traininglevel",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "code": "IDIL006",
+      "created": "2023-06-27T03:21:52.499Z",
+      "deleted": null,
+      "description": "",
+      "level": 6,
+      "modified": "2023-06-27T03:21:52.499Z",
+      "name": "C2"
+    },
+    "model": "personal.traininglevel",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "code": "CERTL001",
+      "created": "2023-06-27T03:23:59.232Z",
+      "deleted": null,
+      "description": "",
+      "level": 1,
+      "modified": "2023-06-27T03:23:59.232Z",
+      "name": "Asociate"
+    },
+    "model": "personal.traininglevel",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "code": "CERTL002",
+      "created": "2023-06-27T03:25:31.345Z",
+      "deleted": null,
+      "description": "",
+      "level": 2,
+      "modified": "2023-06-27T03:25:31.345Z",
+      "name": "Professional"
+    },
+    "model": "personal.traininglevel",
+    "pk": 13
+  }
+]

@@ -1059,7 +1059,8 @@ class EvaluationLineChartReporte2(APIView):
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True)
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True,score__gte= 1.0)
+        
 
         if fecha_inicio:
             try:

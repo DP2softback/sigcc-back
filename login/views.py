@@ -84,6 +84,8 @@ class LoginView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST,
                             data={'message': 'invalid user', },)
 
+        user_serialized = UserSerializerRead(user)
+
         pwd_valid = check_password(password, user.password)
         print(pwd_valid)
         if not pwd_valid:
@@ -97,6 +99,7 @@ class LoginView(APIView):
                         data={
                             'message': 'login correcto',
                             'token': token.key,
+                            'user':user_serialized.data
                         },)
 
 
