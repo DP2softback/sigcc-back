@@ -102,6 +102,16 @@ class getEvaluation(APIView):
             evaluation = get_object_or_404(Evaluation, id=evaluation_id)
 
             subcategories = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+            id_rel = None
+            try:
+                Rela = Evaluation.objects.get(relatedEvaluation__id = evaluation_id)
+                id_rel = Rela.id
+            except Evaluation.DoesNotExist:
+                print("No hay rela")
+
+            
+            
+
             category_subcategories = defaultdict(list)
             for subcategory in subcategories:
                 category = subcategory.subCategory.category
@@ -126,7 +136,8 @@ class getEvaluation(APIView):
                         'subcategories': category_subcategories[category]
                     }
                     for category in category_subcategories.keys()
-                ]
+                ],
+                'RelatedEvaluation': id_rel
             }
 
             return Response(request_data)
