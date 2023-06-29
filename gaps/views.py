@@ -691,7 +691,23 @@ class GenerateTrainingDemandView(APIView):
             resultList.append(fields)
 			
         return Response(resultList, status = status.HTTP_200_OK)    
-    
+
+class GenerateTrainingNeedCourseView(APIView):
+    def post(self, request):
+        competences = request.data
+        coursesList = []
+        for item in competences:
+            #cambiar segun como se va a hacer la relacion entre curso y competencia
+            courseRegister = CursoGeneral.objects.filter(Q(competence__id=item['competencia'])).values().first()
+            if courseRegister:
+                entry = {"competencia": item['competencia']}
+                for entryList in coursesList:
+                    if entryList['curso'] == courseRegister['id']:
+                        entryList['competencias'].append(entry)
+                        break
+                coursesList.append({"curso": courseRegister['id'], "competencias": [entry]})
+        return Response(coursesList, status = status.HTTP_200_OK)                    
+                
 class TrainingNeedCourseView(APIView):
     def post(self, request):
         area = request.data["area"]
