@@ -10,6 +10,16 @@ from rest_framework.response import Response
 from datetime import datetime 
 from collections import defaultdict
 import pytz
+from django.db.models import F
+from django.db.models.functions import ExtractYear, ExtractMonth
+from django.http import HttpResponse
+from django.db.models import Avg
+from django.http import HttpResponseBadRequest
+import json
+from django.http import JsonResponse
+from datetime import datetime, timezone
+from django.core.mail import EmailMultiAlternatives, send_mail
+from django.conf import settings
 
 class EvaluationCreateAPIView(APIView):
     @transaction.atomic
@@ -53,16 +63,30 @@ class EvaluationCreateAPIView(APIView):
             for subcategory_data in subcategories_data:
                 subcategory_id = subcategory_data.get('id')
                 score = subcategory_data.get('score')
+                comment = subcategory_data.get('comment')
+                hasComment = subcategory_data.get('hasComment')
                 subcategory = get_object_or_404(SubCategory, id=subcategory_id)
                 evaluationxsubcategory = EvaluationxSubCategory(
                     subCategory=subcategory,
                     evaluation=evaluation,
-                    score=score
+                    score=score,
+                    comment=comment,
+                    hasComment=hasComment
                 )
                 evaluationxsubcategories.append(evaluationxsubcategory)
 
             EvaluationxSubCategory.objects.bulk_create(evaluationxsubcategories)
-
+            employee_user = getattr(evaluated_employee, 'user', None)
+            print(employee_user)
+            user_email  = getattr(employee_user, 'email', None)
+            print(user_email)
+            send_mail(
+            "Su autoevaluación está lista",
+            "Su autoevaluación está lista para ser llenada.",
+            settings.EMAIL_HOST_USER,
+            [user_email],
+            fail_silently=False,
+        )
             return Response({'message': 'Evaluation created successfully.'}, status=status.HTTP_201_CREATED)
         except EvaluationType.DoesNotExist:
             return Response({'message': 'Invalid evaluation type.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -169,6 +193,7 @@ class addCategory(APIView):
         subcategories = data.get('Subcategorias', [])
         types = EvaluationType.objects.all()
         cats = []
+        #SUMAMENTE IMPORTANTE CAMBIAR CON LO DE EVALUATIONTYPE
         for type in types:
             cat = Category(
             creationDate = now,
@@ -209,7 +234,87 @@ class getFreeCompetences(APIView):
         competences = [subcategory for subcategory in competences if subcategory.category is None]
         serialized = SubCategorySerializer(competences, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
-        
+
+class GetReporteGeneral(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            evalType = data.get('evaluationType')
+            evaluationType = get_object_or_404(EvaluationType, name=evalType)
+            initDate = data.get('fecha_inicio')
+            finishDate = data.get('fecha_fin')
+            query = '''
+                SELECT
+                    id,
+                    EXTRACT(YEAR FROM "evaluationDate") AS "year",
+                    EXTRACT(MONTH FROM "evaluationDate") AS "month",
+                    area_id,
+                    AVG("finalScore") AS ScoreAverage
+                FROM
+                    evaluations_and_promotions_evaluation
+                WHERE
+                    "isActive" = True
+                    AND "evaluationType_id" = {}
+                    AND "evaluationDate" IS NOT NULL
+                    AND "evaluationDate" >= to_date('{}', 'YYYY-MM-DD')
+                    AND "evaluationDate" <= to_date('{}', 'YYYY-MM-DD')
+                GROUP BY
+                    "id",
+                    "year",
+                    "month",
+                    "area_id"
+                ORDER BY
+                    "year", "month", "area_id"
+            '''.format(evaluationType.id, initDate, finishDate)
+            evaluations = Evaluation.objects.raw(query)
+            result = []
+
+            for row in evaluations:
+                year = int(row.year)
+                month = str(row.month).zfill(2)
+                area_id = row.area_id
+                score_average = row.scoreaverage  
+
+                year_dict = next((item for item in result if item['year'] == year), None)
+                if year_dict is None:
+                    year_dict = {
+                        'year': year,
+                        'month': []
+                    }
+                    result.append(year_dict)
+
+                month_dict = next((item for item in year_dict['month'] if item['month'] == month), None)
+                if month_dict is None:
+                    month_dict = {
+                        'month': month,
+                        'area_scores': []
+                    }
+                    year_dict['month'].append(month_dict)
+
+                area_scores = month_dict['area_scores']
+                area = Area.objects.get(id=area_id) 
+                area_score = next((item for item in area_scores if item['AreaName'] == area.name), None)
+                if area_score is None:
+                    area_score = {
+                        'AreaName': area.name,
+                        'ScoreSum': score_average,
+                        'Count': 1
+                    }
+                    area_scores.append(area_score)
+                else:
+                    area_score['ScoreSum'] += score_average
+                    area_score['Count'] += 1
+            for year_dict in result:
+                for month_dict in year_dict['month']:
+                    for area_score in month_dict['area_scores']:
+                        area_score['ScoreAverage'] = area_score['ScoreSum'] / area_score['Count']
+                        del area_score['ScoreSum']
+                        del area_score['Count']
+
+            return Response(result)
+
+        except EvaluationType.DoesNotExist:
+            return HttpResponseBadRequest("EvaluationType does not exist.")
 
             
 
