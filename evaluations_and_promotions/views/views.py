@@ -792,13 +792,13 @@ class GetAreas(APIView):
 class GetCategoriasContinuas(APIView):
     def get(self, request):
         evaluation_type = EvaluationType.objects.get(name='Evaluación Continua')
-        categorias = Category.objects.filter(evaluationType=evaluation_type).values('id', 'name')
+        categorias = Category.objects.values('id', 'name')
         return Response(categorias)
 
 class GetCategoriasDesempenio(APIView):
     def get(self, request):
         evaluation_type = EvaluationType.objects.get(name='Evaluación de Desempeño')
-        categorias = Category.objects.filter(evaluationType=evaluation_type).values('id', 'name')
+        categorias = Category.objects.values('id', 'name')
         return Response(categorias)
     
 class EvaluationLineChartReporte(APIView):
