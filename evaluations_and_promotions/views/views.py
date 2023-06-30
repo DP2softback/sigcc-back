@@ -558,7 +558,7 @@ class VistaCategoriasSubCategorias(APIView):
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = SubCategory.objects.filter(category__evaluationType__name=evaluation_type,isActive = True)
+        Datos = SubCategory.objects.filter(isActive = True)
         Datos = Datos.exclude(subCategory__category = None)
         Datos_serializados = SubCategorySerializerRead(Datos,many=True,fields=('id','name','category'))
 
