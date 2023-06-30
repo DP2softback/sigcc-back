@@ -190,7 +190,7 @@ class GetHistoricoDeEvaluaciones(APIView):
         
         
         evaType = get_object_or_404(EvaluationType, name=tipoEva)
-        query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True,score__gte=1.0)
+        query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True,finalScore__gte=1.0)
         
         if nivel:
             query = query.filter(finalScore=nivel)
