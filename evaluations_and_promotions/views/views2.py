@@ -63,8 +63,10 @@ class EvaluationCreateAPIView(APIView):
             for subcategory_data in subcategories_data:
                 subcategory_id = subcategory_data.get('id')
                 score = subcategory_data.get('score')
-                comment = subcategory_data.get('comment')
-                hasComment = subcategory_data.get('hasComment')
+                data_comment= subcategory_data.get('comment')
+                data_hasComment = subcategory_data.get('hasComment')
+                comment = '' if data_comment is None else data_comment
+                hasComment = False if data_hasComment is None else data_hasComment
                 subcategory = get_object_or_404(SubCategory, id=subcategory_id)
                 evaluationxsubcategory = EvaluationxSubCategory(
                     subCategory=subcategory,
@@ -76,17 +78,7 @@ class EvaluationCreateAPIView(APIView):
                 evaluationxsubcategories.append(evaluationxsubcategory)
 
             EvaluationxSubCategory.objects.bulk_create(evaluationxsubcategories)
-            employee_user = getattr(evaluated_employee, 'user', None)
-            print(employee_user)
-            user_email  = getattr(employee_user, 'email', None)
-            print(user_email)
-            send_mail(
-            "Su autoevaluación está lista",
-            "Su autoevaluación está lista para ser llenada.",
-            settings.EMAIL_HOST_USER,
-            [user_email],
-            fail_silently=False,
-        )
+
             return Response({'message': 'Evaluation created successfully.'}, status=status.HTTP_201_CREATED)
         except EvaluationType.DoesNotExist:
             return Response({'message': 'Invalid evaluation type.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -118,7 +110,8 @@ class getEvaluation(APIView):
                 category_subcategories[category].append({
                     'id': subcategory.subCategory.id,
                     'name': subcategory.subCategory.name,
-                    'score': subcategory.score
+                    'score': subcategory.score,
+                    'comment': subcategory.comment
                 })
 
 

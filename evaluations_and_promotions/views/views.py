@@ -24,6 +24,10 @@ from django.db.models import F, ExpressionWrapper, FloatField
 from collections import defaultdict
 from rest_framework.permissions import AllowAny
 from django.core.validators import URLValidator
+import pytz
+from django.core.mail import EmailMultiAlternatives, send_mail
+from django.conf import settings
+import urllib.parse
 
 
 
@@ -926,12 +930,29 @@ class RegistrarEvaluacionDesempen(APIView):
             evaluacion_creada_related.save()
             if(evaluacion_creada_related is None):
                 return Response("No se ha creado correctamente el objeto evaluacion relacionada",status=status.HTTP_400_BAD_REQUEST)
+            employee_user = getattr(obj_evaluado, 'user', None)
+            user_email  = getattr(employee_user, 'email', None)
+            name = "{} {}".format(getattr(employee_user, 'first_name', ''), getattr(employee_user, 'last_name', ''))
+            encoded_name = urllib.parse.quote(name)
+            url = "{}/skill-management/auto-evaluation?id={}&name={}&evaluationId={}".format(
+                settings.CLIENT_URL,
+                obj_evaluado.id,
+                encoded_name,
+                evaluacion_creada_related.id
+            )
+            send_mail(
+            "Su autoevaluación está lista",
+            "Su autoevaluación está lista para ser llenada. Por favor llenela ingresando a {}".format(url),
+            settings.EMAIL_HOST_USER,
+            [user_email],
+            fail_silently=False,
+        )
 
 
         for item in request.data.get("categories"):
             for item2 in item["subcategories"]:
                 
-                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],subCategory = SubCategory.objects.get(id = item2["id"]),evaluation=evaluacion_creada)
+                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],comment=item2["comment"],subCategory = SubCategory.objects.get(id = item2["id"]),evaluation=evaluacion_creada)
                 subcategoriacrear_evaluacion.save()
                 if(subcategoriacrear_evaluacion is None):
                     return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
@@ -1025,6 +1046,8 @@ class ActualizarCategorias(APIView):
     def delete(self, request):
         idCategoria = request.data.get("idCategoria")
         idSubCategoria = request.data.get("idSubCategoria")
+        peruTz = pytz.timezone('America/Lima')
+        now=datetime.now(peruTz)
 
         if(idCategoria is None):
             return Response("No se ha especificado el idCategoria",status=status.HTTP_400_BAD_REQUEST)
@@ -1040,7 +1063,7 @@ class ActualizarCategorias(APIView):
         obj_categorias = SubCategory.objects.filter(name=obj_subcategoria.name)
 
         if obj_categorias.exists():
-            obj_categorias.update(category = None)
+            obj_categorias.update(category = None, modifiedDate= now )
         
 
         
@@ -1354,16 +1377,3 @@ class EvaluationLineChartReporte2(APIView):
             return Response(result,status=status.HTTP_200_OK)
         else:
             return Response("No se ha brindado correctamente los parametros",status=status.HTTP_400_BAD_REQUEST)
-# class listCompetencias(APIView):
-#     def post(self,request):
-#         category_id = request.data.get("category-id")
-#         Competencias = Competence.objects.filter(isActive = True,subCategory__Category_id=category_id)
-#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
-#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
-    
-# class listCompetenciasPorCategoria(APIView):
-#     def post(self,request):
-#     ###    category_id = request.data.get("category-id")
-#         Competencias = Competence.objects.filter(isActive = True)
-#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
-#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
