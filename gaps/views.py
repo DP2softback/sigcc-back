@@ -581,8 +581,9 @@ class SearchCapacityEmployeeView(APIView):
         query.add(Q(isActive=True), Q.AND)
         if employee is not None and employee>0:
             query.add(Q(employee__id = employee), Q.AND)
-        employeeCapacity = CompetencessXEmployeeXLearningPath.objects.filter(query).values('id','competence__id','competence__name','employee__id','scale','scaleRequired','levelGap','likeness', 'hasCertificate', 'registerByEmployee','requiredForPosition', 'active', 'score')
-        return Response(list(employeeCapacity), status = status.HTTP_200_OK)
+        employeeCompetence = CompetencessXEmployeeXLearningPath.objects.filter(query)
+        employeeCompetence_serializer = CompetenceEmployeeReadLearningSerializer(employeeCompetence, many=True)
+        return Response(employeeCompetence_serializer, status = status.HTTP_200_OK)
     
 class SearchNeedView(APIView):
     def post(self, request):
@@ -730,7 +731,9 @@ class TrainingNeedCourseView(APIView):
                 ids.append(item['id'])
 		
         for course in courses :
-            TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state='Por solucionar') & Q(competence__id= course['competencia'])).update(course=course['curso'], state='En proceso')
+            for competence in course['competencias']:
+                #ver bien el update()
+                TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state='Por solucionar') & Q(competence__id= competence['competencia'])).update(course=course['curso'], state='En proceso')
         
         return Response(status=status.HTTP_200_OK,
                         data={
@@ -758,10 +761,15 @@ class SearchTrainingNeedCourseView(APIView):
 		
         for employee in employees:
             employeeFields = {"empleado": employee['id'], "cursos": []}
-            needs = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state='Por solucionar')).values('competence__id','competence__name', 'course__id')
-            for need in needs :
-                course = {'cursoId': need['competence__id'], 'cursoNombre': need['competence__name'], 'cursoId': need['course__id']}
-                employeeFields['cursos'].append(course)
+            courses = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state='Por solucionar')).values('course__id','course__nombre')
+            coursesUnique = GetUniqueDictionaries(courses)
+            for course in coursesUnique:
+                courseFields = {'curso': course['course__id'], 'curso_nombre': course['course__nombre'], 'competencias': []}
+                needs = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state='Por solucionar') & Q(course__id = course['course__id'])).values('competence__id', 'competence__name')
+                for need in needs :
+                    needField = {'competencia': need['competence__id'], 'competencia_nombre': need['competence__name']}
+                    courseFields['competencias'].append(needField)
+                employeeFields['cursos'].append(courseFields)
             returnList.append(employeeFields)
 					
         return Response(returnList, status = status.HTTP_200_OK)  
