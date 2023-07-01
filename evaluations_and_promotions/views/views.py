@@ -553,13 +553,13 @@ class PlantillasEditarVistaAPI(APIView):
 class VistaCategoriasSubCategorias(APIView):
     def post(self,request):
         #plantilla = request.data.get("id")
-        evaluation_type = request.data.get("evaluationType")
+        #evaluation_type = request.data.get("evaluationType")
 
-        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
-            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        #if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+        #    return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
         Datos = SubCategory.objects.filter(isActive = True)
-        Datos = Datos.exclude(subCategory__category = None)
+        Datos = Datos.exclude(category = None)
         Datos_serializados = SubCategorySerializerRead(Datos,many=True,fields=('id','name','category'))
 
         grouped_data = {}
