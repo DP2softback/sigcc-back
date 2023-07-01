@@ -454,7 +454,7 @@ class PlantillasEditarVistaAPI(APIView):
             return Response("Template not found", status=status.HTTP_404_NOT_FOUND)
 
         categories = self.get_categories(template)
-        subcategories_not_in_template = self.get_subcategories_not_in_template(template, evaluation_type)
+        subcategories_not_in_template = self.get_subcategories_not_in_template(template)
 
         response_data = self.generate_response_data(template, categories, subcategories_not_in_template)
         return Response(response_data, status=status.HTTP_200_OK)
@@ -486,14 +486,13 @@ class PlantillasEditarVistaAPI(APIView):
 
         return categories
 
-    def get_subcategories_not_in_template(self, template, evaluation_type):
+    def get_subcategories_not_in_template(self, template):
         subcategories_in_template = PlantillaxSubCategoria.objects.filter(
-            plantilla=template,
-            plantilla__evaluationType__name=evaluation_type,
+            plantilla=template,   
             isActive=True
         ).values_list('subCategory_id', flat=True)
 
-        return SubCategory.objects.exclude(id__in=subcategories_in_template).filter(category__evaluationType__name=evaluation_type)
+        return SubCategory.objects.exclude(id__in=subcategories_in_template)
 
     def generate_response_data(self, template, categories, subcategories_not_in_template):
         evaluation_type = template.evaluationType.name  # Get the evaluation type from the template

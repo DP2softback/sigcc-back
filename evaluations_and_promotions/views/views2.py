@@ -195,40 +195,38 @@ class addCategory(APIView):
         peruTz = pytz.timezone('America/Lima')
         now=datetime.now(peruTz)
         subcategories = data.get('Subcategorias', [])
-        types = EvaluationType.objects.all()
-        cats = []
-        #SUMAMENTE IMPORTANTE CAMBIAR CON LO DE EVALUATIONTYPE
-        for type in types:
-            cat = Category(
-            creationDate = now,
-            modifiedDate =now,
-            name = catName,
-            code = 'USR',
-            evaluationType= type
-            )
-            cats.append(cat)
-        Category.objects.bulk_create(cats)
+        
+        
+        
+        cat = Category(
+        creationDate = now,
+        modifiedDate =now,
+        name = catName,
+        code = 'USR',
+        )
+        
+        Category.objects.create(cat)
         subcats =[]
         count = 0 
         for subcategoryData in subcategories:
             count += 1
             subcategoryId = subcategoryData.get('id')
-            for category in cats: 
-                if(subcategoryId is not None):
-                    subcat =SubCategory.objects.get(id= subcategoryId)
-                    subcat.category = category
-                    subcat.code = category.code+str(count)
-                    subcat.modifiedDate = datetime.now(peruTz)
-                    subcat.save()
-                else:    
-                    subcat = SubCategory(
-                        creationDate = datetime.now(peruTz),
-                        code = category.code+str(count),
-                        name = subcategoryData['name'],
-                        description = subcategoryData['description'], 
-                        category = category,
-                    )
-                    subcats.append(subcat)
+            
+            if(subcategoryId is not None):
+                subcat =SubCategory.objects.get(id= subcategoryId)
+                subcat.category = cat
+                subcat.code = cat.code+str(count)
+                subcat.modifiedDate = datetime.now(peruTz)
+                subcat.save()
+            else:    
+                subcat = SubCategory(
+                    creationDate = datetime.now(peruTz),
+                    code = cat.code+str(count),
+                    name = subcategoryData['name'],
+                    description = subcategoryData['description'], 
+                    category = cat,
+                )
+                subcats.append(subcat)
         SubCategory.objects.bulk_create(subcats)
         return Response({'message': 'Category created.'}, status=status.HTTP_201_CREATED)
 
