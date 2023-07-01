@@ -49,6 +49,17 @@ class CompetenceEmployeeReadSerializer(serializers.ModelSerializer):
         model = CompetencessXEmployeeXLearningPath
         fields = ['competence_code','competence_name','competence_type','levelCurrent', 'levelRequired', 'likeness']
 
+class CompetenceEmployeeReadLearningSerializer(serializers.ModelSerializer):
+    competencia = serializers.CharField(source='competence.id')
+    competencia_nombre = serializers.CharField(source='competence.name')
+    competencia_tipo = serializers.IntegerField(source='competence.type')
+    nivel = serializers.IntegerField(source='scale')
+    nota = serializers.FloatField(source='score')
+    modificado = serializers.CharField(source='modifiedBy')
+    class Meta:
+        model = CompetencessXEmployeeXLearningPath
+        fields = ['competencia','competencia_nombre','competencia_tipo','nivel','nota','modificado']
+
 class CompetencyxAreaxPositionWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompetencyxAreaxPosition
