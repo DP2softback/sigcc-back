@@ -196,7 +196,15 @@ class JobOfferView(APIView):
             )
             jobOffer.save()
 
-            return Response("Job offer sucessfully created", status=status.HTTP_201_CREATED)
+
+            jo_serialized = JobOfferSerializerRead(jobOffer)
+
+            return Response(status=status.HTTP_200_OK,
+                            data={
+                                'message': 'Job offer sucessfully created',                                
+                                'jobOffer': jo_serialized.data
+                            },)
+            
         except Exception as e:
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
