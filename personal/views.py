@@ -202,26 +202,6 @@ class AreaxPositionView(APIView):
         axp_serializer = AreaxPositionSerializer(axp, many=True)
         return Response(axp_serializer.data, status=status.HTTP_200_OK)
 
-
-class PositionView(APIView):
-    def get(self, request, pk):
-        positions = Position.objects.filter(id=pk)
-        # obtener id, nombre, descripción, job_modality, workday_type
-        serializer = PositionSerializer(positions, many=True)
-
-        for position_data in serializer.data:
-            position_id = position_data['id']
-            # area
-            areasxposition = AreaxPosicion.objects.filter(position_id=position_id)
-            print(areasxposition)
-            areas = []
-            for axp in areasxposition:
-                areas.append((axp.area.id, axp.area.name))
-            print(areas)
-            position_data['areas'] = dict(areas)
-
-        return Response(serializer.data)
-
     def post(self, request):
         '''
         La posicion se registra con:
@@ -237,19 +217,38 @@ class PositionView(APIView):
         print(request.user)
         print(request.data)
 
-        name = request.data["name"]
-        description = request.data["description"]
-        area = request.data["area"]
-        job_modality = request.data["job_modality"]
-        workday_type = request.data["workday_type"]
-
-        competencies = request.data["competencies"]
-        training = request.data["training"]
-
-        functions = request.data["responsabilities"]
+        try:           
+            area = request.data["area"]
+            a_position = request.data["position"]        
+        except:
+            a_position = None
 
         # check if all data exits
-        try:
+        try:              
+            if a_position:
+                position = Position.objects.get(id=a_position)
+                type_creation = f"Using the existing position with id: {position.id}"
+            else:
+                name = request.data["name"]
+                description = request.data["description"]
+                job_modality = request.data["job_modality"]
+                workday_type = request.data["workday_type"]
+
+                # insert position
+                position = Position(
+                    name=name,
+                    description=description,
+                    modalidadTrabajo=job_modality,
+                    tipoJornada=workday_type,
+                )
+                position.save()
+                type_creation = f"Inserting a new position with id: {position.id}"
+                
+            competencies = request.data["competencies"]
+            training = request.data["training"]
+            functions = request.data["responsabilities"]
+
+
             area = Area.objects.get(id=area)
             # saving every competence, capacity and training
             competency_list = []
@@ -265,16 +264,6 @@ class PositionView(APIView):
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
-
-        # insert position
-        position = Position(
-            name=name,
-            description=description,
-            area=area,
-            modalidadTrabajo=job_modality,
-            tipoJornada=workday_type,
-        )
-        position.save()
 
         # linking position with Area
         areaxposition = AreaxPosicion(area=area, position=position)
@@ -302,7 +291,55 @@ class PositionView(APIView):
             )
             obj.save()
 
-        return Response(data=f"Position registered", status=status.HTTP_201_CREATED)
+        axp_serialized = AreaxPositionSerializer(areaxposition)
+        
+        return Response(status=status.HTTP_200_OK,
+                        data={
+                            'message': 'AreaxPosition registered',    
+                            'type_creation': type_creation,                        
+                            'areaxposition':axp_serialized.data
+                        },)
+
+class AllPositionView(APIView):
+    def get(self, request):
+        p = Position.objects.all()
+        serializer = PositionSerializer(p, many=True)
+
+        for position_data in serializer.data:
+            position_id = position_data['id']
+            # area
+            areasxposition = AreaxPosicion.objects.filter(position_id=position_id)
+            print(areasxposition)
+            areas = []
+            for axp in areasxposition:
+                areas.append((axp.area.id, axp.area.name))
+            print(areas)
+            position_data['areas'] = dict(areas)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+class PositionView(APIView):
+    def get(self, request, pk):
+        if pk:
+            positions = Position.objects.filter(id=pk)                        
+        else:
+            positions = Position.objects.all()
+        serializer = PositionSerializer(positions, many=True)
+
+        for position_data in serializer.data:
+            position_id = position_data['id']
+            # area
+            areasxposition = AreaxPosicion.objects.filter(position_id=position_id)
+            print(areasxposition)
+            areas = []
+            for axp in areasxposition:
+                areas.append((axp.area.id, axp.area.name))
+            print(areas)
+            position_data['areas'] = dict(areas)
+
+        return Response(serializer.data)
+
+
 
     def put(self, request, pk):
         position = Position.objects.filter(pk=pk).first()
