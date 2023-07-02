@@ -23,6 +23,11 @@ class HiringProcessView(APIView):
         hps = HiringProcess.objects.all()  # should be just active ones and may be by some extra criteria...like user
         hps_serializer = HiringProcessSerializer(hps, many=True)
 
+        for hps in hps_serializer.data:
+            position_id = hps['position']
+            # area
+            areasxposition = AreaxPosicion.objects.get(id=position_id)
+            hps['areaxpositiondetail'] = AreaxPositionSerializer(areasxposition).data
         return Response(hps_serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -217,14 +222,14 @@ class AreaxPositionView(APIView):
         print(request.user)
         print(request.data)
 
-        try:           
+        try:
             area = request.data["area"]
-            a_position = request.data["position"]        
+            a_position = request.data["position"]
         except:
             a_position = None
 
         # check if all data exits
-        try:              
+        try:
             if a_position:
                 position = Position.objects.get(id=a_position)
                 type_creation = f"Using the existing position with id: {position.id}"
@@ -243,11 +248,10 @@ class AreaxPositionView(APIView):
                 )
                 position.save()
                 type_creation = f"Inserting a new position with id: {position.id}"
-                
+
             competencies = request.data["competencies"]
             training = request.data["training"]
             functions = request.data["responsabilities"]
-
 
             area = Area.objects.get(id=area)
             # saving every competence, capacity and training
@@ -292,13 +296,14 @@ class AreaxPositionView(APIView):
             obj.save()
 
         axp_serialized = AreaxPositionSerializer(areaxposition)
-        
+
         return Response(status=status.HTTP_200_OK,
                         data={
-                            'message': 'AreaxPosition registered',    
-                            'type_creation': type_creation,                        
-                            'areaxposition':axp_serialized.data
+                            'message': 'AreaxPosition registered',
+                            'type_creation': type_creation,
+                            'areaxposition': axp_serialized.data
                         },)
+
 
 class AllPositionView(APIView):
     def get(self, request):
@@ -317,11 +322,12 @@ class AllPositionView(APIView):
             position_data['areas'] = dict(areas)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
+
 class PositionView(APIView):
     def get(self, request, pk):
         if pk:
-            positions = Position.objects.filter(id=pk)                        
+            positions = Position.objects.filter(id=pk)
         else:
             positions = Position.objects.all()
         serializer = PositionSerializer(positions, many=True)
@@ -338,8 +344,6 @@ class PositionView(APIView):
             position_data['areas'] = dict(areas)
 
         return Response(serializer.data)
-
-
 
     def put(self, request, pk):
         position = Position.objects.filter(pk=pk).first()

@@ -17,4 +17,6 @@ python manage.py loaddata ./personal/fixtures/012demotrainingxareaxposition.json
 python manage.py loaddata ./personal/fixtures/013demosubcategory.json
 python manage.py loaddata ./personal/fixtures/014democompetencyxareaxposition.json
 
+python manage.py loaddata ./personal/fixtures/db.json
+
 
