@@ -420,7 +420,8 @@ class CapacityEmployeeView(APIView):
     def post(self, request,id=0):
         competenceList = request.data["competencias"]
         # poner en no requeridas las actuales
-        CompetencessXEmployeeXLearningPath.objects.filter(Q(employee__id = request.data["empleado"])).update(levelGap=0, likeness=0.0,requiredForPosition=False)
+        if request.data["esNuevo"]:
+            CompetencessXEmployeeXLearningPath.objects.filter(Q(employee__id = request.data["empleado"])).update(levelGap=0, likeness=0.0,requiredForPosition=False)
         employee = Employee.objects.filter(id=request.data["empleado"]).values().first()
         if employee is None:
             return Response(status=status.HTTP_200_OK,
@@ -488,7 +489,9 @@ class CapacityEmployeeView(APIView):
                                               'type': 'Incorporacion' if request.data["esNuevo"] ==  1 else 'Evaluacion Continua',
                                               'score':  nota,
                                                 'state': 'Por solucionar',
-                                              'isActive': True}
+                                              'isActive': True
+                                              #podria poner idCurso=null
+                                              }
                 if TrainingNeed.objects.filter(Q(employee__id=request.data["empleado"]) & Q(competence__id = competenceItem['competencia']) & Q(state='En proceso')).count() == 0:
                     if TrainingNeed.objects.filter(Q(employee__id=request.data["empleado"]) & Q(competence__id = competenceItem['competencia'])).count() > 0:
                         registerNeed = TrainingNeed.objects.filter(Q(employee__id=request.data["empleado"]) & Q(competence__id = competenceItem['competencia'])).first()
@@ -503,6 +506,7 @@ class CapacityEmployeeView(APIView):
                             trainingNeed_serializer.save()
             else:
                 if TrainingNeed.objects.filter(Q(employee__id=request.data["empleado"]) & Q(competence__id = competenceItem['competencia'])).count() > 0:
+                    #podria poner idCurso=null
                     TrainingNeed.objects.filter(Q(employee__id=request.data["empleado"]) & Q(competence__id = competenceItem['competencia'])).update(state='Solucionado')
         return Response(status=status.HTTP_200_OK,
                         data={
@@ -761,11 +765,11 @@ class SearchTrainingNeedCourseView(APIView):
 		
         for employee in employees:
             employeeFields = {"empleado": employee['id'], "cursos": []}
-            courses = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state='Por solucionar')).values('course__id','course__nombre')
+            courses = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state='En proceso')).values('course__id','course__nombre')
             coursesUnique = GetUniqueDictionaries(courses)
             for course in coursesUnique:
                 courseFields = {'curso': course['course__id'], 'curso_nombre': course['course__nombre'], 'competencias': []}
-                needs = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state='Por solucionar') & Q(course__id = course['course__id'])).values('competence__id', 'competence__name')
+                needs = TrainingNeed.objects.filter(Q(employee__id = employee['id']) & Q(state='En proceso') & Q(course__id = course['course__id'])).values('competence__id', 'competence__name')
                 for need in needs :
                     needField = {'competencia': need['competence__id'], 'competencia_nombre': need['competence__name']}
                     courseFields['competencias'].append(needField)
