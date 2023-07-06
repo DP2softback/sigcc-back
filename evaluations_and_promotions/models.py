@@ -1,4 +1,4 @@
-from capacitaciones.models import LearningPath
+from capacitaciones.models import LearningPath, CursoGeneral
 from django.db import models
 from login.models import Employee
 from model_utils.models import TimeStampedModel
@@ -87,6 +87,7 @@ class CompetencessXEmployeeXLearningPath(models.Model):
     competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
     evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE, null=True, blank=True)
     lp = models.ForeignKey(LearningPath, on_delete=models.CASCADE, null=True, blank=True)
+    curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE, null=True, blank=True)
     isInitial = models.BooleanField(default=False)
 
     level = models.TextField(blank=True, null=True)
