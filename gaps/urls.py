@@ -27,10 +27,15 @@ gaps_patterns = [
 
     path('jobOfferSearch', SearchJobOfferView.as_view()),
     path('trainingNeedDemand', GenerateTrainingDemandView.as_view()),
+    path('trainingNeedGenerateCourse', GenerateTrainingNeedCourseView.as_view()),
     path('trainingNeedCourse', TrainingNeedCourseView.as_view()),
     path('trainingNeedCourseSearch', SearchTrainingNeedCourseView.as_view()),
 
     path('saveListedEmployeeForOffer', SaveShortlistedEmployeexJobOffer.as_view()),
+    path('searchJobOfferxEmployeePreRegistered', SearchJobOfferxEmployeePreRegistered.as_view()),
+
+    path('acceptOrDeclineJobOfferPreRegistered', AcceptOrDeclineJobOfferPreRegistered.as_view())
+
 ]
 
 urlpatterns = [

@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from gaps.models import Capacity, CapacityXAreaXPosition, CapacityXEmployee, TrainingNeed, CapacityType
-from personal.models import Area, Position, AreaxPosicion
-from evaluations_and_promotions.serializers import AreaSerializer, PositionSerializer, EmployeeSerializer
+from gaps.models import *
+from personal.models import *
+from evaluations_and_promotions import *
+from evaluations_and_promotions.serializers import *
 
 class CapacitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +33,41 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = '__all__'
+
+class CompetenceReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubCategory
+        fields = ['id','isActive','code','name','description', 'type']
+
+class CompetenceEmployeeReadSerializer(serializers.ModelSerializer):
+    competence_code = serializers.CharField(source='competence.code')
+    competence_name = serializers.CharField(source='competence.name')
+    competence_type = serializers.IntegerField(source='competence.type')
+    levelCurrent = serializers.IntegerField(source='scale')
+    levelRequired = serializers.IntegerField(source='scaleRequired')
+    class Meta:
+        model = CompetencessXEmployeeXLearningPath
+        fields = ['competence_code','competence_name','competence_type','levelCurrent', 'levelRequired', 'likeness']
+
+class CompetenceEmployeeReadLearningSerializer(serializers.ModelSerializer):
+    competencia = serializers.CharField(source='competence.id')
+    competencia_nombre = serializers.CharField(source='competence.name')
+    competencia_tipo = serializers.IntegerField(source='competence.type')
+    nivel = serializers.IntegerField(source='scale')
+    nota = serializers.FloatField(source='score')
+    modificado = serializers.CharField(source='modifiedBy')
+    class Meta:
+        model = CompetencessXEmployeeXLearningPath
+        fields = ['competencia','competencia_nombre','competencia_tipo','nivel','nota','modificado']
+
+class CompetencyxAreaxPositionWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompetencyxAreaxPosition
+        fields = '__all__'
+
+class TrainingNeedReadSerializer(serializers.ModelSerializer):
+    competence_name = serializers.CharField(source='competence.name')
+    competence_type = serializers.IntegerField(source='competence.type')
+    class Meta:
+        model = TrainingNeed
+        fields = ['competence_name','competence_type','levelCurrent', 'levelRequired', 'levelGap','description']

@@ -1,0 +1,110 @@
+[
+  {
+    "fields": {
+      "areaxposition": 1,
+      "description": "Coordinar y ejecutar la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Coordinar y ejecutar la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "description": "Asegurar a trav\u00e9s de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "areaxposition": 1,
+      "description": "Realizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Proponer e implementar ideas para agilizar e innovar nuestros procesos de atracci\u00f3n de talento.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Dirigir la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Dirigir los procesos de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Analizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "areaxposition": 2,
+      "description": "Proponer e implementar ideas para agilizar e innovar nuestros procesos de atracci\u00f3n de talento.",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "description": "Colocar un coco dentro del c\u00f3digo para que no se caiga",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "description": "Documentar los procesos de desarrollo y el c\u00f3digo legado",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "areaxposition": 3,
+      "description": "Desarrollar codigo backend respetando las buenas pr\u00e1cticas de c\u00f3digo",
+      "isActive": true
+    },
+    "model": "personal.functions",
+    "pk": 15
+  }
+]

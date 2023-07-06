@@ -1,6 +1,7 @@
 from django.db import models
 from personal.models import *
-from login.models import Employee
+from login.models import *
+from evaluations_and_promotions.models import *
 from capacitaciones.models import CursoGeneral
 
 # Create your models here.
@@ -49,8 +50,9 @@ class Capacity(models.Model):
 class CapacityXAreaXPosition(models.Model):
     id = models.BigAutoField(primary_key=True)
     capacity = models.ForeignKey(Capacity, on_delete=models.CASCADE, null=True, blank=True)
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)    
+    positionArea = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE, null=True, blank=True)
+    #position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True)
+    #area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True)    
     levelRequired = models.CharField(max_length=200, blank=True, null=True)    
     active = models.BooleanField(default=True)
 
@@ -70,16 +72,16 @@ class CapacityXEmployee(models.Model):
 
 class TrainingNeed(models.Model):
     id = models.BigAutoField(primary_key=True)
-    capacity = models.ForeignKey(Capacity, on_delete=models.CASCADE, null=True, blank=True)
+    competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     course = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE, null=True, blank=True, default=None)
     description = models.CharField(max_length=200, blank=True, null=True)
     state = models.CharField(max_length=200, blank=True, null=True)  #por solucionar, en proceso, solucionado 
-    levelCurrent = models.CharField(max_length=200, blank=True, null=True)
-    levelRequired = models.CharField(max_length=200, blank=True, null=True)
-    score = models.IntegerField(blank=True,null =True)
+    levelCurrent = models.IntegerField(blank=True,null =True)
+    levelRequired = models.IntegerField(blank=True,null =True)
+    score = models.FloatField(blank=True, null=True)
     levelGap = models.IntegerField(blank=True,null =True) #cuanta nota necesita para alcanzar desde levelCurrent hast levelRequired
     type = models.CharField(max_length=200, blank=True, null=True) # de incorporacion, de evaluacion 2, de ascenso
-    active = models.BooleanField(default=True)
+    isActive = models.BooleanField(default=True)
 
 
