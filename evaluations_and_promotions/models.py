@@ -30,7 +30,7 @@ class Category(models.Model):
     name = models.TextField(blank=True, default='')
     code = models.CharField(max_length=5, blank=True)
     description = models.TextField(blank=True, default='')
-    evaluationType = models.ForeignKey(EvaluationType, on_delete=models.SET_NULL, null=True)
+    #evaluationType = models.ForeignKey(EvaluationType, on_delete=models.SET_NULL, null=True)
 
 
 class Evaluation(models.Model):
