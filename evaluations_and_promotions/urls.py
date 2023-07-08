@@ -9,6 +9,7 @@ urlpatterns = [
     path('area', AreaGenericView.as_view()),
     path('subcategory', SubCategoryTypeGenericView.as_view()),
     path('employees', GetPersonasACargo.as_view()),
+    path('emp', GetPersona.as_view()),
     path('evaluations', GetHistoricoDeEvaluaciones.as_view()),
     path('evaluationxsubcat', EvaluationXSubcatAPI.as_view()),
     path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
