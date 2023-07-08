@@ -117,8 +117,14 @@ class TrainingxLevelSerializer(serializers.ModelSerializer):
         level = TrainingLevel.objects.get(id=obj.level_id)
         return str(level.name)
 
+    def my_training_str(self, obj):
+        training = TrainingxLevel.objects.get(id=obj.id)
+        print(training)
+        return str(training)
+
     training_detail = serializers.SerializerMethodField('my_training')
     level_detail = serializers.SerializerMethodField('my_level')
+    training_literal = serializers.SerializerMethodField('my_training_str')
 
     class Meta:
         model = TrainingxLevel
