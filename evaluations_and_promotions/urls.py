@@ -9,6 +9,7 @@ urlpatterns = [
     path('area', AreaGenericView.as_view()),
     path('subcategory', SubCategoryTypeGenericView.as_view()),
     path('employees', GetPersonasACargo.as_view()),
+    path('emp', GetPersona.as_view()),
     path('evaluations', GetHistoricoDeEvaluaciones.as_view()),
     path('evaluationxsubcat', EvaluationXSubcatAPI.as_view()),
     path('LineChartEvaluaciones', EvaluationLineChart.as_view()),
@@ -41,5 +42,6 @@ urlpatterns = [
     path('areas', GetAreas.as_view(), name='get-areas'),
     path('categorias/continuas', GetCategoriasContinuas.as_view(), name='get-categorias-continuas'),
     path('categorias/desempenio', GetCategoriasDesempenio.as_view(), name='get-categorias-desempenio'),
+    path('report',GetReporteGeneral.as_view())
     
 ]
