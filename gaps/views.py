@@ -851,4 +851,40 @@ class AcceptOrDeclineJobOfferPreRegistered(APIView):
             except Exception as e:
                 return Response(str(e),status=status.HTTP_400_BAD_REQUEST)
             return Response("Postulación registrada correctamente",status=status.HTTP_200_OK)
-            
+        
+
+class SearchEmployeeSuggestedXJobOffer(APIView):
+
+    def post(self, request):
+        offer = request.data['oferta']
+        query = Q()
+        if offer is not None and offer > 0:
+            query.add(Q(job_offer__id = offer))# obtenemos la oferta laboral
+            job_offer = JobOffer.objects.get(query)
+            hiring_process = job_offer.hiring_process
+            position = hiring_process.position
+            position_id = position.id
+            query = Q()
+            query.add(Q(position__id = position_id))
+            area_position = AreaxPosicion.objects.get(query)
+            area_position_id = area_position.id
+            query = Q()
+            query.add(Q(positionArea__id = area_position_id))
+            capacity_area_position = CapacityXAreaXPosition.objects.get(query)
+            capacity = capacity_area_position.capacity
+            capacity_id = capacity.id
+            query = Q()
+            query.add(Q(capacity__id = capacity_id))
+            array = CapacityXEmployee.objects.filter(query)
+            # entonces, ahora si podemos crear el response
+            response_data = []
+            for obj in array:
+                query = Q()
+                emp_id = obj.employee.id
+                employee = Employee.objects.filter(id = emp_id).values("id, user__first_name, user__last_name, position__name, area__name, user__email, user__is_active")
+                json_data = serializers.serialize('json', employee)
+                response_data.append(json_data)
+
+            return Response(response_data, status = status.HTTP_200_OK) 
+        else:
+            return Response("La oferta laborarl no existe",status=status.HTTP_400_BAD_REQUEST)  
