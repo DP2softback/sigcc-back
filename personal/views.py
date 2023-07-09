@@ -159,6 +159,7 @@ class ProcessStageView(APIView):
                 current_stage.end_date = current_date
                 current_stage.save()
 
+                #TODO: For the email, it is necessary to define from where the successful and unsuccessful applicants will be retrieved  
                 applicants = []#Table.objects.filter(hiring_process=hp_instance)
                 successful_applicants = [] #maybe get from somewhere
                 unsuccessful_applicants = []#maybe get from somewhere
