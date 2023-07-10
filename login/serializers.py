@@ -63,3 +63,10 @@ class RoleSerializerWrite(DynamicFieldsModelSerializer, serializers.ModelSeriali
     class Meta:
         model = Role
         fields = '__all__'
+
+
+class ApplicantSerializerRead(DynamicFieldsModelSerializer, serializers.ModelSerializer):
+    class Meta:
+        model = Applicant
+        depth = 1
+        fields = '__all__'
