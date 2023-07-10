@@ -195,3 +195,39 @@ class AreaxPositionSerializer(serializers.ModelSerializer):
                   'training_detail',
                   'function_detail'
                   ]
+
+
+####
+
+class TrainingxApplicantSerializerRead(serializers.ModelSerializer):
+
+    def my_training(self, obj):
+        training = TrainingxLevel.objects.get(id=obj.trainingxlevel_id)
+        print(training)
+        return str(training)
+
+    training_detail = serializers.SerializerMethodField('my_training')
+
+    class Meta:
+        model = TrainingxApplicant
+        fields = '__all__'
+
+
+class ExperienceSerializerRead(serializers.ModelSerializer):
+
+    class Meta:
+        model = Experience
+        fields = '__all__'
+
+
+class ApplicantSerializerRead(serializers.ModelSerializer):
+
+    def my_user(self, obj):
+        user = User.objects.get(id=obj.user.id)
+        return UserSerializerRead(user, many=False).data
+
+    user = serializers.SerializerMethodField('my_user')
+
+    class Meta:
+        model = Applicant
+        fields = '__all__'

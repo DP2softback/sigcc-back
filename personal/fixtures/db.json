@@ -118,6 +118,209 @@
   },
   {
     "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T09:46:23.902Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 31,
+      "object_id": "2",
+      "object_repr": "Applicant: Jose Joseson",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:43:01.532Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 65,
+      "object_id": "1",
+      "object_repr": "Competency: Habilidad para hablar en p\u00fablico for Applicant: empleadoncio empleadirez",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:43:16.421Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 65,
+      "object_id": "2",
+      "object_repr": "Competency: Facilidad de comunicar ideas for Applicant: empleadoncio empleadirez",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:43:36.142Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 65,
+      "object_id": "3",
+      "object_repr": "Competency: Proeficiencia en react for Applicant: empleadoncio empleadirez",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:43:42.020Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 65,
+      "object_id": "4",
+      "object_repr": "Competency: Habilidad en t\u00e9cnicas de recuperaci\u00f3n de datos for Applicant: Jose Joseson",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:43:47.674Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 65,
+      "object_id": "5",
+      "object_repr": "Competency: Conocimientos de seguridad en la nube for Applicant: Jose Joseson",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:44:01.311Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 65,
+      "object_id": "6",
+      "object_repr": "Competency: Liderazgo de equipos medianos y grandes for Applicant: Jose Joseson",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:52:42.422Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 63,
+      "object_id": "1",
+      "object_repr": "Training: Idioma B1 en Ingles for Applicant: empleadoncio empleadirez",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 17
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:52:52.047Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 63,
+      "object_id": "2",
+      "object_repr": "Training: Certificaci\u00f3n Asociate en AWS Certified Developer for Applicant: empleadoncio empleadirez",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 18
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:53:26.627Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 63,
+      "object_id": "3",
+      "object_repr": "Training: Grado acad\u00e9mico Bachiller en Ingenier\u00eda Inform\u00e1tica for Applicant: empleadoncio empleadirez",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 19
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T10:53:41.479Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 63,
+      "object_id": "4",
+      "object_repr": "Training: Idioma C2 en Ingles for Applicant: Jose Joseson",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T11:08:42.282Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 64,
+      "object_id": "1",
+      "object_repr": "5 a\u00f1os de blablabla",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 21
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T11:08:55.642Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 64,
+      "object_id": "2",
+      "object_repr": "2 a\u00f1os como jojojo",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 22
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T11:10:11.062Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 64,
+      "object_id": "3",
+      "object_repr": "3 a\u00f1os de experiencia siendo expulsado",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 23
+  },
+  {
+    "fields": {
+      "action_flag": 1,
+      "action_time": "2023-07-10T11:10:24.982Z",
+      "change_message": "[{\"added\": {}}]",
+      "content_type": 64,
+      "object_id": "4",
+      "object_repr": "7 a\u00f1os de experiencia estudiando en la pucp",
+      "user": 1
+    },
+    "model": "admin.logentry",
+    "pk": 24
+  },
+  {
+    "fields": {
+      "expire_date": "2023-07-24T09:45:29.480Z",
+      "session_data": ".eJxVjDsOwjAQBe_iGlne-Icp6XMGa9de4wCypXwqxN0hUgpo38y8l4i4rTVuC89xyuIiQJx-N8L04LaDfMd26zL1ts4TyV2RB13k2DM_r4f7d1Bxqd-6BFWcYx50UKSMNkhnpxkysnaQ_QDWOWUs4UCaCgYogBDIerCIPon3B9hcN7g:1qInST:WZtVIivnGar99KSdlilzzeFqncyqIZVrplVvFhcf9bE"
+    },
+    "model": "sessions.session",
+    "pk": "lx554igli9yr2tymsuchn5un835niz37"
+  },
+  {
+    "fields": {
       "expire_date": "2023-07-13T04:25:59.757Z",
       "session_data": ".eJxVjDsOwjAQBe_iGlne-Icp6XMGa9de4wCypXwqxN0hUgpo38y8l4i4rTVuC89xyuIiQJx-N8L04LaDfMd26zL1ts4TyV2RB13k2DM_r4f7d1Bxqd-6BFWcYx50UKSMNkhnpxkysnaQ_QDWOWUs4UCaCgYogBDIerCIPon3B9hcN7g:1qEjEF:9G8_V-28yyiOlgmd1XUuF-rzTyEnT6_RAe4Ax5dp5Ec"
     },
@@ -760,10 +963,10 @@
       "creationDate": "2023-06-27T05:06:23.797Z",
       "description": "Persona encargada de desarrollo middleware",
       "isActive": true,
-      "modalidadTrabajo": "Tiempo completo",
+      "modalidadTrabajo": "Remoto",
       "modifiedDate": "2023-06-27T05:06:23.797Z",
       "name": "Desarrollador middleware",
-      "tipoJornada": "Presencial"
+      "tipoJornada": "Tiempo completo"
     },
     "model": "personal.position",
     "pk": 46
@@ -1047,6 +1250,42 @@
     },
     "model": "personal.joboffer",
     "pk": 19
+  },
+  {
+    "fields": {
+      "beneficies_introduction": "Trabajo h\u00edbrido (Oficina 2 veces a la semana).\nIngreso a planilla desde el primer d\u00eda.\nOpci\u00f3n a EPS (Cobertura al 50%).\nContrato 6 meses.\nD\u00eda libre por cumplea\u00f1os.\n",
+      "capacities_introduction": "Perfil requerido para el puesto:\n\n- Experiencia s\u00f3lida y demostrable en el desarrollo con React\n- Capacidad para escribir c\u00f3digo limpio y eficiente en React\n- Conocimiento profundo de los conceptos clave de React como componentes, JSX, enlaces y estado\n- Familiaridad con las \u00faltimas caracter\u00edsticas de React, como React Hooks y Context API\n- Capacidad para crear interfaces de usuario interactivas y atractivas con componentes de React\n- Experiencia en el manejo de eventos y la gesti\u00f3n del ciclo de vida de componentes de React\n\nAdem\u00e1s buscamos las siguientes caracter\u00edsticas:\n\n-Facilidad para explicar y presentar ideas de forma clara \n-Habilidad para comunicarse efectivamente en p\u00fablico",
+      "creation_date": "2023-07-02T17:35:59.373Z",
+      "hiring_process": 2,
+      "introduction": "Nuestra compa\u00f1\u00eda fue concebida para ser una empresa atractiva tanto para clientes como para nuestros colaboradores, nos basamos en una cultura de trabajo en equipo, experiencia, diversi\u00f3n, compromiso, pasi\u00f3n y compa\u00f1erismo.",
+      "is_active": true,
+      "location": "Lima, Per\u00fa",
+      "modified_date": "2023-07-02T17:35:59.376Z",
+      "offer_introduction": "Necesitamos un supervisor de recursos humanos pilas",
+      "photo_url": "",
+      "responsabilities_introduction": "Coordinar y ejecutar la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.\nAsegurar a trav\u00e9s de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.\nRealizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).\n",
+      "salary_range": "S/.5000-S/.6000"
+    },
+    "model": "personal.joboffer",
+    "pk": 20
+  },
+  {
+    "fields": {
+      "beneficies_introduction": "Trabajo h\u00edbrido (Oficina 2 veces a la semana).\nIngreso a planilla desde el primer d\u00eda.\nOpci\u00f3n a EPS (Cobertura al 50%).\nContrato 6 meses.\nD\u00eda libre por cumplea\u00f1os.\n",
+      "capacities_introduction": "Perfil requerido para el puesto:\n\n- Familiaridad y dominio fluido de React.js y su ecosistema asociado\n- Capacidad para desarrollar aplicaciones web completas utilizando React y sus principios/pr\u00e1cticas recomendadas\n- Experiencia en manejo eficiente del estado de la aplicaci\u00f3n con Redux o Context API\n- Conocimiento s\u00f3lido de programaci\u00f3n funcional y componentes de React de clase as\u00ed como hooks\n- Capacidad para crear componentes reutilizables utilizando el patr\u00f3n de presentaci\u00f3n y contenedor (presentational and container pattern)\n- Experiencia en optimizar el rendimiento de aplicaciones React\n- Familiaridad con herramientas de desarrollo front-end, como webpack, Babel y ESLint para trabajar en proyectos basados en React\n\nAdem\u00e1s buscamos las siguientes caracter\u00edsticas:\n\n- Capacidad fluida para transmitir ideas de manera efectiva y clara\n- Excelente habilidad para dar presentaciones en p\u00fablico y hablar frente a audiencias de diversos tama\u00f1os",
+      "creation_date": "2023-07-02T17:38:06.874Z",
+      "hiring_process": 2,
+      "introduction": "Nuestra compa\u00f1\u00eda fue concebida para ser una empresa atractiva tanto para clientes como para nuestros colaboradores, nos basamos en una cultura de trabajo en equipo, experiencia, diversi\u00f3n, compromiso, pasi\u00f3n y compa\u00f1erismo.",
+      "is_active": true,
+      "location": "Lima, Per\u00fa",
+      "modified_date": "2023-07-02T17:38:06.878Z",
+      "offer_introduction": "Necesitamos un supervisor de recursos humanos pilas",
+      "photo_url": "",
+      "responsabilities_introduction": "Coordinar y ejecutar la estrategia de atracci\u00f3n de talento para los procesos de selecci\u00f3n a cargo, seg\u00fan la complejidad del perfil del puesto.\nAsegurar a trav\u00e9s de evaluaciones psicol\u00f3gicas, din\u00e1micas grupales, entre otras, la atracci\u00f3n del talento id\u00f3neo para el cumplimiento de los objetivos a nivel compa\u00f1\u00eda en coordinaci\u00f3n con su cliente interno.\nRealizar los indicadores de selecci\u00f3n (porcentaje de cobertura, rotaci\u00f3n, calidad, costos, contrataci\u00f3n por g\u00e9nero, entre otros) de manera mensual y as\u00ed contar con informaci\u00f3n actualizada para la toma de decisiones oportuna en procesos de atracci\u00f3n de talento).\n",
+      "salary_range": "S/.5000-S/.6000"
+    },
+    "model": "personal.joboffer",
+    "pk": 21
   },
   {
     "fields": {
@@ -1497,6 +1736,94 @@
   },
   {
     "fields": {
+      "applicant": 1,
+      "created": "2023-07-10T11:08:42.278Z",
+      "deleted": null,
+      "description": "5 a\u00f1os de blablabla",
+      "modified": "2023-07-10T11:08:42.278Z"
+    },
+    "model": "personal.experience",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "applicant": 1,
+      "created": "2023-07-10T11:08:55.639Z",
+      "deleted": null,
+      "description": "2 a\u00f1os como jojojo",
+      "modified": "2023-07-10T11:08:55.639Z"
+    },
+    "model": "personal.experience",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "applicant": 2,
+      "created": "2023-07-10T11:10:11.059Z",
+      "deleted": null,
+      "description": "3 a\u00f1os de experiencia siendo expulsado",
+      "modified": "2023-07-10T11:10:11.059Z"
+    },
+    "model": "personal.experience",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "applicant": 2,
+      "created": "2023-07-10T11:10:24.979Z",
+      "deleted": null,
+      "description": "7 a\u00f1os de experiencia estudiando en la pucp",
+      "modified": "2023-07-10T11:10:24.979Z"
+    },
+    "model": "personal.experience",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "applicant": 1,
+      "created": "2023-07-10T10:52:42.413Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:52:42.413Z",
+      "trainingxlevel": 3
+    },
+    "model": "personal.trainingxapplicant",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "applicant": 1,
+      "created": "2023-07-10T10:52:52.039Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:52:52.039Z",
+      "trainingxlevel": 7
+    },
+    "model": "personal.trainingxapplicant",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "applicant": 1,
+      "created": "2023-07-10T10:53:26.619Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:53:26.619Z",
+      "trainingxlevel": 10
+    },
+    "model": "personal.trainingxapplicant",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "applicant": 2,
+      "created": "2023-07-10T10:53:41.469Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:53:41.469Z",
+      "trainingxlevel": 6
+    },
+    "model": "personal.trainingxapplicant",
+    "pk": 4
+  },
+  {
+    "fields": {
       "category": null,
       "code": "P001",
       "creationDate": "2023-06-26T23:20:03.196Z",
@@ -1724,6 +2051,84 @@
   },
   {
     "fields": {
+      "applicant": 1,
+      "competency": 1,
+      "created": "2023-07-10T10:43:01.527Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:43:01.527Z",
+      "scale": 2,
+      "score": "10"
+    },
+    "model": "evaluations_and_promotions.competencyxapplicant",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "applicant": 1,
+      "competency": 2,
+      "created": "2023-07-10T10:43:16.415Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:43:16.415Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxapplicant",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "applicant": 1,
+      "competency": 3,
+      "created": "2023-07-10T10:43:36.133Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:43:36.133Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxapplicant",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "applicant": 2,
+      "competency": 4,
+      "created": "2023-07-10T10:43:42.012Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:43:42.012Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxapplicant",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "applicant": 2,
+      "competency": 5,
+      "created": "2023-07-10T10:43:47.666Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:43:47.666Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxapplicant",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "applicant": 2,
+      "competency": 6,
+      "created": "2023-07-10T10:44:01.305Z",
+      "deleted": null,
+      "modified": "2023-07-10T10:44:01.305Z",
+      "scale": 2,
+      "score": null
+    },
+    "model": "evaluations_and_promotions.competencyxapplicant",
+    "pk": 6
+  },
+  {
+    "fields": {
       "created": "2023-05-25T18:36:12.354Z",
       "deleted": null,
       "description": "Postulante",
@@ -1810,7 +2215,7 @@
       "is_active": true,
       "is_staff": true,
       "is_superuser": true,
-      "last_login": "2023-06-29T04:25:59.752Z",
+      "last_login": "2023-07-10T09:45:29.477Z",
       "last_name": "demoadmin",
       "maiden_name": "",
       "modified": "2023-06-01T15:31:08.017Z",
@@ -1972,6 +2377,16 @@
     },
     "model": "login.applicant",
     "pk": 1
+  },
+  {
+    "fields": {
+      "created": "2023-07-10T09:46:23.898Z",
+      "deleted": null,
+      "modified": "2023-07-10T09:46:23.898Z",
+      "user": 2
+    },
+    "model": "login.applicant",
+    "pk": 2
   },
   {
     "fields": {

@@ -16,3 +16,6 @@ admin.site.register(TrainingType)
 admin.site.register(TrainingLevel)
 admin.site.register(TrainingxLevel)
 admin.site.register(TrainingxAreaxPosition)
+
+admin.site.register(TrainingxApplicant)
+admin.site.register(Experience)
