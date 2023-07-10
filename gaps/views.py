@@ -454,7 +454,7 @@ class CapacityEmployeeView(APIView):
                 levelRequired = areaXpositionXcompetence['scale']
                 positionRequired = True
                 levelGap = levelRequired - levelCurrent if levelRequired > levelCurrent else 0
-                likeness = 100*(levelCurrent/levelRequired) if levelRequired > levelCurrent else 100.00
+                likeness = 100*(nota/(levelRequired*20+1)) if levelRequired > levelCurrent else 100.00
 
             fields = {
                     'scale': levelCurrent,
