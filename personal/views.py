@@ -517,53 +517,19 @@ class ApplicationxInfoView(APIView):
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
-        '''
-        La posicion se registra con:
-        Nombre..
-        Descripcion..
-        id del Area a la que pertenece..
-        job_modality (presencial, remoto, hibrido)..
-        workday_type (Tiempo completo, medio tiempo)..
-        competencies (arreglo de ids de competencias)..
-        training (arreglo de ids de estudios)..
-        responsabilities (arreglo de responsabilidades)..
-        '''
+
         print(request.user)
         print(request.data)
 
-        try:
-            area = request.data["area"]
-            a_position = request.data["position"]
-        except:
-            a_position = None
-
         # check if all data exits
         try:
-            if a_position:
-                position = Position.objects.get(id=a_position)
-                type_creation = f"Using the existing position with id: {position.id}"
-            else:
-                name = request.data["name"]
-                description = request.data["description"]
-                job_modality = request.data["job_modality"]
-                workday_type = request.data["workday_type"]
-
-                # insert position
-                position = Position(
-                    name=name,
-                    description=description,
-                    modalidadTrabajo=job_modality,
-                    tipoJornada=workday_type,
-                )
-                position.save()
-                type_creation = f"Inserting a new position with id: {position.id}"
+            applicant_id = request.data["applicant"]
+            applicant = Applicant.objects.get(id=applicant_id)
 
             competencies = request.data["competencies"]
             training = request.data["training"]
-            functions = request.data["responsabilities"]
+            experience = request.data["experience"]
 
-            area = Area.objects.get(id=area)
-            # saving every competence, capacity and training
             competency_list = []
             training_list = []
             for com in competencies:
@@ -575,43 +541,46 @@ class ApplicationxInfoView(APIView):
                 print(f"Training: {trainingobj.training.name}")
                 training_list.append(trainingobj)
 
+            # delete previous info
+            exp = Experience.objects.filter(applicant=applicant)
+            if exp:
+                exp.delete()
+            com = CompetencyxApplicant.objects.filter(applicant=applicant)
+            if com:
+                com.delete()
+            tra = TrainingxApplicant.objects.filter(applicant=applicant)
+            if tra:
+                tra.delete()
+
+            experienceobj = Experience.objects.update_or_create(
+                applicant=applicant,
+                description=experience
+            )
+
+            # linking competencies and training with applicant
+            for com in competency_list:
+                obj = CompetencyxApplicant.objects.update_or_create(
+                    competency=com,
+                    applicant=applicant
+                )
+
+            for tr in training_list:
+                obj = TrainingxApplicant.objects.update_or_create(
+                    trainingxlevel=tr,
+                    applicant=applicant
+                )
+
+            applicant_s = ApplicantSerializerRead(applicant, many=False)
+
+            return Response(status=status.HTTP_200_OK,
+                            data={
+                                'message': 'Applicant detail registered',
+                                'applicant': applicant_s.data
+                            },)
+
         except Exception as e:
+            print(e)
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
-
-        # linking position with Area
-        areaxposition = AreaxPosicion(area=area, position=position)
-        areaxposition.save()
-
-        # saving functions
-        for function in functions:
-            functionobj = Functions.objects.create(
-                areaxposition=areaxposition,
-                description=function
-            )
-            functionobj.save()
-
-        # linking competencies and training with position
-        for com in competency_list:
-            obj = CompetencyxAreaxPosition(
-                competency=com,
-                areaxposition=areaxposition
-            )
-            obj.save()
-        for tr in training_list:
-            obj = TrainingxAreaxPosition(
-                training=tr,
-                areaxposition=areaxposition
-            )
-            obj.save()
-
-        axp_serialized = AreaxPositionSerializer(areaxposition)
-
-        return Response(status=status.HTTP_200_OK,
-                        data={
-                            'message': 'AreaxPosition registered',
-                            'type_creation': type_creation,
-                            'areaxposition': axp_serialized.data
-                        },)
 
 
 class AllApplicationxInfoView(APIView):
