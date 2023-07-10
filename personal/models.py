@@ -73,11 +73,11 @@ class HiringProcess(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_current_process_stage(self):
         current_date = timezone.now().date()
         process_stages = self.process_stages.filter(start_date__lte=current_date, end_date__gte=current_date)
-        
+
         if process_stages.exists():
             process_stages = process_stages.order_by('start_date')
             current_stage = None
@@ -88,6 +88,7 @@ class HiringProcess(models.Model):
             return current_stage
         else:
             return None
+
 
 class EmployeeXHiringProcess(models.Model):
     class Meta:
@@ -121,7 +122,7 @@ class ProcessStage(models.Model):
     hiring_process = models.ForeignKey(HiringProcess, related_name='process_stages', on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    order = models.IntegerField() # not used...
+    order = models.IntegerField()  # not used...
     name = models.CharField(max_length=40)
     description = models.TextField(blank=True, default='')
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -230,3 +231,21 @@ class TrainingxAreaxPosition(TimeStampedModel, SafeDeleteModel):
 
     def to_str(self):
         return f"{self.training}"
+
+
+class Experience(TimeStampedModel, SafeDeleteModel):
+
+    applicant = models.ForeignKey('login.Applicant', on_delete=models.CASCADE, null=True, blank=True)
+    description = models.TextField(blank=True, default='', null=True)
+
+    def __str__(self):
+        return self.description
+
+
+class TrainingxApplicant(TimeStampedModel, SafeDeleteModel):
+
+    trainingxlevel = models.ForeignKey(TrainingxLevel, on_delete=models.CASCADE, null=True, blank=True)
+    applicant = models.ForeignKey('login.Applicant', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"Training: {self.trainingxlevel} for {self.applicant}"
