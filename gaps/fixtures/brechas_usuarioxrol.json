@@ -1,50 +1,6 @@
 [
 {
     "model": "login.userxrole",
-    "pk": 1,
-    "fields": {
-        "created": "2023-05-25T18:44:53.024Z",
-        "modified": "2023-06-08T08:57:16.932Z",
-        "deleted": null,
-        "user": 2,
-        "roles": 2
-    }
-},
-{
-    "model": "login.userxrole",
-    "pk": 2,
-    "fields": {
-        "created": "2023-06-01T15:20:01.556Z",
-        "modified": "2023-06-01T15:20:01.556Z",
-        "deleted": null,
-        "user": 3,
-        "roles": 1
-    }
-},
-{
-    "model": "login.userxrole",
-    "pk": 3,
-    "fields": {
-        "created": "2023-06-01T15:20:09.583Z",
-        "modified": "2023-06-08T08:57:09.484Z",
-        "deleted": null,
-        "user": 1,
-        "roles": 7
-    }
-},
-{
-    "model": "login.userxrole",
-    "pk": 4,
-    "fields": {
-        "created": "2023-06-08T08:58:38.488Z",
-        "modified": "2023-06-08T08:58:38.488Z",
-        "deleted": null,
-        "user": 4,
-        "roles": 3
-    }
-},
-{
-    "model": "login.userxrole",
     "pk": 5,
     "fields": {
         "created": "2023-07-10T02:10:45.807Z",
