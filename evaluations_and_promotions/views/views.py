@@ -599,22 +599,21 @@ class PlantillasEditarVistaAPI(APIView):
         }
 
         for category, subcategories in categories.items():
-            if category.evaluationType.name == evaluation_type:  # Filter categories based on evaluation type
-                category_data = {
-                    'id': category.id,
-                    'name': category.name,
-                    'Category-active': category.isActive,
-                    'subcategory': [
-                        {
-                            'id': subcategory.id,
-                            'subcategory-isActive': subcategory.isActive,
-                            'nombre': subcategory.name
-                        }
-                        for subcategory in subcategories
-                    ]
-                }
+            category_data = {
+                'id': category.id,
+                'name': category.name,
+                'Category-active': category.isActive,
+                'subcategory': [
+                    {
+                        'id': subcategory.id,
+                        'subcategory-isActive': subcategory.isActive,
+                        'nombre': subcategory.name
+                    }
+                    for subcategory in subcategories
+                ]
+            }
 
-                response_data['Categories'].append(category_data)
+            response_data['Categories'].append(category_data)
 
         for subcategory in subcategories_not_in_template:
             category_data = next(

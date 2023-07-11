@@ -202,7 +202,6 @@ class addCategory(APIView):
         name = catName,
         code = 'USR',
         )
-        print(cat)
 
         cat.save()
 
