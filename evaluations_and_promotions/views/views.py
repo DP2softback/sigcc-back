@@ -616,10 +616,11 @@ class PlantillasEditarVistaAPI(APIView):
             response_data['Categories'].append(category_data)
 
         for subcategory in subcategories_not_in_template:
-            category_data = next(
-                (category for category in response_data['Categories'] if (category['id'] == subcategory.category.id )),
-                None
-            )
+            if subcategory.category is not None:
+                category_data = next(
+                    (category for category in response_data['Categories'] if (category['id'] == subcategory.category.id )),
+                    None
+                )
 
             if category_data is None:
                 category_data = {
