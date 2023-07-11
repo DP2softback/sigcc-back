@@ -721,24 +721,30 @@ class FilterFirstStepView(APIView):
                             score += a.scale * mult_c
                             check += mult_c
 
-                a_qualification = [applicant.id, round(check / total * 100, 2), score, disqualified, reason_disqualified]
+                percent = round(check / total * 100, 2)
+                pass_or_not = "PASS" if percent >= affinity else "NOT PASS"
+                qualified_or_not = "QUALIFIED" if disqualified < 1 else "NOT QUALIFIED"
+
+
+                a_qualification = [applicant.id, percent, pass_or_not, score, qualified_or_not, reason_disqualified]
                 print(a_qualification)
                 print()
 
                 array_of_qualifications.append(a_qualification)
 
-            print(array_of_qualifications)
+            # print(array_of_qualifications)
             b = numpy.array(array_of_qualifications)
-            b = b[b[:, 1].argsort()]  # sort by day
-            b = b[b[:, 2].argsort(kind='mergesort')[::-1]]  # sort by month
-            b = b[b[:, 3].argsort(kind='mergesort')[::-1]]  # sort by year
+                        
+            b = b[b[:, 3].argsort()]
+            b = b[b[:, 2].argsort(kind='mergesort')]
+            b = b[b[:, 4].argsort(kind='mergesort')]
 
-            array_of_qualifications = b.tolist()
+            array_of_qualifications = b[::-1].tolist()
             print(array_of_qualifications)
 
             array_of_responses = []
             for i, item in enumerate(applicants):
-                reason = TrainingxLevel.objects.filter(id__in=array_of_qualifications[i][4])
+                reason = TrainingxLevel.objects.filter(id__in=array_of_qualifications[i][5])
 
                 reason_serializer = TrainingxLevelSerializer(reason, many=True).data if reason else []
 
@@ -747,8 +753,9 @@ class FilterFirstStepView(APIView):
                 a_response = {
                     "applicant": a.data,
                     "affinity": array_of_qualifications[i][1],
-                    "score": array_of_qualifications[i][2],
-                    "disqualified": array_of_qualifications[i][3],
+                    "pass": array_of_qualifications[i][2],
+                    "score": array_of_qualifications[i][3],
+                    "disqualified": array_of_qualifications[i][4],
                     "reason_of_disqualified": reason_serializer
                 }
 
