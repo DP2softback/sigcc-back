@@ -19,3 +19,4 @@ admin.site.register(TrainingxAreaxPosition)
 
 admin.site.register(TrainingxApplicant)
 admin.site.register(Experience)
+admin.site.register(ApplicantxProcessStage)
