@@ -16,7 +16,7 @@ from personal.models import *
 from personal.serializers import *
 from login.serializers import *
 from gaps.serializers import *
-
+from django.core import serializers as core_serializers
 from datetime import datetime
 from django.utils import timezone
 
@@ -859,31 +859,26 @@ class SearchEmployeeSuggestedXJobOffer(APIView):
         offer = request.data['oferta']
         query = Q()
         if offer is not None and offer > 0:
-            query.add(Q(job_offer__id = offer))# obtenemos la oferta laboral
-            job_offer = JobOffer.objects.get(query)
+            job_offer = JobOffer.objects.get(id=offer)# obtenemos la oferta laboral
             hiring_process = job_offer.hiring_process
             position = hiring_process.position
             position_id = position.id
-            query = Q()
-            query.add(Q(position__id = position_id))
-            area_position = AreaxPosicion.objects.get(query)
+            area_position = AreaxPosicion.objects.get(id = position_id)
             area_position_id = area_position.id
-            query = Q()
-            query.add(Q(positionArea__id = area_position_id))
-            capacity_area_position = CapacityXAreaXPosition.objects.get(query)
-            capacity = capacity_area_position.capacity
-            capacity_id = capacity.id
-            query = Q()
-            query.add(Q(capacity__id = capacity_id))
-            array = CapacityXEmployee.objects.filter(query)
+            competency_area_position = CompetencyxAreaxPosition.objects.filter(Q(areaxposition__id = area_position_id))
+            competencies= []
+            for item in competency_area_position:
+                competency = item.competency
+                competency_id = competency.id
+                competencies.append(competency_id)
+            array = CompetencessXEmployeeXLearningPath.objects.filter(Q(competence__id__in = competencies)).values('employee__id')
+            arrayUnique = GetUniqueDictionaries(array)
             # entonces, ahora si podemos crear el response
             response_data = []
-            for obj in array:
-                query = Q()
-                emp_id = obj.employee.id
-                employee = Employee.objects.filter(id = emp_id).values("id, user__first_name, user__last_name, position__name, area__name, user__email, user__is_active")
-                json_data = serializers.serialize('json', employee)
-                response_data.append(json_data)
+            for obj in arrayUnique:
+                employee = Employee.objects.get(id = obj['employee__id'])
+                json_data = SuggestedEmployeeReadSerializer(employee)
+                response_data.append(json_data.data)
 
             return Response(response_data, status = status.HTTP_200_OK) 
         else:
