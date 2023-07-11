@@ -21,5 +21,7 @@ urlpatterns = [
     path('applicants/<int:pk>', ApplicantView.as_view()),
     path('applicants-info', AllApplicationxInfoView.as_view()),
     path('applicants-info/<int:pk>', ApplicationxInfoView.as_view()),
-    path('register-applicants-info', ApplicationxInfoView.as_view()),
+    path('filter-first-step', FilterFirstStepView.as_view()),
+
+
 ]
