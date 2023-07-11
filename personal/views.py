@@ -1,3 +1,4 @@
+import numpy
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.serializers import serialize
@@ -651,3 +652,121 @@ class AllApplicantView(APIView):
         a_serializer = ApplicantSerializerRead(a, many=True)
 
         return Response(a_serializer.data, status=status.HTTP_200_OK)
+
+
+class FilterFirstStepView(APIView):
+    def post(self, request):
+
+        # tomar hiring process
+        try:
+            hiring_process = request.data["hiring_process"]
+            affinity = request.data["affinity"]
+            mandatory = request.data["mandatory"]
+
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, order=1)
+            applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
+            applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            desired_training = TrainingxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # training
+            desired_competencies = CompetencyxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # competency
+
+            mandatory_training = TrainingxLevel.objects.filter(id__in=mandatory)
+
+            print(desired_training)
+            print(desired_competencies)
+            print(mandatory_training)
+
+            array_of_qualifications = []
+            mult_t = 50
+            mult_c = 10
+            for applicant in applicants:
+                score = 0
+                check = 0
+                total = 0
+                disqualified = 0
+                reason_disqualified = []
+                # check training
+                print("\nTraining:")
+                a_t = TrainingxApplicant.objects.filter(applicant=applicant)  # trainingxlevel
+                for t in desired_training:
+                    total += mult_t
+                    for m in mandatory_training:
+                        if t.training.training.id == m.training.id:
+                            disqualified += 1
+                            reason_disqualified.append(t.training.id)
+                            print("+ok")
+                    for a in a_t:
+                        if a.trainingxlevel.training.id == t.training.training.id:
+                            if a.trainingxlevel.level.level >= t.training.level.level:
+                                print(str(a.trainingxlevel) + " " + str(a.trainingxlevel.level.level))
+                                print(str(t.training) + " " + str(t.training.level.level))
+                                score += a.trainingxlevel.level.level * mult_t
+                                check += mult_t
+
+                                for m in mandatory_training:
+                                    if t.training.training.id == m.training.id:
+                                        disqualified -= 1
+                                        print("-ok")
+                                        reason_disqualified.remove(t.training.id)
+                                break
+
+                print("Competency:")
+                a_c = CompetencyxApplicant.objects.filter(applicant=applicant)  # competency
+                for c in desired_competencies:
+                    total += mult_c
+                    for a in a_c:
+                        if a.competency.id == c.competency.id:
+                            print(str(a.competency) + " " + str(a.scale))
+                            print(str(c.competency) + " " + str(c.scale))
+                            score += a.scale * mult_c
+                            check += mult_c
+
+                percent = round(check / total * 100, 2)
+                pass_or_not = "PASS" if percent >= affinity else "NOT PASS"
+                qualified_or_not = "QUALIFIED" if disqualified < 1 else "NOT QUALIFIED"
+
+
+                a_qualification = [applicant.id, percent, pass_or_not, score, qualified_or_not, reason_disqualified]
+                print(a_qualification)
+                print()
+
+                array_of_qualifications.append(a_qualification)
+
+            # print(array_of_qualifications)
+            b = numpy.array(array_of_qualifications)
+                        
+            b = b[b[:, 3].argsort()]
+            b = b[b[:, 2].argsort(kind='mergesort')]
+            b = b[b[:, 4].argsort(kind='mergesort')]
+
+            array_of_qualifications = b[::-1].tolist()
+            print(array_of_qualifications)
+
+            array_of_responses = []
+            for i, item in enumerate(applicants):
+                reason = TrainingxLevel.objects.filter(id__in=array_of_qualifications[i][5])
+
+                reason_serializer = TrainingxLevelSerializer(reason, many=True).data if reason else []
+
+                a = ApplicantSerializerRead(item, many=False)
+
+                a_response = {
+                    "applicant": a.data,
+                    "affinity": array_of_qualifications[i][1],
+                    "pass": array_of_qualifications[i][2],
+                    "score": array_of_qualifications[i][3],
+                    "disqualified": array_of_qualifications[i][4],
+                    "reason_of_disqualified": reason_serializer
+                }
+
+                array_of_responses.append(a_response)
+                pass
+
+            return Response(array_of_responses, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+        # calcular
+
+        pass

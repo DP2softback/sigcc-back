@@ -249,3 +249,11 @@ class TrainingxApplicant(TimeStampedModel, SafeDeleteModel):
 
     def __str__(self):
         return f"Training: {self.trainingxlevel} for {self.applicant}"
+
+
+class ApplicantxProcessStage(TimeStampedModel, SafeDeleteModel):
+    applicant = models.ForeignKey('login.Applicant', on_delete=models.CASCADE, null=True, blank=True)
+    process_stage = models.ForeignKey(ProcessStage, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.applicant}, process {self.process_stage.hiring_process}, stage {self.process_stage}"
