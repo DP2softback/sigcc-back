@@ -1108,7 +1108,7 @@ class RegistrarEvaluacionDesempen(APIView):
         
                 
                 
-        return Response("Se envió correcatamente la evaluación de desempeño",status=status.HTTP_200_OK)
+        return Response("Se creó correctamente las evaluaciones ",status=status.HTTP_200_OK)
     
 class ActualizarCategorias(APIView):
     def post(self, request):

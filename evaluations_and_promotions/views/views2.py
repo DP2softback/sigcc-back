@@ -195,17 +195,17 @@ class addCategory(APIView):
         peruTz = pytz.timezone('America/Lima')
         now=datetime.now(peruTz)
         subcategories = data.get('Subcategorias', [])
-        
-        
-        
+
         cat = Category(
         creationDate = now,
         modifiedDate =now,
         name = catName,
         code = 'USR',
         )
-        
-        Category.objects.create(cat)
+        print(cat)
+
+        cat.save()
+
         subcats =[]
         count = 0 
         for subcategoryData in subcategories:
