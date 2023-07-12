@@ -153,15 +153,15 @@ class ProcessStageView(APIView):
 
         try:
             hp_instance = HiringProcess.objects.get(process_stages__id=pk)
-            #using a simple counter
+            # using a simple counter
             current_stage = hp_instance.get_current_process_stageV2()
             print(current_stage)
-            successful_applicant_ids  = request.data.get('successful_applicant_ids', [])
-            unsuccessful_applicant_ids  = request.data.get('unsuccessful_applicant_ids', [])
+            successful_applicant_ids = request.data.get('successful_applicant_ids', [])
+            unsuccessful_applicant_ids = request.data.get('unsuccessful_applicant_ids', [])
             next_stage = None
             if current_stage.stage_type.id < StageType.objects.latest('id').id:
                 next_stage = ProcessStage.objects.filter(hiring_process=hp_instance, stage_type__id=current_stage.stage_type.id + 1).first()
-                hp_instance.current_process_stage +=1
+                hp_instance.current_process_stage += 1
                 hp_instance.save()
             print(next_stage)
             successful_applicants = []
@@ -188,7 +188,7 @@ class ProcessStageView(APIView):
             #     current_stage.save()
 
             # successful_applicants = request.data.get('successful_applicants', [])
-            # unsuccessful_applicants = request.data.get('unsuccessful_applicants', []) 
+            # unsuccessful_applicants = request.data.get('unsuccessful_applicants', [])
 
             #     next_stage = ProcessStage.objects.filter(hiring_process=hp_instance, start_date__gt=current_stage.end_date).order_by('start_date').first()
             #     if next_stage:
@@ -201,8 +201,6 @@ class ProcessStageView(APIView):
 
         except HiringProcess.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-
 
 
 def send_emails(next_stage, successful_applicants, unsuccessful_applicants):
@@ -742,7 +740,6 @@ class FilterFirstStepView(APIView):
                 pass_or_not = "PASS" if percent >= affinity else "NOT PASS"
                 qualified_or_not = "QUALIFIED" if disqualified < 1 else "NOT QUALIFIED"
 
-
                 a_qualification = [applicant.id, percent, pass_or_not, score, qualified_or_not, reason_disqualified]
                 print(a_qualification)
                 print()
@@ -751,7 +748,7 @@ class FilterFirstStepView(APIView):
 
             # print(array_of_qualifications)
             b = numpy.array(array_of_qualifications)
-                        
+
             b = b[b[:, 3].argsort()]
             b = b[b[:, 2].argsort(kind='mergesort')]
             b = b[b[:, 4].argsort(kind='mergesort')]
@@ -777,13 +774,11 @@ class FilterFirstStepView(APIView):
                 }
 
                 array_of_responses.append(a_response)
-                
 
             return Response(array_of_responses, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
-
 
 
 class DummyFirstStepView(APIView):
@@ -806,7 +801,7 @@ class DummyFirstStepView(APIView):
                 check = 0
                 total = 0
                 disqualified = 0
-                reason_disqualified = []                
+                reason_disqualified = []
                 percent = 0
                 pass_or_not = "UNKNOWN"
                 qualified_or_not = "UNKNOWN"
@@ -819,7 +814,7 @@ class DummyFirstStepView(APIView):
 
             # print(array_of_qualifications)
             b = numpy.array(array_of_qualifications)
-                        
+
             b = b[b[:, 3].argsort()]
             b = b[b[:, 2].argsort(kind='mergesort')]
             b = b[b[:, 4].argsort(kind='mergesort')]
@@ -845,7 +840,6 @@ class DummyFirstStepView(APIView):
                 }
 
                 array_of_responses.append(a_response)
-                
 
             return Response(array_of_responses, status=status.HTTP_200_OK)
 
@@ -853,3 +847,144 @@ class DummyFirstStepView(APIView):
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
 
 
+class FilterSecondStepView(APIView):
+    def post(self, request):
+
+        # tomar hiring process
+        try:
+            hiring_process = request.data["hiring_process"]
+            affinity = request.data["affinity"]
+
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=2)
+            applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
+            applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            desired_training = TrainingxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # training
+            desired_competencies = CompetencyxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # competency
+
+            print(desired_training)
+            print(desired_competencies)
+
+            # calcular
+            array_of_qualifications = []
+            mult_t = 50
+            mult_c = 10
+            for applicant in applicants:
+                score = 0
+                check = 0
+                total = 0
+
+                # check training
+                print("\nTraining:")
+                a_t = TrainingxApplicant.objects.filter(applicant=applicant)  # trainingxlevel
+                for t in desired_training:
+                    total += mult_t
+
+                    for a in a_t:
+                        if a.trainingxlevel.training.id == t.training.training.id:
+                            if a.trainingxlevel.level.level >= t.training.level.level:
+                                print(str(a.trainingxlevel) + " " + str(a.trainingxlevel.level.level))
+                                print(str(t.training) + " " + str(t.training.level.level))
+                                score += a.trainingxlevel.level.level * mult_t
+                                check += mult_t
+                                break
+
+                print("Competency:")
+                a_c = CompetencyxApplicant.objects.filter(applicant=applicant)  # competency
+                for c in desired_competencies:
+                    total += mult_c
+                    for a in a_c:
+                        if a.competency.id == c.competency.id:
+                            print(str(a.competency) + " " + str(a.scale))
+                            print(str(c.competency) + " " + str(c.scale))
+                            score += a.scale * mult_c
+                            check += mult_c
+
+                percent = round(check / total * 100, 2)
+                pass_or_not = "PASS" if percent >= affinity else "NOT PASS"
+
+                a_qualification = [applicant.id, percent, pass_or_not, score]
+                print(a_qualification)
+                print()
+
+                array_of_qualifications.append(a_qualification)
+
+            # print(array_of_qualifications)
+            b = numpy.array(array_of_qualifications)
+
+            b = b[b[:, 3].argsort()]
+            b = b[b[:, 2].argsort(kind='mergesort')]
+
+            array_of_qualifications = b[::-1].tolist()
+            print(array_of_qualifications)
+
+            array_of_responses = []
+            for i, item in enumerate(applicants):
+                a = ApplicantSerializerRead(item, many=False)
+                a_response = {
+                    "applicant": a.data,
+                    "affinity": array_of_qualifications[i][1],
+                    "pass": array_of_qualifications[i][2],
+                    "score": array_of_qualifications[i][3],
+                }
+                array_of_responses.append(a_response)
+
+            return Response(array_of_responses, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+
+class DummySecondStepView(APIView):
+    def post(self, request):
+
+        # tomar hiring process
+        try:
+            hiring_process = request.data["hiring_process"]
+
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=2)
+            applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
+            applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            # calificaciones dummy
+            array_of_qualifications = []
+            mult_t = 50
+            mult_c = 10
+            for applicant in applicants:
+                score = 0
+                check = 0
+                total = 0
+                disqualified = 0
+                percent = 0
+                pass_or_not = "UNKNOWN"
+
+                a_qualification = [applicant.id, percent, pass_or_not, score]
+                print(a_qualification)
+                print()
+
+                array_of_qualifications.append(a_qualification)
+
+            # print(array_of_qualifications)
+            b = numpy.array(array_of_qualifications)
+
+            b = b[b[:, 3].argsort()]
+            b = b[b[:, 2].argsort(kind='mergesort')]
+
+            array_of_qualifications = b[::-1].tolist()
+            print(array_of_qualifications)
+
+            array_of_responses = []
+            for i, item in enumerate(applicants):
+                a = ApplicantSerializerRead(item, many=False)
+                a_response = {
+                    "applicant": a.data,
+                    "affinity": array_of_qualifications[i][1],
+                    "pass": array_of_qualifications[i][2],
+                    "score": array_of_qualifications[i][3],
+                }
+                array_of_responses.append(a_response)
+
+            return Response(array_of_responses, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
