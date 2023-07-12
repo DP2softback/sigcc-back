@@ -679,7 +679,7 @@ class FilterFirstStepView(APIView):
             affinity = request.data["affinity"]
             mandatory = request.data["mandatory"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, order=1)
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=1)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
 
@@ -793,7 +793,7 @@ class DummyFirstStepView(APIView):
         try:
             hiring_process = request.data["hiring_process"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, order=1)
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=1)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
 
