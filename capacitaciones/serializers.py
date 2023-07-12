@@ -355,7 +355,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['id','first_name', 'last_name', 'email']
 
 
 class EmpleadoSerializer(serializers.ModelSerializer):
@@ -371,14 +371,22 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 
 class EmpleadosXLearningPathSerializer(serializers.ModelSerializer):
     empleado = serializers.SerializerMethodField()
+    nombre = serializers.SerializerMethodField()
+    descripcion = serializers.SerializerMethodField()
 
     class Meta:
         model = EmpleadoXLearningPath
-        fields = ['learning_path', 'estado', 'porcentaje_progreso', 'valoracion','comentario_valoracion', 'fecha_asignacion', 
+        fields = ['learning_path', 'nombre', 'descripcion', 'estado', 'porcentaje_progreso', 'valoracion','comentario_valoracion', 'fecha_asignacion',
                   'fecha_limite','fecha_completado', 'empleado']
 
     def get_empleado(self, obj):
         return EmpleadoSerializer(obj.empleado).data
+
+    def get_nombre(self, obj):
+        return obj.learning_path.nombre
+
+    def get_descripcion(self, obj):
+        return obj.learning_path.descripcion
 
 
 class ParametrosSerializer(serializers.ModelSerializer):

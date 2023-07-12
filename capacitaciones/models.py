@@ -117,6 +117,7 @@ class CursoEmpresa(CursoGeneral):
     cantidad_empleados= models.IntegerField(default=0)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
     cantidad_sesiones= models.IntegerField(default=0)
+    preguntas = models.JSONField(default=dict)
 
     class Meta:
         db_table = 'CursoEmpresa'
@@ -198,6 +199,7 @@ class EmpleadoXCurso(models.Model):
     curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
     valoracion = models.IntegerField(default=0)
     comentario = models.CharField(max_length=1000, null=True)
+    respuestas= models.JSONField(default=dict) 
 
     class Meta:
         db_table = 'EmpleadoXCurso'
@@ -212,6 +214,7 @@ class EmpleadoXCursoEmpresa(models.Model):
     fechaLimite= models.DateTimeField(null=True)
     fechaCompletado= models.DateTimeField(null=True)
     porcentaje_asistencia_aprobacion = models.IntegerField(default=100)
+    respuestas= models.JSONField(default=dict) 
 
     class Meta:
         db_table = 'EmpleadoXCursoEmpresa'
