@@ -117,11 +117,11 @@ class CursoUdemyLpAPIView(APIView):
 
         if curso_serializer.is_valid():
 
-            new_course = 0
+            new_course = False
             curso = CursoUdemy.objects.filter(udemy_id=request.data['udemy_id']).first()
             if curso is None:
                 curso = curso_serializer.save()
-                new_course = 1
+                new_course = True
                 upload_new_course_in_queue(curso)
 
             CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
