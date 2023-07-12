@@ -679,7 +679,7 @@ class FilterFirstStepView(APIView):
             affinity = request.data["affinity"]
             mandatory = request.data["mandatory"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, order=1)
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=1)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
 
@@ -692,6 +692,7 @@ class FilterFirstStepView(APIView):
             print(desired_competencies)
             print(mandatory_training)
 
+            # calcular
             array_of_qualifications = []
             mult_t = 50
             mult_c = 10
@@ -776,13 +777,79 @@ class FilterFirstStepView(APIView):
                 }
 
                 array_of_responses.append(a_response)
-                pass
+                
 
             return Response(array_of_responses, status=status.HTTP_200_OK)
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
 
-        # calcular
 
-        pass
+
+class DummyFirstStepView(APIView):
+    def post(self, request):
+
+        # tomar hiring process
+        try:
+            hiring_process = request.data["hiring_process"]
+
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=1)
+            applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
+            applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            # calificaciones dummy
+            array_of_qualifications = []
+            mult_t = 50
+            mult_c = 10
+            for applicant in applicants:
+                score = 0
+                check = 0
+                total = 0
+                disqualified = 0
+                reason_disqualified = []                
+                percent = 0
+                pass_or_not = "UNKNOWN"
+                qualified_or_not = "UNKNOWN"
+
+                a_qualification = [applicant.id, percent, pass_or_not, score, qualified_or_not, reason_disqualified]
+                print(a_qualification)
+                print()
+
+                array_of_qualifications.append(a_qualification)
+
+            # print(array_of_qualifications)
+            b = numpy.array(array_of_qualifications)
+                        
+            b = b[b[:, 3].argsort()]
+            b = b[b[:, 2].argsort(kind='mergesort')]
+            b = b[b[:, 4].argsort(kind='mergesort')]
+
+            array_of_qualifications = b[::-1].tolist()
+            print(array_of_qualifications)
+
+            array_of_responses = []
+            for i, item in enumerate(applicants):
+                reason = TrainingxLevel.objects.filter(id__in=array_of_qualifications[i][5])
+
+                reason_serializer = TrainingxLevelSerializer(reason, many=True).data if reason else []
+
+                a = ApplicantSerializerRead(item, many=False)
+
+                a_response = {
+                    "applicant": a.data,
+                    "affinity": array_of_qualifications[i][1],
+                    "pass": array_of_qualifications[i][2],
+                    "score": array_of_qualifications[i][3],
+                    "disqualified": array_of_qualifications[i][4],
+                    "reason_of_disqualified": reason_serializer
+                }
+
+                array_of_responses.append(a_response)
+                
+
+            return Response(array_of_responses, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+
