@@ -33,7 +33,7 @@ class HiringProcessView(APIView):
             hps['areaxpositiondetail'] = AreaxPositionSerializer(areasxposition).data
             # Get the current process stage for the hiring process
             hp_instance = HiringProcess.objects.get(id=hps['id'])
-            current_stage = hp_instance.get_current_process_stage()
+            current_stage = hp_instance.get_current_process_stageV2()
             if current_stage:
                 hps['current_process_stage'] = ProcessStageSerializer(current_stage).data
             else:
@@ -152,53 +152,69 @@ class ProcessStageView(APIView):
     def put(self, request, pk):  # "cerrar etapa"
 
         try:
-            current_date = timezone.now().date()
             hp_instance = HiringProcess.objects.get(process_stages__id=pk)
-            current_stage = hp_instance.get_current_process_stage()
+            #using a simple counter
+            current_stage = hp_instance.get_current_process_stageV2()
+            print(current_stage)
+            successful_applicant_ids  = request.data.get('successful_applicant_ids', [])
+            unsuccessful_applicant_ids  = request.data.get('unsuccessful_applicant_ids', [])
+            next_stage = None
+            if current_stage.stage_type.id < StageType.objects.latest('id').id:
+                next_stage = ProcessStage.objects.filter(hiring_process=hp_instance, stage_type__id=current_stage.stage_type.id + 1).first()
+                hp_instance.current_process_stage +=1
+                hp_instance.save()
+            print(next_stage)
+            successful_applicants = []
+            unsuccessful_applicants = []
+            for applicant_id in successful_applicant_ids:
+                applicant = Applicant.objects.get(id=applicant_id)
+                ApplicantxProcessStage.objects.create(applicant=applicant, process_stage=next_stage)
+                successful_applicants.append(applicant)
 
-            if current_stage and current_stage.id == pk and current_stage.end_date >= current_date:
-                current_stage.end_date = current_date
-                current_stage.save()
+            for applicant_id in unsuccessful_applicant_ids:
+                applicant = Applicant.objects.get(id=applicant_id)
+                unsuccessful_applicants.append(applicant)
+            print(successful_applicants)
+            print(unsuccessful_applicants)
 
-                # TODO: For the email, it is necessary to define from where the successful and unsuccessful applicants will be retrieved
-                applicants = []  # Table.objects.filter(hiring_process=hp_instance)
-                successful_applicants = []  # maybe get from somewhere
-                unsuccessful_applicants = []  # maybe get from somewhere
-                for applicant in applicants:
-                    if applicant_passed_stage(applicant):  # this is not necessary if applicants who passed are already saved...
-                        successful_applicants.append(applicant)
-                    else:
-                        unsuccessful_applicants.append(applicant)
+            send_emails(next_stage, successful_applicants, unsuccessful_applicants)
+            return Response(status=status.HTTP_200_OK)
+            # using dates
+            # current_stage = hp_instance.get_current_process_stage()
+            # current_date = timezone.now().date()
 
-                next_stage = ProcessStage.objects.filter(hiring_process=hp_instance, start_date__gt=current_stage.end_date).order_by('start_date').first()
-                if next_stage:
-                    next_stage.start_date = current_date
-                    next_stage.save()
-                    send_emails(next_stage, successful_applicants, unsuccessful_applicants)
-                else:
-                    send_emails(None, successful_applicants, unsuccessful_applicants)
-                return Response(status=status.HTTP_200_OK)
-            else:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+            # if current_stage and current_stage.id == pk and current_stage.end_date >= current_date:
+            #     current_stage.end_date = current_date
+            #     current_stage.save()
+
+            # successful_applicants = request.data.get('successful_applicants', [])
+            # unsuccessful_applicants = request.data.get('unsuccessful_applicants', []) 
+
+            #     next_stage = ProcessStage.objects.filter(hiring_process=hp_instance, start_date__gt=current_stage.end_date).order_by('start_date').first()
+            #     if next_stage:
+            #         next_stage.start_date = current_date
+            #         next_stage.save()
+            #         send_emails(next_stage, successful_applicants, unsuccessful_applicants)
+            #     else:
+            #         send_emails(None, successful_applicants, unsuccessful_applicants)
+            #     return Response(status=status.HTTP_200_OK)
+
         except HiringProcess.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-def applicant_passed_stage(applicant):
-    # Marco's TODO (?)
-    return True
 
 
 def send_emails(next_stage, successful_applicants, unsuccessful_applicants):
     if next_stage is not None:
         successful_subject = '¡Felicidades! Has pasado la siguiente etapa'
-        successful_body = 'Estimado solicitante, has pasado con éxito la siguiente etapa del proceso de contratación: ' + next_stage
+        successful_body = 'Estimado postulante, has pasado con éxito la siguiente etapa del proceso de contratación: ' + str(next_stage)
     else:
         successful_subject = '¡Felicidades! Has sido seleccionado'
-        successful_body = 'Estimado solicitante, has pasado con éxito todas las etapas del proceso de contratación. Nos estaremos comunicando con usted lo más pronto posible.'
+        successful_body = 'Estimado postulante, has pasado con éxito todas las etapas del proceso de contratación. Nos estaremos comunicando con usted lo más pronto posible.'
 
     unsuccessful_subject = 'Actualización sobre tu solicitud'
-    unsuccessful_body = 'Estimado solicitante, lamentamos informarte que no has pasado la siguiente etapa del proceso de contratación.'
+    unsuccessful_body = 'Estimado postulante, lamentamos informarte que no has pasado la siguiente etapa del proceso de contratación.'
 
     for applicant in successful_applicants:
         send_mail(

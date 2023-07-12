@@ -71,3 +71,13 @@ class TrainingNeedReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = TrainingNeed
         fields = ['competence_name','competence_type','levelCurrent', 'levelRequired', 'levelGap','description']
+
+class SuggestedEmployeeReadSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    position_name = serializers.CharField(source='position.name')
+    area_name = serializers.CharField(source='area.name')
+    email = serializers.CharField(source='user.email')
+    class Meta:
+        model = Employee
+        fields = ['id','first_name','last_name', 'position_name', 'area_name','email']
