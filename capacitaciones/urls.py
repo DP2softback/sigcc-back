@@ -5,7 +5,7 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath, \
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler, \
-    EvaluacionLPAPIView, CompetencesInCoursesAPIView, CursoEmpresaEvaluationAPIView
+    EvaluacionLPAPIView, CompetencesInCoursesAPIView, CursoEmpresaEvaluationAPIView, CompetencesInLPAPIView
 
 from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaAsincronoAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, GenerateCourseEmpresaEvaluationAPIView, LearningPathFromTemplateAPIView, LearningPathsForEmployeeAPIView, ListEmployeesGeneralAPIView, ListProgressEmployeesForLearningPathAPIView, ProgressCourseForLearningPathForEmployeesAPIView, ReadRelateCompetencesEmployeeCourseAPIView, SaveRelateCompetencesEmployeeCourseAPIView, SesionDetailAPIView
@@ -79,5 +79,6 @@ urlpatterns = [
     path('course_company/asynchronous/', CursoEmpresaAsincronoAPIView.as_view()),
     path('curso/<int:pk>/competencias/', CompetencesInCoursesAPIView.as_view()),
     path('curso_empresa/<int:pk>/evaluacion/', CursoEmpresaEvaluationAPIView.as_view()),
+    path('learning_path/<int:pk>/competencias/', CompetencesInLPAPIView.as_view()),
     #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]

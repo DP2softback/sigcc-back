@@ -14,7 +14,8 @@ from rest_framework.views import APIView
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
 from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
-    CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen, CompetenciasXCurso, CursoEmpresa
+    CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen, CompetenciasXCurso, CursoEmpresa, \
+    CompetenciasXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
     BusquedaEmployeeSerializer, ParametrosSerializer, SubCategorySerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form, \
@@ -480,3 +481,28 @@ class CursoEmpresaEvaluationAPIView(APIView):
         CursoEmpresa.objects.filter(pk=pk).update(preguntas=evaluacion)
 
         return Response({'msg': 'Se agrego la evaluacion al curso con éxito'}, status=status.HTTP_200_OK)
+
+
+class CompetencesInLPAPIView(APIView):
+
+    def get(self, request, pk):
+
+        competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id = pk).values_list('competencia', flat=True)
+        competencias = SubCategory.objects.filter(id__in=competencias_id)
+        competencia_serializer = SubCategorySerializer(competencias, many=True)
+
+        return Response({"criterias": competencia_serializer.data}, status=status.HTTP_200_OK)
+
+
+    def post(self, request, pk):
+
+        competencias_id = request.data.get("criterias")
+        print(competencias_id)
+        if not competencias_id:
+            return Response({'msg': "No se enviaron competencias"}, status=status.HTTP_400_BAD_REQUEST)
+
+        competencias = [CompetenciasXLearningPath(learning_path_id=pk, competencia_id = i['id']) for i in competencias_id]
+
+        CompetenciasXLearningPath.objects.bulk_create(competencias)
+
+        return Response({'msg': "Se asigno las competencias con exito"}, status=status.HTTP_200_OK)
