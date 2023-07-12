@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from zappa.asynchronous import task
 from gaps.models import Capacity, CapacityType, CapacityXEmployee, TrainingNeed, CapacityXAreaXPosition
+from capacitaciones.models import *
 from evaluations_and_promotions.models import *
 from evaluations_and_promotions.serializers import *
 from login.models import *
@@ -34,12 +35,11 @@ class CapacityView(APIView):
         #request.data['isActive'] = request.data.pop('active')
         if request.data["type"] == 0: 
             request.data["type"] = SubCategory.Type.TECNICA
-            tipo='TEC'
+            tipo='T'
         else: 
             request.data["type"] = SubCategory.Type.BLANDA
-            tipo = 'HAB'
+            tipo = 'P'
         competencias_serializer = SubCategorySerializer(data = request.data, context = request.data)
-        print(competencias_serializer)
         if competencias_serializer.is_valid():
             competencias_serializer.save()
             # Generador de codigo de competencia
@@ -48,7 +48,7 @@ class CapacityView(APIView):
             #                 engine='text-davinci-003',
             #                 prompt='Dame una descripción de máximo 100 caracteres de la competencia de ' + competencias_serializer.data['name'],
             #                 max_tokens=200,)
-            campos = {'code': tipo + '-' + str(competencias_serializer.data['name'][0:3]).upper() + str(competencias_serializer.data['id'])
+            campos = {'code': tipo + str(competencias_serializer.data['id'])
             }
             #          'description': str(response.choices[0].text.strip()).replace('\n', '')}
             competencias_serializer2 = SubCategorySerializer(competencia, data = campos)
@@ -703,14 +703,21 @@ class GenerateTrainingNeedCourseView(APIView):
         coursesList = []
         for item in competences:
             #cambiar segun como se va a hacer la relacion entre curso y competencia
+            #courseRegister = CompetenciasXCurso.objects.filter(Q(competencia__id=item['competencia'])).values('curso__id').first()
             courseRegister = CursoGeneral.objects.filter(Q(competence__id=item['competencia'])).values().first()
             if courseRegister:
                 entry = {"competencia": item['competencia']}
+                esta = 0
                 for entryList in coursesList:
+                    #if entryList['curso'] == courseRegister['curso__id']:
                     if entryList['curso'] == courseRegister['id']:
+                        #ver si funciona el append con esta entry
                         entryList['competencias'].append(entry)
+                        esta = 1
                         break
-                coursesList.append({"curso": courseRegister['id'], "competencias": [entry]})
+                if esta == 0:
+                    #coursesList.append({"curso": courseRegister['curso__id'], "competencias": [entry]})
+                    coursesList.append({"curso": courseRegister['id'], "competencias": [entry]})
         return Response(coursesList, status = status.HTTP_200_OK)                    
                 
 class TrainingNeedCourseView(APIView):
@@ -735,9 +742,11 @@ class TrainingNeedCourseView(APIView):
                 ids.append(item['id'])
 		
         for course in courses :
-            for competence in course['competencias']:
-                #ver bien el update()
-                TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state='Por solucionar') & Q(competence__id= competence['competencia'])).update(course=course['curso'], state='En proceso')
+            if CursoGeneral.objects.filter(id = course['curso']).count() == 1:
+                courseRegister = CursoGeneral.objects.get(id = course['curso'])
+                for competence in course['competencias']:
+                    #ver bien el update()
+                    TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state='Por solucionar') & Q(competence__id= competence['competencia'])).update(course=courseRegister, state='En proceso')
         
         return Response(status=status.HTTP_200_OK,
                         data={
@@ -753,7 +762,7 @@ class SearchTrainingNeedCourseView(APIView):
 		
         if employees:
             for item in employees:
-                item['empleado'] = item.pop('id')
+                item['id'] = item.pop('empleado')
         else:
             if area is not None and area > 0:
                 query.add(Q(area__id=area), Q.AND)
@@ -867,18 +876,31 @@ class SearchEmployeeSuggestedXJobOffer(APIView):
             area_position_id = area_position.id
             competency_area_position = CompetencyxAreaxPosition.objects.filter(Q(areaxposition__id = area_position_id))
             competencies= []
+            competenciesScale = []
+            totalAreaPos = 0
             for item in competency_area_position:
                 competency = item.competency
                 competency_id = competency.id
                 competencies.append(competency_id)
+                competenciesScale.append({'id': competency.id, 'scale': item.scale})
+                totalAreaPos = totalAreaPos + item.scale
             array = CompetencessXEmployeeXLearningPath.objects.filter(Q(competence__id__in = competencies)).values('employee__id')
             arrayUnique = GetUniqueDictionaries(array)
             # entonces, ahora si podemos crear el response
             response_data = []
             for obj in arrayUnique:
                 employee = Employee.objects.get(id = obj['employee__id'])
-                json_data = SuggestedEmployeeReadSerializer(employee)
-                response_data.append(json_data.data)
+                totalEmp = 0
+                for item in competenciesScale:
+                    if CompetencessXEmployeeXLearningPath.objects.filter(Q(competence__id = item['id']) & Q(employee__id = obj['employee__id'])).count()>0:
+                        competenceXEmployee = CompetencessXEmployeeXLearningPath.objects.filter(Q(competence__id = item['id']) & Q(employee__id = obj['employee__id'])).values().first()
+                        #print(competenceXEmployee)
+                        if competenceXEmployee['scale'] >= item['scale']:
+                            totalEmp = totalEmp + item['scale']
+                        else:
+                            totalEmp = totalEmp + competenceXEmployee['scale']
+                fields = {'id': employee.id, 'first_name': employee.user.first_name, 'last_name': employee.user.last_name, 'position_name': employee.position.name, 'area_name': employee.area.name, 'email': employee.user.email, 'adecuacion': 100*(totalEmp/totalAreaPos), 'active': employee.user.is_active}
+                response_data.append(fields)
 
             return Response(response_data, status = status.HTTP_200_OK) 
         else:
