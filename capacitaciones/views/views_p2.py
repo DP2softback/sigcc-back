@@ -1,5 +1,7 @@
 # Create your views here.
 from decimal import Decimal
+from evaluations_and_promotions.models import CompetencessXEmployeeXLearningPath, SubCategory
+from evaluations_and_promotions.serializers import CompetencessXEmployeeXLearningPathSerializer
 from login.models import Employee
 from login.serializers import EmployeeSerializerRead
 from rest_framework import status
@@ -821,3 +823,85 @@ class GenerateCourseEmpresaEvaluationAPIView(APIView):
         CursoEmpresa.objects.filter(id=id_course).update(preguntas=course_form)
 
         return Response({'msg': 'Se creó la evaluacion con exito'}, status=status.HTTP_200_OK)
+
+
+class ReadRelateCompetencesEmployeeCourseAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request,employee_id,curso_id):
+        '''
+        {
+            "employee_id":1,
+            "curso_id": 3
+        }
+        '''
+        empleado = Employee.objects.filter(id=employee_id).first()
+        curso = CursoGeneral.objects.filter(id=curso_id).first()
+        if empleado is None:
+            return Response({"message": "El empleado no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        if curso is None and curso_id !=0:
+            return Response({"message": "El curso no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        
+        #print("El employee_id es:", employee_id, " y el course_id es: ",curso_id)
+        if curso_id !=0:
+            competences_employee=CompetencessXEmployeeXLearningPath.objects.filter(employee=empleado,curso=curso)
+        else:
+            competences_employee=CompetencessXEmployeeXLearningPath.objects.filter(employee=empleado)
+        #print("El competences_employee es:", competences_employee)
+        competences_employee_serializer = CompetencessXEmployeeXLearningPathSerializer(competences_employee, many=True)
+        return Response(competences_employee_serializer.data, status = status.HTTP_200_OK)
+    
+    
+class SaveRelateCompetencesEmployeeCourseAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        '''
+        {
+        "employee_id":1,
+        "course_id":3,
+        "competences": [
+            {
+                "id":1
+            },
+            {
+                "id":3
+            }
+        ]
+        }
+        '''
+        employee_id = request.data.get('employee_id', None)
+        curso_id = request.data.get('course_id', None)
+
+        empleado = Employee.objects.filter(id=employee_id).first()
+        curso = CursoGeneral.objects.filter(id=curso_id).first()
+        if empleado is None:
+            return Response({"message": "El empleado no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        if curso is None:
+            return Response({"message": "El curso no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        
+        competences=request.data["competences"]
+        for compentece in competences:
+            competencia = SubCategory.objects.filter(id=compentece['id']).first()
+
+            if competencia is None:
+                return Response({"message": "La competencia no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+                
+            competencia_course_employee = CompetencessXEmployeeXLearningPath(
+                                employee=empleado,
+                                competence=competencia,
+                                curso=curso
+                            )
+            competencia_course_employee.save()
+            #mensaje= "Se creó el registro en  CompetencessXEmployeeXLearningPath con el id "+str(competencia_course_employee.id)
+
+        return Response({'msg': 'Se crearon los registros con éxito'}, status=status.HTTP_200_OK)
+    
+
+class CursoEmpresaAsincronoAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        cursos_emp = CursoEmpresa.objects.filter( tipo= 'A')
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
