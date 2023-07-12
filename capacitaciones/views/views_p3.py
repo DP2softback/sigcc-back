@@ -184,7 +184,7 @@ class CursoEmpresaEmpleadosAPIView(APIView):
         num_empleados = len(empleados)
 
         if num_empleados == 0:
-            return Response({'msg': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not porcentaje_asistencia_aprobacion:
             porcentaje_asistencia_aprobacion = curso_empresa.porcentaje_asistencia_aprobacion
@@ -242,7 +242,7 @@ class DetalleLearningPathXEmpleadoAPIView(APIView):
 
 
 class EmpleadosXLearningPathAPIView(APIView):
-
+    permission_classes = [AllowAny]
     def get(self, request, lp):
 
         lp = EmpleadoXLearningPath.objects.filter(learning_path=lp).all()
@@ -311,9 +311,9 @@ class ValorarCursoAPIView(APIView):
 
             curso.save()
 
-            return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
 
-        return Response({'msg': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self,request,id_cr):
 
@@ -352,9 +352,9 @@ class ValoracionLearningPathAPIView(APIView):
             lp.cant_empleados = lp.cant_empleados + 1
 
             lp.save()
-            return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
 
-        return Response({'msg': 'No se encontro el learning path asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'No se encontro el learning path asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
 
 
     def get(self,request,id_lp):
@@ -452,3 +452,9 @@ class ValoracionesCursosAPIVIEW(APIView):
         data["valoraciones"] = valoraciones
 
         return Response(data, status=status.HTTP_200_OK)
+
+
+class RendirFormularioAPIVIEW(APIView):
+
+    def post(self,request):
+        print("hooal")
