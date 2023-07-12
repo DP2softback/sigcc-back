@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from django.db import models
-from evaluations_and_promotions.models import SubCategory
 # Create your models here.
 from login.models import Employee
 from login.models import User
@@ -342,7 +341,7 @@ class Tema(models.Model):
 class CompetenciasXCurso(models.Model):
     
     curso= models.ForeignKey(CursoGeneral, on_delete=models.CASCADE)
-    competencia= models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    competencia= models.ForeignKey('evaluations_and_promotions.SubCategory', on_delete=models.CASCADE)
     
     class Meta:
         db_table = 'CompetenciasXCurso'
@@ -351,7 +350,7 @@ class CompetenciasXCurso(models.Model):
 class CompetenciasXLearningPath(models.Model):
     
     learning_path= models.ForeignKey(LearningPath, on_delete=models.CASCADE)
-    competencia= models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    competencia= models.ForeignKey('evaluations_and_promotions.SubCategory', on_delete=models.CASCADE)
     
     class Meta:
-        db_table = 'CompetenciasXCurso'
+        db_table = 'CompetenciasXLearningPath'
