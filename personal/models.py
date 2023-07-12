@@ -67,7 +67,7 @@ class HiringProcess(models.Model):
     position = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     available_positions_quantity = models.IntegerField()
-    current_process_stage = models.IntegerField(default=1, null=True)
+    current_process_stage = models.IntegerField(default=1, null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -89,15 +89,16 @@ class HiringProcess(models.Model):
             return current_stage
 
         return None
-    
+
     def get_current_process_stageV2(self):
         if self.current_process_stage is None:
-            return None     
+            return None
         try:
             current_stage = self.process_stages.get(stage_type_id=self.current_process_stage)
             return current_stage
         except ProcessStage.DoesNotExist:
             pass
+
 
 class EmployeeXHiringProcess(models.Model):
     class Meta:
