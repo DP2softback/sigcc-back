@@ -7,8 +7,8 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler, \
     EvaluacionLPAPIView
 
-from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, GenerateCourseEmpresaEvaluationAPIView, LearningPathFromTemplateAPIView, LearningPathsForEmployeeAPIView, ListEmployeesGeneralAPIView, ListProgressEmployeesForLearningPathAPIView, ProgressCourseForLearningPathForEmployeesAPIView, SesionDetailAPIView
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaAsincronoAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, GenerateCourseEmpresaEvaluationAPIView, LearningPathFromTemplateAPIView, LearningPathsForEmployeeAPIView, ListEmployeesGeneralAPIView, ListProgressEmployeesForLearningPathAPIView, ProgressCourseForLearningPathForEmployeesAPIView, ReadRelateCompetencesEmployeeCourseAPIView, SaveRelateCompetencesEmployeeCourseAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
@@ -73,7 +73,9 @@ urlpatterns = [
     path('valorar_learning_path/<int:id_lp>/', ValoracionLearningPathAPIView.as_view()),
     path('learning_path/<int:id_lp>/empleado/<int:id_emp>/', DetalleEvaluacionEmpleadoAPIView.as_view()),
     path('learning_path/evaluacion/', SubirDocumentoRespuestaAPIView.as_view()),
-
-
+    path('course/relate_competences_read/<int:employee_id>/<int:curso_id>/', ReadRelateCompetencesEmployeeCourseAPIView.as_view()),
+    path('course/relate_competences_save/', SaveRelateCompetencesEmployeeCourseAPIView.as_view()),
+    #path('course/relate_competences/<int:employee_id>/<int:curso_id>/', RelateCompetencesEmployeeCourseAPIView.as_view()),
+    path('course_company/asynchronous/', CursoEmpresaAsincronoAPIView.as_view()),
     #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]

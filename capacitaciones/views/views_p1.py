@@ -245,17 +245,30 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
             EmpleadoXLearningPath.objects.bulk_create(list_asignaciones)
             lp = LearningPath.objects.filter(id=id_lp).first()
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path_id=id_lp)
+            cantidad_empleados_nuevo=len(empleados)
+            cantidad_empleados_nuevo=cantidad_empleados_nuevo+lp.cant_empleados
             for emp in empleados:
                 for curso_lp in cursos_lp:
                         empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                        #Vemos si el empelado ya ha completado ese curso antes:
+                        empleado_curso_anteriores= EmpleadoXCursoXLearningPath.objects.filter(curso=curso_lp,empleado=empleado)
+
+                        #creamos una variable aparte:
+                        estado_curso='0'
+                        for curso_anterior in empleado_curso_anteriores:
+                            if curso_anterior.estado=='3':
+                                estado_curso='3'
+                                break
+                        
                         curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
                             empleado=empleado,
                             curso=curso_general,
                             learning_path=lp,
-                            estado='0'
+                            estado=estado_curso
                         )
                         curso_empleado_lp_guardar.save()
+            LearningPath.objects.filter(id=id_lp).update(cant_empleados=cantidad_empleados_nuevo)
         except Exception as e:
             return Response({'msg': str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
