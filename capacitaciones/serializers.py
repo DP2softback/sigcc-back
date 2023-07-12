@@ -3,6 +3,7 @@ from datetime import datetime
 from dateutil.parser import parser
 from django.utils.dateparse import parse_datetime
 
+from evaluations_and_promotions.models import SubCategory
 from login.models import Employee, User
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
@@ -385,3 +386,10 @@ class ParametrosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Parametros
         fields = '__all__'
+
+
+class SubCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SubCategory
+        fields = ('id', 'name')

@@ -14,11 +14,12 @@ from rest_framework.views import APIView
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
 from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
-    CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen
+    CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen, CompetenciasXCurso
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
-    BusquedaEmployeeSerializer, ParametrosSerializer
+    BusquedaEmployeeSerializer, ParametrosSerializer, SubCategorySerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form, \
     transform_gpt_quiz_output
+from evaluations_and_promotions.models import SubCategory
 from login.models import Employee
 
 
@@ -418,4 +419,31 @@ class EvaluacionLPAPIView(APIView):
         DocumentoExamen.objects.bulk_create(documentos_examen)
 
         return Response({'msg': 'Evaluacion creada con exito'}, status=status.HTTP_200_OK)
+
+
+class CompetencesInCoursesAPIView(APIView):
+
+    def get(self, request, pk):
+
+        competencias_id = CompetenciasXCurso.objects.filter(curso_id = pk).values_list('competencia', flat=True)
+        competencias = SubCategory.objects.filter(id__in=competencias_id)
+        competencia_serializer = SubCategorySerializer(competencias, many=True)
+
+        return Response(competencia_serializer.data, status=status.HTTP_200_OK)
+
+
+    def post(self, request, pk):
+
+        competencias_id = request.data.get("competencias")
+
+        if not competencias_id:
+            return Response({'msg': "No se enviaron competencias"}, status=status.HTTP_400_BAD_REQUEST)
+
+        competencias = [CompetenciasXCurso(curso_id=pk, competencia_id = i) for i in competencias_id]
+
+        CompetenciasXCurso.objects.bulk_create(competencias)
+
+        return Response({'msg': "Se asigno las competencias con exito"}, status=status.HTTP_200_OK)
+
+
 
