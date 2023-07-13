@@ -20,6 +20,7 @@ from gaps.serializers import *
 from django.core import serializers as core_serializers
 from datetime import datetime
 from django.utils import timezone
+from DP2softback.services.api_gpt import ChatGptService
 
 #import openai as ai
 #ai.api_key = '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'
@@ -787,24 +788,54 @@ class SearchTrainingNeedCourseView(APIView):
 					
         return Response(returnList, status = status.HTTP_200_OK)  
 
+def getCompetenciexJobOffer(offer):
+        query = Q()
+        query.add(Q(id = offer), Q.AND)
+        job_offer = JobOffer.objects.get(query)
+        hiring_process = job_offer.hiring_process
+        hiring_process_id = hiring_process.id
+        query = Q()
+        query.add(Q(id = hiring_process_id), Q.AND)
+        hiring_process = HiringProcess.objects.get(query)
+        position = hiring_process.position
+        area_position = position.id
+        query = Q()
+        query.add(Q(areaxposition__id = area_position), Q.AND)
+        competencias = CompetencyxAreaxPosition.objects.filter(query).values('competency__name')
+        response = ''
+        for obj in competencias:
+            response += obj['competency__name'] + ', '
+        return response
+
 class SaveShortlistedEmployeexJobOffer(APIView):
-	def post(self, request):
-		offer = request.data['oferta']
-		empleados = [e['empleado'] for e in request.data['empleados']]
+    def post(self, request):
+        offer = request.data['oferta'] 
+        capacidades = getCompetenciexJobOffer(offer)
+        capacidades = capacidades[0:-2]
+        print(f'Las capacidades que mandamos al chatgpt son: {capacidades}')
+        try:
+            recommendation = ChatGptService.chatgpt_recommendation_request(capacidades, 1.5)   
+        except Exception as e:
+            recommendation = 'No hay acciones recomendadas'
 
-		for id in empleados:
-			json_data = {}
-			json_data['job_offer'] = offer 
-			json_data['employee'] = id
-			try:
-				serializer = JobOfferNotificationSerializer(data = json_data)
-				serializer.is_valid(raise_exception = True)
-				serializer.save()
-			except Exception as e:
-				return Response(str(e),status=status.HTTP_400_BAD_REQUEST)
-		return Response("Se registraron correctamente los empleados",status=status.HTTP_200_OK)
+        empleados = [e['empleado'] for e in request.data['empleados']]
+        
+        print(f'Esto es lo que devuelve openai: {recommendation}')
+        for id in empleados:
+            json_data = {}
+            json_data['job_offer'] = offer 
+            json_data['employee'] = id
+            json_data['recommendation'] = recommendation
+            try:
+                serializer = JobOfferNotificationSerializer(data = json_data)
+                serializer.is_valid(raise_exception = True)
+                serializer.save()
+            except Exception as e:
+                return Response(str(e),status=status.HTTP_400_BAD_REQUEST)
 
-
+        return Response("Se registraron correctamente los empleados",status=status.HTTP_200_OK)
+        
+    
 class SearchJobOfferxEmployeePreRegistered(APIView):
         
     def post(self, request):
@@ -814,7 +845,7 @@ class SearchJobOfferxEmployeePreRegistered(APIView):
         if employee is not None and employee > 0:
             query.add(Q(employee__id = employee), Q.AND)
             
-        notifications = JobOfferNotification.objects.filter(query).values('job_offer__id', 'job_offer__hiring_process__id', 'job_offer__introduction', 'job_offer__offer_introduction', 'job_offer__responsabilities_introduction', 'job_offer__is_active', 'job_offer__photo_url', 'job_offer__location', 'job_offer__salary_range')
+        notifications = JobOfferNotification.objects.filter(query).values('recommendation', 'job_offer__id', 'job_offer__hiring_process__id', 'job_offer__introduction', 'job_offer__offer_introduction', 'job_offer__responsabilities_introduction', 'job_offer__is_active', 'job_offer__photo_url', 'job_offer__location', 'job_offer__salary_range')
         return Response(list(notifications), status = status.HTTP_200_OK)
 
 class AcceptOrDeclineJobOfferPreRegistered(APIView):
