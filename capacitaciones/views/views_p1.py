@@ -269,7 +269,7 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         for curso_anterior in empleado_curso_anteriores:
                             if curso_anterior.estado=='3':
                                 estado_curso='3'
-                        
+                        print("El estado a guardar del curso es: ",estado_curso)
                         curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
                             empleado=empleado,
                             curso=curso_general,
