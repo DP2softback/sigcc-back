@@ -983,25 +983,24 @@ class CursoEmpresaXEmpleadoIncreaseStateAPIView(APIView):
     def post(self, request):
         '''
         {
-        "curso_id":1,
-        "empleado_id":1,
-        "estado_nuevo": 1
+        "curso_id":26,
+        "empleado_id":1
         }
         
         
         '''
         curso_id = request.data.get('curso_id', None)
         empleado_id = request.data.get('empleado_id', None)
-        estado_nuevo = request.data.get('estado_nuevo', None)
 
-        curso = CursoEmpresa.objects.filter(id=curso_id).first()
-        empleado = Employee.objects.filter(id=empleado_id).first()
         empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_id).first()
 
-
         if empleado_curso_empresa is not None:
-            empleado_curso_empresa.estado = str(estado_nuevo)
+            variable=empleado_curso_empresa.estado 
+            variable=int(variable)+1
+            if variable==3:
+                variable=2
+            empleado_curso_empresa.estado = str(variable)
             empleado_curso_empresa.save()
-            mensaje= "Se actualizó el estado "
+            mensaje= "Se actualizó el estado"
             return Response({"message": mensaje}, status = status.HTTP_200_OK)
         return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
