@@ -312,6 +312,7 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                             empleado_curso_empresa_guardar = EmpleadoXCursoEmpresa(
                                 empleado=empleado,
                                 cursoEmpresa=curso_empresa,
+                                cantidad_sesiones= curso_empresa.cantidad_sesiones,
                                 fechaAsignacion= timezone.now()
                             )
                             empleado_curso_empresa_guardar.save()
