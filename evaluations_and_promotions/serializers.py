@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import Group
+from capacitaciones.serializers import UsuarioSerializer
 from evaluations_and_promotions.models import *
 from login.serializers import *
 #from gaps.models import Competence
@@ -344,6 +345,22 @@ class CompetencyxAreaxPositionSerializerRead(serializers.ModelSerializer):
 
 
 class CompetencessXEmployeeXLearningPathSerializer(serializers.ModelSerializer):
+    competencia = serializers.SerializerMethodField()
+    empleado = serializers.SerializerMethodField()
+    
+    def get_competencia(self,obj):
+        competencia_id=obj.competence.id
+        competence= SubCategory.objects.filter(id=competencia_id).first()
+        serializer = SubCategorySerializerRead2(competence)
+        return serializer.data
+    
+    def get_empleado(self,obj):
+        empleado_id=obj.employee.id
+        emplea=Employee.objects.filter(id=empleado_id).first()
+        empl= User.objects.filter(id=emplea.user_id).first()
+        serializer = UsuarioSerializer(empl)
+        return serializer.data
+    
     class Meta:
         model = CompetencessXEmployeeXLearningPath
         fields = '__all__'

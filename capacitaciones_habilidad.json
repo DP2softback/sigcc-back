@@ -3,147 +3,168 @@
     "model": "capacitaciones.habilidad",
     "pk": 1,
     "fields": {
-      "habilidad": "Desarrollo de software"
+      "habilidad": "Desarrollo de software",
+      "categoria": 1
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 2,
     "fields": {
-      "habilidad": "Redes y seguridad"
+      "habilidad": "Redes y seguridad",
+      "categoria": 1
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 3,
     "fields": {
-      "habilidad": "Diseño de circuitos electronicos"
+      "habilidad": "Diseño de circuitos electronicos",
+      "categoria": 1
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 4,
     "fields": {
-      "habilidad": "Nutrici?n y diet?tica"
+      "habilidad": "Nutrici?n y diet?tica",
+      "categoria": 2
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 5,
     "fields": {
-      "habilidad": "Entrenamiento personal"
+      "habilidad": "Entrenamiento personal",
+      "categoria": 2
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 6,
     "fields": {
-      "habilidad": "Terapia fisica y rehabilitacion"
+      "habilidad": "Terapia fisica y rehabilitacion",
+      "categoria": 2
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 7,
     "fields": {
-      "habilidad": "Planificaci?n financiera"
+      "habilidad": "Planificaci?n financiera",
+      "categoria":  3
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 8,
     "fields": {
-      "habilidad": "An?lisis de inversiones"
+      "habilidad": "An?lisis de inversiones",
+      "categoria": 3
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 9,
     "fields": {
-      "habilidad": "Gestion de riesgos financieros"
+      "habilidad": "Gestion de riesgos financieros",
+      "categoria": 3
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 10,
     "fields": {
-      "habilidad": "Pintura y dibujo"
+      "habilidad": "Pintura y dibujo",
+      "categoria": 4
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 11,
     "fields": {
-      "habilidad": "Actuacion y teatro"
+      "habilidad": "Actuacion y teatro",
+      "categoria": 4
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 12,
     "fields": {
-      "habilidad": "Produccion de cine y television"
+      "habilidad": "Produccion de cine y television",
+      "categoria": 4
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 13,
     "fields": {
-      "habilidad": "Corretaje inmobiliario"
+      "habilidad": "Corretaje inmobiliario",
+      "categoria": 5
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 14,
     "fields": {
-      "habilidad": "Valoracion de propiedades"
+      "habilidad": "Valoracion de propiedades",
+      "categoria": 5
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 15,
     "fields": {
-      "habilidad": "Gestion de alquileres y ventas"
+      "habilidad": "Gestion de alquileres y ventas",
+      "categoria": 5
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 16,
     "fields": {
-      "habilidad": "Consultoria empresarial"
+      "habilidad": "Consultoria empresarial",
+      "categoria": 6
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 17,
     "fields": {
-      "habilidad": "Optimizacion de procesos"
+      "habilidad": "Optimizacion de procesos",
+      "categoria": 6
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 18,
     "fields": {
-      "habilidad": "Gestion del cambio organizacional"
+      "habilidad": "Gestion del cambio organizacional",
+      "categoria": 6
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 19,
     "fields": {
-      "habilidad": "Diseño grafico"
+      "habilidad": "Diseño grafico",
+      "categoria": 7
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 20,
     "fields": {
-      "habilidad": "Publicidad digital"
+      "habilidad": "Publicidad digital",
+      "categoria": 7
     }
   },
   {
     "model": "capacitaciones.habilidad",
     "pk": 21,
     "fields": {
-      "habilidad": "Produccion de contenidos audiovisuales"
+      "habilidad": "Produccion de contenidos audiovisuales",
+      "categoria": 7
     }
   }
 ]

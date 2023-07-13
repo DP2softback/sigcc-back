@@ -63,7 +63,7 @@ def get_gpt_form(curso):
     n = 1
     stop = None
     prompt = "La respuesta debe ser estructurada como un arreglo de objetos JSON del tipo Array<\{question:string," \
-             "options:Array<string>,answer:1|2|3|4\}>\nGenera 10 preguntas de opción múltiple. Cada pregunta debe " \
+             "options:Array<string>,answer:integer\}>\nGenera 10 preguntas de opción múltiple. Cada pregunta debe " \
              "tener 4 opciones de respuesta y la respuesta debe ser objetiva, precisa, breve. La dificultad de las " \
              "preguntas debe ser alta. No incluyas preguntas de cálculos numéricos. Las preguntas del cuestionario se " \
              "deben construir considerando el temario del curso '" + curso + "' de Udemy "

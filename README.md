@@ -73,6 +73,7 @@ Backend from SIGCC system, capstone course in PUCP
     2. En un terminal del sistema (no el de zappa) buscar el id del contenedor de la base de datos
         $ docker ps   (y ubican el id)
 
+
     3. Entrar a la base de datos
 
         $ docker exec -it <container_id> psql -U user -W postgres
