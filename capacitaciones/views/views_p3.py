@@ -1,5 +1,5 @@
 # Create your views here.
-from evaluations_and_promotions.models import CompetencessXEmployeeXLearningPath
+from evaluations_and_promotions.models import CompetencessXEmployeeXLearningPath, SubCategory
 from login.models import Employee, User
 from rest_framework import status
 from rest_framework.response import Response
@@ -7,11 +7,12 @@ from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral, \
-    DocumentoExamen, DocumentoRespuesta, EmpleadoXCurso, Parametros, CompetenciasXCurso
-from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
+    DocumentoExamen, DocumentoRespuesta, EmpleadoXCurso, Parametros, CompetenciasXCurso, CompetenciasXLearningPath
+from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, CursoUdemySerializer, \
+    ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
     LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
-    EmpleadosXLearningPathSerializer
+    EmpleadosXLearningPathSerializer, SubCategorySerializer
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema, Categoria
 from capacitaciones.serializers import LearningPathSerializer, CursoUdemySerializer, SesionSerializer, TemaSerializer, CategoriaSerializer, ProveedorEmpresaSerializer,HabilidadSerializer
 
@@ -461,30 +462,41 @@ class RendirFormularioAPIVIEW(APIView):
 
     def get(self, request,id_curso,id_empleado):
         curso = CursoGeneral.objects.filter(id=id_curso).first()
-        form = None
+
         try:
             rpta = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
-            print(rpta)
-            if rpta==None:
-                form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
-            else:
-                form = rpta
-            return Response({"form": form}, status=status.HTTP_200_OK)
+            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
 
         except Exception:
             rpta = EmpleadoXCurso.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
-            print(rpta)
-            if rpta == None:
-                form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
-            else:
-                form = rpta
+            form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
 
+        if rpta == None:
             return Response({"form": form}, status=status.HTTP_200_OK)
 
-        return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+        resultado=[]
+        print(form)
+        for pregunta in form['preguntas']:
+            id_pregunta = pregunta["id_pregunta"]
+            respuesta = rpta["respuestas"].get(str(id_pregunta))
+            if respuesta is not None:
+                opciones = pregunta["opciones"]
+                opcion_elegida = next((opcion for opcion in opciones if opcion["id_opcion"] == respuesta), None)
+                if opcion_elegida is not None:
+                    resultado.append({
+                        "opciones": [
+                            {
+                                "opcion": opcion["opcion"],
+                                "id_opcion": opcion["id_opcion"],
+                                "opcion_elegida": opcion["id_opcion"] == opcion_elegida["id_opcion"]
+                            }
+                            for opcion in opciones
+                        ],
+                        "pregunta": pregunta["pregunta"],
+                        "id_pregunta": pregunta["id_pregunta"]
+                    })
 
-        if form == None:
-            return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"form": resultado}, status=status.HTTP_200_OK)
 
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
@@ -554,16 +566,27 @@ class RendirFormularioAPIVIEW(APIView):
 
 class RubricaAPIVIEW(APIView):
 
-    def post(self, request,id_lp):
+    def post(self, request,id_lp,id_empleado):
         criterias = request.data.get('criterias', None)
-        empleado = request.data.get('id_empleado', None)
-        id_lp = request.data.get('id_lp', None)
-
+        registro_lp_x_emp = EmpleadoXLearningPath.objects.filter(Q(empleado_id=id_empleado) & Q(learning_path_id=id_lp))
+        registro_lp_x_emp.rubrica_calificada_evaluacion = criterias
         for criterio in criterias:
             id_competencia = criterio['id']
             score = criterio['score']
-            registro_competencia = CompetencessXEmployeeXLearningPath.objects.filter(Q(employee_id=empleado) & Q(learning_path_id=id_lp) & Q(competence_id=id_competencia))
+            registro_competencia = CompetencessXEmployeeXLearningPath.objects.filter(Q(employee_id=id_empleado) & Q(learning_path_id=id_lp) & Q(competence_id=id_competencia))
             registro_competencia.score = score
             registro_competencia.scale = int(score/2) - 1
             registro_competencia.save()
             return Response({"message": "Se inserto con exito"}, status=status.HTTP_200_OK)
+
+    def get(self, request, id_lp,id_empleado):
+        rubrica_calificada = EmpleadoXLearningPath.objects.filter(Q(empleado_id=id_empleado) & Q(learning_path_id=id_lp)).values('rubrica_calificada_evaluacion')
+
+        if rubrica_calificada==None: #no la han calificado aun
+            competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id=pk).values_list('competencia',flat=True)
+            competencias = SubCategory.objects.filter(id__in=competencias_id)
+            competencia_serializer = SubCategorySerializer(competencias, many=True)
+
+            return Response({"criterias": competencia_serializer.data}, status=status.HTTP_200_OK)
+
+        return Response({"criterias": rubrica_calificada}, status=status.HTTP_200_OK)
