@@ -74,7 +74,7 @@ urlpatterns = [
     path('valorar_learning_path/<int:id_lp>/', ValoracionLearningPathAPIView.as_view()),
     path('learning_path/<int:id_lp>/empleado/<int:id_emp>/', DetalleEvaluacionEmpleadoAPIView.as_view()),
     path('learning_path/evaluacion/', SubirDocumentoRespuestaAPIView.as_view()),
-    path('curso/form/<id_curso>/', RendirFormularioAPIVIEW.as_view()),
+    path('curso/form/<id_curso>/<id_empleado>/', RendirFormularioAPIVIEW.as_view()),
 
 
     path('course/relate_competences_read/<int:employee_id>/<int:curso_id>/', ReadRelateCompetencesEmployeeCourseAPIView.as_view()),

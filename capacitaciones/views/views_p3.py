@@ -457,15 +457,21 @@ class ValoracionesCursosAPIVIEW(APIView):
 
 class RendirFormularioAPIVIEW(APIView):
 
-    def get(self, request,id_curso):
+    def get(self, request,id_curso,id_empleado):
         curso = CursoGeneral.objects.filter(id=id_curso).first()
         form = None
         try:
-            form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
+            rpta = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
+            if rpta!=None:
+                form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
+
             return Response({"form": form}, status=status.HTTP_200_OK)
 
-        except ex:
-            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+        except Exception:
+            rpta = EmpleadoXCurso.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
+            if rpta != None:
+                form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+
             return Response({"form": form}, status=status.HTTP_200_OK)
 
         return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -477,7 +483,7 @@ class RendirFormularioAPIVIEW(APIView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self,request,id_curso):
+    def post(self,request,id_curso,id_empleado):
         print("ENTRO AL POST")
         tipo = -1
         try:
@@ -488,7 +494,6 @@ class RendirFormularioAPIVIEW(APIView):
             tipo = 1
         print(form)
         print("PASO EL FORM")
-        empleado = request.data.get('empleado', None)
         respuestas_persona = request.data.get('respuestas', None)
         puntaje = 0
         print("EMPIEZA A CALIFICAR")
@@ -500,12 +505,17 @@ class RendirFormularioAPIVIEW(APIView):
             respuesta_correcta = None
 
             for opcion in opciones:
+                print(opcion['es_correcta'])
                 if opcion['es_correcta']:
                     respuesta_correcta = opcion['id_opcion']
+                    print(respuesta_correcta)
                     break
 
             if respuesta_correcta is not None:
-                respuesta_persona = respuestas_persona.get(id_pregunta)
+                print('rpta correcta',respuesta_correcta)
+                print(id_pregunta)
+                print(respuestas_persona[str(id_pregunta)])
+                respuesta_persona = respuestas_persona[str(id_pregunta)]
 
                 if respuesta_persona == respuesta_correcta:
                     puntaje += 1
@@ -516,11 +526,11 @@ class RendirFormularioAPIVIEW(APIView):
             aprobo = 0
 
         if tipo ==0:
-            registro = EmpleadoXCurso.objects.get(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro = EmpleadoXCurso.objects.get(Q(empleado_id=id_empleado) & Q(curso_id=id_curso))
             registro.respuestas = respuestas_persona
 
         elif tipo ==1:
-            registro = EmpleadoXCursoEmpresa.objects.get(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro = EmpleadoXCursoEmpresa.objects.get(Q(empleado_id=id_empleado) & Q(curso_id=id_curso))
             registro.respuestas = respuestas_persona
 
         registro.save()
@@ -533,3 +543,20 @@ class RendirFormularioAPIVIEW(APIView):
             registro_competencia.save()
 
         return Response({"puntaje": puntaje}, status=status.HTTP_200_OK)
+
+
+class RubricaAPIVIEW(APIView):
+
+    def post(self, request,id_lp):
+        criterias = request.data.get('criterias', None)
+        empleado = request.data.get('id_empleado', None)
+        id_lp = request.data.get('id_lp', None)
+
+        for criterio in criterias:
+            id_competencia = criterio['id']
+            score = criterio['score']
+            registro_competencia = CompetencessXEmployeeXLearningPath.objects.filter(Q(employee_id=empleado) & Q(learning_path_id=id_lp) & Q(competence_id=id_competencia))
+            registro_competencia.score = score
+            registro_competencia.scale = int(score/2) - 1
+            registro_competencia.save()
+            return Response({"message": "Se inserto con exito"}, status=status.HTTP_200_OK)
