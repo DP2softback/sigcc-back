@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from django.db import transaction
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
-from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
+from capacitaciones.models import CursoGeneral, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
     CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen, CompetenciasXCurso, CursoEmpresa, \
     CompetenciasXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
@@ -263,6 +263,8 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         print("En el bucle del curso: ",curso_lp.curso_id)
                         empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                        curso_udemy = CursoUdemy.objects.filter(id=curso_lp.curso_id).first()
+                        curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
                         #Vemos si el empelado ya ha completado ese curso antes:
                         empleado_curso_anteriores= EmpleadoXCursoXLearningPath.objects.filter(curso=curso_general,empleado=empleado)
                         print("Los empleadosxcursoxlearningpath son: ",empleado_curso_anteriores)
@@ -304,7 +306,22 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                             )
                         
                         curso_empleado_lp_guardar.save()
-            
+                        if(curso_empresa is not None):
+                            #esto es si es curso Udemy
+                            empleado_curso_guardar = EmpleadoXCurso(
+                                empleado=empleado,
+                                curso=curso_general
+                            )
+                            empleado_curso_guardar.save()
+                        else:
+                            #esto es si es curso Empresa
+                            empleado_curso_empresa_guardar = EmpleadoXCursoEmpresa(
+                                empleado=empleado,
+                                cursoEmpresa=curso_empresa,
+                                fechaAsignacion= timezone.now
+                            )
+                            empleado_curso_empresa_guardar.save()
+
             cantidad_empleados_nuevo=len(empleados)
             cantidad_empleados_nuevo=cantidad_empleados_nuevo+lp.cant_empleados
             LearningPath.objects.filter(id=id_lp).update(cant_empleados=cantidad_empleados_nuevo)
