@@ -264,13 +264,13 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
         lp = LearningPath.objects.filter(id=lp).first()
         rubrica_calificada = EmpleadoXLearningPath.objects.filter(Q(learning_path=lp) & Q(empleado=emp)).values('rubrica_calificada_evaluacion')
         print("rubrica calificada")
-        print(rubrica_calificada[0].get('rubrica_calificada_evaluacion'))
+        print(rubrica_calificada[0]['rubrica_calificada_evaluacion'])
 
         competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id=lp).values_list('competencia',
                                                                                                        flat=True)
         competencias = SubCategory.objects.filter(id__in=competencias_id)
         competencia_serializer = SubCategorySerializer(competencias, many=True)
-        rubrica_sin_calificar = {"criterias": competencia_serializer.data}
+        rubrica_sin_calificar = competencia_serializer.data
         print("rubrica sin calificar")
         print(rubrica_sin_calificar)
 
@@ -280,7 +280,7 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
             "url_foto": learningpath.url_foto,
             "descripcion_evaluacion": learningpath.descripcion_evaluacion,
             "archivo_eval": None if not archivo_eval else archivo_eval,
-            "rubrica": rubrica_sin_calificar if not rubrica_calificada else rubrica_calificada
+            "rubrica": rubrica_sin_calificar if rubrica_calificada[0]['rubrica_calificada_evaluacion']==None else rubrica_calificada[0]['rubrica_calificada_evaluacion']
         }
         data["datos_learning_path"] = learning_path_data
         cursos = []

@@ -563,7 +563,7 @@ class CompetencesInLPAPIView(APIView):
         descripcion = request.data.get('descripcion_evaluacion', None)
         competencias_id = request.data.get("criterias")
         documentos = request.data.get('documentos', [])
-
+        print(documentos)
         if not competencias_id:
             return Response({'msg': "No se enviaron competencias"}, status=status.HTTP_400_BAD_REQUEST)
 
