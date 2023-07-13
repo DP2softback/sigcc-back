@@ -1,4 +1,5 @@
 # Create your views here.
+from evaluations_and_promotions.models import CompetencessXEmployeeXLearningPath
 from login.models import Employee, User
 from rest_framework import status
 from rest_framework.response import Response
@@ -6,7 +7,7 @@ from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral, \
-    DocumentoExamen, DocumentoRespuesta, EmpleadoXCurso
+    DocumentoExamen, DocumentoRespuesta, EmpleadoXCurso, Parametros, CompetenciasXCurso
 from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
     LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
@@ -456,5 +457,72 @@ class ValoracionesCursosAPIVIEW(APIView):
 
 class RendirFormularioAPIVIEW(APIView):
 
-    def post(self,request):
-        print("hooal")
+    def get(self, request,id_curso):
+        curso = CursoGeneral.objects.filter(id=id_curso).first()
+        try:
+            form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
+            return Response({"form": form}, status=status.HTTP_200_OK)
+
+        except ex:
+            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+            return Response({"form": form}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self,request,id_curso):
+        tipo = -1
+        try:
+            form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
+            tipo = 0
+        except ex:
+            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+            tipo = 1
+
+        empleado = request.data.get('empleado', None)
+        respuestas_persona = request.data.get('respuestas', None)
+        puntaje = 0
+
+        for pregunta in form:
+            id_pregunta = pregunta['id_pregunta']
+            opciones = pregunta['opciones']
+
+            respuesta_correcta = None
+
+            for opcion in opciones:
+                if opcion['es_correcta']:
+                    respuesta_correcta = opcion['id_opcion']
+                    break
+
+            if respuesta_correcta is not None:
+                respuesta_persona = respuestas_persona.get(id_pregunta)
+
+                if respuesta_persona == respuesta_correcta:
+                    puntaje += 1
+        aprobo = -1
+        if puntaje >= 5:
+            aprobo = 1
+        else:
+            aprobo = 0
+
+        if tipo ==0:
+            registro = EmpleadoXCurso.objects.filter(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro.respuestas = respuestas_persona
+
+        elif tipo ==1:
+            registro = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro.respuestas = respuestas_persona
+
+        registro.save()
+
+        competencias = CompetenciasXCurso.objects.filter(curso_id=id_curso).values_list('competencia', flat=True)
+
+        for competencia in competencias:
+            registro_competencia = CompetencessXEmployeeXLearningPath.objects.filter(Q(employee_id=empleado) & Q(curso_id=id_curso) & Q(competence_id=competencia))
+            registro_competencia.score = 100*aprobo
+            registro_competencia.save()
+
+        return Response({"puntaje": puntaje}, status=status.HTTP_200_OK)
