@@ -7,14 +7,14 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler, \
     EvaluacionLPAPIView, CompetencesInCoursesAPIView, CursoEmpresaEvaluationAPIView, CompetencesInLPAPIView
 
-from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaAsincronoAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
-    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, GenerateCourseEmpresaEvaluationAPIView, LearningPathFromTemplateAPIView, LearningPathsForEmployeeAPIView, ListEmployeesGeneralAPIView, ListProgressEmployeesForLearningPathAPIView, ProgressCourseForLearningPathForEmployeesAPIView, ReadRelateCompetencesEmployeeCourseAPIView, SaveRelateCompetencesEmployeeCourseAPIView, SesionDetailAPIView
+from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaAsincronoAPIView, CursoEmpresaAsincronoSimpleAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
+    CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, CursoUdemySimpleAPIView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, GenerateCourseEmpresaEvaluationAPIView, LearningPathFromTemplateAPIView, LearningPathsForEmployeeAPIView, ListEmployeesGeneralAPIView, ListProgressEmployeesForLearningPathAPIView, ProgressCourseForLearningPathForEmployeesAPIView, ReadRelateCompetencesEmployeeCourseAPIView, SaveRelateCompetencesEmployeeCourseAPIView, SesionDetailAPIView
 from capacitaciones.views.views_p3 import LearningPathCreateFromTemplateAPIView, SesionAPIView, CategoriaAPIView, \
     ProveedorEmpresaXCategoriaAPIView, HabilidadesXEmpresaAPIView, PersonasXHabilidadesXEmpresaAPIView, \
     CursoEmpresaEmpleadosAPIView, EmpleadoXLearningPathAPIView, DetalleLearningPathXEmpleadoAPIView, \
     EmpleadosXLearningPathAPIView, LearningPathEvaluadoXEmpleadoAPIView, ValorarCursoAPIView, \
     ValoracionLearningPathAPIView, DetalleEvaluacionEmpleadoAPIView, SubirDocumentoRespuestaAPIView, \
-    RendirFormularioAPIVIEW
+    RendirFormularioAPIVIEW, RubricaAPIVIEW
 
 urlpatterns = [
     path('learning_path/<int:pk>/udemy/<str:course>/<int:delete>', GetUdemyValidCourses.as_view()),
@@ -74,15 +74,18 @@ urlpatterns = [
     path('valorar_learning_path/<int:id_lp>/', ValoracionLearningPathAPIView.as_view()),
     path('learning_path/<int:id_lp>/empleado/<int:id_emp>/', DetalleEvaluacionEmpleadoAPIView.as_view()),
     path('learning_path/evaluacion/', SubirDocumentoRespuestaAPIView.as_view()),
-    path('curso/form/<id_curso>/', RendirFormularioAPIVIEW.as_view()),
+    path('curso/form/<id_curso>/<id_empleado>/', RendirFormularioAPIVIEW.as_view()),
 
 
     path('course/relate_competences_read/<int:employee_id>/<int:curso_id>/', ReadRelateCompetencesEmployeeCourseAPIView.as_view()),
     path('course/relate_competences_save/', SaveRelateCompetencesEmployeeCourseAPIView.as_view()),
     #path('course/relate_competences/<int:employee_id>/<int:curso_id>/', RelateCompetencesEmployeeCourseAPIView.as_view()),
     path('course_company/asynchronous/', CursoEmpresaAsincronoAPIView.as_view()),
+    path('course_company_with_competences/', CursoEmpresaAsincronoSimpleAPIView.as_view()),
+    path('course_udemy_with_competences/', CursoUdemySimpleAPIView.as_view()),
     path('curso/<int:pk>/competencias/', CompetencesInCoursesAPIView.as_view()),
     path('curso_empresa/<int:pk>/evaluacion/', CursoEmpresaEvaluationAPIView.as_view()),
     path('learning_path/<int:pk>/competencias/', CompetencesInLPAPIView.as_view()),
+    path('learning_path/rubrica/<int:id_lp>/empleado/<int:id_empleado>/', RubricaAPIVIEW.as_view()),
     #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]

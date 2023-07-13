@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
-from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathProgressSerializer, EmpleadoXCursoXLearningPathSerializer, EmpleadosXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
+from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoEmpresaWithCompetencesSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, CursoUdemyWithCompetencesSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathProgressSerializer, EmpleadoXCursoXLearningPathSerializer, EmpleadosXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
 from capacitaciones.utils import get_gpt_form, get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
@@ -503,7 +503,8 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
     def get(self, request, emp, leap):
         empleado = Employee.objects.filter(id=emp).first()
         lp = LearningPath.objects.filter(id=leap).first()
-
+        lp_empleado = EmpleadoXLearningPath.objects.filter(empleado=empleado,learning_path=lp).first()
+    
         data = []
         if leap:
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path=lp)
@@ -511,7 +512,7 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                 'id': lp.id,
                 'nombre': lp.nombre,
                 'descripcion': lp.descripcion,
-                'estado':lp.estado,
+                'estado':lp_empleado.estado,
                 'horas_duracion':lp.horas_duracion,
                 'suma_valoraciones':lp.suma_valoraciones,
                 'url_foto':lp.url_foto,
@@ -905,3 +906,20 @@ class CursoEmpresaAsincronoAPIView(APIView):
         cursos_emp = CursoEmpresa.objects.filter( tipo= 'A')
         cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp, many=True)
         return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)
+    
+
+class CursoEmpresaAsincronoSimpleAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        cursos_emp = CursoEmpresa.objects.filter( tipo= 'A')
+        cursos_emp_serializer = CursoEmpresaWithCompetencesSerializer(cursos_emp, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)   
+    
+class CursoUdemySimpleAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        cursos_udemy = CursoUdemy.objects.all()
+        cursos_udemy_serializer = CursoUdemyWithCompetencesSerializer(cursos_udemy, many=True)
+        return Response(cursos_udemy_serializer.data, status = status.HTTP_200_OK)   

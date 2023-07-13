@@ -41,7 +41,7 @@ class LearningPath(models.Model):
     estado = models.CharField(max_length=1, choices=estado_choices, default='0')
     cantidad_cursos= models.IntegerField(default=0)
     descripcion_evaluacion = models.TextField(null=True)
-    rubrica = models.JSONField(null=True)
+    rubrica = models.JSONField(null=True)# este no va
 
     def get_cant_intentos_cursos_max_default(self):
         return Parametros.objects.first().numero_intentos_curso
