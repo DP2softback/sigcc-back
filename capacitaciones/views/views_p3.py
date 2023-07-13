@@ -243,7 +243,7 @@ class DetalleLearningPathXEmpleadoAPIView(APIView):
 
 
 class EmpleadosXLearningPathAPIView(APIView):
-    permission_classes = [AllowAny]
+
     def get(self, request, lp):
 
         lp = EmpleadoXLearningPath.objects.filter(learning_path=lp).all()
@@ -376,13 +376,15 @@ class ValoracionLearningPathAPIView(APIView):
 
 class DetalleEvaluacionEmpleadoAPIView(APIView):
 
-    def get(self, request, id_lp, id_emp):
+    def get(self, request, id_lp, id_user):
 
+        id_emp = Employee.objects.filter(user_id=id_user).values('id').first()
+        id_emp = id_emp['id']
         registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id','rubrica_calificada_evaluacion','comentario_evaluacion').first()
         lp = LearningPath.objects.filter(id=id_lp).first()
         if registro:
             data = {}
-            empleado = User.objects.filter(id=id_emp).values('first_name', 'last_name', 'email').first()
+            empleado = User.objects.filter(id=id_user).values('first_name', 'last_name', 'email').first()
             data['empleado']= empleado['first_name'] + " "+ empleado['last_name']
             data['rubrica_calificada']= lp.rubrica if not registro['rubrica_calificada_evaluacion'] else lp.rubrica
             data['nombre_lp'] = lp.nombre
