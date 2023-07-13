@@ -544,12 +544,18 @@ class CursoEmpresaEvaluationAPIView(APIView):
 class CompetencesInLPAPIView(APIView):
 
     def get(self, request, pk):
-
+        descripcion = LearningPath.objects.filter(id=pk).values('descripcion')
+        print(descripcion)
+        documentos = DocumentoExamen.objects.filter(learning_path_id=pk).values_list('url_documento',flat=True)
         competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id = pk).values_list('competencia', flat=True)
         competencias = SubCategory.objects.filter(id__in=competencias_id)
         competencia_serializer = SubCategorySerializer(competencias, many=True)
+        respuesta = {}
+        respuesta["descripcion"] = descripcion[0]['descripcion']
+        respuesta["documentos"] = documentos
+        respuesta["criterias"] = competencia_serializer.data
 
-        return Response({"criterias": competencia_serializer.data}, status=status.HTTP_200_OK)
+        return Response(respuesta, status=status.HTTP_200_OK)
 
 
     def post(self, request, pk):
