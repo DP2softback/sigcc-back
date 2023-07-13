@@ -1,0 +1,38 @@
+[
+	{
+		"model": "personal.joboffer", 
+		"pk": 1, 
+		"fields": {
+			"hiring_process": 1, 
+			"introduction": "Nuestra compañía fue concebida para ser una empresa atractiva tanto para clientes como para nuestros colaboradores, nos basamos en una cultura de trabajo en equipo, experiencia, diversión, compromiso, pasión y compañerismo.", 
+			"offer_introduction": "Intro a la oferta", 
+			"responsabilities_introduction": "Colocar un coco dentro del código para que no se caiga\nDocumentar los procesos de desarrollo y el código legado\nDesarrollar codigo backend respetando las buenas prácticas de código\n", 
+			"capacities_introduction": "Perfil requerido para el puesto:\n\n- Experiencia en el desarrollo de aplicaciones utilizando React y la capacidad de escribir código eficiente y limpio\n- Conocimiento de los conceptos de seguridad en la nube, como el cumplimiento normativo, la protección de datos y la prevención de ataques cibernéticos\n- Capacidad para aplicar diferentes técnicas de recuperación de datos en casos de pérdidas o fallas en los sistemas, tales como backups, replication, redundancia, y otros.\n\nAdemás buscamos las siguientes características:\n\n- Capacidad sobresaliente para hablar de manera efectiva en público\n- Expresa ideas de forma clara y concisa\n- Experiencia en liderar equipos de tamaño mediano y grande con éxito", 
+			"beneficies_introduction": "Trabajo híbrido (Oficina 2 veces a la semana).\nIngreso a planilla desde el primer día.\nOpción a EPS (Cobertura al 50%).\nContrato 6 meses.\nDía libre por cumpleaños.\n", 
+			"creation_date": "2023-06-29T17:05:37.628Z", 
+			"modified_date": "2023-06-29T17:05:37.635Z", 
+			"is_active": true, 
+			"photo_url": "", 
+			"location": "Lima, Perú", 
+			"salary_range": "S/.2000-S/.3000"
+	}
+	},
+	{
+		"model": "personal.joboffer", 
+		"pk": 2, 
+		"fields": {
+			"hiring_process": 2, 
+			"introduction": "Nuestra compañía fue concebida para ser una empresa atractiva tanto para clientes como para nuestros colaboradores, nos basamos en una cultura de trabajo en equipo, experiencia, diversión, compromiso, pasión y compañerismo.", 
+			"offer_introduction": "Intro a la oferta", 
+			"responsabilities_introduction": "Colocar un coco dentro del código para que no se caiga\nDocumentar los procesos de desarrollo y el código legado\nDesarrollar codigo backend respetando las buenas prácticas de código\n", 
+			"capacities_introduction": "Perfil requerido para el puesto:\n\n- Experiencia en el desarrollo de aplicaciones utilizando React y la capacidad de escribir código eficiente y limpio\n- Conocimiento de los conceptos de seguridad en la nube, como el cumplimiento normativo, la protección de datos y la prevención de ataques cibernéticos\n- Capacidad para aplicar diferentes técnicas de recuperación de datos en casos de pérdidas o fallas en los sistemas, tales como backups, replication, redundancia, y otros.\n\nAdemás buscamos las siguientes características:\n\n- Capacidad sobresaliente para hablar de manera efectiva en público\n- Expresa ideas de forma clara y concisa\n- Experiencia en liderar equipos de tamaño mediano y grande con éxito", 
+			"beneficies_introduction": "Trabajo híbrido (Oficina 2 veces a la semana).\nIngreso a planilla desde el primer día.\nOpción a EPS (Cobertura al 50%).\nContrato 6 meses.\nDía libre por cumpleaños.\n", 
+			"creation_date": "2023-06-29T17:05:37.628Z", 
+			"modified_date": "2023-06-29T17:05:37.635Z", 
+			"is_active": true, 
+			"photo_url": "", 
+			"location": "Lima, Perú", 
+			"salary_range": "S/.2000-S/.3000"
+		}
+	}
+]
