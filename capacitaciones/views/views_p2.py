@@ -922,4 +922,36 @@ class CursoUdemySimpleAPIView(APIView):
     def get(self, request):
         cursos_udemy = CursoUdemy.objects.all()
         cursos_udemy_serializer = CursoUdemyWithCompetencesSerializer(cursos_udemy, many=True)
-        return Response(cursos_udemy_serializer.data, status = status.HTTP_200_OK)   
+        return Response(cursos_udemy_serializer.data, status = status.HTTP_200_OK) 
+
+
+class LPEmpleadoIncreaseStateAPIView(APIView):
+    permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request):
+        '''
+        {
+        "learning_path_id":1,
+        "empleado_id":1,
+        "estado_nuevo": 1
+        }
+        
+        
+        '''
+        learning_path_id = request.data.get('learning_path_id', None)
+        empleado_id = request.data.get('empleado_id', None)
+        estado_nuevo = request.data.get('estado_nuevo', None)
+
+        lp = LearningPath.objects.filter(id=learning_path_id).first()
+        empleado = Employee.objects.filter(id=empleado_id).first()
+        lp_empleado = EmpleadoXLearningPath.objects.filter(empleado=empleado,learning_path=lp).first()
+
+        if lp_empleado is not None:
+            lp_empleado.estado = str(estado_nuevo)
+            lp_empleado.save()
+            mensaje= "Se actualizó el estado "
+            return Response({"message": mensaje}, status = status.HTTP_200_OK)
+        return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
