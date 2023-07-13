@@ -174,7 +174,7 @@ class JobOfferNotification(models.Model):  # Tabla intermedia Empleado x Oferta 
     employee = models.ForeignKey('login.Employee', on_delete=models.CASCADE)
     sent = models.BooleanField(default=False)  # Si la notificacion fue enviada o no
     suitable = models.BooleanField(default=False)  # Si es que el empleado es compatible para la oferta laboral
-
+    recommendation = models.TextField(blank = True, default = '')
 
 # por ejemplo: Grado académico, Idioma, Certificación
 class TrainingType(TimeStampedModel, SafeDeleteModel):
