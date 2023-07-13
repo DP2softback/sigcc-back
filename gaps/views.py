@@ -36,10 +36,10 @@ class CapacityView(APIView):
         #request.data['isActive'] = request.data.pop('active')
         if request.data["type"] == 0: 
             request.data["type"] = SubCategory.Type.TECNICA
-            tipo='T'
+            tipo='TEC'
         else: 
             request.data["type"] = SubCategory.Type.BLANDA
-            tipo = 'P'
+            tipo = 'HAB'
         competencias_serializer = SubCategorySerializer(data = request.data, context = request.data)
         if competencias_serializer.is_valid():
             competencias_serializer.save()
@@ -64,14 +64,14 @@ class CapacityView(APIView):
         idComp = request.data["id"]
         if request.data["type"] == 0: 
             request.data["type"] = SubCategory.Type.TECNICA
-            tipo='T'
+            tipo='TEC'
         else: 
             request.data["type"] = SubCategory.Type.BLANDA
-            tipo = 'H'
+            tipo = 'HAB'
         if request.data["type"] is not None:
             # Generador de codigo de competencia
-            if request.data["type"] == 0: tipo='T'
-            else: tipo = 'H'
+            if request.data["type"] == 0: tipo='TEC'
+            else: tipo = 'HAB'
             campos = {'code': tipo +  str(request.data['id'])}
             request.data["code"] = campos['code']
         competencia = SubCategory.objects.filter(id=idComp).first()
@@ -239,7 +239,12 @@ class SearchCapacityConsolidateView(APIView):
 		
         countTotal = countEmpleadoRange1 + countEmpleadoRange2 + countEmpleadoRange3 + countEmpleadoRange4 + countEmpleadoRange5
         if countTotal==0:
-            countList={}
+            countList={'rango1': 0,
+            'rango2': 0,
+            'rango3': 0,
+            'rango4': 0,
+            'rango5': 0,
+            }
         else:
             countEmpleadoRange1 = countEmpleadoRange1 / countTotal
             countEmpleadoRange2 = countEmpleadoRange2 / countTotal
