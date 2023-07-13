@@ -1,0 +1,24 @@
+[
+    {
+        "model": "evaluations_and_promotions.evaluationType",
+        "pk": 1,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Evaluación Continua",
+            "description": "Evaluación Continua"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.evaluationType",
+        "pk": 2,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Evaluación de Desempeño",
+            "description": "Evaluación de Desempeño"
+        }
+    }
+]

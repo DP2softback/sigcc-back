@@ -122,13 +122,16 @@ class TrainingxLevelSerializer(serializers.ModelSerializer):
         print(training)
         return str(training)
 
-    training_detail = serializers.SerializerMethodField('my_training')
-    level_detail = serializers.SerializerMethodField('my_level')
+    # training_detail = serializers.SerializerMethodField('my_training')
+    # level_detail = serializers.SerializerMethodField('my_level')
     training_literal = serializers.SerializerMethodField('my_training_str')
 
     class Meta:
         model = TrainingxLevel
-        fields = '__all__'
+        fields = [
+            'id',
+            'training_literal'
+        ]
 
 
 class TrainingxAreaxPositionSerializer(serializers.ModelSerializer):

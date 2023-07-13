@@ -1,0 +1,1432 @@
+[
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 1,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Puntualidad y asistencia",
+            "posicion": 1,
+            "plantilla": 1,
+            "subCategory": 11
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 2,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Respeto y cortesía hacia los demás",
+            "posicion": 2,
+            "plantilla": 1,
+            "subCategory": 12
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 3,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Trabajo en equipo y colaboración",
+            "posicion": 3,
+            "plantilla": 1,
+            "subCategory": 13
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 4,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Iniciativa y responsabilidad",
+            "posicion": 4,
+            "plantilla": 1,
+            "subCategory": 14
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 5,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Flexibilidad y adaptabilidad",
+            "posicion": 5,
+            "plantilla": 1,
+            "subCategory": 15
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 6,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación clara y efectiva con compañeros de trabajo, supervisores y clientes",
+            "posicion": 1,
+            "plantilla": 2,
+            "subCategory": 20
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 7,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para escuchar y comprender las necesidades de los demás",
+            "posicion": 2,
+            "plantilla": 2,
+            "subCategory": 21
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 8,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Escritura clara y efectiva en correos electrónicos, informes y otros documentos",
+            "posicion": 3,
+            "plantilla": 2,
+            "subCategory": 22
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 9,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para presentar información de manera clara y efectiva",
+            "posicion": 4,
+            "plantilla": 2,
+            "subCategory": 23
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 10,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para colaborar efectivamente con otros en la organización",
+            "posicion": 1,
+            "plantilla": 3,
+            "subCategory": 24
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 11,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación efectiva y respetuosa con otros miembros del equipo",
+            "posicion": 2,
+            "plantilla": 3,
+            "subCategory": 25
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 12,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Contribución positiva al logro de los objetivos del equipo",
+            "posicion": 3,
+            "plantilla": 3,
+            "subCategory": 26
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 13,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Apoyo y ayuda a los demás miembros del equipo",
+            "posicion": 4,
+            "plantilla": 3,
+            "subCategory": 27
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 14,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para guiar a los demás hacia el logro de los objetivos establecidos",
+            "posicion": 1,
+            "plantilla": 4,
+            "subCategory": 32
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 15,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para generar nuevas ideas y enfoques innovadores",
+            "posicion": 2,
+            "plantilla": 4,
+            "subCategory": 33
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 16,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para identificar problemas y proponer soluciones creativas",
+            "posicion": 3,
+            "plantilla": 4,
+            "subCategory": 34
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 17,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para adaptarse a los cambios y proponer nuevas estrategias",
+            "posicion": 4,
+            "plantilla": 4,
+            "subCategory": 35
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 18,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+01",
+            "modifiedDate": "2023-05-26 00:00:00+01",
+            "isActive": true,
+            "nombre": "Habilidad para trabajar en proyectos especiales y realizar tareas adicionales más allá de las asignadas",
+            "posicion": 5,
+            "plantilla": 4,
+            "subCategory": 36
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 19,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Conocimiento y habilidad en el uso de herramientas y tecnologías específicas",
+            "posicion": 1,
+            "plantilla": 5,
+            "subCategory": 16
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 20,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para aprender nuevas habilidades técnicas",
+            "posicion": 2,
+            "plantilla": 5,
+            "subCategory": 17
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 21,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Manejo y mantenimiento de equipos y herramientas",
+            "posicion": 3,
+            "plantilla": 5,
+            "subCategory": 18
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 22,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Identificación y solución de problemas técnicos",
+            "posicion": 4,
+            "plantilla": 5,
+            "subCategory": 19
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 23,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Precisión y exactitud en el trabajo realizado",
+            "posicion": 1,
+            "plantilla": 6,
+            "subCategory": 1
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 24,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los estándares de calidad",
+            "posicion": 2,
+            "plantilla": 6,
+            "subCategory": 2
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 25,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Trabajo completo y bien organizado",
+            "posicion": 3,
+            "plantilla": 6,
+            "subCategory": 3
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 26,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Identificación y corrección de errores y problemas",
+            "posicion": 4,
+            "plantilla": 6,
+            "subCategory": 4
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 27,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los plazos establecidos",
+            "posicion": 5,
+            "plantilla": 6,
+            "subCategory": 5
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 28,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los objetivos de producción",
+            "posicion": 6,
+            "plantilla": 6,
+            "subCategory": 6
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 29,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cantidad y calidad del trabajo realizado",
+            "posicion": 7,
+            "plantilla": 6,
+            "subCategory": 7
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 30,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Uso eficiente del tiempo y los recursos",
+            "posicion": 8,
+            "plantilla": 6,
+            "subCategory": 8
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 31,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para trabajar bajo presión",
+            "posicion": 9,
+            "plantilla": 6,
+            "subCategory": 9
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 32,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Flexibilidad para adaptarse a los cambios en el entorno de trabajo",
+            "posicion": 10,
+            "plantilla": 6,
+            "subCategory": 10
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 33,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Puntualidad y asistencia",
+            "posicion": 11,
+            "plantilla": 6,
+            "subCategory": 11
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 34,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Respeto y cortesía hacia los demás",
+            "posicion": 12,
+            "plantilla": 6,
+            "subCategory": 12
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 35,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Trabajo en equipo y colaboración",
+            "posicion": 13,
+            "plantilla": 6,
+            "subCategory": 13
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 36,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Iniciativa y responsabilidad",
+            "posicion": 14,
+            "plantilla": 6,
+            "subCategory": 14
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 37,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Flexibilidad y adaptabilidad",
+            "posicion": 15,
+            "plantilla": 6,
+            "subCategory": 15
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Conocimiento y habilidad en el uso de herramientas y tecnologías específicas",
+            "posicion": 16,
+            "plantilla": 6,
+            "subCategory": 16
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 39,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para aprender nuevas habilidades técnicas",
+            "posicion": 17,
+            "plantilla": 6,
+            "subCategory": 17
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 40,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Manejo y mantenimiento de equipos y herramientas",
+            "posicion": 18,
+            "plantilla": 6,
+            "subCategory": 18
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 41,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Identificación y solución de problemas técnicos",
+            "posicion": 19,
+            "plantilla": 6,
+            "subCategory": 19
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 42,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación clara y efectiva con compañeros de trabajo, supervisores y clientes",
+            "posicion": 20,
+            "plantilla": 6,
+            "subCategory": 20
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 43,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para escuchar y comprender las necesidades de los demás",
+            "posicion": 21,
+            "plantilla": 6,
+            "subCategory": 21
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 44,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Escritura clara y efectiva en correos electrónicos, informes y otros documentos",
+            "posicion": 22,
+            "plantilla": 6,
+            "subCategory": 22
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 45,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para presentar información de manera clara y efectiva",
+            "posicion": 23,
+            "plantilla": 6,
+            "subCategory": 23
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 46,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para colaborar efectivamente con otros en la organización",
+            "posicion": 24,
+            "plantilla": 6,
+            "subCategory": 24
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 47,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación efectiva y respetuosa con otros miembros del equipo",
+            "posicion": 25,
+            "plantilla": 6,
+            "subCategory": 25
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 48,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Contribución positiva al logro de los objetivos del equipo",
+            "posicion": 26,
+            "plantilla": 6,
+            "subCategory": 26
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 49,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Apoyo y ayuda a los demás miembros del equipo",
+            "posicion": 27,
+            "plantilla": 6,
+            "subCategory": 27
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 50,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para motivar y liderar a otros",
+            "posicion": 28,
+            "plantilla": 6,
+            "subCategory": 28
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 51,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para delegar tareas y responsabilidades",
+            "posicion": 29,
+            "plantilla": 6,
+            "subCategory": 29
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 52,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para tomar decisiones difíciles y resolver conflictos",
+            "posicion": 30,
+            "plantilla": 6,
+            "subCategory": 30
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 53,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para identificar y aprovechar las fortalezas del equipo",
+            "posicion": 31,
+            "plantilla": 6,
+            "subCategory": 31
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 54,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para guiar a los demás hacia el logro de los objetivos establecidos",
+            "posicion": 32,
+            "plantilla": 6,
+            "subCategory": 32
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 55,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para generar nuevas ideas y enfoques innovadores",
+            "posicion": 33,
+            "plantilla": 6,
+            "subCategory": 33
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 56,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para identificar problemas y proponer soluciones creativas",
+            "posicion": 34,
+            "plantilla": 6,
+            "subCategory": 34
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 57,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para adaptarse a los cambios y proponer nuevas estrategias",
+            "posicion": 35,
+            "plantilla": 6,
+            "subCategory": 35
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 58,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para trabajar en proyectos especiales y realizar tareas adicionales más allá de las asignadas",
+            "posicion": 36,
+            "plantilla": 6,
+            "subCategory": 36
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 59,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los objetivos y metas establecidos",
+            "posicion": 37,
+            "plantilla": 6,
+            "subCategory": 37
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 60,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los plazos establecidos",
+            "posicion": 38,
+            "plantilla": 6,
+            "subCategory": 38
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 61,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Ajuste de las actividades y el enfoque para alcanzar los objetivos y metas establecidos",
+            "posicion": 39,
+            "plantilla": 6,
+            "subCategory": 39
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 62,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Identificación de las oportunidades de mejora y realización de ajustes para alcanzar los objetivos y metas establecidos",
+            "posicion": 40,
+            "plantilla": 6,
+            "subCategory": 40
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 63,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para identificar oportunidades de mejora en sus habilidades y conocimientos",
+            "posicion": 41,
+            "plantilla": 6,
+            "subCategory": 41
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 64,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para aprender nuevas habilidades y conocimientos",
+            "posicion": 42,
+            "plantilla": 6,
+            "subCategory": 42
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 65,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para tomar la iniciativa en el desarrollo de habilidades y conocimientos",
+            "posicion": 43,
+            "plantilla": 6,
+            "subCategory": 43
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 66,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para aplicar habilidades y conocimientos mejorados en su trabajo",
+            "posicion": 44,
+            "plantilla": 6,
+            "subCategory": 44
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 67,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Precisión y exactitud en el trabajo realizado",
+            "posicion": 1,
+            "plantilla": 7,
+            "subCategory": 1
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 68,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los estándares de calidad",
+            "posicion": 2,
+            "plantilla": 7,
+            "subCategory": 2
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 69,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Trabajo completo y bien organizado",
+            "posicion": 3,
+            "plantilla": 7,
+            "subCategory": 3
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 70,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Identificación y corrección de errores y problemas",
+            "posicion": 4,
+            "plantilla": 7,
+            "subCategory": 4
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 71,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los plazos establecidos",
+            "posicion": 5,
+            "plantilla": 7,
+            "subCategory": 5
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 72,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los objetivos de producción",
+            "posicion": 6,
+            "plantilla": 7,
+            "subCategory": 6
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 73,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cantidad y calidad del trabajo realizado",
+            "posicion": 7,
+            "plantilla": 7,
+            "subCategory": 7
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 74,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Uso eficiente del tiempo y los recursos",
+            "posicion": 8,
+            "plantilla": 7,
+            "subCategory": 8
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 75,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para trabajar bajo presión",
+            "posicion": 9,
+            "plantilla": 7,
+            "subCategory": 9
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 76,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Flexibilidad para adaptarse a los cambios en el entorno de trabajo",
+            "posicion": 10,
+            "plantilla": 7,
+            "subCategory": 10
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 77,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Puntualidad y asistencia",
+            "posicion": 11,
+            "plantilla": 7,
+            "subCategory": 11
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 78,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Respeto y cortesía hacia los demás",
+            "posicion": 12,
+            "plantilla": 7,
+            "subCategory": 12
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 79,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Trabajo en equipo y colaboración",
+            "posicion": 13,
+            "plantilla": 7,
+            "subCategory": 13
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 80,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Iniciativa y responsabilidad",
+            "posicion": 14,
+            "plantilla": 7,
+            "subCategory": 14
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 81,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Flexibilidad y adaptabilidad",
+            "posicion": 15,
+            "plantilla": 7,
+            "subCategory": 15
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 82,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Conocimiento y habilidad en el uso de herramientas y tecnologías específicas",
+            "posicion": 16,
+            "plantilla": 7,
+            "subCategory": 16
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 83,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para aprender nuevas habilidades técnicas",
+            "posicion": 17,
+            "plantilla": 7,
+            "subCategory": 17
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 84,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Manejo y mantenimiento de equipos y herramientas",
+            "posicion": 18,
+            "plantilla": 7,
+            "subCategory": 18
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 85,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Identificación y solución de problemas técnicos",
+            "posicion": 19,
+            "plantilla": 7,
+            "subCategory": 19
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 86,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación clara y efectiva con compañeros de trabajo, supervisores y clientes",
+            "posicion": 20,
+            "plantilla": 7,
+            "subCategory": 20
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 87,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para escuchar y comprender las necesidades de los demás",
+            "posicion": 21,
+            "plantilla": 7,
+            "subCategory": 21
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 88,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Escritura clara y efectiva en correos electrónicos, informes y otros documentos",
+            "posicion": 22,
+            "plantilla": 7,
+            "subCategory": 22
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 89,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para presentar información de manera clara y efectiva",
+            "posicion": 23,
+            "plantilla": 7,
+            "subCategory": 23
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 90,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para colaborar efectivamente con otros en la organización",
+            "posicion": 24,
+            "plantilla": 7,
+            "subCategory": 24
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 91,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación efectiva y respetuosa con otros miembros del equipo",
+            "posicion": 25,
+            "plantilla": 7,
+            "subCategory": 25
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 92,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Contribución positiva al logro de los objetivos del equipo",
+            "posicion": 26,
+            "plantilla": 7,
+            "subCategory": 26
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 93,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Apoyo y ayuda a los demás miembros del equipo",
+            "posicion": 27,
+            "plantilla": 7,
+            "subCategory": 27
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 94,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para motivar y liderar a otros",
+            "posicion": 28,
+            "plantilla": 7,
+            "subCategory": 28
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 95,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para delegar tareas y responsabilidades",
+            "posicion": 29,
+            "plantilla": 7,
+            "subCategory": 29
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 96,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para tomar decisiones difíciles y resolver conflictos",
+            "posicion": 30,
+            "plantilla": 7,
+            "subCategory": 30
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 97,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para identificar y aprovechar las fortalezas del equipo",
+            "posicion": 31,
+            "plantilla": 7,
+            "subCategory": 31
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 98,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para guiar a los demás hacia el logro de los objetivos establecidos",
+            "posicion": 32,
+            "plantilla": 7,
+            "subCategory": 32
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 99,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para generar nuevas ideas y enfoques innovadores",
+            "posicion": 33,
+            "plantilla": 7,
+            "subCategory": 33
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 100,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para identificar problemas y proponer soluciones creativas",
+            "posicion": 34,
+            "plantilla": 7,
+            "subCategory": 34
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 101,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para adaptarse a los cambios y proponer nuevas estrategias",
+            "posicion": 35,
+            "plantilla": 7,
+            "subCategory": 35
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 102,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para trabajar en proyectos especiales y realizar tareas adicionales más allá de las asignadas",
+            "posicion": 36,
+            "plantilla": 7,
+            "subCategory": 36
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 103,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los objetivos y metas establecidos",
+            "posicion": 37,
+            "plantilla": 7,
+            "subCategory": 37
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 104,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Cumplimiento de los plazos establecidos",
+            "posicion": 38,
+            "plantilla": 7,
+            "subCategory": 38
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 105,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Ajuste de las actividades y el enfoque para alcanzar los objetivos y metas establecidos",
+            "posicion": 39,
+            "plantilla": 7,
+            "subCategory": 39
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 106,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Identificación de las oportunidades de mejora y realización de ajustes para alcanzar los objetivos y metas establecidos",
+            "posicion": 40,
+            "plantilla": 7,
+            "subCategory": 40
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 107,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para identificar oportunidades de mejora en sus habilidades y conocimientos",
+            "posicion": 41,
+            "plantilla": 7,
+            "subCategory": 41
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 108,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para aprender nuevas habilidades y conocimientos",
+            "posicion": 42,
+            "plantilla": 7,
+            "subCategory": 42
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 109,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Habilidad para tomar la iniciativa en el desarrollo de habilidades y conocimientos",
+            "posicion": 43,
+            "plantilla": 7,
+            "subCategory": 43
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantillaxsubcategoria",
+        "pk": 110,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Capacidad para aplicar habilidades y conocimientos mejorados en su trabajo",
+            "posicion": 44,
+            "plantilla": 7,
+            "subCategory": 44
+        }
+    }
+]
