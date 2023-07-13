@@ -243,14 +243,13 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
         #if not fecha_limite:
         #    return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
 
-        lp = LearningPath.objects.filter(id=id_lp).first()
-        cant_curso=lp.cantidad_cursos
-        list_asignaciones = [
-            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
-                                  fecha_limite=emp['fecha_limite'],cantidad_cursos=cant_curso) for emp in empleados
-        ]
-
         try:
+            lp = LearningPath.objects.filter(id=id_lp).first()
+            cant_curso=lp.cantidad_cursos
+            list_asignaciones = [
+                EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
+                                    fecha_limite=emp['fecha_limite'],cantidad_cursos=cant_curso) for emp in empleados
+            ]
             EmpleadoXLearningPath.objects.bulk_create(list_asignaciones)
             lp = LearningPath.objects.filter(id=id_lp).first()
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path_id=id_lp)
