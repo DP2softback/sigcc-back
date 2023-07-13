@@ -5,7 +5,8 @@ from capacitaciones.views.views_p1 import GetUdemyValidCourses, GetUdemyCourseDe
     CursoUdemyLpAPIView, CursoDetailLpApiView, UploadFilesInS3APIView, DeleteFilesInS3APIView, \
     BusquedaDeEmpleadosAPIView, AsignacionEmpleadoLearningPathAPIView, EmpleadosLearningPath, \
     GenerateUdemyEvaluationAPIView, CheckUdemyCourseStatusAPIView, UdemyEvaluationAPIView, SetupScheduler, \
-    EvaluacionLPAPIView, CompetencesInCoursesAPIView, CursoEmpresaEvaluationAPIView, CompetencesInLPAPIView
+    EvaluacionLPAPIView, CompetencesInCoursesAPIView, CursoEmpresaEvaluationAPIView, CompetencesInLPAPIView, \
+    Dashboard2APIVIEW
 
 from capacitaciones.views.views_p2 import AsistenciaSesionAPIView, AsistenciaSesionInicialAPIView, CompletarCursoEmpresaView, CompletarLearningPathView, CompletarSesionCursoEmpresaView, CursoEmpresaAsignarLPApiView, CursoEmpresaAsincronoAPIView, CursoEmpresaAsincronoSimpleAPIView, CursoEmpresaCourseAPIView, CursoEmpresaCourseFreesAllAPIView, CursoEmpresaDetailAPIView, CursoEmpresaDetailBossAPIView, CursoEmpresaEmpleadoProgressPApiView, \
     CursoEmpresaSearchEspecialAPIView, CursoEmpresaAPIView, CursoEmpresaXEmpleadoCourseAPIView, CursoEmpresaXEmpleadoIncreaseStateAPIView, CursoLPEmpleadoIncreaseStateAPIView, CursoUdemyEmpleadoProgressPApiView, CursoUdemySimpleAPIView, DetalleLearningPathXEmpleadoModifiedAPIView, EmployeeCursoEmpresaFreeListView, EmployeeCursoEmpresaNotFreeListView, GenerateCourseEmpresaEvaluationAPIView, LPEmpleadoIncreaseStateAPIView, LearningPathFromTemplateAPIView, LearningPathsForEmployeeAPIView, ListEmployeesGeneralAPIView, ListProgressEmployeesForLearningPathAPIView, ProgressCourseForLearningPathForEmployeesAPIView, ReadRelateCompetencesEmployeeCourseAPIView, SaveRelateCompetencesEmployeeCourseAPIView, SesionDetailAPIView
@@ -90,7 +91,7 @@ urlpatterns = [
     path('learning_path/<int:pk>/competencias/', CompetencesInLPAPIView.as_view()),
     path('lp_employee_advance/', LPEmpleadoIncreaseStateAPIView.as_view()),
     path('learning_path/rubrica/<int:id_lp>/empleado/<int:id_empleado>/', RubricaAPIVIEW.as_view()),
-    path('dashboard/', DashboardAPIVIEW.as_view()),
+    path('dashboard/', Dashboard2APIVIEW.as_view()),
 
     #path('learning_path/<int:pk>/rubrica/', RubricaLPAPIView.as_view())
 ]
