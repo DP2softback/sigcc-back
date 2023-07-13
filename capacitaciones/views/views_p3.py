@@ -462,15 +462,20 @@ class RendirFormularioAPIVIEW(APIView):
         form = None
         try:
             rpta = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
-            if rpta!=None:
+            print(rpta)
+            if rpta==None:
                 form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
-
+            else:
+                form = rpta
             return Response({"form": form}, status=status.HTTP_200_OK)
 
         except Exception:
             rpta = EmpleadoXCurso.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
-            if rpta != None:
+            print(rpta)
+            if rpta == None:
                 form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+            else:
+                form = rpta
 
             return Response({"form": form}, status=status.HTTP_200_OK)
 
