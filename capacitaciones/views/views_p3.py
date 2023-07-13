@@ -397,7 +397,7 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
             data = {}
             empleado = User.objects.filter(id=id_user).values('first_name', 'last_name', 'email').first()
             data['empleado']= empleado['first_name'] + " "+ empleado['last_name']
-            data['rubrica_calificada']= rubrica_sin_calificar if not rubrica_calificada else rubrica_calificada
+            #data['rubrica_calificada']= rubrica_sin_calificar if not rubrica_calificada else rubrica_calificada
             data['nombre_lp'] = lp.nombre
             data['descripcion_lp'] = lp.descripcion
             data['descripcion_evaluacion']= lp.descripcion_evaluacion
