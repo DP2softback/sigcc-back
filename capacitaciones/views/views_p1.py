@@ -654,8 +654,9 @@ class Dashboard2APIVIEW(APIView):
 
         dashboard['competencias_mas_demandadas'] = competencias_mas_demandadas
 
-        cursos_empresa_sin_asignar = []
-        dashboard['cursos_empresa_sin_asignar'] = cursos_empresa_sin_asignar
+
+        cursos_no_asignados = CursoEmpresa.objects.exclude(id__in=EmpleadoXCursoEmpresa.objects.values('cursoEmpresa_id')).values_list('id', flat=True).count()
+        dashboard['cursos_empresa_sin_asignar'] = cursos_no_asignados
 
         comptencias_por_nivel = []
         dashboard['comptencias_por_nivel'] = comptencias_por_nivel
