@@ -44,6 +44,9 @@ class EvaluationCreateAPIView(APIView):
             category = get_object_or_404(Category, id=category_id)
             scores = [subcategory["score"] for subcategory in subcategories_data]
             finalScore = sum(scores) / len(scores)
+
+            objEmpleado = Employee.objects.get(id= evaluated_id)
+
             evaluation = Evaluation.objects.create(
                 evaluator_id=evaluator_id,
                 evaluated_id=evaluated_id,
@@ -60,6 +63,9 @@ class EvaluationCreateAPIView(APIView):
             )
 
             evaluationxsubcategories = []
+            competencesxemployee = []
+            competencexemployeeant=[]
+
             for subcategory_data in subcategories_data:
                 subcategory_id = subcategory_data.get('id')
                 score = subcategory_data.get('score')
@@ -68,6 +74,7 @@ class EvaluationCreateAPIView(APIView):
                 comment = '' if data_comment is None else data_comment
                 hasComment = False if data_hasComment is None else data_hasComment
                 subcategory = get_object_or_404(SubCategory, id=subcategory_id)
+
                 evaluationxsubcategory = EvaluationxSubCategory(
                     subCategory=subcategory,
                     evaluation=evaluation,
@@ -75,9 +82,61 @@ class EvaluationCreateAPIView(APIView):
                     comment=comment,
                     hasComment=hasComment
                 )
+
                 evaluationxsubcategories.append(evaluationxsubcategory)
 
+                scoreScale  = 0 
+                if(score == 1):
+                    scoreScale = -5
+                elif(score == 2):
+                    scoreScale = -3
+                elif(score == 3):
+                    scoreScale = 0
+                elif(score == 4):
+                    scoreScale = 3
+                elif(score == 5):
+                    scoreScale = 5
+                try:
+                    registroAnterior = CompetencessXEmployeeXLearningPath.objects.get(employee = objEmpleado.id,competence=subcategory,isActual = True)
+                except CompetencessXEmployeeXLearningPath.DoesNotExist:
+                    registroAnterior = None
+                
+
+                if(registroAnterior is None):
+                    competencexemployee = CompetencessXEmployeeXLearningPath(
+                    employee = objEmpleado,
+                    competence = subcategory,
+                    evaluation = evaluation,
+                    lp = None,
+                    isInitial = True,
+                    level = CompetencessXEmployeeXLearningPath.Scale.NO_INICIADO,
+                    score = scoreScale if scoreScale >= 0 else 0,
+                    levelGap = 20,
+                    likeness = 0,
+                    isActual = True,
+                    modifiedBy = evaluation.evaluationType.name
+                    )
+                    competencesxemployee.append(competencexemployee)    
+                else:
+                    registroAnterior.isActual = False
+                    registroAnterior.save()
+                    #competencexemployeeant.append(registroAnterior)
+
+                    nuevoRegistro = registroAnterior
+                    nuevoRegistro.isInitial = False
+                    nuevoRegistro.score += scoreScale
+                    nuevoRegistro.modifiedBy = evaluation.evaluationType.name
+                    nuevoRegistro.id = None
+                    nuevoRegistro.isActual = True
+                    competencesxemployee.append(nuevoRegistro)
+
+                
+                
+
             EvaluationxSubCategory.objects.bulk_create(evaluationxsubcategories)
+            CompetencessXEmployeeXLearningPath.objects.bulk_create(competencesxemployee)
+
+            #CompetencessXEmployeeXLearningPath.objects.bulk_update(competencexemployeeant,['isActual'])
 
             return Response({'message': 'Evaluation created successfully.'}, status=status.HTTP_201_CREATED)
         except EvaluationType.DoesNotExist:
@@ -195,17 +254,16 @@ class addCategory(APIView):
         peruTz = pytz.timezone('America/Lima')
         now=datetime.now(peruTz)
         subcategories = data.get('Subcategorias', [])
-        
-        
-        
+
         cat = Category(
         creationDate = now,
         modifiedDate =now,
         name = catName,
         code = 'USR',
         )
-        
-        Category.objects.create(cat)
+
+        cat.save()
+
         subcats =[]
         count = 0 
         for subcategoryData in subcategories:
@@ -319,4 +377,5 @@ class GetReporteGeneral(APIView):
             return HttpResponseBadRequest("EvaluationType does not exist.")
 
             
+
 
