@@ -1,11 +1,11 @@
 # from django.contrib.auth.models import User
+from django.contrib import admin
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 from personal.models import Area, Position
 from safedelete.models import SOFT_DELETE, SOFT_DELETE_CASCADE, SafeDeleteModel
-from django.contrib import admin
 
 # Create your models here.
 
@@ -36,7 +36,7 @@ class User(AbstractUser, TimeStampedModel, SafeDeleteModel):
 
     def __str__(self):
         return self.first_name + " " + self.second_name
-    
+
     export_fields = [
         'username',
         'email',
@@ -44,7 +44,7 @@ class User(AbstractUser, TimeStampedModel, SafeDeleteModel):
         'second_name',
         'last_name',
         'maiden_name'
-        'roles',        
+        'roles',
         'is_active'
     ]
 
@@ -67,10 +67,12 @@ class Employee(TimeStampedModel, SafeDeleteModel):
     position = models.ForeignKey(Position, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return "Employee: " + self.user.first_name
+        return f"Employee: {self.user.first_name} {self.user.last_name}"
 
 
 class Applicant(TimeStampedModel, SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    
+
+    def __str__(self):
+        return f"Applicant: {self.user.first_name} {self.user.last_name}"

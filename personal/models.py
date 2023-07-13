@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils import timezone
 from model_utils.models import TimeStampedModel
 from safedelete.models import SOFT_DELETE, SOFT_DELETE_CASCADE, SafeDeleteModel
 
@@ -66,12 +67,37 @@ class HiringProcess(models.Model):
     position = models.ForeignKey(AreaxPosicion, on_delete=models.CASCADE)
     name = models.CharField(max_length=60)
     available_positions_quantity = models.IntegerField()
+    current_process_stage = models.IntegerField(default=1, null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
+
+    def get_current_process_stage(self):
+        current_date = timezone.now().date()
+        process_stages = self.process_stages.filter(start_date__lte=current_date, end_date__gte=current_date)
+
+        if process_stages.exists():
+            process_stages = process_stages.order_by('start_date')
+            current_stage = None
+
+            for stage in process_stages:
+                if current_stage is None or stage.start_date >= current_stage.end_date:
+                    current_stage = stage
+            return current_stage
+
+        return None
+
+    def get_current_process_stageV2(self):
+        if self.current_process_stage is None:
+            return None
+        try:
+            current_stage = self.process_stages.get(stage_type_id=self.current_process_stage)
+            return current_stage
+        except ProcessStage.DoesNotExist:
+            pass
 
 
 class EmployeeXHiringProcess(models.Model):
@@ -106,7 +132,7 @@ class ProcessStage(models.Model):
     hiring_process = models.ForeignKey(HiringProcess, related_name='process_stages', on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
-    order = models.IntegerField()
+    order = models.IntegerField()  # not used...
     name = models.CharField(max_length=40)
     description = models.TextField(blank=True, default='')
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -215,3 +241,29 @@ class TrainingxAreaxPosition(TimeStampedModel, SafeDeleteModel):
 
     def to_str(self):
         return f"{self.training}"
+
+
+class Experience(TimeStampedModel, SafeDeleteModel):
+
+    applicant = models.ForeignKey('login.Applicant', on_delete=models.CASCADE, null=True, blank=True)
+    description = models.TextField(blank=True, default='', null=True)
+
+    def __str__(self):
+        return self.description
+
+
+class TrainingxApplicant(TimeStampedModel, SafeDeleteModel):
+
+    trainingxlevel = models.ForeignKey(TrainingxLevel, on_delete=models.CASCADE, null=True, blank=True)
+    applicant = models.ForeignKey('login.Applicant', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"Training: {self.trainingxlevel} for {self.applicant}"
+
+
+class ApplicantxProcessStage(TimeStampedModel, SafeDeleteModel):
+    applicant = models.ForeignKey('login.Applicant', on_delete=models.CASCADE, null=True, blank=True)
+    process_stage = models.ForeignKey(ProcessStage, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.applicant}, process {self.process_stage.hiring_process}, stage {self.process_stage}"

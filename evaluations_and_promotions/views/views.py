@@ -24,6 +24,10 @@ from django.db.models import F, ExpressionWrapper, FloatField
 from collections import defaultdict
 from rest_framework.permissions import AllowAny
 from django.core.validators import URLValidator
+import pytz
+from django.core.mail import EmailMultiAlternatives, send_mail
+from django.conf import settings
+import urllib.parse
 
 
 
@@ -173,6 +177,100 @@ class GetPersonasACargo(APIView):
 
         return Response(employee_data, status=status.HTTP_200_OK)
     
+class GetPersona(APIView):
+    def post(self, request):
+
+        supervisor_id = request.data.get("id")
+        evaluation_type = request.data.get("evaluationType")
+        fecha_inicio = request.data.get("fecha_inicio")
+        fecha_final=request.data.get("fecha_final")
+        nombre = request.data.get("nombre")
+
+        validate_employee_and_evaluation(supervisor_id, evaluation_type)
+        
+        personas = Employee.objects.filter(id=supervisor_id)
+
+        if nombre:
+            personas = personas.filter(
+                Q(user__first_name__icontains=nombre) |
+                Q(user__last_name__icontains=nombre)  |
+                Q(user__username__icontains=nombre)
+            )
+        evaluation_type_obj = get_object_or_404(EvaluationType, name=evaluation_type)
+        evaluations = Evaluation.objects.filter(evaluated__in=personas, evaluationType=evaluation_type_obj, isActive=True, isFinished=True)
+        employee_data = []
+        category_scores = {}
+
+        if fecha_inicio:
+            try:
+                fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+                evaluations = evaluations.filter(evaluationDate__gte=fecha_inicio)
+            except ValueError:
+                return Response("Invalid value for fecha_inicio.", status=status.HTTP_400_BAD_REQUEST)
+
+        if fecha_final:
+            try:
+                fecha_final = datetime.strptime(fecha_final, "%Y-%m-%d").date()
+                evaluations = evaluations.filter(evaluationDate__lte=fecha_final)
+            except ValueError:
+                return Response("Invalid value for fecha_final.", status=status.HTTP_400_BAD_REQUEST)
+        
+        category_scores = defaultdict(list)
+        category_averages = {}
+
+        for evaluation in evaluations:
+            responseQuery = EvaluationxSubCategory.objects.filter(evaluation=evaluation)
+            dataSerialized = ContinuousEvaluationIntermediateSerializer(responseQuery, many=True)
+            subcategories = dataSerialized.data
+            for subcategory in subcategories:
+                subcategory['evaluationDate'] = evaluation.evaluationDate
+                # If this line is confusing, remember subcategory is a record of the EvaluationxSubCategory table
+                category_id = subcategory['subCategory']['category']['name']
+                score = subcategory['score']
+                
+                category_scores[category_id].append((score, evaluation.evaluationDate.year, evaluation.evaluationDate.month))  # Append the score, year, and month
+                
+        # Calculate average score for each category per year and month
+        for category_id, scores in category_scores.items():
+            category_averages[category_id] = {}
+            year_month_scores = defaultdict(list)
+            for score, year, month in scores:
+                year_month_scores[(year, month)].append(score)
+            for (year, month), scores in year_month_scores.items():
+                average_score = sum(scores) / len(scores)
+                category_averages[category_id][f"{year}-{month:02d}"] = average_score
+
+        for persona in personas:
+            # Get the latest evaluation for the specified evaluation type
+            evaluation = Evaluation.objects.filter(evaluated=persona, evaluationType=evaluation_type_obj).order_by('-evaluationDate').first()
+            
+            # Calculate time since last evaluation
+            time_since_last_evaluation = None
+            dias = None
+            if evaluation:
+                time_since_last_evaluation = timezone.now().date() - evaluation.evaluationDate.date()
+                dias = time_since_last_evaluation.days
+            # Construct the desired employee data
+            employee_data.append({
+                'id': persona.id,
+                'name': f"{persona.user.first_name} {persona.user.last_name}",
+                'time_since_last_evaluation': dias,
+                'area': {
+                    'id': persona.area.id,
+                    'name': persona.area.name
+                },
+                'position': {
+                    'id': persona.position.id,
+                    'name': persona.position.name
+                },
+                'email': persona.user.email
+            })
+            
+        # for employee in employee_data:
+        #     employee['CategoryAverages'] = category_averages
+
+        return Response(employee_data, status=status.HTTP_200_OK)
+    
 class GetHistoricoDeEvaluaciones(APIView):
     def post(self, request):
         #request: nivel, fecha_inicio,fecha_final, tipoEva, employee_id
@@ -186,7 +284,7 @@ class GetHistoricoDeEvaluaciones(APIView):
         
         
         evaType = get_object_or_404(EvaluationType, name=tipoEva)
-        query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True)
+        query = Evaluation.objects.filter(evaluated_id=employee_id, evaluationType=evaType, isActive=True,finalScore__gte=1.0)
         
         if nivel:
             query = query.filter(finalScore=nivel)
@@ -292,7 +390,8 @@ class EvaluationLineChart(APIView):
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluator__id = supervisor_id,evaluation__evaluationType__name=evaluation_type, evaluation__isActive = True)
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluator__id = supervisor_id,evaluation__evaluationType__name=evaluation_type, evaluation__isActive = True,score__gte= 1.0,evaluation__relatedEvaluation = None)
+        Datos = Datos.exclude(subCategory__category = None)
 
         if fecha_inicio:
             try:
@@ -368,6 +467,7 @@ class PlantillasAPI(APIView):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
         Datos = PlantillaxSubCategoria.objects.filter(plantilla__id = plantilla,plantilla__evaluationType__name=evaluation_type,plantilla__isActive = True)
+        Datos = Datos.exclude(subCategory__category = None)
         Datos_serializados = PlantillaxSubCategoryRead(Datos,many=True,fields=('id','plantilla','subCategory','nombre'))
 
 
@@ -448,7 +548,7 @@ class PlantillasEditarVistaAPI(APIView):
             return Response("Template not found", status=status.HTTP_404_NOT_FOUND)
 
         categories = self.get_categories(template)
-        subcategories_not_in_template = self.get_subcategories_not_in_template(template, evaluation_type)
+        subcategories_not_in_template = self.get_subcategories_not_in_template(template)
 
         response_data = self.generate_response_data(template, categories, subcategories_not_in_template)
         return Response(response_data, status=status.HTTP_200_OK)
@@ -480,14 +580,13 @@ class PlantillasEditarVistaAPI(APIView):
 
         return categories
 
-    def get_subcategories_not_in_template(self, template, evaluation_type):
+    def get_subcategories_not_in_template(self, template):
         subcategories_in_template = PlantillaxSubCategoria.objects.filter(
-            plantilla=template,
-            plantilla__evaluationType__name=evaluation_type,
+            plantilla=template,   
             isActive=True
         ).values_list('subCategory_id', flat=True)
 
-        return SubCategory.objects.exclude(id__in=subcategories_in_template).filter(category__evaluationType__name=evaluation_type)
+        return SubCategory.objects.exclude(id__in=subcategories_in_template)
 
     def generate_response_data(self, template, categories, subcategories_not_in_template):
         evaluation_type = template.evaluationType.name  # Get the evaluation type from the template
@@ -547,12 +646,13 @@ class PlantillasEditarVistaAPI(APIView):
 class VistaCategoriasSubCategorias(APIView):
     def post(self,request):
         #plantilla = request.data.get("id")
-        evaluation_type = request.data.get("evaluationType")
+        #evaluation_type = request.data.get("evaluationType")
 
-        if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
-            return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
+        #if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
+        #    return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = SubCategory.objects.filter(category__evaluationType__name=evaluation_type,isActive = True)
+        Datos = SubCategory.objects.filter(isActive = True)
+        Datos = Datos.exclude(category = None)
         Datos_serializados = SubCategorySerializerRead(Datos,many=True,fields=('id','name','category'))
 
         grouped_data = {}
@@ -591,8 +691,8 @@ class EvaluationLineChartPersona(APIView):
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluated__id = persona_id,evaluation__evaluationType__name=evaluation_type, evaluation__isActive = True)
-
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluated__id = persona_id,evaluation__evaluationType__name=evaluation_type, evaluation__isActive = True,score__gte= 1.0,evaluation__relatedEvaluation = None)
+        Datos = Datos.exclude(subCategory__category = None)
         if fecha_inicio:
             try:
                 fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
@@ -618,7 +718,8 @@ class EvaluationLineChartPersona(APIView):
             evaluation_date = item['evaluation']['evaluationDate']
             year = evaluation_date.split('-')[0]
             month = evaluation_date.split('-')[1]
-
+            if(item['subCategory']['category'] is None):
+                continue
             category_name = item['subCategory']['category']['name']
             score_average = item['score']
 
@@ -784,13 +885,13 @@ class GetAreas(APIView):
 class GetCategoriasContinuas(APIView):
     def get(self, request):
         evaluation_type = EvaluationType.objects.get(name='Evaluación Continua')
-        categorias = Category.objects.filter(evaluationType=evaluation_type).values('id', 'name')
+        categorias = Category.objects.values('id', 'name')
         return Response(categorias)
 
 class GetCategoriasDesempenio(APIView):
     def get(self, request):
         evaluation_type = EvaluationType.objects.get(name='Evaluación de Desempeño')
-        categorias = Category.objects.filter(evaluationType=evaluation_type).values('id', 'name')
+        categorias = Category.objects.values('id', 'name')
         return Response(categorias)
     
 class EvaluationLineChartReporte(APIView):
@@ -807,9 +908,12 @@ class EvaluationLineChartReporte(APIView):
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter( evaluation__evaluationType__name=evaluation_type, subCategory__category__id = category_id, evaluation__isActive = True)
+        Datos = EvaluationxSubCategory.objects.filter(isActive = True,evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True,score__gte= 1.0,evaluation__relatedEvaluation = None)
+        Datos = Datos.exclude(subCategory__category = None)
+        Datos = Datos.objects.filter(  subCategory__category__id = category_id)
+
         if(area_id is not None):
-            Datos.filter(evaluation__area__id = area_id)
+            Datos = Datos.filter(evaluation__area__id = area_id)
         
 
         if fecha_inicio:
@@ -837,6 +941,9 @@ class EvaluationLineChartReporte(APIView):
             evaluation_date = item['evaluation']['evaluationDate']
             year = evaluation_date.split('-')[0]
             month = evaluation_date.split('-')[1]
+
+            if(item['subCategory']['category'] is None):
+                continue
 
             category_name = item['subCategory']['category']['name']
             score_average = item['score']
@@ -874,18 +981,10 @@ class EvaluationLineChartReporte(APIView):
 class ListAllCategories(APIView):
     def post(self,request):
         Categorias = Category.objects.filter(isActive = True)
-        Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
+        Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description'))
         return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
 
-class ListAllCategories(APIView):
-    def post(self,request):
-        evalType = request.data.get("evalType")
-        if(evalType is None):
-            return Response("No se ha especificado el evalType",status=status.HTTP_400_BAD_REQUEST)
-        
-        Categorias = Category.objects.filter(isActive = True,evaluationType__name=evalType)
-        Categorias_serializada = CategorySerializerRead2(Categorias, many=True,fields=('id','name','code','description','evaluationType'))
-        return Response(Categorias_serializada.data, status=status.HTTP_200_OK)
+
 
 class RegistrarEvaluacionDesempen(APIView):
     def post(self,request):
@@ -924,12 +1023,31 @@ class RegistrarEvaluacionDesempen(APIView):
             evaluacion_creada_related.save()
             if(evaluacion_creada_related is None):
                 return Response("No se ha creado correctamente el objeto evaluacion relacionada",status=status.HTTP_400_BAD_REQUEST)
+            employee_user = getattr(obj_evaluado, 'user', None)
+            user_email  = getattr(employee_user, 'email', None)
+            name = "{} {}".format(getattr(employee_user, 'first_name', ''), getattr(employee_user, 'last_name', ''))
+            encoded_name = urllib.parse.quote(name)
+            url = "{}/skill-management/auto-evaluation?id={}&name={}&evaluationId={}".format(
+                settings.CLIENT_URL,
+                obj_evaluado.id,
+                encoded_name,
+                evaluacion_creada_related.id
+            )
+            send_mail(
+            "Su autoevaluación está lista",
+            "Su autoevaluación está lista para ser llenada. Por favor llenela ingresando a {}".format(url),
+            settings.EMAIL_HOST_USER,
+            [user_email],
+            fail_silently=False,
+        )
 
 
         for item in request.data.get("categories"):
             for item2 in item["subcategories"]:
-                
-                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],subCategory = SubCategory.objects.get(id = item2["id"]),evaluation=evaluacion_creada)
+                data_comment =item2.get('comment')
+                comment = '' if data_comment is None else data_comment.strip()
+                has_comment = False if data_comment is None else True
+                subcategoriacrear_evaluacion = EvaluationxSubCategory(score=item2["score"],comment=comment, hasComment =  has_comment, subCategory = SubCategory.objects.get(id = item2["id"]),evaluation=evaluacion_creada)
                 subcategoriacrear_evaluacion.save()
                 if(subcategoriacrear_evaluacion is None):
                     return Response("No se ha creado correctamente el objeto subcategoria",status=status.HTTP_400_BAD_REQUEST)
@@ -1023,6 +1141,8 @@ class ActualizarCategorias(APIView):
     def delete(self, request):
         idCategoria = request.data.get("idCategoria")
         idSubCategoria = request.data.get("idSubCategoria")
+        peruTz = pytz.timezone('America/Lima')
+        now=datetime.now(peruTz)
 
         if(idCategoria is None):
             return Response("No se ha especificado el idCategoria",status=status.HTTP_400_BAD_REQUEST)
@@ -1038,7 +1158,7 @@ class ActualizarCategorias(APIView):
         obj_categorias = SubCategory.objects.filter(name=obj_subcategoria.name)
 
         if obj_categorias.exists():
-            obj_categorias.update(category = None)
+            obj_categorias.update(category = None, modifiedDate= now )
         
 
         
@@ -1059,8 +1179,8 @@ class EvaluationLineChartReporte2(APIView):
         if (evaluation_type.casefold() != "Evaluación Continua".casefold() and evaluation_type.casefold() != "Evaluación de Desempeño".casefold()):
             return Response("Invaled value for EvaluationType",status=status.HTTP_400_BAD_REQUEST)
         
-        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True,score__gte= 1.0)
-        
+        Datos = EvaluationxSubCategory.objects.filter(evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True,score__gte= 1.0,evaluation__relatedEvaluation = None)
+        Datos = Datos.exclude(subCategory__category = None)
 
         if fecha_inicio:
             try:
@@ -1087,67 +1207,14 @@ class EvaluationLineChartReporte2(APIView):
         
         data = Data_serialiazada.data
 
-        
-        
-        # 
-
-        # elif(category_id is not None and area_id is  None):
-
-        
-        
-
-
-        # return Response(transformed_data,status=status.HTTP_200_OK)
         json1 = Data_serialiazada.data
         json2=[]
         json_data=json1
         result = []
 
-        if(category_id is  None and area_id is  None):
-            for item in json1:
-                evaluation_date = item["evaluation"]["evaluationDate"]
-                date_obj = datetime.fromisoformat(evaluation_date)
-                year = date_obj.strftime("%Y")
-                month = date_obj.strftime("%m")
-                area_name = item["evaluation"]["area"]["name"]
-                score = item["score"]
 
-                existing_year = next((x for x in json2 if x["Year"] == year), None)
-                if existing_year:
-                    existing_month = next((m for m in existing_year["Month"] if m["Month"] == month), None)
-                    if existing_month:
-                        existing_area = next((a for a in existing_month["category_scores"] if a["Area"] == area_name), None)
-                        if existing_area:
-                            existing_area["ScoreAverage"].append(score)
-                        else:
-                            existing_month["category_scores"].append({"Area": area_name, "ScoreAverage": [score]})
-                    else:
-                        existing_year["Month"].append({"Month": month, "category_scores": [{"Area": area_name, "ScoreAverage": [score]}]})
-                else:
-                    json2.append({
-                        "Year": year,
-                        "Month": [
-                            {
-                                "Month": month,
-                                "category_scores": [
-                                    {"Area": area_name, "ScoreAverage": [score]}
-                                ]
-                            }
-                        ]
-                    })
 
-            # Calculate the average score for each month per area
-            for year in json2:
-                for month in year["Month"]:
-                    for area in month["category_scores"]:
-                        scores = area["ScoreAverage"]
-                        score_average = sum(scores) / len(scores)
-                        area["ScoreAverage"] = score_average
-            return Response(json2,status=status.HTTP_200_OK)
-        
-        
-
-        elif(category_id is not None and area_id is None):
+        if(category_id is not None and area_id is None):
             result = []
             for data in json_data:
                 area_name = data["evaluation"]["area"]["name"]
@@ -1175,7 +1242,8 @@ class EvaluationLineChartReporte2(APIView):
                                         subcategory_score["ScoreAverage"] = (
                                             subcategory_score["ScoreAverage"]
                                             + data["score"]
-                                        ) / 2
+                                        ) 
+                                        subcategory_score["Quantity"] += 1
                                         break
 
                                 # If the subcategory doesn't exist, add it to the month
@@ -1184,6 +1252,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     )
                                 break
@@ -1197,6 +1266,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
@@ -1216,6 +1286,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
@@ -1224,9 +1295,13 @@ class EvaluationLineChartReporte2(APIView):
                     )
 
 
-                
+            for item in result:
+                for month in item["Month"]:
+                    for subcat in month["subCategory_scores"]:
+                        subcat["ScoreAverage"] /= subcat["Quantity"]
+                        del subcat["Quantity"]    
             return Response(result,status=status.HTTP_200_OK)
-        elif(category_id is  None and area_id is not None):    
+        elif(category_id is None and area_id is not None):    
             for data in json_data:
                 category_name = data["subCategory"]["category"]["name"]
                 evaluation_date = datetime.fromisoformat(data["evaluation"]["evaluationDate"])
@@ -1253,7 +1328,8 @@ class EvaluationLineChartReporte2(APIView):
                                         subcategory_score["ScoreAverage"] = (
                                             subcategory_score["ScoreAverage"]
                                             + data["score"]
-                                        ) / 2
+                                        )
+                                        subcategory_score["Quantity"] += 1
                                         break
 
                                 # If the subcategory doesn't exist, add it to the month
@@ -1262,6 +1338,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     )
                                 break
@@ -1275,6 +1352,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
@@ -1294,12 +1372,19 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
                             ],
                         }
                     )
+            for item in result:
+                for month in item["Month"]:
+                    for subcat in month["subCategory_scores"]:
+                        subcat["ScoreAverage"] /= subcat["Quantity"]
+                        del subcat["Quantity"]
+                        
 
             return Response(result,status=status.HTTP_200_OK)
         elif(category_id is not None and area_id is not None):
@@ -1328,7 +1413,8 @@ class EvaluationLineChartReporte2(APIView):
                                         subcategory_score["ScoreAverage"] = (
                                             subcategory_score["ScoreAverage"]
                                             + data["score"]
-                                        ) / 2
+                                        ) 
+                                        subcategory_score["Quantity"] += 1
                                         break
 
                                 # If the subcategory doesn't exist, add it to the month
@@ -1337,6 +1423,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     )
                                 break
@@ -1350,6 +1437,7 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
@@ -1368,25 +1456,19 @@ class EvaluationLineChartReporte2(APIView):
                                         {
                                             "SubCategory": data["subCategory"]["name"],
                                             "ScoreAverage": data["score"],
+                                            "Quantity":1
                                         }
                                     ],
                                 }
                             ],
                         }
                     )
+            for item in result:
+
+                for month in item["Month"]:
+                    for subcat in month["subCategory_scores"]:
+                        subcat["ScoreAverage"] /= subcat["Quantity"]
+                        del subcat["Quantity"]
             return Response(result,status=status.HTTP_200_OK)
         else:
             return Response("No se ha brindado correctamente los parametros",status=status.HTTP_400_BAD_REQUEST)
-# class listCompetencias(APIView):
-#     def post(self,request):
-#         category_id = request.data.get("category-id")
-#         Competencias = Competence.objects.filter(isActive = True,subCategory__Category_id=category_id)
-#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
-#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
-    
-# class listCompetenciasPorCategoria(APIView):
-#     def post(self,request):
-#     ###    category_id = request.data.get("category-id")
-#         Competencias = Competence.objects.filter(isActive = True)
-#         Competencias_serializada = CompetenceSerializadaRead(Competencias, many=True,fields=('id','name','subCategory'))
-#         return Response(Competencias_serializada.data, status=status.HTTP_200_OK)
