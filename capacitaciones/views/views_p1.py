@@ -5,6 +5,7 @@ import time
 import uuid
 
 import boto3
+from django.db.models import Count
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.permissions import AllowAny
@@ -584,7 +585,7 @@ class CompetencesInLPAPIView(APIView):
         return Response({'msg': "Se asigno las competencias con exito"}, status=status.HTTP_200_OK)
 
 
-class DashboardAPIVIEW(APIView):
+class Dashboard2APIVIEW(APIView):
 
     def get(self, request):
         dashboard={}
@@ -606,7 +607,51 @@ class DashboardAPIVIEW(APIView):
         dashboard['cursos_mejor_valorados']=cursos_mejor_valorados
         ###
 
-        competencias_mas_demandadas = []
+        ##
+        competencias_demandadas = CompetenciasXCurso.objects.values('competencia').annotate(
+            inscripciones=Count('competencia'))
+
+        competencias_demandadas_lps = CompetenciasXLearningPath.objects.values('competencia').annotate(
+            inscripciones=Count('competencia'))
+
+        resultados = {}
+        for competencia in competencias_demandadas:
+            competencia_id = competencia['competencia']
+            inscripciones = competencia['inscripciones']
+            if competencia_id in resultados:
+                resultados[competencia_id] += inscripciones
+            else:
+                resultados[competencia_id] = inscripciones
+
+        for competencia in competencias_demandadas_lps:
+            competencia_id = competencia['competencia']
+            inscripciones = competencia['inscripciones']
+            if competencia_id in resultados:
+                resultados[competencia_id] += inscripciones
+            else:
+                resultados[competencia_id] = inscripciones
+
+        competencias_mas_demandadas = sorted(resultados.items(), key=lambda x: x[1], reverse=True)
+
+        subcategorias = SubCategory.objects.all()
+        subcategorias_dict = {subcategoria.id: subcategoria.name for subcategoria in subcategorias}
+        competencias_mas_demandadas_con_nombres = []
+        for competencia in competencias_mas_demandadas:
+            competencia_id = competencia[0]
+            inscripciones = competencia[1]
+            if competencia_id in subcategorias_dict:
+                nombre_competencia = subcategorias_dict[competencia_id]
+                competencias_mas_demandadas_con_nombres.append([nombre_competencia, inscripciones])
+
+        competencias_mas_demandadas = {
+            "labels": [],
+            "values": []
+        }
+
+        for competencias in competencias_mas_demandadas_con_nombres:
+            competencias_mas_demandadas['labels'].append(competencias[0])
+            competencias_mas_demandadas['values'].append(competencias[1])
+
         dashboard['competencias_mas_demandadas'] = competencias_mas_demandadas
 
         cursos_empresa_sin_asignar = []
