@@ -617,10 +617,44 @@ class RubricaAPIVIEW(APIView):
         rubrica_calificada = EmpleadoXLearningPath.objects.filter(Q(empleado_id=id_empleado) & Q(learning_path_id=id_lp)).values('rubrica_calificada_evaluacion')
 
         if rubrica_calificada==None: #no la han calificado aun
-            competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id=pk).values_list('competencia',flat=True)
+            competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id=id_lp).values_list('competencia',flat=True)
             competencias = SubCategory.objects.filter(id__in=competencias_id)
             competencia_serializer = SubCategorySerializer(competencias, many=True)
 
             return Response({"criterias": competencia_serializer.data}, status=status.HTTP_200_OK)
 
         return Response({"criterias": rubrica_calificada}, status=status.HTTP_200_OK)
+
+
+class DashboardAPIVIEW(APIView):
+
+    def get(self, request):
+        dashboard={}
+
+        ## Cursos mejor valorados
+        cursos_mejor_valorados = {
+            "labels": [],
+            "values": []
+        }
+        cursos_valoraciones = CursoGeneral.objects.order_by('-suma_valoracionees').values('nombre','suma_valoracionees','cant_valoraciones')[:3]
+        for curso in cursos_valoraciones:
+            cursos_mejor_valorados["labels"].append(curso['nombre'])
+            if curso['cant_valoraciones']:
+                cursos_mejor_valorados["values"].append(curso['suma_valoracionees']/curso['cant_valoraciones'])
+            else:
+                cursos_mejor_valorados["values"].append(curso['suma_valoracionees'])
+
+        print(cursos_mejor_valorados)
+        dashboard['cursos_mejor_valorados']=cursos_mejor_valorados
+        ###
+
+        competencias_mas_demandadas = []
+        dashboard['competencias_mas_demandadas'] = competencias_mas_demandadas
+
+        cursos_empresa_sin_asignar = []
+        dashboard['cursos_empresa_sin_asignar'] = cursos_empresa_sin_asignar
+
+        comptencias_por_nivel = []
+        dashboard['comptencias_por_nivel'] = comptencias_por_nivel
+
+        return Response(dashboard, status=status.HTTP_200_OK)
