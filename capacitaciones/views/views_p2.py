@@ -955,3 +955,52 @@ class LPEmpleadoIncreaseStateAPIView(APIView):
             mensaje= "Se actualizó el estado "
             return Response({"message": mensaje}, status = status.HTTP_200_OK)
         return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)
+    
+
+class CursoEmpresaXEmpleadoCourseAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, pk,empleado_id):
+        cursos_emp = CursoEmpresa.objects.filter(id=pk).first()
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp)
+
+        empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=pk).first()
+        
+        dato_extra = {
+            'estado': empleado_curso_empresa.estado
+        }
+        
+        cursos_emp_data = cursos_emp_serializer.data
+        cursos_emp_data.update(dato_extra)
+        return Response(cursos_emp_data, status = status.HTTP_200_OK)
+    
+
+class CursoEmpresaXEmpleadoIncreaseStateAPIView(APIView):
+    permission_classes = [AllowAny]
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request):
+        '''
+        {
+        "curso_id":26,
+        "empleado_id":1
+        }
+        
+        
+        '''
+        curso_id = request.data.get('curso_id', None)
+        empleado_id = request.data.get('empleado_id', None)
+
+        empleado_curso_empresa = EmpleadoXCursoEmpresa.objects.filter(empleado_id=empleado_id, cursoEmpresa_id=curso_id).first()
+
+        if empleado_curso_empresa is not None:
+            variable=empleado_curso_empresa.estado 
+            variable=int(variable)+1
+            if variable==3:
+                variable=2
+            empleado_curso_empresa.estado = str(variable)
+            empleado_curso_empresa.save()
+            mensaje= "Se actualizó el estado"
+            return Response({"message": mensaje}, status = status.HTTP_200_OK)
+        return Response({"message": "En proceso aún"}, status = status.HTTP_200_OK)

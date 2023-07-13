@@ -489,18 +489,17 @@ class ValoracionesCursosAPIVIEW(APIView):
 class RendirFormularioAPIVIEW(APIView):
 
     def get(self, request,id_curso,id_empleado):
-        curso = CursoGeneral.objects.filter(id=id_curso).first()
 
-        try:
-            print('CURSOEMPRESA')
-            rpta = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
-            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
-            print(form)
-        except Exception:
+        print('CURSOEMPRESA')
+        rpta = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=id_empleado) & Q(cursoEmpresa_id=id_curso)).values("respuestas").first()
+        form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+        print(form)
+        if form ==None:
             print('CURSOUDEMY')
             rpta = EmpleadoXCurso.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
             form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
             print(form)
+
         if rpta == None:
             return Response({"form": form}, status=status.HTTP_200_OK)
 

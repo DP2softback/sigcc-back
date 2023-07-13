@@ -207,6 +207,13 @@ class EmpleadoXCurso(models.Model):
 
 
 class EmpleadoXCursoEmpresa(models.Model):
+    estado_choices = [
+        ('0', 'Sin empezar'),
+        ('1', 'Finalizado sin evaluar'),
+        ('2', 'Finalizado evaluado '),
+    ]
+
+    estado = models.CharField(max_length=30, choices=estado_choices,default='0')
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
     cursoEmpresa = models.ForeignKey(CursoEmpresa, on_delete=models.CASCADE)
     porcentajeProgreso= models.DecimalField(default=0, max_digits=5, decimal_places=2)
