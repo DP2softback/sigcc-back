@@ -551,7 +551,7 @@ class CompetencesInLPAPIView(APIView):
         competencias = SubCategory.objects.filter(id__in=competencias_id)
         competencia_serializer = SubCategorySerializer(competencias, many=True)
         respuesta = {}
-        respuesta["descripcion"] = descripcion[0]['descripcion']
+        respuesta["descripcion_evaluacion"] = descripcion[0]['descripcion']
         respuesta["documentos"] = documentos
         respuesta["criterias"] = competencia_serializer.data
 
