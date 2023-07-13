@@ -1,0 +1,28 @@
+[
+	{
+		"model": "personal.hiringprocess", 
+		"pk": 1, 
+		"fields": {
+			"position": 28, 
+			"name": "Proceso de contratación de Analista de sistemas", 
+			"available_positions_quantity": 2, 
+			"current_process_stage": 1, 
+			"creation_date": "2023-06-29T05:57:26.996Z", 
+			"modified_date": "2023-06-29T05:57:26.996Z", 
+			"is_active": true
+		}
+	},
+	{
+		"model": "personal.hiringprocess", 
+		"pk": 2, 
+		"fields": {
+			"position": 4, 
+			"name": "Proceso de contratación de Jefe de area de consultoria", 
+			"available_positions_quantity": 2, 
+			"current_process_stage": 1, 
+			"creation_date": "2023-06-29T05:57:26.996Z", 
+			"modified_date": "2023-06-29T05:57:26.996Z", 
+			"is_active": true
+		}
+	}
+]

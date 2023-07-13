@@ -1,0 +1,13 @@
+[
+	{
+		"model": "personal.joboffernotification", 
+		"pk": 1, 
+		"fields": {
+			"job_offer": 1, 
+			"employee": 7, 
+			"sent": true, 
+			"suitable": true, 
+			"recommendation": "Se recomienda las siguientes acciones: Revisar en detalle los sistemas de informacion, investigar las nuevas tecnologías de analisis de sistemas"
+		}
+	}
+]
