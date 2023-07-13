@@ -489,13 +489,15 @@ class RendirFormularioAPIVIEW(APIView):
         curso = CursoGeneral.objects.filter(id=id_curso).first()
 
         try:
+            print('CURSOEMPRESA')
             rpta = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
             form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
-
+            print(form)
         except Exception:
+            print('CURSOUDEMY')
             rpta = EmpleadoXCurso.objects.filter(Q(empleado_id=id_empleado) & Q(curso_id=id_curso)).values("respuestas").first()
             form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
-
+            print(form)
         if rpta == None:
             return Response({"form": form}, status=status.HTTP_200_OK)
 
@@ -529,14 +531,17 @@ class RendirFormularioAPIVIEW(APIView):
 
     def post(self,request,id_curso,id_empleado):
         print("ENTRO AL POST")
-        tipo = -1
-        try:
-            form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
-            tipo = 0
-        except Exception:
-            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
-            tipo = 1
+
+
+        form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
+        print('CURSOUDEMY')
         print(form)
+        tipo = 0
+        if form ==None:
+            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+            print('CURSOEMPRESA')
+            tipo = 1
+
         print("PASO EL FORM")
         respuestas_persona = request.data.get('respuestas', None)
         puntaje = 0
@@ -570,21 +575,18 @@ class RendirFormularioAPIVIEW(APIView):
             aprobo = 0
 
         if tipo ==0:
-            registro = EmpleadoXCurso.objects.get(Q(empleado_id=id_empleado) & Q(curso_id=id_curso))
-            registro.respuestas = respuestas_persona
+            registro = EmpleadoXCurso.objects.filter(empleado_id=id_empleado,curso_id=id_curso)
 
         elif tipo ==1:
-            registro = EmpleadoXCursoEmpresa.objects.get(Q(empleado_id=id_empleado) & Q(curso_id=id_curso))
-            registro.respuestas = respuestas_persona
+            registro = EmpleadoXCursoEmpresa.objects.filter(empleado_id=id_empleado,cursoEmpresa_id=id_curso)
 
-        registro.save()
+        registro.update(respuestas=respuestas_persona)
 
         competencias = CompetenciasXCurso.objects.filter(curso_id=id_curso).values_list('competencia', flat=True)
 
         for competencia in competencias:
             registro_competencia = CompetencessXEmployeeXLearningPath.objects.filter(Q(employee_id=id_empleado) & Q(curso_id=id_curso) & Q(competence_id=competencia))
-            registro_competencia.score = 100*aprobo
-            registro_competencia.save()
+            registro_competencia.update(score=100*aprobo)
 
         return Response({"puntaje": puntaje}, status=status.HTTP_200_OK)
 
