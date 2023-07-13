@@ -951,6 +951,8 @@ class LPEmpleadoIncreaseStateAPIView(APIView):
 
         if lp_empleado is not None:
             lp_empleado.estado = str(estado_nuevo)
+            if(estado_nuevo==3):
+                lp_empleado.fecha_completado=timezone.now()
             lp_empleado.save()
             mensaje= "Se actualizó el estado "
             return Response({"message": mensaje}, status = status.HTTP_200_OK)
