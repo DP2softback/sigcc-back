@@ -162,9 +162,10 @@ class EmpleadoXLearningPath(models.Model):
     estado_choices = [
         ('0', 'Sin iniciar'),
         ('1', 'En progreso'),
-        ('2', 'Completado, sin evaluar'),
-        ('3', 'Completado, evaluado'),
-        ('4', 'Desaprobado'),
+        ('2', 'Completado, sin rendir'),
+        ('3', 'Completado, sin evaluar'),
+        ('4', 'Completado, evaluado'),
+        ('5', 'Desaprobado'),
     ]
 
     empleado = models.ForeignKey(Employee, on_delete=models.CASCADE)
