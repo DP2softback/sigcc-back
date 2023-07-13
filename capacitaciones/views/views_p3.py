@@ -377,10 +377,12 @@ class ValoracionLearningPathAPIView(APIView):
 
 class DetalleEvaluacionEmpleadoAPIView(APIView):
 
-    def get(self, request, id_lp, id_user):
+    def get(self, request, id_lp, id_emp):
 
-        id_emp = Employee.objects.filter(user_id=id_user).values('id').first()
-        id_emp = id_emp['id']
+        id_user = Employee.objects.filter(id=id_emp).values('user_id').first()
+        id_user=id_user['user_id']
+        print("aaaa")
+        print(id_user)
         registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id','rubrica_calificada_evaluacion','comentario_evaluacion').first()
         lp = LearningPath.objects.filter(id=id_lp).first()
         if registro:
