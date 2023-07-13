@@ -366,6 +366,8 @@ class EvaluationAPI(APIView):
         
         return Response(area_serializado.errors,status=status.HTTP_400_BAD_REQUEST)
     
+
+    
 class EvaluationXSubcatAPI(APIView):
     def post(self, request):
         
@@ -599,28 +601,28 @@ class PlantillasEditarVistaAPI(APIView):
         }
 
         for category, subcategories in categories.items():
-            if category.evaluationType.name == evaluation_type:  # Filter categories based on evaluation type
-                category_data = {
-                    'id': category.id,
-                    'name': category.name,
-                    'Category-active': category.isActive,
-                    'subcategory': [
-                        {
-                            'id': subcategory.id,
-                            'subcategory-isActive': subcategory.isActive,
-                            'nombre': subcategory.name
-                        }
-                        for subcategory in subcategories
-                    ]
-                }
+            category_data = {
+                'id': category.id,
+                'name': category.name,
+                'Category-active': category.isActive,
+                'subcategory': [
+                    {
+                        'id': subcategory.id,
+                        'subcategory-isActive': subcategory.isActive,
+                        'nombre': subcategory.name
+                    }
+                    for subcategory in subcategories
+                ]
+            }
 
-                response_data['Categories'].append(category_data)
+            response_data['Categories'].append(category_data)
 
         for subcategory in subcategories_not_in_template:
-            category_data = next(
-                (category for category in response_data['Categories'] if (category['id'] == subcategory.category.id )),
-                None
-            )
+            if subcategory.category is not None:
+                category_data = next(
+                    (category for category in response_data['Categories'] if (category['id'] == subcategory.category.id )),
+                    None
+                )
 
             if category_data is None:
                 category_data = {
@@ -877,6 +879,22 @@ class PlantillaPorTipo(APIView):
 
         return Response(result,status=status.HTTP_200_OK)
     
+class HacerCompromiso(APIView):
+    def post(self,request):
+        IdEvaluacion = request.data.get("id")
+        Compromiso = request.data.get("comentario")
+
+        try:
+            ObjEvaluation = Evaluation.objects.get(id=IdEvaluacion)
+        except Evaluation.DoesNotExist:
+                return Response("No existe evaluacion", status=status.HTTP_400_BAD_REQUEST)
+        ObjEvaluation.generalComment = Compromiso
+        ObjEvaluation.hasComment = True
+        ObjEvaluation.save()
+
+        ObjEvaluation_serializado = EvaluationSerializerRead(ObjEvaluation)
+        return Response(ObjEvaluation_serializado.data,status=status.HTTP_200_OK)
+    
 class GetAreas(APIView):
     def get(self, request):
         areas = Area.objects.values('id', 'name')
@@ -910,7 +928,7 @@ class EvaluationLineChartReporte(APIView):
         
         Datos = EvaluationxSubCategory.objects.filter(isActive = True,evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True,score__gte= 1.0,evaluation__relatedEvaluation = None)
         Datos = Datos.exclude(subCategory__category = None)
-        Datos = Datos.objects.filter(  subCategory__category__id = category_id)
+        Datos = Datos.filter(  subCategory__category__id = category_id)
 
         if(area_id is not None):
             Datos = Datos.filter(evaluation__area__id = area_id)
@@ -1108,7 +1126,7 @@ class RegistrarEvaluacionDesempen(APIView):
         
                 
                 
-        return Response("Se envió correcatamente la evaluación de desempeño",status=status.HTTP_200_OK)
+        return Response("Se creó correctamente las evaluaciones ",status=status.HTTP_200_OK)
     
 class ActualizarCategorias(APIView):
     def post(self, request):

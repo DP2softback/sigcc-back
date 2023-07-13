@@ -10,6 +10,9 @@ urlpatterns = [
     path('process-stages', ProcessStageView.as_view()),
     path('process-stages/<int:pk>', ProcessStageView.as_view()),
     path('job-offers', JobOfferView.as_view()),
+    path('apply-to-offer', ApplyToOffer.as_view()),
+    path('apply-to-process-stage', ApplyToProcessStage.as_view()),
+
     path('positions', AllPositionView.as_view()),
     path('positions/<int:pk>', PositionView.as_view()),
     path('areaxposition', AreaxPositionView.as_view()),
@@ -28,15 +31,11 @@ urlpatterns = [
     path('filter-second-step', FilterSecondStepView.as_view()),
     path('dummy-second-step', DummySecondStepView.as_view()),
     path('filter-third-step', FilterSecondStepView.as_view()),
-    path('dummy-third-step', DummySecondStepView.as_view()),   
+    path('dummy-third-step', DummySecondStepView.as_view()),
 
-    path('update-competency-x-applicant', UpdateCompetencyxApplicantView.as_view()), 
+    path('update-competency-x-applicant', UpdateCompetencyxApplicantView.as_view()),
 
-    path('single-application-status/<int:pk>', SingleApplicationStatusView.as_view()), 
-    path('all-application-status', AllApplicationStatusView.as_view()), 
+    path('single-application-status/<int:pk>', SingleApplicationStatusView.as_view()),
+    path('all-application-status', AllApplicationStatusView.as_view()),
 
-    path('competence-evaluations/create/', CompetenceEvaluationCreateView.as_view()),
-    path('competence-evaluations/', CompetenceEvaluationListView.as_view()),
-    path('competence-evaluations/update/', CompetenceEvaluationUpdateView.as_view()),
-    
 ]

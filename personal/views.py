@@ -7,7 +7,6 @@ from django.shortcuts import render
 from DP2softback.constants import messages
 from DP2softback.services.api_gpt import ChatGptService
 from evaluations_and_promotions.models import *
-#from flask import Flask, redirect, render_template, request, url_for
 from gaps.models import *
 from rest_framework import status
 from rest_framework.response import Response
@@ -300,6 +299,66 @@ class JobOfferView(APIView):
 
         except Exception as e:
             return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ApplyToOffer(APIView):
+    def post(self, request):
+        print(request.user)
+        print(request.data)
+
+        try:
+            applicant = request.data["applicant"]
+            job_offer = request.data["job_offer"]
+            stage = request.data["stage"]
+
+            applicantobj = Applicant.objects.get(id=applicant)
+            print(applicantobj)
+            jobofferobj = JobOffer.objects.get(id=job_offer)
+            print(jobofferobj)
+            process_stage = ProcessStage.objects.get(hiring_process=jobofferobj.hiring_process, stage_type__id=stage)
+
+            axp, _ = ApplicantxProcessStage.objects.get_or_create(
+                applicant=applicantobj,
+                process_stage=process_stage
+            )
+
+            print(axp)
+            a_serializer = ApplicantxProcessStageSerializerRead(axp, many=False)
+
+            return Response(a_serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+
+class ApplyToProcessStage(APIView):
+    def post(self, request):
+        print(request.user)
+        print(request.data)
+
+        try:
+            applicant = request.data["applicant"]
+            hiring_process = request.data["hiring_process"]
+            stage = request.data["stage"]
+
+            applicantobj = Applicant.objects.get(id=applicant)
+            print(applicantobj)
+            hiringprocessobj = HiringProcess.objects.get(id=hiring_process)
+            print(hiringprocessobj)
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=stage)
+
+            axp, _ = ApplicantxProcessStage.objects.get_or_create(
+                applicant=applicantobj,
+                process_stage=process_stage
+            )
+
+            print(axp)
+            a_serializer = ApplicantxProcessStageSerializerRead(axp, many=False)
+
+            return Response(a_serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
 
 
 class AreaxPositionView(APIView):
@@ -1145,24 +1204,23 @@ class UpdateCompetencyxApplicantView(APIView):
             print(applicant)
             competencies = request.data["competencies"]
             for com in competencies:
-                
+
                 print(com['id'])
                 print(com['scale'])
                 competency = SubCategory.objects.get(id=com['id'])
                 a_com = CompetencyxApplicant.objects.update_or_create(
-                    applicant=applicant, 
+                    applicant=applicant,
                     competency=competency,
                     defaults={
-                        'scale':com['scale']
+                        'scale': com['scale']
                     },
-                    )
-                
+                )
 
             return Response(status=status.HTTP_200_OK)
 
         except Exception as e:
-            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)                
-        
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
 
 class SingleApplicationStatusView(APIView):
     def get(self, request, pk):
@@ -1173,29 +1231,30 @@ class SingleApplicationStatusView(APIView):
             stages = ApplicantxProcessStage.objects.filter(applicant=applicant)
             process = list(set(ApplicantxProcessStage.objects.filter(applicant=applicant).values_list("process_stage__hiring_process__id", flat=True)))
 
-            list_of_process_and_stages=[]
+            list_of_process_and_stages = []
             for p in process:
                 processobj = HiringProcess.objects.get(id=p)
-                a_process = [ApplicantSerializerRead(applicant).data, p,-1, processobj.position.position.name, processobj.position.area.name," "]
-                
+                a_process = [ApplicantSerializerRead(applicant).data, p, -1, processobj.position.position.name, processobj.position.area.name, " "]
+
                 for s in stages:
                     print(f"{s.process_stage.hiring_process.id} vs {p}")
                     if s.process_stage.hiring_process.id == p:
                         if s.process_stage.stage_type.id > a_process[2]:
                             print(f"{s.process_stage.stage_type.id} vs {a_process[2]}")
-                            a_process[2] = s.process_stage.stage_type.id 
+                            a_process[2] = s.process_stage.stage_type.id
                             a_process[5] = str(s.process_stage)
                 list_of_process_and_stages.append(a_process)
 
             print(list_of_process_and_stages)
 
             return Response(status=status.HTTP_200_OK,
-                            data= list_of_process_and_stages
+                            data=list_of_process_and_stages
                             )
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
-        
+
+
 class AllApplicationStatusView(APIView):
     def get(self, request):
         try:
@@ -1210,17 +1269,17 @@ class AllApplicationStatusView(APIView):
                 stages = ApplicantxProcessStage.objects.filter(applicant=applicant)
                 process = list(set(ApplicantxProcessStage.objects.filter(applicant=applicant).values_list("process_stage__hiring_process__id", flat=True)))
 
-                list_of_process_and_stages=[]
+                list_of_process_and_stages = []
                 for p in process:
                     processobj = HiringProcess.objects.get(id=p)
-                    a_process = [ApplicantSerializerRead(applicant).data, p,-1, processobj.position.position.name, processobj.position.area.name," "]
-                    
+                    a_process = [ApplicantSerializerRead(applicant).data, p, -1, processobj.position.position.name, processobj.position.area.name, " "]
+
                     for s in stages:
                         print(f"{s.process_stage.hiring_process.id} vs {p}")
                         if s.process_stage.hiring_process.id == p:
                             if s.process_stage.stage_type.id > a_process[2]:
                                 print(f"{s.process_stage.stage_type.id} vs {a_process[2]}")
-                                a_process[2] = s.process_stage.stage_type.id 
+                                a_process[2] = s.process_stage.stage_type.id
                                 a_process[5] = str(s.process_stage)
                     list_of_process_and_stages.append(a_process)
 
@@ -1228,49 +1287,8 @@ class AllApplicationStatusView(APIView):
                 all_applicants.append(list_of_process_and_stages)
 
             return Response(status=status.HTTP_200_OK,
-                            data=                           
-                                all_applicants
+                            data=all_applicants
                             )
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
-        
-class CompetenceEvaluationCreateView(APIView):
-    def post(self, request):
-        competency_applicants = CompetencyxApplicant.objects.all()
-        competence_evaluations = [CompetenceEvaluation(competency_applicant=ca) for ca in competency_applicants]
-        CompetenceEvaluation.objects.bulk_create(competence_evaluations)
-        serializer = CompetenceEvaluationSerializer(competence_evaluations, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-class CompetenceEvaluationListView(APIView):
-    def get(self, request):
-        hiring_process_id = request.query_params.get('hiring_process')
-        competency_applicants = CompetencyxApplicant.objects.filter(applicant__hiring_process_id=hiring_process_id)
-
-        ct = competency_applicants.filter(competency__type=0)  # Competencias técnicas
-        ch = competency_applicants.filter(competency__type=1)  # Competencias blandas
-
-        competence_evaluations_ct = CompetenceEvaluation.objects.filter(competency_applicant__in=ct)
-        competence_evaluations_ch = CompetenceEvaluation.objects.filter(competency_applicant__in=ch)
-
-        serializer_ct = CompetenceEvaluationSerializer(competence_evaluations_ct, many=True)
-        serializer_ch = CompetenceEvaluationSerializer(competence_evaluations_ch, many=True)
-
-        competence_evaluations_data = {
-            'competence_technical': serializer_ct.data,
-            'competence_soft': serializer_ch.data
-        }
-
-        return Response(competence_evaluations_data, status=status.HTTP_200_OK)
-
-class CompetenceEvaluationUpdateView(APIView):
-    def post(self, request):
-        data = request.data
-        for competence_data in data:
-            competency_applicant_id = competence_data['competency_applicant']
-            score = competence_data['score']
-            competence_evaluation = CompetenceEvaluation.objects.get(competency_applicant_id=competency_applicant_id)
-            competence_evaluation.score = score
-            competence_evaluation.save()
-        return Response(status=status.HTTP_200_OK)
