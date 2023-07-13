@@ -459,6 +459,7 @@ class RendirFormularioAPIVIEW(APIView):
 
     def get(self, request,id_curso):
         curso = CursoGeneral.objects.filter(id=id_curso).first()
+        form = None
         try:
             form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
             return Response({"form": form}, status=status.HTTP_200_OK)
@@ -469,11 +470,15 @@ class RendirFormularioAPIVIEW(APIView):
 
         return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
 
+        if form == None:
+            return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
     def post(self,request,id_curso):
+        print("ENTRO AL POST")
         tipo = -1
         try:
             form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
@@ -481,12 +486,14 @@ class RendirFormularioAPIVIEW(APIView):
         except ex:
             form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
             tipo = 1
-
+        print(form)
+        print("PASO EL FORM")
         empleado = request.data.get('empleado', None)
         respuestas_persona = request.data.get('respuestas', None)
         puntaje = 0
-
-        for pregunta in form:
+        print("EMPIEZA A CALIFICAR")
+        for pregunta in form['preguntas']:
+            print(pregunta)
             id_pregunta = pregunta['id_pregunta']
             opciones = pregunta['opciones']
 
@@ -509,11 +516,11 @@ class RendirFormularioAPIVIEW(APIView):
             aprobo = 0
 
         if tipo ==0:
-            registro = EmpleadoXCurso.objects.filter(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro = EmpleadoXCurso.objects.get(Q(empleado_id=empleado) & Q(curso_id=id_curso))
             registro.respuestas = respuestas_persona
 
         elif tipo ==1:
-            registro = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro = EmpleadoXCursoEmpresa.objects.get(Q(empleado_id=empleado) & Q(curso_id=id_curso))
             registro.respuestas = respuestas_persona
 
         registro.save()
