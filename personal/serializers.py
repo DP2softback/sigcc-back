@@ -210,7 +210,11 @@ class TrainingxApplicantSerializerRead(serializers.ModelSerializer):
 
     class Meta:
         model = TrainingxApplicant
-        fields = '__all__'
+        fields = [
+            'training_detail',
+            'trainingxlevel',
+            'applicant'
+        ]
 
 
 class ExperienceSerializerRead(serializers.ModelSerializer):
