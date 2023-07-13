@@ -489,7 +489,7 @@ class RendirFormularioAPIVIEW(APIView):
         try:
             form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
             tipo = 0
-        except ex:
+        except Exception:
             form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
             tipo = 1
         print(form)
