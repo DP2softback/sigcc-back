@@ -396,7 +396,7 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
         id_user=id_user['user_id']
         print("aaaa")
         print(id_user)
-        registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id','rubrica_calificada_evaluacion','comentario_evaluacion').first()
+        registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id','rubrica_calificada_evaluacion','comentario_evaluacion','estado').first()
         lp = LearningPath.objects.filter(id=id_lp).first()
         rubrica_calificada = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('rubrica_calificada_evaluacion')
         print("rubrica calificada")
@@ -417,6 +417,7 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
             data['descripcion_lp'] = lp.descripcion
             data['descripcion_evaluacion']= lp.descripcion_evaluacion
             data['comentario_evaluacion']= registro['comentario_evaluacion']
+            data['estado_lp']=registro['estado']
             archivo_emp = DocumentoRespuesta.objects.filter(empleado_learning_path_id=registro['id']).values(
                 'url_documento')
             data["archivo_emp"] = None if not archivo_emp else archivo_emp
