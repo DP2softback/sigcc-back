@@ -205,7 +205,7 @@ class DeleteFilesInS3APIView(APIView):
 
 
 class BusquedaDeEmpleadosAPIView(APIView):
-
+    
     def post(self, request):
 
         email = request.data.get('email', None)
@@ -224,6 +224,7 @@ class BusquedaDeEmpleadosAPIView(APIView):
 
 
 class AsignacionEmpleadoLearningPathAPIView(APIView):
+    permission_classes = [AllowAny]
     @transaction.atomic
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -307,20 +308,26 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         
                         curso_empleado_lp_guardar.save()
                         if(curso_empresa is not None):
-                            #esto es si es curso Udemy
-                            empleado_curso_guardar = EmpleadoXCurso(
-                                empleado=empleado,
-                                curso=curso_general
-                            )
-                            empleado_curso_guardar.save()
-                        else:
                             #esto es si es curso Empresa
-                            empleado_curso_empresa_guardar = EmpleadoXCursoEmpresa(
-                                empleado=empleado,
-                                cursoEmpresa=curso_empresa,
-                                fechaAsignacion= timezone.now
-                            )
-                            empleado_curso_empresa_guardar.save()
+                            empleado_cursoempresa_anteriores= EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=curso_empresa,empleado=empleado).first()
+                            if empleado_cursoempresa_anteriores is None:
+                                empleado_curso_empresa_guardar = EmpleadoXCursoEmpresa(
+                                    empleado=empleado,
+                                    cursoEmpresa=curso_empresa,
+                                    cantidad_sesiones= curso_empresa.cantidad_sesiones,
+                                    fechaAsignacion= timezone.now()
+                                )
+                                empleado_curso_empresa_guardar.save()
+                        else:
+                            #esto es si es curso Udemy
+                            empleado_cursoudemy_anteriores= EmpleadoXCurso.objects.filter(curso=curso_general,empleado=empleado).first()
+                            if empleado_cursoudemy_anteriores is None:
+                                empleado_curso_guardar = EmpleadoXCurso(
+                                    empleado=empleado,
+                                    curso=curso_general
+                                )
+                                empleado_curso_guardar.save()
+                            
 
             cantidad_empleados_nuevo=len(empleados)
             cantidad_empleados_nuevo=cantidad_empleados_nuevo+lp.cant_empleados
