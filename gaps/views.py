@@ -854,9 +854,11 @@ class AcceptOrDeclineJobOfferPreRegistered(APIView):
             json_data['modified_date'] = current_datetime
             json_data['is_active'] = True
             try:
-                serializer = EmployeeXHiringProcess(data = json_data)
+                serializer = EmployeeXHiringProcessSerializer(data = json_data)
                 serializer.is_valid(raise_exception = True)
                 serializer.save()
+                job_offer_notification = JobOfferNotification.objects.get(Q(job_offer__id = offer) & Q(employee__id = employee))
+                job_offer_notification.delete()
             except Exception as e:
                 return Response(str(e),status=status.HTTP_400_BAD_REQUEST)
             return Response("Postulación registrada correctamente",status=status.HTTP_200_OK)
