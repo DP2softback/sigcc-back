@@ -582,3 +582,37 @@ class CompetencesInLPAPIView(APIView):
         DocumentoExamen.objects.bulk_create(documentos_examen)
 
         return Response({'msg': "Se asigno las competencias con exito"}, status=status.HTTP_200_OK)
+
+
+class DashboardAPIVIEW(APIView):
+
+    def get(self, request):
+        dashboard={}
+
+        ## Cursos mejor valorados
+        cursos_mejor_valorados = {
+            "labels": [],
+            "values": []
+        }
+        cursos_valoraciones = CursoGeneral.objects.order_by('-suma_valoracionees').values('nombre','suma_valoracionees','cant_valoraciones')[:3]
+        for curso in cursos_valoraciones:
+            cursos_mejor_valorados["labels"].append(curso['nombre'])
+            if curso['cant_valoraciones']:
+                cursos_mejor_valorados["values"].append(curso['suma_valoracionees']/curso['cant_valoraciones'])
+            else:
+                cursos_mejor_valorados["values"].append(curso['suma_valoracionees'])
+
+        print(cursos_mejor_valorados)
+        dashboard['cursos_mejor_valorados']=cursos_mejor_valorados
+        ###
+
+        competencias_mas_demandadas = []
+        dashboard['competencias_mas_demandadas'] = competencias_mas_demandadas
+
+        cursos_empresa_sin_asignar = []
+        dashboard['cursos_empresa_sin_asignar'] = cursos_empresa_sin_asignar
+
+        comptencias_por_nivel = []
+        dashboard['comptencias_por_nivel'] = comptencias_por_nivel
+
+        return Response(dashboard, status=status.HTTP_200_OK)

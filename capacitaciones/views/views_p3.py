@@ -631,6 +631,7 @@ class DashboardAPIVIEW(APIView):
     def get(self, request):
         dashboard={}
 
+        ## Cursos mejor valorados
         cursos_mejor_valorados = {
             "labels": [],
             "values": []
@@ -645,6 +646,7 @@ class DashboardAPIVIEW(APIView):
 
         print(cursos_mejor_valorados)
         dashboard['cursos_mejor_valorados']=cursos_mejor_valorados
+        ###
 
         competencias_mas_demandadas = []
         dashboard['competencias_mas_demandadas'] = competencias_mas_demandadas
