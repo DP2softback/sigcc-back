@@ -9,12 +9,12 @@ from django.utils import timezone
 
 class Parametros(models.Model):
 
-    nota_maxima = models.IntegerField()
-    nota_minima = models.IntegerField()
-    numero_intentos_curso = models.IntegerField()
-    numero_intentos_lp = models.IntegerField()
-    num_preg_min_aprobar_curso_udemy = models.IntegerField()
-    num_preg_eval_udemy = models.IntegerField()
+    nota_maxima = models.IntegerField(null=True)
+    nota_minima = models.IntegerField(null=True)
+    numero_intentos_curso = models.IntegerField(null=True)
+    numero_intentos_lp = models.IntegerField(null=True)
+    num_preg_min_aprobar_curso_udemy = models.IntegerField(null=True)
+    num_preg_eval_udemy = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'Parametros' 

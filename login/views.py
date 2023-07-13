@@ -99,7 +99,7 @@ class LoginView(APIView):
                         data={
                             'message': 'login correcto',
                             'token': token.key,
-                            'user':user_serialized.data
+                            'user': user_serialized.data
                         },)
 
 
@@ -329,6 +329,11 @@ class RegisterApplicant(APIView):
         user.password = encoded_password
         user.roles.add(role)
         user.save()
+
+        # creating Applicant
+        applicant, _ = Applicant.objects.get_or_create(
+            user=user
+        )
 
         if created:
             return Response(status=status.HTTP_200_OK,

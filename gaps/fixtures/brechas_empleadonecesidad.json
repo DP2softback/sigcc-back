@@ -1,0 +1,3436 @@
+[
+{
+    "model": "gaps.trainingneed",
+    "pk": 1,
+    "fields": {
+        "competence": 1,
+        "employee": 1,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 2,
+    "fields": {
+        "competence": 3,
+        "employee": 1,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 3,
+    "fields": {
+        "competence": 1,
+        "employee": 2,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 30.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 4,
+    "fields": {
+        "competence": 2,
+        "employee": 2,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 5,
+    "fields": {
+        "competence": 3,
+        "employee": 3,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 6,
+    "fields": {
+        "competence": 2,
+        "employee": 4,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 20.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 7,
+    "fields": {
+        "competence": 1,
+        "employee": 5,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 20.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 8,
+    "fields": {
+        "competence": 2,
+        "employee": 5,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 9,
+    "fields": {
+        "competence": 3,
+        "employee": 5,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 10,
+    "fields": {
+        "competence": 2,
+        "employee": 6,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 11,
+    "fields": {
+        "competence": 3,
+        "employee": 6,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 30.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 12,
+    "fields": {
+        "competence": 1,
+        "employee": 7,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 13,
+    "fields": {
+        "competence": 1,
+        "employee": 8,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 20.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 14,
+    "fields": {
+        "competence": 2,
+        "employee": 8,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 15,
+    "fields": {
+        "competence": 2,
+        "employee": 9,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 16,
+    "fields": {
+        "competence": 3,
+        "employee": 9,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 17,
+    "fields": {
+        "competence": 1,
+        "employee": 11,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 30.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 18,
+    "fields": {
+        "competence": 2,
+        "employee": 11,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 19,
+    "fields": {
+        "competence": 2,
+        "employee": 12,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 20,
+    "fields": {
+        "competence": 3,
+        "employee": 12,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 21,
+    "fields": {
+        "competence": 2,
+        "employee": 13,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 22,
+    "fields": {
+        "competence": 3,
+        "employee": 13,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 23,
+    "fields": {
+        "competence": 1,
+        "employee": 14,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 24,
+    "fields": {
+        "competence": 3,
+        "employee": 15,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 25,
+    "fields": {
+        "competence": 1,
+        "employee": 15,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 26,
+    "fields": {
+        "competence": 2,
+        "employee": 16,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 27,
+    "fields": {
+        "competence": 1,
+        "employee": 17,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 22.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 28,
+    "fields": {
+        "competence": 2,
+        "employee": 17,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 29,
+    "fields": {
+        "competence": 2,
+        "employee": 18,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 30,
+    "fields": {
+        "competence": 3,
+        "employee": 18,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 31,
+    "fields": {
+        "competence": 2,
+        "employee": 19,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 22.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 32,
+    "fields": {
+        "competence": 2,
+        "employee": 20,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 33,
+    "fields": {
+        "competence": 3,
+        "employee": 20,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 19.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 34,
+    "fields": {
+        "competence": 1,
+        "employee": 21,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 5.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 35,
+    "fields": {
+        "competence": 2,
+        "employee": 23,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 36,
+    "fields": {
+        "competence": 3,
+        "employee": 23,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 11.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 37,
+    "fields": {
+        "competence": 2,
+        "employee": 24,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 38,
+    "fields": {
+        "competence": 1,
+        "employee": 25,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 9.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 39,
+    "fields": {
+        "competence": 2,
+        "employee": 25,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 37.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 40,
+    "fields": {
+        "competence": 3,
+        "employee": 25,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 22.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 41,
+    "fields": {
+        "competence": 2,
+        "employee": 26,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 42,
+    "fields": {
+        "competence": 1,
+        "employee": 27,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 14.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 43,
+    "fields": {
+        "competence": 3,
+        "employee": 27,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 36.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 44,
+    "fields": {
+        "competence": 1,
+        "employee": 28,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 45,
+    "fields": {
+        "competence": 3,
+        "employee": 28,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 36.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 46,
+    "fields": {
+        "competence": 1,
+        "employee": 29,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 47,
+    "fields": {
+        "competence": 2,
+        "employee": 30,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 11.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 48,
+    "fields": {
+        "competence": 3,
+        "employee": 30,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 49,
+    "fields": {
+        "competence": 3,
+        "employee": 31,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 16.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 50,
+    "fields": {
+        "competence": 1,
+        "employee": 32,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 33.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 51,
+    "fields": {
+        "competence": 3,
+        "employee": 32,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 21.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 52,
+    "fields": {
+        "competence": 1,
+        "employee": 33,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 53,
+    "fields": {
+        "competence": 3,
+        "employee": 34,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 14.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 54,
+    "fields": {
+        "competence": 1,
+        "employee": 36,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 55,
+    "fields": {
+        "competence": 2,
+        "employee": 36,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 12.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 56,
+    "fields": {
+        "competence": 2,
+        "employee": 37,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 30.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 57,
+    "fields": {
+        "competence": 1,
+        "employee": 38,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 18.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 58,
+    "fields": {
+        "competence": 2,
+        "employee": 38,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 40.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 59,
+    "fields": {
+        "competence": 1,
+        "employee": 39,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 60,
+    "fields": {
+        "competence": 2,
+        "employee": 40,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 29.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 61,
+    "fields": {
+        "competence": 1,
+        "employee": 44,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 62,
+    "fields": {
+        "competence": 2,
+        "employee": 46,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 27.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 63,
+    "fields": {
+        "competence": 1,
+        "employee": 47,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 13.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 64,
+    "fields": {
+        "competence": 1,
+        "employee": 48,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 31.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 65,
+    "fields": {
+        "competence": 1,
+        "employee": 49,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 1.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 66,
+    "fields": {
+        "competence": 1,
+        "employee": 51,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 17.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 67,
+    "fields": {
+        "competence": 1,
+        "employee": 53,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 6.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 68,
+    "fields": {
+        "competence": 1,
+        "employee": 54,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 3.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 69,
+    "fields": {
+        "competence": 2,
+        "employee": 55,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 20.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 70,
+    "fields": {
+        "competence": 1,
+        "employee": 57,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 71,
+    "fields": {
+        "competence": 2,
+        "employee": 59,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 14.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 72,
+    "fields": {
+        "competence": 1,
+        "employee": 60,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 73,
+    "fields": {
+        "competence": 2,
+        "employee": 60,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 39.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 74,
+    "fields": {
+        "competence": 2,
+        "employee": 61,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 6.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 75,
+    "fields": {
+        "competence": 2,
+        "employee": 63,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 2.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 76,
+    "fields": {
+        "competence": 1,
+        "employee": 65,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 77,
+    "fields": {
+        "competence": 2,
+        "employee": 65,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 30.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 78,
+    "fields": {
+        "competence": 1,
+        "employee": 66,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 14.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 79,
+    "fields": {
+        "competence": 2,
+        "employee": 66,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 80,
+    "fields": {
+        "competence": 1,
+        "employee": 67,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 22.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 81,
+    "fields": {
+        "competence": 1,
+        "employee": 68,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 1.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 82,
+    "fields": {
+        "competence": 2,
+        "employee": 69,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 17.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 83,
+    "fields": {
+        "competence": 2,
+        "employee": 71,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 13.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 84,
+    "fields": {
+        "competence": 5,
+        "employee": 71,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 22.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 85,
+    "fields": {
+        "competence": 6,
+        "employee": 71,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 86,
+    "fields": {
+        "competence": 4,
+        "employee": 72,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 12.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 87,
+    "fields": {
+        "competence": 5,
+        "employee": 72,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 5.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 88,
+    "fields": {
+        "competence": 1,
+        "employee": 73,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 27.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 89,
+    "fields": {
+        "competence": 2,
+        "employee": 73,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 30.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 90,
+    "fields": {
+        "competence": 3,
+        "employee": 73,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 16.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 91,
+    "fields": {
+        "competence": 5,
+        "employee": 73,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 37.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 92,
+    "fields": {
+        "competence": 6,
+        "employee": 74,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 36.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 93,
+    "fields": {
+        "competence": 2,
+        "employee": 76,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 94,
+    "fields": {
+        "competence": 6,
+        "employee": 76,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 33.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 95,
+    "fields": {
+        "competence": 1,
+        "employee": 77,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 5.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 96,
+    "fields": {
+        "competence": 2,
+        "employee": 77,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 39.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 97,
+    "fields": {
+        "competence": 4,
+        "employee": 77,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 3.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 98,
+    "fields": {
+        "competence": 2,
+        "employee": 78,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 99,
+    "fields": {
+        "competence": 3,
+        "employee": 78,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 7.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 100,
+    "fields": {
+        "competence": 5,
+        "employee": 78,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 9.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 101,
+    "fields": {
+        "competence": 2,
+        "employee": 79,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 102,
+    "fields": {
+        "competence": 3,
+        "employee": 79,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 19.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 103,
+    "fields": {
+        "competence": 4,
+        "employee": 79,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 104,
+    "fields": {
+        "competence": 6,
+        "employee": 79,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 105,
+    "fields": {
+        "competence": 2,
+        "employee": 80,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 106,
+    "fields": {
+        "competence": 4,
+        "employee": 80,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 39.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 107,
+    "fields": {
+        "competence": 5,
+        "employee": 80,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 21.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 108,
+    "fields": {
+        "competence": 3,
+        "employee": 81,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 17.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 109,
+    "fields": {
+        "competence": 4,
+        "employee": 81,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 110,
+    "fields": {
+        "competence": 6,
+        "employee": 81,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 5.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 111,
+    "fields": {
+        "competence": 5,
+        "employee": 82,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 112,
+    "fields": {
+        "competence": 2,
+        "employee": 83,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 113,
+    "fields": {
+        "competence": 3,
+        "employee": 83,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 40.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 114,
+    "fields": {
+        "competence": 5,
+        "employee": 83,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 18.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 115,
+    "fields": {
+        "competence": 1,
+        "employee": 84,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 7.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 116,
+    "fields": {
+        "competence": 2,
+        "employee": 84,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 14.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 117,
+    "fields": {
+        "competence": 3,
+        "employee": 84,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 36.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 118,
+    "fields": {
+        "competence": 4,
+        "employee": 84,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 6.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 119,
+    "fields": {
+        "competence": 3,
+        "employee": 85,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 27.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 120,
+    "fields": {
+        "competence": 6,
+        "employee": 85,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 12.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 121,
+    "fields": {
+        "competence": 3,
+        "employee": 86,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 11.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 122,
+    "fields": {
+        "competence": 4,
+        "employee": 86,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 29.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 123,
+    "fields": {
+        "competence": 4,
+        "employee": 87,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 33.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 124,
+    "fields": {
+        "competence": 5,
+        "employee": 87,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 30.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 125,
+    "fields": {
+        "competence": 4,
+        "employee": 88,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 126,
+    "fields": {
+        "competence": 5,
+        "employee": 88,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 9.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 127,
+    "fields": {
+        "competence": 2,
+        "employee": 89,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 26.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 128,
+    "fields": {
+        "competence": 5,
+        "employee": 89,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 129,
+    "fields": {
+        "competence": 2,
+        "employee": 90,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 130,
+    "fields": {
+        "competence": 5,
+        "employee": 90,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 16.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 131,
+    "fields": {
+        "competence": 4,
+        "employee": 91,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 2.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 132,
+    "fields": {
+        "competence": 6,
+        "employee": 91,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 20.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 133,
+    "fields": {
+        "competence": 1,
+        "employee": 93,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 134,
+    "fields": {
+        "competence": 2,
+        "employee": 93,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 5.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 135,
+    "fields": {
+        "competence": 2,
+        "employee": 94,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 40.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 136,
+    "fields": {
+        "competence": 5,
+        "employee": 94,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 21.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 137,
+    "fields": {
+        "competence": 2,
+        "employee": 95,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 8.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 138,
+    "fields": {
+        "competence": 6,
+        "employee": 95,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 22.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 139,
+    "fields": {
+        "competence": 1,
+        "employee": 96,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 19.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 140,
+    "fields": {
+        "competence": 1,
+        "employee": 97,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 141,
+    "fields": {
+        "competence": 2,
+        "employee": 97,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 12.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 142,
+    "fields": {
+        "competence": 5,
+        "employee": 97,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 40.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 143,
+    "fields": {
+        "competence": 1,
+        "employee": 98,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 9.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 144,
+    "fields": {
+        "competence": 6,
+        "employee": 98,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 29.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 145,
+    "fields": {
+        "competence": 1,
+        "employee": 99,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 39.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 146,
+    "fields": {
+        "competence": 3,
+        "employee": 99,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 16.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 147,
+    "fields": {
+        "competence": 6,
+        "employee": 99,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 7.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 148,
+    "fields": {
+        "competence": 2,
+        "employee": 100,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 31.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 149,
+    "fields": {
+        "competence": 6,
+        "employee": 100,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 3.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 150,
+    "fields": {
+        "competence": 2,
+        "employee": 101,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 27.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 151,
+    "fields": {
+        "competence": 4,
+        "employee": 101,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 17.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 152,
+    "fields": {
+        "competence": 5,
+        "employee": 101,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 153,
+    "fields": {
+        "competence": 1,
+        "employee": 102,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 25.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 154,
+    "fields": {
+        "competence": 2,
+        "employee": 102,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 155,
+    "fields": {
+        "competence": 3,
+        "employee": 102,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 6.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 156,
+    "fields": {
+        "competence": 4,
+        "employee": 102,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 157,
+    "fields": {
+        "competence": 1,
+        "employee": 103,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 15.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 158,
+    "fields": {
+        "competence": 3,
+        "employee": 103,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 12.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 159,
+    "fields": {
+        "competence": 4,
+        "employee": 103,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 160,
+    "fields": {
+        "competence": 2,
+        "employee": 104,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 3.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 161,
+    "fields": {
+        "competence": 5,
+        "employee": 104,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 9.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 162,
+    "fields": {
+        "competence": 6,
+        "employee": 104,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 19.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 163,
+    "fields": {
+        "competence": 1,
+        "employee": 105,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 39.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 164,
+    "fields": {
+        "competence": 3,
+        "employee": 105,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 22.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 165,
+    "fields": {
+        "competence": 4,
+        "employee": 105,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 166,
+    "fields": {
+        "competence": 5,
+        "employee": 105,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 32.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 167,
+    "fields": {
+        "competence": 6,
+        "employee": 105,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 168,
+    "fields": {
+        "competence": 2,
+        "employee": 106,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 8.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 169,
+    "fields": {
+        "competence": 1,
+        "employee": 107,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 29.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 170,
+    "fields": {
+        "competence": 2,
+        "employee": 107,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 171,
+    "fields": {
+        "competence": 3,
+        "employee": 107,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 33.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 172,
+    "fields": {
+        "competence": 2,
+        "employee": 108,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 18.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 173,
+    "fields": {
+        "competence": 3,
+        "employee": 108,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 5.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 174,
+    "fields": {
+        "competence": 5,
+        "employee": 108,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 1.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 175,
+    "fields": {
+        "competence": 2,
+        "employee": 109,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 176,
+    "fields": {
+        "competence": 5,
+        "employee": 109,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 27.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 177,
+    "fields": {
+        "competence": 1,
+        "employee": 110,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 20.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 178,
+    "fields": {
+        "competence": 2,
+        "employee": 110,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 179,
+    "fields": {
+        "competence": 3,
+        "employee": 110,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 36.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 180,
+    "fields": {
+        "competence": 2,
+        "employee": 111,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 18.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 181,
+    "fields": {
+        "competence": 4,
+        "employee": 111,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 182,
+    "fields": {
+        "competence": 6,
+        "employee": 111,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 6.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 183,
+    "fields": {
+        "competence": 1,
+        "employee": 112,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 18.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 184,
+    "fields": {
+        "competence": 2,
+        "employee": 112,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 4.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 185,
+    "fields": {
+        "competence": 5,
+        "employee": 112,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 35.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 186,
+    "fields": {
+        "competence": 6,
+        "employee": 112,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 29.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 187,
+    "fields": {
+        "competence": 1,
+        "employee": 113,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 24.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 188,
+    "fields": {
+        "competence": 4,
+        "employee": 113,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 31.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 189,
+    "fields": {
+        "competence": 2,
+        "employee": 114,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 32.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 190,
+    "fields": {
+        "competence": 3,
+        "employee": 114,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 16.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 191,
+    "fields": {
+        "competence": 6,
+        "employee": 114,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 20.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 192,
+    "fields": {
+        "competence": 2,
+        "employee": 115,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 13.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 193,
+    "fields": {
+        "competence": 4,
+        "employee": 115,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 34.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 194,
+    "fields": {
+        "competence": 5,
+        "employee": 115,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 11.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 195,
+    "fields": {
+        "competence": 6,
+        "employee": 115,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 14.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 196,
+    "fields": {
+        "competence": 3,
+        "employee": 116,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 10.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 197,
+    "fields": {
+        "competence": 6,
+        "employee": 116,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 38.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 198,
+    "fields": {
+        "competence": 1,
+        "employee": 117,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 5.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 199,
+    "fields": {
+        "competence": 2,
+        "employee": 118,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 0,
+        "levelRequired": 2,
+        "score": 12.0,
+        "levelGap": 2,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 200,
+    "fields": {
+        "competence": 4,
+        "employee": 118,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 40.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 201,
+    "fields": {
+        "competence": 5,
+        "employee": 118,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 28.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+},
+{
+    "model": "gaps.trainingneed",
+    "pk": 202,
+    "fields": {
+        "competence": 6,
+        "employee": 118,
+        "course": null,
+        "description": "Necesita capacitacion",
+        "state": "Por solucionar",
+        "levelCurrent": 1,
+        "levelRequired": 2,
+        "score": 39.0,
+        "levelGap": 1,
+        "type": "Incorporacion",
+        "isActive": true
+    }
+}
+]

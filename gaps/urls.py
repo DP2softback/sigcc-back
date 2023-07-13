@@ -34,7 +34,8 @@ gaps_patterns = [
     path('saveListedEmployeeForOffer', SaveShortlistedEmployeexJobOffer.as_view()),
     path('searchJobOfferxEmployeePreRegistered', SearchJobOfferxEmployeePreRegistered.as_view()),
 
-    path('acceptOrDeclineJobOfferPreRegistered', AcceptOrDeclineJobOfferPreRegistered.as_view())
+    path('acceptOrDeclineJobOfferPreRegistered', AcceptOrDeclineJobOfferPreRegistered.as_view()),
+    path('searchEmployeeSuggestedXJobOffer', SearchEmployeeSuggestedXJobOffer.as_view())
 
 ]
 
