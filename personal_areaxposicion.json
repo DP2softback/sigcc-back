@@ -1,0 +1,587 @@
+[
+    {
+        "model": "personal.areaxposicion",
+        "pk": 1,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 3,
+            "area": 2,
+            "position": 1
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 2,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 1,
+            "area": 2,
+            "position": 2
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 3,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 1,
+            "area": 2,
+            "position": 3
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 4,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 5,
+            "unavailableQuantity": 1,
+            "area": 4,
+            "position": 4
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 5,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 3,
+            "area": 8,
+            "position": 5
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 6,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 2,
+            "area": 9,
+            "position": 6
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 7,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 5,
+            "unavailableQuantity": 2,
+            "area": 3,
+            "position": 7
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 8,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 2,
+            "area": 4,
+            "position": 8
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 9,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 1,
+            "area": 10,
+            "position": 9
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 10,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 1,
+            "area": 10,
+            "position": 10
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 11,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 5,
+            "unavailableQuantity": 1,
+            "area": 6,
+            "position": 11
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 12,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 2,
+            "area": 1,
+            "position": 12
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 13,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 2,
+            "area": 10,
+            "position": 13
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 14,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 2,
+            "area": 12,
+            "position": 14
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 15,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 2,
+            "area": 12,
+            "position": 15
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 16,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 1,
+            "area": 11,
+            "position": 16
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 17,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 1,
+            "area": 9,
+            "position": 17
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 18,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 2,
+            "area": 10,
+            "position": 18
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 19,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 1,
+            "area": 4,
+            "position": 19
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 20,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 3,
+            "area": 5,
+            "position": 20
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 21,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 2,
+            "area": 10,
+            "position": 21
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 22,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 1,
+            "area": 10,
+            "position": 22
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 23,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 1,
+            "area": 8,
+            "position": 23
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 24,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 3,
+            "area": 12,
+            "position": 24
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 25,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 3,
+            "area": 10,
+            "position": 25
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 26,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 1,
+            "area": 1,
+            "position": 26
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 27,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 3,
+            "area": 2,
+            "position": 27
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 28,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 1,
+            "area": 3,
+            "position": 28
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 29,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 1,
+            "area": 4,
+            "position": 29
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 30,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 2,
+            "area": 5,
+            "position": 30
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 31,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 3,
+            "area": 6,
+            "position": 31
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 32,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 1,
+            "area": 7,
+            "position": 32
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 33,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 2,
+            "area": 8,
+            "position": 33
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 34,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 3,
+            "area": 9,
+            "position": 34
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 35,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 5,
+            "unavailableQuantity": 1,
+            "area": 10,
+            "position": 35
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 36,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 1,
+            "area": 11,
+            "position": 36
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 37,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 7,
+            "unavailableQuantity": 1,
+            "area": 12,
+            "position": 37
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 1,
+            "area": 13,
+            "position": 38
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 1,
+            "unavailableQuantity": 0,
+            "area": 14,
+            "position": 39
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 3,
+            "area": 7,
+            "position": 40
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 2,
+            "unavailableQuantity": 1,
+            "area": 7,
+            "position": 41
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 3,
+            "area": 7,
+            "position": 42
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 3,
+            "unavailableQuantity": 2,
+            "area": 13,
+            "position": 43
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 6,
+            "unavailableQuantity": 2,
+            "area": 13,
+            "position": 44
+        }
+    },
+    {
+        "model": "personal.areaxposicion",
+        "pk": 38,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "availableQuantity": 4,
+            "unavailableQuantity": 3,
+            "area": 13,
+            "position": 45
+        }
+    }
+]

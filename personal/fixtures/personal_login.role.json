@@ -1,0 +1,79 @@
+[
+    {
+        "model": "login.role",
+        "pk": 1,
+        "fields": {
+            "created": "2023-05-25 18:36:12.354+00",
+            "modified": "2023-06-08 08:55:26.486+00",
+            "deleted": null,
+            "name": "Postulante",
+            "description": "Postulante"
+        }
+    },
+    {
+        "model": "login.role",
+        "pk": 2,
+        "fields": {
+            "created": "2023-06-08 08:54:58.339+00",
+            "modified": "2023-06-08 08:55:33.922+00",
+            "deleted": null,
+            "name": "Personal de RRHH",
+            "description": "Personal de RRHH (recruiter)"
+        }
+    },
+    {
+        "model": "login.role",
+        "pk": 3,
+        "fields": {
+            "created": "2023-06-08 08:55:16.289+00",
+            "modified": "2023-06-08 08:55:16.289+00",
+            "deleted": null,
+            "name": "Admin de RRHH",
+            "description": "Admin de RRHH (reportes)"
+        }
+    },
+    {
+        "model": "login.role",
+        "pk": 4,
+        "fields": {
+            "created": "2023-06-08 08:55:48.94+00",
+            "modified": "2023-06-08 08:55:48.94+00",
+            "deleted": null,
+            "name": "Empleado",
+            "description": "Empleado de la empresa"
+        }
+    },
+    {
+        "model": "login.role",
+        "pk": 5,
+        "fields": {
+            "created": "2023-06-08 08:56:03.346+00",
+            "modified": "2023-06-08 08:56:03.346+00",
+            "deleted": null,
+            "name": "Jefe de area",
+            "description": "Jefe de area (trabajadores de su area)"
+        }
+    },
+    {
+        "model": "login.role",
+        "pk": 6,
+        "fields": {
+            "created": "2023-06-08 08:56:17.208+00",
+            "modified": "2023-06-08 08:56:17.208+00",
+            "deleted": null,
+            "name": "Gerente de RRHH",
+            "description": "Gerente de RRHH (dashboard de todas las areas)"
+        }
+    },
+    {
+        "model": "login.role",
+        "pk": 7,
+        "fields": {
+            "created": "2023-06-08 08:56:30.251+00",
+            "modified": "2023-06-08 08:56:30.251+00",
+            "deleted": null,
+            "name": "Gerente",
+            "description": "Gerente (todos los modulos)"
+        }
+    }
+]

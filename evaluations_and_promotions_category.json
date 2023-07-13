@@ -1,0 +1,122 @@
+[
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 1,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Calidad del trabajo",
+            "code": "CALT",
+            "description": "Se medirá la calidad de trabajo"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 2,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Productividad",
+            "code": "PROD",
+            "description": "Se medirá la Productividad"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 3,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Comportamiento y actitud",
+            "code": "COAC",
+            "description": "Se medirá la Comportamiento y actitud"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 4,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Habilidades técnicas",
+            "code": "HABT",
+            "description": "Se medirá la Habilidades técnicas"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 5,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Comunicación",
+            "code": "COMU",
+            "description": "Se medirá la Comunicación"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 6,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Colaboración y trabajo en equipo",
+            "code": "CTEQ",
+            "description": "Se medirá la Colaboración y trabajo en equipo"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 7,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Habilidades de liderazgo",
+            "code": "HALI",
+            "description": "Se medirá la Habilidades de liderazgo"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 8,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Iniciativa y creatividad",
+            "code": "INCR",
+            "description": "Se medirá la Iniciativa y creatividad"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 9,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Cumplimiento de objetivos y metas establecidos",
+            "code": "CUOM",
+            "description": "Se medirá la Cumplimiento de objetivos y metas establecidos"
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.category",
+        "pk": 10,
+        "fields": {
+            "creationDate": "2023-01-01 00:00:00+00",
+            "modifiedDate": "2023-01-01 00:00:00+00",
+            "isActive": true,
+            "name": "Desarrollo profesional y personal",
+            "code": "DEPP",
+            "description": "Se medirá la Desarrollo profesional y personal"
+        }
+    }
+]
