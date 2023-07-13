@@ -1,0 +1,74 @@
+[
+    {
+        "model": "personal.trainingtype",
+        "pk": 1,
+        "fields": {
+            "created": "2023-06-27 03:17:53.791+00",
+            "modified": "2023-06-27 03:17:53.791+00",
+            "deleted": null,
+            "code": "GRA",
+            "name": "Grado académico",
+            "description": "-"
+        }
+    },
+    {
+        "model": "personal.trainingtype",
+        "pk": 2,
+        "fields": {
+            "created": "2023-06-27 03:18:11.134+00",
+            "modified": "2023-06-27 03:18:11.134+00",
+            "deleted": null,
+            "code": "IDI",
+            "name": "Idioma",
+            "description": "-"
+        }
+    },
+    {
+        "model": "personal.trainingtype",
+        "pk": 3,
+        "fields": {
+            "created": "2023-06-27 03:18:24.95+00",
+            "modified": "2023-06-27 03:18:11.134+00",
+            "deleted": null,
+            "code": "CERT",
+            "name": "Certificación",
+            "description": "-"
+        }
+    },
+    {
+        "model": "personal.trainingtype",
+        "pk": 4,
+        "fields": {
+            "created": "2023-06-27 03:18:24.95+01",
+            "modified": "2023-06-27 03:18:11.134+00",
+            "deleted": null,
+            "code": "TAL",
+            "name": "Talleres",
+            "description": "-"
+        }
+    },
+    {
+        "model": "personal.trainingtype",
+        "pk": 5,
+        "fields": {
+            "created": "2023-06-27 03:18:24.95+02",
+            "modified": "2023-06-27 03:18:11.134+00",
+            "deleted": null,
+            "code": "DIP",
+            "name": "Diplomados",
+            "description": "-"
+        }
+    },
+    {
+        "model": "personal.trainingtype",
+        "pk": 6,
+        "fields": {
+            "created": "2023-06-27 03:18:24.95+03",
+            "modified": "2023-06-27 03:18:11.134+00",
+            "deleted": null,
+            "code": "ESP",
+            "name": "Especialización",
+            "description": "-"
+        }
+    }
+]

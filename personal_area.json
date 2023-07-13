@@ -1,0 +1,170 @@
+[
+    {
+        "model": "personal.area",
+        "pk": 1,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de pruebas",
+            "name": "Pruebas",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 2,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de desarrollo",
+            "name": "Desarrollo",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 3,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de consultoría",
+            "name": "Consultoría",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 4,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de gestión de proyecto",
+            "name": "Gestión de proyectos",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 5,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de soporte técnico",
+            "name": "Soporte técnico",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 6,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de experiencia de usuario",
+            "name": "Experiencia de usuario",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 7,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de control de calidad",
+            "name": "Control de calidad",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 8,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de gestión de datos",
+            "name": "Gestión de datos",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 9,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de seguridad de la información",
+            "name": "Seguridad de la información",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 10,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de infraestructura",
+            "name": "Infraestructura",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 11,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de desarrollo web",
+            "name": "Desarrollo web",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 12,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de inteligencia artificial",
+            "name": "Inteligencia artificial",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 13,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Área de capacitación",
+            "name": "Capacitación",
+            "supervisorsArea": null
+        }
+    },
+    {
+        "model": "personal.area",
+        "pk": 14,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "description": "Gerencia",
+            "name": "Gerencia",
+            "supervisorsArea": null
+        }
+    }
+]

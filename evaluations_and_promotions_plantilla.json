@@ -1,0 +1,79 @@
+[
+    {
+        "model": "evaluations_and_promotions.plantilla",
+        "pk": 1,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación oral",
+            "evaluationType": 1
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantilla",
+        "pk": 2,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación escrita",
+            "evaluationType": 1
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantilla",
+        "pk": 3,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Comunicación global",
+            "evaluationType": 1
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantilla",
+        "pk": 4,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Desempeño técnico en análisis",
+            "evaluationType": 1
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantilla",
+        "pk": 5,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Desempeño técnico en diseño",
+            "evaluationType": 1
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantilla",
+        "pk": 6,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Evaluación de desempeño",
+            "evaluationType": 2
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.plantilla",
+        "pk": 7,
+        "fields": {
+            "creationDate": "2023-05-26 00:00:00+00",
+            "modifiedDate": "2023-05-26 00:00:00+00",
+            "isActive": true,
+            "nombre": "Evaluación de desempeño para practicante",
+            "evaluationType": 2
+        }
+    }
+]

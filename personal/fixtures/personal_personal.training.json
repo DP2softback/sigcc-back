@@ -1,0 +1,782 @@
+[
+    {
+        "model": "personal.training",
+        "pk": 1,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ABC001",
+            "name": "Administración de Empresas",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 2,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ARC002",
+            "name": "Arquitectura",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 3,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "BIO003",
+            "name": "Biología",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 4,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CDC004",
+            "name": "Ciencias de la Computación",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 5,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CON005",
+            "name": "Contabilidad",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 6,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "DER006",
+            "name": "Derecho",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 7,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "DSG007",
+            "name": "Diseño Gráfico",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 8,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ECO008",
+            "name": "Economía",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 9,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "EDP009",
+            "name": "Educación Primaria",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 10,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ENF010",
+            "name": "Enfermería",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 11,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "FAR011",
+            "name": "Farmacia",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 12,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "FIS012",
+            "name": "Física",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 13,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "HIS013",
+            "name": "Historia",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 14,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ICV014",
+            "name": "Ingeniería Civil",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 15,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "IEL015",
+            "name": "Ingeniería Eléctrica",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 16,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "INI016",
+            "name": "Ingeniería Industrial",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 17,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "IME017",
+            "name": "Ingeniería Mecánica",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 18,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "IME017",
+            "name": "Ingeniería Mecánica",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 19,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "MKT018",
+            "name": "Marketing",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 20,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "MAT019",
+            "name": "Matemáticas",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 21,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "MED020",
+            "name": "Medicina",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 22,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ODN021",
+            "name": "Odontología",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 23,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "PER022",
+            "name": "Periodismo",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 24,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "PSI023",
+            "name": "Psicología",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 25,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "PUB024",
+            "name": "Publicidad",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 26,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "QUI025",
+            "name": "Química",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 27,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "RIN026",
+            "name": "Relaciones Internacionales",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 28,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "SOC027",
+            "name": "Sociología",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 29,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "TBS028",
+            "name": "Trabajo Social",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 30,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "TUR029",
+            "name": "Turismo y Hotelería",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 31,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "VET030",
+            "name": "Veterinaria",
+            "description": "-",
+            "training_type_id": 1
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 32,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ENG001",
+            "name": "Inglés",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 33,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "SPA002",
+            "name": "Español",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 34,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "FRA003",
+            "name": "Francés",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 35,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "GER004",
+            "name": "Alemán",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 36,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ITA005",
+            "name": "Italiano",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 37,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "POR006",
+            "name": "Portugués",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 38,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "JPN007",
+            "name": "Japonés",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 39,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CHN008",
+            "name": "Chino",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 40,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "RUS009",
+            "name": "Ruso",
+            "description": "-",
+            "training_type_id": 2
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 41,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CCN001",
+            "name": "Cisco Certified Network",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 42,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "MCP002",
+            "name": "Microsoft Certified ",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 43,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "OCA003",
+            "name": "Oracle Certified",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 44,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "AWS004",
+            "name": "Amazon Web Services Certified Solutions Architect",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 45,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "PMP005",
+            "name": "Project Management",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 46,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CISM006",
+            "name": "Certified Information Security Manager",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 47,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CEH007",
+            "name": "Certified Ethical Hacker",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 48,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "MCSD008",
+            "name": "Microsoft Certified Solutions",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 49,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "RHCSA009",
+            "name": "Red Hat Certified System Administrator ",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 50,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CISSP010",
+            "name": "Certified Information Systems Security Professional",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 51,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CCP011",
+            "name": "Cloudera Certified ",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 52,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "ITIL012",
+            "name": "IT Infrastructure Library",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 53,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CISA013",
+            "name": "Certified Information Systems Auditor ",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 54,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CCSP014",
+            "name": "Certified Cloud Security ",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 55,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CompTIA A+015",
+            "name": "CompTIA A+ Certification",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 56,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CASP016",
+            "name": "CompTIA Advanced Security",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 57,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "GISF017",
+            "name": "GIAC Information Security",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 58,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "CEH018",
+            "name": "Certified E-commerce Hacker",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 59,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "SSCP019",
+            "name": "Systems Security Certified ",
+            "description": "-",
+            "training_type_id": 3
+        }
+    },
+    {
+        "model": "personal.training",
+        "pk": 60,
+        "fields": {
+            "created": "2023-06-27 03:28:01.444+00",
+            "modified": "2023-06-27 03:28:01.444+00",
+            "deleted": null,
+            "code": "COBIT020",
+            "name": "Control Objectives for Information and Related Technologies",
+            "description": "-",
+            "training_type_id": 3
+        }
+    }
+]

@@ -1,0 +1,275 @@
+[
+    {
+        "model": "personal.traininglevel",
+        "pk": 1,
+        "fields": {
+            "created": "2023-06-27 03:19:16.988+00",
+            "modified": "2023-06-27 03:20:07.928+00",
+            "deleted": null,
+            "code": "GRA001",
+            "name": "Incompleto",
+            "description": "-",
+            "level": 3
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 2,
+        "fields": {
+            "created": "2023-06-27 03:19:26.827+00",
+            "modified": "2023-06-27 03:20:19.836+00",
+            "deleted": null,
+            "code": "GRA002",
+            "name": "Bachiller",
+            "description": "-",
+            "level": 6
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 3,
+        "fields": {
+            "created": "2023-06-27 03:19:41.41+00",
+            "modified": "2023-06-27 03:20:25.639+00",
+            "deleted": null,
+            "code": "GRA003",
+            "name": "Licenciatura",
+            "description": "-",
+            "level": 9
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 4,
+        "fields": {
+            "created": "2023-06-27 03:19:52.216+00",
+            "modified": "2023-06-27 03:19:52.216+00",
+            "deleted": null,
+            "code": "GRA004",
+            "name": "Magister",
+            "description": "-",
+            "level": 12
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 5,
+        "fields": {
+            "created": "2023-06-27 03:20:03.074+00",
+            "modified": "2023-06-27 03:20:03.074+00",
+            "deleted": null,
+            "code": "GRA005",
+            "name": "Doctorado",
+            "description": "-",
+            "level": 15
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 6,
+        "fields": {
+            "created": "2023-06-27 03:20:59.954+00",
+            "modified": "2023-06-27 03:20:59.954+00",
+            "deleted": null,
+            "code": "IDI001",
+            "name": "A1",
+            "description": "-",
+            "level": 1
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 7,
+        "fields": {
+            "created": "2023-06-27 03:21:08.373+00",
+            "modified": "2023-06-27 03:21:08.373+00",
+            "deleted": null,
+            "code": "IDI002",
+            "name": "A2",
+            "description": "-",
+            "level": 2
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 8,
+        "fields": {
+            "created": "2023-06-27 03:21:17.159+00",
+            "modified": "2023-06-27 03:21:17.159+00",
+            "deleted": null,
+            "code": "IDI003",
+            "name": "B1",
+            "description": "-",
+            "level": 3
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 9,
+        "fields": {
+            "created": "2023-06-27 03:21:26.083+00",
+            "modified": "2023-06-27 03:21:26.083+00",
+            "deleted": null,
+            "code": "IDI004",
+            "name": "B2",
+            "description": "-",
+            "level": 4
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 10,
+        "fields": {
+            "created": "2023-06-27 03:21:36.086+00",
+            "modified": "2023-06-27 03:21:36.086+00",
+            "deleted": null,
+            "code": "IDI005",
+            "name": "C1",
+            "description": "-",
+            "level": 5
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 11,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "IDI006",
+            "name": "C2",
+            "description": "-",
+            "level": 6
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 12,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "IDI007",
+            "name": "Dominio",
+            "description": "-",
+            "level": 8
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 13,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "CERTL001",
+            "name": "Asociate",
+            "description": "-",
+            "level": 2
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 14,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "CERTL002",
+            "name": "Specialty",
+            "description": "-",
+            "level": 4
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 15,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "CERTL003",
+            "name": "Professional",
+            "description": "-",
+            "level": 6
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 16,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "TAL001",
+            "name": "Incompleto",
+            "description": "-",
+            "level": 2
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 17,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "TAL002",
+            "name": "Concluido",
+            "description": "-",
+            "level": 4
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 18,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "DIP001",
+            "name": "Incompleto",
+            "description": "-",
+            "level": 2
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 19,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "DIP002",
+            "name": "Concluido",
+            "description": "-",
+            "level": 4
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 20,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "ESP001",
+            "name": "Incompleto",
+            "description": "-",
+            "level": 2
+        }
+    },
+    {
+        "model": "personal.traininglevel",
+        "pk": 21,
+        "fields": {
+            "created": "2023-06-27 03:21:52.499+00",
+            "modified": "2023-06-27 03:21:52.499+00",
+            "deleted": null,
+            "code": "ESP002",
+            "name": "Concluido",
+            "description": "-",
+            "level": 4
+        }
+    }
+]

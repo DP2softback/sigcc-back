@@ -142,7 +142,7 @@ class ProcessStage(models.Model):
     position_similarity = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} en {self.hiring_process.name}"
 
 
 class JobOffer(models.Model):

@@ -13,6 +13,5 @@ python manage.py loaddata ./personal/fixtures/personal_personal.training.json
 python manage.py loaddata ./personal/fixtures/personal_personal.trainingxlevel.json
 
 
-python manage.py loaddata ./personal/fixtures/014democompetencyxareaxposition.json
 
 zappa manage dev  loaddata ./personal/fixtures/db.json

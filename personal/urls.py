@@ -30,9 +30,10 @@ urlpatterns = [
     path('dummy-first-step', DummyFirstStepView.as_view()),
     path('filter-second-step', FilterSecondStepView.as_view()),
     path('dummy-second-step', DummySecondStepView.as_view()),
-    path('filter-third-step', FilterSecondStepView.as_view()),
-    path('dummy-third-step', DummySecondStepView.as_view()),
-
+    path('filter-third-step', FilterThirdStepView.as_view()),
+    path('dummy-third-step', DummyThirdStepView.as_view()),
+    path('filter-fourth-step', FilterFourthStepView.as_view()),
+    
     path('update-competency-x-applicant', UpdateCompetencyxApplicantView.as_view()),
 
     path('single-application-status/<int:pk>', SingleApplicationStatusView.as_view()),

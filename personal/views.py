@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
-
+import logging
 
 class HiringProcessView(APIView):
     @transaction.atomic
@@ -736,18 +736,22 @@ class FilterFirstStepView(APIView):
             affinity = request.data["affinity"]
             mandatory = request.data["mandatory"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=1)
+            process_stage = ProcessStage.objects.get(hiring_process__id=hiring_process, stage_type__id=1)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
 
             desired_training = TrainingxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # training
             desired_competencies = CompetencyxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # competency
 
             mandatory_training = TrainingxLevel.objects.filter(id__in=mandatory)
 
-            print(desired_training)
-            print(desired_competencies)
-            print(mandatory_training)
+            logging.info(desired_training)
+            logging.info(desired_competencies)
+            logging.info(mandatory_training)
 
             # calcular
             array_of_qualifications = []
@@ -847,9 +851,13 @@ class DummyFirstStepView(APIView):
         try:
             hiring_process = request.data["hiring_process"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=1)
+            process_stage = ProcessStage.objects.get(hiring_process__id=hiring_process, stage_type__id=1)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
 
             # calificaciones dummy
             array_of_qualifications = []
@@ -914,12 +922,16 @@ class FilterSecondStepView(APIView):
             hiring_process = request.data["hiring_process"]
             affinity = request.data["affinity"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=2)
+            process_stage = ProcessStage.objects.get(hiring_process__id=hiring_process, stage_type__id=2)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
 
             desired_training = TrainingxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # training
             desired_competencies = CompetencyxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # competency
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
 
             print(desired_training)
             print(desired_competencies)
@@ -991,6 +1003,7 @@ class FilterSecondStepView(APIView):
             return Response(array_of_responses, status=status.HTTP_200_OK)
 
         except Exception as e:
+            print(e)
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
 
 
@@ -1001,9 +1014,13 @@ class DummySecondStepView(APIView):
         try:
             hiring_process = request.data["hiring_process"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=2)
+            process_stage = ProcessStage.objects.get(hiring_process__id=hiring_process, stage_type__id=2)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
 
             # calificaciones dummy
             array_of_qualifications = []
@@ -1057,9 +1074,13 @@ class FilterThirdStepView(APIView):
             hiring_process = request.data["hiring_process"]
             affinity = request.data["affinity"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=3)
+            process_stage = ProcessStage.objects.get(hiring_process__id=hiring_process, stage_type__id=3)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
 
             desired_training = TrainingxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # training
             desired_competencies = CompetencyxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # competency
@@ -1144,9 +1165,13 @@ class DummyThirdStepView(APIView):
         try:
             hiring_process = request.data["hiring_process"]
 
-            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=3)
+            process_stage = ProcessStage.objects.get(hiring_process__id=hiring_process, stage_type__id=3)
             applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
             applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
 
             # calificaciones dummy
             array_of_qualifications = []
@@ -1190,6 +1215,160 @@ class DummyThirdStepView(APIView):
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+
+
+class FilterFourthStepView(APIView):
+    def post(self, request):
+
+        # tomar hiring process
+        try:
+            hiring_process = request.data["hiring_process"]
+            
+            process_stage = ProcessStage.objects.get(hiring_process__id=hiring_process, stage_type__id=4)
+            applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
+            applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
+
+            desired_training = TrainingxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # training
+            desired_competencies = CompetencyxAreaxPosition.objects.filter(areaxposition=process_stage.hiring_process.position)  # competency
+
+            print(desired_training)
+            print(desired_competencies)
+
+            # calcular
+            array_of_qualifications = []
+            mult_t = 50
+            mult_c = 10
+            for applicant in applicants:
+                score = 0
+                check = 0
+                total = 0
+
+                # check training
+                print("\nTraining:")
+                a_t = TrainingxApplicant.objects.filter(applicant=applicant)  # trainingxlevel
+                for t in desired_training:
+                    total += mult_t
+
+                    for a in a_t:
+                        if a.trainingxlevel.training.id == t.training.training.id:
+                            if a.trainingxlevel.level.level >= t.training.level.level:
+                                print(str(a.trainingxlevel) + " " + str(a.trainingxlevel.level.level))
+                                print(str(t.training) + " " + str(t.training.level.level))
+                                score += a.trainingxlevel.level.level * mult_t
+                                check += mult_t
+                                break
+
+                print("Competency:")
+                a_c = CompetencyxApplicant.objects.filter(applicant=applicant)  # competency
+                for c in desired_competencies:
+                    total += mult_c
+                    for a in a_c:
+                        if a.competency.id == c.competency.id:
+                            print(str(a.competency) + " " + str(a.scale))
+                            print(str(c.competency) + " " + str(c.scale))
+                            score += a.scale * mult_c
+                            check += mult_c
+
+                percent = round(check / total * 100, 2)
+                pass_or_not = "PASS"
+
+                a_qualification = [applicant.id, percent, pass_or_not, score]
+                print(a_qualification)
+                print()
+
+                array_of_qualifications.append(a_qualification)
+
+            # print(array_of_qualifications)
+            b = numpy.array(array_of_qualifications)
+
+            b = b[b[:, 3].argsort()]
+            b = b[b[:, 2].argsort(kind='mergesort')]
+
+            array_of_qualifications = b[::-1].tolist()
+            print(array_of_qualifications)
+
+            array_of_responses = []
+            for i, item in enumerate(applicants):
+                a = ApplicantSerializerRead(item, many=False)
+                a_response = {
+                    "applicant": a.data,
+                    "affinity": array_of_qualifications[i][1],
+                    "pass": array_of_qualifications[i][2],
+                    "score": array_of_qualifications[i][3],
+                }
+                array_of_responses.append(a_response)
+
+            return Response(array_of_responses, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+
+
+class DummyFouthStepView(APIView):
+    def post(self, request):
+
+        # tomar hiring process
+        try:
+            hiring_process = request.data["hiring_process"]
+
+            process_stage = ProcessStage.objects.get(hiring_process=hiring_process, stage_type__id=4)
+            applicants_ids = ApplicantxProcessStage.objects.filter(process_stage=process_stage).values_list('applicant__id')
+            applicants = Applicant.objects.filter(id__in=applicants_ids)
+
+            logging.info(process_stage)
+            logging.info(applicants_ids)
+            logging.info(applicants)
+
+            # calificaciones dummy
+            array_of_qualifications = []
+            mult_t = 50
+            mult_c = 10
+            for applicant in applicants:
+                score = 0
+                percent = 0
+                pass_or_not = "UNKNOWN"
+
+                a_qualification = [applicant.id, percent, pass_or_not, score]
+                print(a_qualification)
+                print()
+
+                array_of_qualifications.append(a_qualification)
+
+            # print(array_of_qualifications)
+            b = numpy.array(array_of_qualifications)
+
+            b = b[b[:, 3].argsort()]
+            b = b[b[:, 2].argsort(kind='mergesort')]
+
+            array_of_qualifications = b[::-1].tolist()
+            print(array_of_qualifications)
+
+            array_of_responses = []
+            for i, item in enumerate(applicants):
+                a = ApplicantSerializerRead(item, many=False)
+                a_response = {
+                    "applicant": a.data,
+                    "affinity": array_of_qualifications[i][1],
+                    "pass": array_of_qualifications[i][2],
+                    "score": array_of_qualifications[i][3],
+                }
+                array_of_responses.append(a_response)
+
+            return Response(array_of_responses, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+
+
+
+
 
 
 class UpdateCompetencyxApplicantView(APIView):
@@ -1242,7 +1421,7 @@ class SingleApplicationStatusView(APIView):
                         if s.process_stage.stage_type.id > a_process[2]:
                             print(f"{s.process_stage.stage_type.id} vs {a_process[2]}")
                             a_process[2] = s.process_stage.stage_type.id
-                            a_process[5] = str(s.process_stage)
+                            a_process[5] = s.process_stage.name
                 list_of_process_and_stages.append(a_process)
 
             print(list_of_process_and_stages)
@@ -1280,7 +1459,7 @@ class AllApplicationStatusView(APIView):
                             if s.process_stage.stage_type.id > a_process[2]:
                                 print(f"{s.process_stage.stage_type.id} vs {a_process[2]}")
                                 a_process[2] = s.process_stage.stage_type.id
-                                a_process[5] = str(s.process_stage)
+                                a_process[5] = s.process_stage.name
                     list_of_process_and_stages.append(a_process)
 
                 print(list_of_process_and_stages)
