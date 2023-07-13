@@ -554,13 +554,25 @@ class CompetencesInLPAPIView(APIView):
 
     def post(self, request, pk):
 
+        descripcion = request.data.get('descripcion_evaluacion', None)
         competencias_id = request.data.get("criterias")
-        print(competencias_id)
+        documentos = request.data.get('documentos', [])
+
         if not competencias_id:
             return Response({'msg': "No se enviaron competencias"}, status=status.HTTP_400_BAD_REQUEST)
 
+        if not descripcion:
+            return Response({'msg': 'No se envió una descripcion para la evaluacion del learning path'}, status=status.HTTP_200_OK)
+
+        if not len(documentos)!=0:
+            return Response({'msg': 'No se envió documentos'}, status=status.HTTP_200_OK)
+
+        LearningPath.objects.filter(pk=pk).update(descripcion_evaluacion=descripcion)
+
         competencias = [CompetenciasXLearningPath(learning_path_id=pk, competencia_id = i['id']) for i in competencias_id]
+        documentos_examen = [DocumentoExamen(learning_path_id=pk, url_documento=url) for url in documentos]
 
         CompetenciasXLearningPath.objects.bulk_create(competencias)
+        DocumentoExamen.objects.bulk_create(documentos_examen)
 
         return Response({'msg': "Se asigno las competencias con exito"}, status=status.HTTP_200_OK)
