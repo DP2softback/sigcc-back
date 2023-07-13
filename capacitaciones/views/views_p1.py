@@ -258,7 +258,7 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
             for emp in empleados:
                 print("En el bucle del trabajador: ",emp)
                 for curso_lp in cursos_lp:
-                        print("En el bucle del curso: ",curso_lp)
+                        print("En el bucle del curso: ",curso_lp.curso_id)
                         empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
                         #Vemos si el empelado ya ha completado ese curso antes:
