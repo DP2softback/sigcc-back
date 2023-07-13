@@ -246,10 +246,11 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
             EmpleadoXLearningPath.objects.bulk_create(list_asignaciones)
             lp = LearningPath.objects.filter(id=id_lp).first()
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path_id=id_lp)
-            cantidad_empleados_nuevo=len(empleados)
-            cantidad_empleados_nuevo=cantidad_empleados_nuevo+lp.cant_empleados
+            print("Los cursos del LP son: ",cursos_lp)
             for emp in empleados:
+                print("En el bucle del trabajador: ",emp)
                 for curso_lp in cursos_lp:
+                        print("En el bucle del curso: ",curso_lp)
                         empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
                         #Vemos si el empelado ya ha completado ese curso antes:
@@ -260,7 +261,6 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         for curso_anterior in empleado_curso_anteriores:
                             if curso_anterior.estado=='3':
                                 estado_curso='3'
-                                break
                         
                         curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
                             empleado=empleado,
@@ -269,6 +269,9 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                             estado=estado_curso
                         )
                         curso_empleado_lp_guardar.save()
+            
+            cantidad_empleados_nuevo=len(empleados)
+            cantidad_empleados_nuevo=cantidad_empleados_nuevo+lp.cant_empleados
             LearningPath.objects.filter(id=id_lp).update(cant_empleados=cantidad_empleados_nuevo)
         except Exception as e:
             return Response({'msg': str(e)},
