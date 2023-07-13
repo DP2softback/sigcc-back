@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.db import transaction
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
 from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
@@ -224,7 +224,10 @@ class BusquedaDeEmpleadosAPIView(APIView):
 
 
 class AsignacionEmpleadoLearningPathAPIView(APIView):
-
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
     def post(self, request):
 
         empleados = request.data.get('empleados', [])
