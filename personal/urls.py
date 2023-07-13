@@ -35,6 +35,8 @@ urlpatterns = [
     path('single-application-status/<int:pk>', SingleApplicationStatusView.as_view()), 
     path('all-application-status', AllApplicationStatusView.as_view()), 
 
-    
+    path('competence-evaluations/create/', CompetenceEvaluationCreateView.as_view()),
+    path('competence-evaluations/', CompetenceEvaluationListView.as_view()),
+    path('competence-evaluations/update/', CompetenceEvaluationUpdateView.as_view()),
     
 ]

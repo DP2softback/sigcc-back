@@ -1234,3 +1234,43 @@ class AllApplicationStatusView(APIView):
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+        
+class CompetenceEvaluationCreateView(APIView):
+    def post(self, request):
+        competency_applicants = CompetencyxApplicant.objects.all()
+        competence_evaluations = [CompetenceEvaluation(competency_applicant=ca) for ca in competency_applicants]
+        CompetenceEvaluation.objects.bulk_create(competence_evaluations)
+        serializer = CompetenceEvaluationSerializer(competence_evaluations, many=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class CompetenceEvaluationListView(APIView):
+    def get(self, request):
+        hiring_process_id = request.query_params.get('hiring_process')
+        competency_applicants = CompetencyxApplicant.objects.filter(applicant__hiring_process_id=hiring_process_id)
+
+        ct = competency_applicants.filter(competency__type=0)  # Competencias técnicas
+        ch = competency_applicants.filter(competency__type=1)  # Competencias blandas
+
+        competence_evaluations_ct = CompetenceEvaluation.objects.filter(competency_applicant__in=ct)
+        competence_evaluations_ch = CompetenceEvaluation.objects.filter(competency_applicant__in=ch)
+
+        serializer_ct = CompetenceEvaluationSerializer(competence_evaluations_ct, many=True)
+        serializer_ch = CompetenceEvaluationSerializer(competence_evaluations_ch, many=True)
+
+        competence_evaluations_data = {
+            'competence_technical': serializer_ct.data,
+            'competence_soft': serializer_ch.data
+        }
+
+        return Response(competence_evaluations_data, status=status.HTTP_200_OK)
+
+class CompetenceEvaluationUpdateView(APIView):
+    def post(self, request):
+        data = request.data
+        for competence_data in data:
+            competency_applicant_id = competence_data['competency_applicant']
+            score = competence_data['score']
+            competence_evaluation = CompetenceEvaluation.objects.get(competency_applicant_id=competency_applicant_id)
+            competence_evaluation.score = score
+            competence_evaluation.save()
+        return Response(status=status.HTTP_200_OK)

@@ -235,3 +235,8 @@ class ApplicantSerializerRead(serializers.ModelSerializer):
     class Meta:
         model = Applicant
         fields = '__all__'
+
+class CompetenceEvaluationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompetenceEvaluation
+        fields = '__all__'

@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
+#from evaluations_and_promotions.models import SubCategory
 from model_utils.models import TimeStampedModel
 from safedelete.models import SOFT_DELETE, SOFT_DELETE_CASCADE, SafeDeleteModel
 
@@ -267,3 +268,11 @@ class ApplicantxProcessStage(TimeStampedModel, SafeDeleteModel):
 
     def __str__(self):
         return f"{self.applicant}, process {self.process_stage.hiring_process}, stage {self.process_stage}"
+    
+class CompetenceEvaluation(models.Model):
+    score = models.IntegerField(choices=[(0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4')], default=2)
+    competency_applicant = models.ForeignKey('evaluations_and_promotions.CompetencyxApplicant', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Competence Evaluation: Competency {self.competency_applicant.competency.name} - Applicant {self.competency_applicant.applicant.user.username}"
+
