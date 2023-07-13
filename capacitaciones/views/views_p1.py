@@ -129,7 +129,8 @@ class CursoUdemyLpAPIView(APIView):
             cantidad_cursos= lp.cantidad_cursos
             lp = LearningPath.objects.filter(pk=pk).update(cantidad_cursos= cantidad_cursos+1)
             return Response({"message": "Curso agregado al Learning Path",
-                             "es_nuevo": new_course}, status = status.HTTP_200_OK)
+                             "es_nuevo": new_course,
+                             "id_curso": curso.id }, status = status.HTTP_200_OK)
 
         return Response(curso_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
