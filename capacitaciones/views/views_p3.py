@@ -574,7 +574,10 @@ class RubricaAPIVIEW(APIView):
         for criterio in criterias:
             id_competencia = criterio['id']
             score = criterio['score']
-            registro_competencia = CompetencessXEmployeeXLearningPath.objects.get(Q(employee_id=id_empleado) & Q(learning_path_id=id_lp) & Q(competence_id=id_competencia))
+            registro_competencia = CompetencessXEmployeeXLearningPath()
+            registro_competencia.employee_id = id_empleado
+            registro_competencia.lp_id = id_lp
+            registro_competencia.competence_id = id_competencia
             registro_competencia.score = score
             registro_competencia.scale = int(score/2) - 1
             registro_competencia.save()
