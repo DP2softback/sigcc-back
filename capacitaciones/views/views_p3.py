@@ -405,15 +405,14 @@ class DetalleEvaluacionEmpleadoAPIView(APIView):
         competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id=id_lp).values_list('competencia',flat=True)
         competencias = SubCategory.objects.filter(id__in=competencias_id)
         competencia_serializer = SubCategorySerializer(competencias, many=True)
-        rubrica_sin_calificar = {"criterias": competencia_serializer.data}
+        rubrica_sin_calificar = competencia_serializer.data
         print("rubrica sin calificar")
         print(rubrica_sin_calificar)
-
         if registro:
             data = {}
             empleado = User.objects.filter(id=id_user).values('first_name', 'last_name', 'email').first()
             data['empleado']= empleado['first_name'] + " "+ empleado['last_name']
-            data['rubrica']= rubrica_sin_calificar if not rubrica_calificada else rubrica_calificada[0]
+            data['rubrica']= rubrica_sin_calificar if rubrica_calificada[0]['rubrica_calificada_evaluacion']==None else rubrica_calificada[0]['rubrica_calificada_evaluacion']
             data['nombre_lp'] = lp.nombre
             data['descripcion_lp'] = lp.descripcion
             data['descripcion_evaluacion']= lp.descripcion_evaluacion
