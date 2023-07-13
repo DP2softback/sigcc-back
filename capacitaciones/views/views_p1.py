@@ -658,7 +658,10 @@ class Dashboard2APIVIEW(APIView):
         cursos_no_asignados = CursoEmpresa.objects.exclude(id__in=EmpleadoXCursoEmpresa.objects.values('cursoEmpresa_id')).values_list('id', flat=True).count()
         dashboard['cursos_empresa_sin_asignar'] = cursos_no_asignados
 
-        comptencias_por_nivel = []
+        comptencias_por_nivel = {
+            "labels": ['No iniciado','En proceso','Logrado','Sobresaliente','Experto'],
+            "values": [1,2,3,4,5]
+        }
         dashboard['comptencias_por_nivel'] = comptencias_por_nivel
 
         return Response(dashboard, status=status.HTTP_200_OK)
