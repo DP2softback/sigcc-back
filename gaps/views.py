@@ -64,15 +64,15 @@ class CapacityView(APIView):
         idComp = request.data["id"]
         if request.data["type"] == 0: 
             request.data["type"] = SubCategory.Type.TECNICA
-            tipo='TEC'
+            tipo='T'
         else: 
             request.data["type"] = SubCategory.Type.BLANDA
-            tipo = 'HAB'
+            tipo = 'H'
         if request.data["type"] is not None:
             # Generador de codigo de competencia
-            if request.data["type"] == 0: tipo='TEC'
-            else: tipo = 'HAB'
-            campos = {'code': tipo + '-'+ str(request.data['name'][0:3]).upper() + str(request.data['id'])}
+            if request.data["type"] == 0: tipo='T'
+            else: tipo = 'H'
+            campos = {'code': tipo +  str(request.data['id'])}
             request.data["code"] = campos['code']
         competencia = SubCategory.objects.filter(id=idComp).first()
         competencias_serializer = SubCategorySerializer(competencia, data = request.data, context = request.data)
