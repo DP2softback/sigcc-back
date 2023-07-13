@@ -568,13 +568,13 @@ class RubricaAPIVIEW(APIView):
 
     def post(self, request,id_lp,id_empleado):
         criterias = request.data.get('criterias', None)
-        registro_lp_x_emp = EmpleadoXLearningPath.objects.filter(Q(empleado_id=id_empleado) & Q(learning_path_id=id_lp))
+        registro_lp_x_emp = EmpleadoXLearningPath.objects.get(Q(empleado_id=id_empleado) & Q(learning_path_id=id_lp))
         registro_lp_x_emp.rubrica_calificada_evaluacion = criterias
         registro_lp_x_emp.save()
         for criterio in criterias:
             id_competencia = criterio['id']
             score = criterio['score']
-            registro_competencia = CompetencessXEmployeeXLearningPath.objects.filter(Q(employee_id=id_empleado) & Q(learning_path_id=id_lp) & Q(competence_id=id_competencia))
+            registro_competencia = CompetencessXEmployeeXLearningPath.objects.get(Q(employee_id=id_empleado) & Q(learning_path_id=id_lp) & Q(competence_id=id_competencia))
             registro_competencia.score = score
             registro_competencia.scale = int(score/2) - 1
             registro_competencia.save()

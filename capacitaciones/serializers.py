@@ -355,7 +355,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id','first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email']
 
 
 class EmpleadoSerializer(serializers.ModelSerializer):
@@ -363,7 +363,7 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ['usuario','position']
+        fields = ['id','usuario','position']
 
     def get_usuario(self, obj):
         return UsuarioSerializer(obj.user).data
