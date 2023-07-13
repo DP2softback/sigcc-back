@@ -595,7 +595,7 @@ class Dashboard2APIVIEW(APIView):
             "labels": [],
             "values": []
         }
-        cursos_valoraciones = CursoGeneral.objects.order_by('-suma_valoracionees').values('nombre','suma_valoracionees','cant_valoraciones')[:3]
+        cursos_valoraciones = CursoGeneral.objects.order_by('-suma_valoracionees').values('nombre','suma_valoracionees','cant_valoraciones')[:5]
         for curso in cursos_valoraciones:
             cursos_mejor_valorados["labels"].append(curso['nombre'])
             if curso['cant_valoraciones']:
