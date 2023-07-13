@@ -264,7 +264,7 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
                         #Vemos si el empelado ya ha completado ese curso antes:
-                        empleado_curso_anteriores= EmpleadoXCursoXLearningPath.objects.filter(curso=curso_lp,empleado=empleado)
+                        empleado_curso_anteriores= EmpleadoXCursoXLearningPath.objects.filter(curso=curso_general,empleado=empleado)
                         print("Los empleadosxcursoxlearningpath son: ",empleado_curso_anteriores)
                         #creamos una variable aparte:
                         estado_curso='0'
