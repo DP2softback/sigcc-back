@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 from django.db import transaction
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
-from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
+from capacitaciones.models import CursoGeneral, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
     CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen, CompetenciasXCurso, CursoEmpresa, \
     CompetenciasXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
@@ -263,6 +263,8 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         print("En el bucle del curso: ",curso_lp.curso_id)
                         empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                        curso_udemy = CursoUdemy.objects.filter(id=curso_lp.curso_id).first()
+                        curso_empresa = CursoEmpresa.objects.filter(id=curso_lp.curso_id).first()
                         #Vemos si el empelado ya ha completado ese curso antes:
                         empleado_curso_anteriores= EmpleadoXCursoXLearningPath.objects.filter(curso=curso_general,empleado=empleado)
                         print("Los empleadosxcursoxlearningpath son: ",empleado_curso_anteriores)
@@ -271,15 +273,55 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         for curso_anterior in empleado_curso_anteriores:
                             if curso_anterior.estado=='3':
                                 estado_curso='3'
+                                progreso=curso_anterior.progreso
+                                nota_final=curso_anterior.nota_final
+                                cant_intentos= curso_anterior.cant_intentos
+                                fecha_evaluacion= curso_anterior.fecha_evaluacion
+                                ultima_evaluacion=curso_anterior.ultima_evaluacion
+                                porcentajeProgreso=curso_anterior.porcentajeProgreso
+                                cantidad_sesiones=curso_anterior.cantidad_sesiones
+
                         print("El estado a guardar del curso es: ",estado_curso)
-                        curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
-                            empleado=empleado,
-                            curso=curso_general,
-                            learning_path=lp,
-                            estado=estado_curso
-                        )
+                        if estado_curso == '0':
+                            curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
+                                empleado=empleado,
+                                curso=curso_general,
+                                learning_path=lp,
+                                estado=estado_curso
+                            )
+
+                        if estado_curso == '3':
+                            curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
+                                empleado=empleado,
+                                curso=curso_general,
+                                learning_path=lp,
+                                estado=estado_curso,
+                                progreso= progreso,
+                                nota_final=nota_final,
+                                cant_intentos=cant_intentos,
+                                fecha_evaluacion=fecha_evaluacion,
+                                ultima_evaluacion=ultima_evaluacion,
+                                porcentajeProgreso=porcentajeProgreso,
+                                cantidad_sesiones= cantidad_sesiones
+                            )
+                        
                         curso_empleado_lp_guardar.save()
-            
+                        if(curso_empresa is not None):
+                            #esto es si es curso Udemy
+                            empleado_curso_guardar = EmpleadoXCurso(
+                                empleado=empleado,
+                                curso=curso_general
+                            )
+                            empleado_curso_guardar.save()
+                        else:
+                            #esto es si es curso Empresa
+                            empleado_curso_empresa_guardar = EmpleadoXCursoEmpresa(
+                                empleado=empleado,
+                                cursoEmpresa=curso_empresa,
+                                fechaAsignacion= timezone.now
+                            )
+                            empleado_curso_empresa_guardar.save()
+
             cantidad_empleados_nuevo=len(empleados)
             cantidad_empleados_nuevo=cantidad_empleados_nuevo+lp.cant_empleados
             LearningPath.objects.filter(id=id_lp).update(cant_empleados=cantidad_empleados_nuevo)
