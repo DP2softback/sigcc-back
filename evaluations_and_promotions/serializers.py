@@ -364,3 +364,20 @@ class CompetencessXEmployeeXLearningPathSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompetencessXEmployeeXLearningPath
         fields = '__all__'
+
+
+class CompetencyxApplicantSerializerRead(serializers.ModelSerializer):
+
+    def my_competencies(self, obj):
+        competencies = SubCategory.objects.get(id=obj.competency_id)
+        return SubCategorySerializer(competencies, many=False).data
+
+    competency_detail = serializers.SerializerMethodField('my_competencies')
+
+    class Meta:
+        model = CompetencyxAreaxPosition
+
+        fields = ['competency',
+                  'competency_detail',
+                  'score',
+                  'scale']
