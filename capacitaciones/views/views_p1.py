@@ -309,7 +309,7 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         curso_empleado_lp_guardar.save()
                         if(curso_empresa is not None):
                             #esto es si es curso Empresa
-                            empleado_cursoempresa_anteriores= EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=curso_empresa,empleado=empleado)
+                            empleado_cursoempresa_anteriores= EmpleadoXCursoEmpresa.objects.filter(cursoEmpresa=curso_empresa,empleado=empleado).first()
                             if empleado_cursoempresa_anteriores is None:
                                 empleado_curso_empresa_guardar = EmpleadoXCursoEmpresa(
                                     empleado=empleado,
@@ -320,7 +320,7 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                                 empleado_curso_empresa_guardar.save()
                         else:
                             #esto es si es curso Udemy
-                            empleado_cursoudemy_anteriores= EmpleadoXCurso.objects.filter(curso=curso_general,empleado=empleado)
+                            empleado_cursoudemy_anteriores= EmpleadoXCurso.objects.filter(curso=curso_general,empleado=empleado).first()
                             if empleado_cursoudemy_anteriores is None:
                                 empleado_curso_guardar = EmpleadoXCurso(
                                     empleado=empleado,
