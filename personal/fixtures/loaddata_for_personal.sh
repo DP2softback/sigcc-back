@@ -1,26 +1,18 @@
-python manage.py loaddata ./personal/fixtures/001demoroles.json
-python manage.py loaddata ./personal/fixtures/002demousers.json
-python manage.py loaddata ./personal/fixtures/003demouserxrole.json
-
-python manage.py loaddata ./personal/fixtures/004demoarea.json
-python manage.py loaddata ./personal/fixtures/005demoposition.json
-python manage.py loaddata ./personal/fixtures/006demoareaxposition.json
-
-python manage.py loaddata ./personal/fixtures/007demofunction.json
-
-python manage.py loaddata ./personal/fixtures/008demotrainingtype.json
-python manage.py loaddata ./personal/fixtures/009demotraininglevel.json
-python manage.py loaddata ./personal/fixtures/010demotraining.json
-python manage.py loaddata ./personal/fixtures/011demotrainingxlevel.json
-python manage.py loaddata ./personal/fixtures/012demotrainingxareaxposition.json
-
-python manage.py loaddata ./personal/fixtures/013demosubcategory.json
-python manage.py loaddata ./personal/fixtures/014democompetencyxareaxposition.json
-
 python manage.py loaddata ./personal/fixtures/db.json
 
-
-
-
-
 python manage.py dumpdata --exclude auth.permission --exclude contenttypes > ./personal/fixtures/db.json
+
+
+python manage.py loaddata login_user.json personal_area.json personal_position.json personal_areaxposicion.json login_employee.json evaluations_and_promotions_evaluationType.json evaluations_and_promotions_category.json evaluations_and_promotions_subcategory.json evaluations_and_promotions_evaluation.json evaluations_and_promotions_evaluationxsubcategory.json evaluations_and_promotions_plantilla.json evaluations_and_promotions_plantillaxsubcategoria.json
+
+python manage.py loaddata ./personal/fixtures/personal_login.role.json
+
+python manage.py loaddata ./personal/fixtures/personal_personal.trainingtype.json
+python manage.py loaddata ./personal/fixtures/personal_personal.traininglevel.json
+python manage.py loaddata ./personal/fixtures/personal_personal.training.json
+python manage.py loaddata ./personal/fixtures/personal_personal.trainingxlevel.json
+
+
+python manage.py loaddata ./personal/fixtures/014democompetencyxareaxposition.json
+
+zappa manage dev  loaddata ./personal/fixtures/db.json
