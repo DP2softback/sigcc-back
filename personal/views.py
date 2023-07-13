@@ -1162,3 +1162,75 @@ class UpdateCompetencyxApplicantView(APIView):
 
         except Exception as e:
             return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)                
+        
+
+class SingleApplicationStatusView(APIView):
+    def get(self, request, pk):
+        try:
+            applicant = Applicant.objects.get(id=pk)
+            applicant_info = ApplicantSerializerRead(applicant, many=False)
+
+            stages = ApplicantxProcessStage.objects.filter(applicant=applicant)
+            process = list(set(ApplicantxProcessStage.objects.filter(applicant=applicant).values_list("process_stage__hiring_process__id", flat=True)))
+
+            list_of_process_and_stages=[]
+            for p in process:
+                processobj = HiringProcess.objects.get(id=p)
+                a_process = [ApplicantSerializerRead(applicant).data, p,-1, processobj.position.position.name, processobj.position.area.name," "]
+                
+                for s in stages:
+                    print(f"{s.process_stage.hiring_process.id} vs {p}")
+                    if s.process_stage.hiring_process.id == p:
+                        if s.process_stage.stage_type.id > a_process[2]:
+                            print(f"{s.process_stage.stage_type.id} vs {a_process[2]}")
+                            a_process[2] = s.process_stage.stage_type.id 
+                            a_process[5] = str(s.process_stage)
+                list_of_process_and_stages.append(a_process)
+
+            print(list_of_process_and_stages)
+
+            return Response(status=status.HTTP_200_OK,
+                            data= list_of_process_and_stages
+                            )
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)
+        
+class AllApplicationStatusView(APIView):
+    def get(self, request):
+        try:
+            applicants = Applicant.objects.all()
+
+            all_applicants = []
+
+            for applicant in applicants:
+
+                applicant_info = ApplicantSerializerRead(applicant, many=False)
+
+                stages = ApplicantxProcessStage.objects.filter(applicant=applicant)
+                process = list(set(ApplicantxProcessStage.objects.filter(applicant=applicant).values_list("process_stage__hiring_process__id", flat=True)))
+
+                list_of_process_and_stages=[]
+                for p in process:
+                    processobj = HiringProcess.objects.get(id=p)
+                    a_process = [ApplicantSerializerRead(applicant).data, p,-1, processobj.position.position.name, processobj.position.area.name," "]
+                    
+                    for s in stages:
+                        print(f"{s.process_stage.hiring_process.id} vs {p}")
+                        if s.process_stage.hiring_process.id == p:
+                            if s.process_stage.stage_type.id > a_process[2]:
+                                print(f"{s.process_stage.stage_type.id} vs {a_process[2]}")
+                                a_process[2] = s.process_stage.stage_type.id 
+                                a_process[5] = str(s.process_stage)
+                    list_of_process_and_stages.append(a_process)
+
+                print(list_of_process_and_stages)
+                all_applicants.append(list_of_process_and_stages)
+
+            return Response(status=status.HTTP_200_OK,
+                            data=                           
+                                all_applicants
+                            )
+
+        except Exception as e:
+            return Response(data=f"Exception: {e}", status=status.HTTP_404_NOT_FOUND)

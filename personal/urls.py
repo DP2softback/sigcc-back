@@ -31,5 +31,10 @@ urlpatterns = [
     path('dummy-third-step', DummySecondStepView.as_view()),   
 
     path('update-competency-x-applicant', UpdateCompetencyxApplicantView.as_view()), 
+
+    path('single-application-status/<int:pk>', SingleApplicationStatusView.as_view()), 
+    path('all-application-status', AllApplicationStatusView.as_view()), 
+
+    
     
 ]
