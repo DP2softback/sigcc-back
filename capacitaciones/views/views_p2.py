@@ -503,7 +503,8 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
     def get(self, request, emp, leap):
         empleado = Employee.objects.filter(id=emp).first()
         lp = LearningPath.objects.filter(id=leap).first()
-
+        lp_empleado = EmpleadoXLearningPath.objects.filter(empleado=empleado,learning_path=lp).first()
+    
         data = []
         if leap:
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path=lp)
@@ -511,7 +512,7 @@ class DetalleLearningPathXEmpleadoModifiedAPIView(APIView):
                 'id': lp.id,
                 'nombre': lp.nombre,
                 'descripcion': lp.descripcion,
-                'estado':lp.estado,
+                'estado':lp_empleado.estado,
                 'horas_duracion':lp.horas_duracion,
                 'suma_valoraciones':lp.suma_valoraciones,
                 'url_foto':lp.url_foto,
