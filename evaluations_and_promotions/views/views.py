@@ -928,7 +928,7 @@ class EvaluationLineChartReporte(APIView):
         
         Datos = EvaluationxSubCategory.objects.filter(isActive = True,evaluation__evaluationType__name=evaluation_type,evaluation__isActive = True,score__gte= 1.0,evaluation__relatedEvaluation = None)
         Datos = Datos.exclude(subCategory__category = None)
-        Datos = Datos.objects.filter(  subCategory__category__id = category_id)
+        Datos = Datos.filter(  subCategory__category__id = category_id)
 
         if(area_id is not None):
             Datos = Datos.filter(evaluation__area__id = area_id)
