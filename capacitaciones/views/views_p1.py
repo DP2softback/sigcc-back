@@ -271,13 +271,38 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
                         for curso_anterior in empleado_curso_anteriores:
                             if curso_anterior.estado=='3':
                                 estado_curso='3'
+                                progreso=curso_anterior.progreso
+                                nota_final=curso_anterior.nota_final
+                                cant_intentos= curso_anterior.cant_intentos
+                                fecha_evaluacion= curso_anterior.fecha_evaluacion
+                                ultima_evaluacion=curso_anterior.ultima_evaluacion
+                                porcentajeProgreso=curso_anterior.porcentajeProgreso
+                                cantidad_sesiones=curso_anterior.cantidad_sesiones
+
                         print("El estado a guardar del curso es: ",estado_curso)
-                        curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
-                            empleado=empleado,
-                            curso=curso_general,
-                            learning_path=lp,
-                            estado=estado_curso
-                        )
+                        if estado_curso == '0':
+                            curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
+                                empleado=empleado,
+                                curso=curso_general,
+                                learning_path=lp,
+                                estado=estado_curso
+                            )
+
+                        if estado_curso == '3':
+                            curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
+                                empleado=empleado,
+                                curso=curso_general,
+                                learning_path=lp,
+                                estado=estado_curso,
+                                progreso= progreso,
+                                nota_final=nota_final,
+                                cant_intentos=cant_intentos,
+                                fecha_evaluacion=fecha_evaluacion,
+                                ultima_evaluacion=ultima_evaluacion,
+                                porcentajeProgreso=porcentajeProgreso,
+                                cantidad_sesiones= cantidad_sesiones
+                            )
+                        
                         curso_empleado_lp_guardar.save()
             
             cantidad_empleados_nuevo=len(empleados)
