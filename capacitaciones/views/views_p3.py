@@ -263,6 +263,7 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
 
         lp = LearningPath.objects.filter(id=lp).first()
         rubrica_calificada = EmpleadoXLearningPath.objects.filter(Q(learning_path=lp) & Q(empleado=emp)).values('rubrica_calificada_evaluacion')
+        estado = EmpleadoXLearningPath.objects.filter(Q(learning_path=lp) & Q(empleado=emp)).values('estado')
         print("rubrica calificada")
         print(rubrica_calificada[0]['rubrica_calificada_evaluacion'])
 
@@ -280,7 +281,8 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
             "url_foto": learningpath.url_foto,
             "descripcion_evaluacion": learningpath.descripcion_evaluacion,
             "archivo_eval": None if not archivo_eval else archivo_eval,
-            "rubrica": rubrica_sin_calificar if rubrica_calificada[0]['rubrica_calificada_evaluacion']==None else rubrica_calificada[0]['rubrica_calificada_evaluacion']
+            "rubrica": rubrica_sin_calificar if rubrica_calificada[0]['rubrica_calificada_evaluacion']==None else rubrica_calificada[0]['rubrica_calificada_evaluacion'],
+            "estado": estado
         }
         data["datos_learning_path"] = learning_path_data
         cursos = []
