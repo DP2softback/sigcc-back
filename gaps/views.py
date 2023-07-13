@@ -228,6 +228,7 @@ class SearchCapacityConsolidateView(APIView):
         if(active is not None):
             if active == 0: query.add(Q(isActive=False), Q.AND)
             if active == 1: query.add(Q(isActive=True), Q.AND)
+
         #query.add(Q(levelRequired__gte=1), Q.AND)
 		
         countEmpleadoRange1 = CompetencessXEmployeeXLearningPath.objects.filter(query & Q(likeness__gte=0) & Q(likeness__lte=19.99)).count()
@@ -237,19 +238,22 @@ class SearchCapacityConsolidateView(APIView):
         countEmpleadoRange5 = CompetencessXEmployeeXLearningPath.objects.filter(query & Q(likeness__gte=80) & Q(likeness__lte=100)).count()
 		
         countTotal = countEmpleadoRange1 + countEmpleadoRange2 + countEmpleadoRange3 + countEmpleadoRange4 + countEmpleadoRange5
-        countEmpleadoRange1 = countEmpleadoRange1 / countTotal
-        countEmpleadoRange2 = countEmpleadoRange2 / countTotal
-        countEmpleadoRange3 = countEmpleadoRange3 / countTotal
-        countEmpleadoRange4 = countEmpleadoRange4 / countTotal
-        countEmpleadoRange5 = countEmpleadoRange5 / countTotal
-		# Ver como lo paso, proporcion (0.5), porcentaje (50) o solo la cuenta (count)
-		
-        countList = {'rango1': countEmpleadoRange1,
-        'rango2': countEmpleadoRange2,
-        'rango3': countEmpleadoRange3,
-        'rango4': countEmpleadoRange4,
-        'rango5': countEmpleadoRange5,
-        }
+        if countTotal==0:
+            countList={}
+        else:
+            countEmpleadoRange1 = countEmpleadoRange1 / countTotal
+            countEmpleadoRange2 = countEmpleadoRange2 / countTotal
+            countEmpleadoRange3 = countEmpleadoRange3 / countTotal
+            countEmpleadoRange4 = countEmpleadoRange4 / countTotal
+            countEmpleadoRange5 = countEmpleadoRange5 / countTotal
+            # Ver como lo paso, proporcion (0.5), porcentaje (50) o solo la cuenta (count)
+            
+            countList = {'rango1': countEmpleadoRange1,
+            'rango2': countEmpleadoRange2,
+            'rango3': countEmpleadoRange3,
+            'rango4': countEmpleadoRange4,
+            'rango5': countEmpleadoRange5,
+            }
 		
         return Response(countList, status = status.HTTP_200_OK)    
 
@@ -686,14 +690,14 @@ class GenerateTrainingDemandView(APIView):
             for item in employeesList:
                 ids.append(item['id'])
 
-        needs = TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state='Por solucionar')).values('competence__id')
+        needs = TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state='Por solucionar')).values('competence__id','competence__name')
         needsUnique = GetUniqueDictionaries(needs)
 		
         resultList = []
 		
         for need in needsUnique:
             count = TrainingNeed.objects.filter(Q(employee__id__in =ids) & Q(state='Por solucionar') & Q(competence__id = need['competence__id']) ).count()
-            fields = {'competencia': need['competence__id'], 'cantidad': count}
+            fields = {'competencia': need['competence__id'], 'competencia_nombre': need['competence__name'],'cantidad': count}
             resultList.append(fields)
 			
         return Response(resultList, status = status.HTTP_200_OK)    
@@ -704,10 +708,10 @@ class GenerateTrainingNeedCourseView(APIView):
         coursesList = []
         for item in competences:
             #cambiar segun como se va a hacer la relacion entre curso y competencia
-            courseRegister = CompetenciasXCurso.objects.filter(Q(competencia__id=item['competencia'])).values('curso__id').first()
+            courseRegister = CompetenciasXCurso.objects.filter(Q(competencia__id=item['competencia'])).values('curso__id','curso__nombre').first()
             #courseRegister = CursoGeneral.objects.filter(Q(competence__id=item['competencia'])).values().first()
             if courseRegister:
-                entry = {"competencia": item['competencia']}
+                entry = {"competencia": item['competencia'], 'competencia_nombre': item['competencia_nombre']}
                 esta = 0
                 for entryList in coursesList:
                     if entryList['curso'] == courseRegister['curso__id']:
@@ -717,7 +721,7 @@ class GenerateTrainingNeedCourseView(APIView):
                         esta = 1
                         break
                 if esta == 0:
-                    coursesList.append({"curso": courseRegister['curso__id'], "competencias": [entry]})
+                    coursesList.append({"curso": courseRegister['curso__id'],"curso_nombre": courseRegister['curso__nombre'], "competencias": [entry]})
                     #coursesList.append({"curso": courseRegister['id'], "competencias": [entry]})
         return Response(coursesList, status = status.HTTP_200_OK)                    
                 
