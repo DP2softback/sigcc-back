@@ -1,0 +1,847 @@
+[
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 1,
+        "fields": {
+            "areaxposition": 12,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 2,
+        "fields": {
+            "areaxposition": 12,
+            "competency": 8,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 3,
+        "fields": {
+            "areaxposition": 12,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 4,
+        "fields": {
+            "areaxposition": 26,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 5,
+        "fields": {
+            "areaxposition": 26,
+            "competency": 8,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 6,
+        "fields": {
+            "areaxposition": 26,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 7,
+        "fields": {
+            "areaxposition": 1,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 8,
+        "fields": {
+            "areaxposition": 1,
+            "competency": 8,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 9,
+        "fields": {
+            "areaxposition": 1,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 10,
+        "fields": {
+            "areaxposition": 2,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 11,
+        "fields": {
+            "areaxposition": 2,
+            "competency": 17,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 12,
+        "fields": {
+            "areaxposition": 2,
+            "competency": 33,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 13,
+        "fields": {
+            "areaxposition": 3,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 14,
+        "fields": {
+            "areaxposition": 3,
+            "competency": 17,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 15,
+        "fields": {
+            "areaxposition": 3,
+            "competency": 33,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 16,
+        "fields": {
+            "areaxposition": 27,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 17,
+        "fields": {
+            "areaxposition": 27,
+            "competency": 17,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 18,
+        "fields": {
+            "areaxposition": 27,
+            "competency": 33,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 19,
+        "fields": {
+            "areaxposition": 7,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 20,
+        "fields": {
+            "areaxposition": 7,
+            "competency": 33,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 21,
+        "fields": {
+            "areaxposition": 7,
+            "competency": 34,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 22,
+        "fields": {
+            "areaxposition": 28,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 23,
+        "fields": {
+            "areaxposition": 28,
+            "competency": 33,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 24,
+        "fields": {
+            "areaxposition": 28,
+            "competency": 34,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 25,
+        "fields": {
+            "areaxposition": 4,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 26,
+        "fields": {
+            "areaxposition": 4,
+            "competency": 33,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 27,
+        "fields": {
+            "areaxposition": 4,
+            "competency": 34,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 28,
+        "fields": {
+            "areaxposition": 8,
+            "competency": 13,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 29,
+        "fields": {
+            "areaxposition": 8,
+            "competency": 28,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 30,
+        "fields": {
+            "areaxposition": 8,
+            "competency": 31,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 31,
+        "fields": {
+            "areaxposition": 19,
+            "competency": 13,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 32,
+        "fields": {
+            "areaxposition": 19,
+            "competency": 28,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 33,
+        "fields": {
+            "areaxposition": 19,
+            "competency": 31,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 34,
+        "fields": {
+            "areaxposition": 29,
+            "competency": 13,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 35,
+        "fields": {
+            "areaxposition": 29,
+            "competency": 28,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 36,
+        "fields": {
+            "areaxposition": 29,
+            "competency": 31,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 37,
+        "fields": {
+            "areaxposition": 20,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 38,
+        "fields": {
+            "areaxposition": 20,
+            "competency": 35,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 39,
+        "fields": {
+            "areaxposition": 20,
+            "competency": 36,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 40,
+        "fields": {
+            "areaxposition": 30,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 41,
+        "fields": {
+            "areaxposition": 30,
+            "competency": 35,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 42,
+        "fields": {
+            "areaxposition": 30,
+            "competency": 36,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 43,
+        "fields": {
+            "areaxposition": 11,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 44,
+        "fields": {
+            "areaxposition": 11,
+            "competency": 35,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 45,
+        "fields": {
+            "areaxposition": 11,
+            "competency": 36,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 46,
+        "fields": {
+            "areaxposition": 31,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 47,
+        "fields": {
+            "areaxposition": 31,
+            "competency": 34,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 48,
+        "fields": {
+            "areaxposition": 31,
+            "competency": 37,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 49,
+        "fields": {
+            "areaxposition": 32,
+            "competency": 2,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 50,
+        "fields": {
+            "areaxposition": 32,
+            "competency": 7,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 51,
+        "fields": {
+            "areaxposition": 33,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 52,
+        "fields": {
+            "areaxposition": 33,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 53,
+        "fields": {
+            "areaxposition": 34,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 54,
+        "fields": {
+            "areaxposition": 34,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 55,
+        "fields": {
+            "areaxposition": 35,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 56,
+        "fields": {
+            "areaxposition": 35,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 57,
+        "fields": {
+            "areaxposition": 36,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 58,
+        "fields": {
+            "areaxposition": 36,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 59,
+        "fields": {
+            "areaxposition": 37,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 60,
+        "fields": {
+            "areaxposition": 37,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 61,
+        "fields": {
+            "areaxposition": 38,
+            "competency": 1,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 62,
+        "fields": {
+            "areaxposition": 38,
+            "competency": 16,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 63,
+        "fields": {
+            "areaxposition": 39,
+            "competency": 13,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 64,
+        "fields": {
+            "areaxposition": 39,
+            "competency": 28,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    },
+    {
+        "model": "evaluations_and_promotions.competencyxareaxposition",
+        "pk": 65,
+        "fields": {
+            "areaxposition": 39,
+            "competency": 31,
+            "created": "2023-01-01 00:00:00+00",
+            "deleted": null,
+            "modified": "2023-01-01 00:00:00+00",
+            "scale": 3,
+            "score": null
+        }
+    }
+]
