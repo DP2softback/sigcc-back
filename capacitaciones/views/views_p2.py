@@ -1,5 +1,7 @@
 # Create your views here.
 from decimal import Decimal
+from evaluations_and_promotions.models import CompetencessXEmployeeXLearningPath, SubCategory
+from evaluations_and_promotions.serializers import CompetencessXEmployeeXLearningPathSerializer
 from login.models import Employee
 from login.serializers import EmployeeSerializerRead
 from rest_framework import status
@@ -7,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, EmpleadoXLearningPath, LearningPath, CursoGeneralXLearningPath, CursoUdemy, Sesion, Tema
 from capacitaciones.serializers import AsistenciaSesionSerializer, CursoEmpresaListSerializer, CursoGeneralListSerializer, CursoSesionTemaResponsableEmpleadoListSerializer, EmpleadoXCursoEmpresaSerializer, EmpleadoXCursoEmpresaWithCourseSerializer, EmpleadoXCursoXLearningPathProgressSerializer, EmpleadoXCursoXLearningPathSerializer, EmpleadosXLearningPathSerializer, EmployeeCoursesListSerializer, LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, LearningPathXEmpleadoSerializer, SesionSerializer, TemaSerializer
-from capacitaciones.utils import get_udemy_courses, clean_course_detail
+from capacitaciones.utils import get_gpt_form, get_udemy_courses, clean_course_detail
 
 from capacitaciones.models import LearningPath, CursoGeneralXLearningPath, CursoGeneral, CursoUdemy, CursoEmpresa
 from django.utils import timezone
@@ -603,9 +605,10 @@ class LearningPathFromTemplateAPIView(APIView):
                 "cant_intentos_cursos_max": lp.cant_intentos_cursos_max,
                 "cant_intentos_evaluacion_integral_max": lp.cant_intentos_evaluacion_integral_max,
                 "estado": lp.estado,
-                "cantidad_cursos": lp.cantidad_cursos
+                "cantidad_cursos": lp.cantidad_cursos,
+                "rubrica":lp.rubrica
             }
-            data["larning_path"]=learning_path_data
+            data["learning_path"]=learning_path_data
             cursos=[]
 
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path=lp)
@@ -674,8 +677,8 @@ class LearningPathFromTemplateAPIView(APIView):
             return Response({"message": "Upss, algó pasó"}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request,pk):
-        datos_lp= request.data[0]
-        datos_cursos=request.data[1]
+        datos_lp= request.data["learning_path"]
+        datos_cursos=request.data["cursos"]
 
         try:
             #se crea el lp
@@ -689,7 +692,8 @@ class LearningPathFromTemplateAPIView(APIView):
                 horas_duracion= datos_lp['horas_duracion'],
                 cant_intentos_cursos_max= datos_lp['cant_intentos_cursos_max'],
                 cant_intentos_evaluacion_integral_max= datos_lp['cant_intentos_evaluacion_integral_max'],
-                estado= datos_lp['estado']
+                estado= datos_lp['estado'],
+                rubrica=datos_lp['rubrica']
                 #Esto se quita porque cada vez que se agregue un curso se le aumenta
                 #cantidad_cursos= datos_lp['cantidad_cursos']
             )
@@ -698,7 +702,6 @@ class LearningPathFromTemplateAPIView(APIView):
                 curso_general = CursoGeneral.objects.filter(id=curso['id']).first()
                 curso_udemy = CursoUdemy.objects.filter(id=curso['id']).first()
                 curso_empresa = CursoEmpresa.objects.filter(id=curso['id']).first()
-                
 
                 if curso_general is None:
                     return Response({"message": "El Curso  no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
@@ -795,3 +798,110 @@ class ProgressCourseForLearningPathForEmployeesAPIView(APIView):
         data.append(curso_data)
         data.append(learnings_path_serializer.data)
         return Response(data, status = status.HTTP_200_OK)
+
+
+class GenerateCourseEmpresaEvaluationAPIView(APIView):
+
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+
+        id_course = request.data.get('id_course', None)
+
+        if not id_course:
+            return Response({'msg': 'No se recibió el nombre del curso'}, status=status.HTTP_400_BAD_REQUEST)
+
+        course_detail = CursoEmpresa.objects.filter(id=id_course).first()
+        course_name = course_detail.nombre + ' ' + course_detail.descripcion
+
+        try:
+            course_form = get_gpt_form(course_name)
+        except Exception as e:
+            #CursoEmpresa.objects.filter(id=id_course).update(estado='2')
+            return Response({'msg': str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        CursoEmpresa.objects.filter(id=id_course).update(preguntas=course_form)
+
+        return Response({'msg': 'Se creó la evaluacion con exito'}, status=status.HTTP_200_OK)
+
+
+class ReadRelateCompetencesEmployeeCourseAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request,employee_id,curso_id):
+        '''
+        {
+            "employee_id":1,
+            "curso_id": 3
+        }
+        '''
+        empleado = Employee.objects.filter(id=employee_id).first()
+        curso = CursoGeneral.objects.filter(id=curso_id).first()
+        if empleado is None:
+            return Response({"message": "El empleado no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        if curso is None and curso_id !=0:
+            return Response({"message": "El curso no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        
+        #print("El employee_id es:", employee_id, " y el course_id es: ",curso_id)
+        if curso_id !=0:
+            competences_employee=CompetencessXEmployeeXLearningPath.objects.filter(employee=empleado,curso=curso)
+        else:
+            competences_employee=CompetencessXEmployeeXLearningPath.objects.filter(employee=empleado)
+        #print("El competences_employee es:", competences_employee)
+        competences_employee_serializer = CompetencessXEmployeeXLearningPathSerializer(competences_employee, many=True)
+        return Response(competences_employee_serializer.data, status = status.HTTP_200_OK)
+    
+    
+class SaveRelateCompetencesEmployeeCourseAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self, request):
+        '''
+        {
+        "employee_id":1,
+        "course_id":3,
+        "competences": [
+            {
+                "id":1
+            },
+            {
+                "id":3
+            }
+        ]
+        }
+        '''
+        employee_id = request.data.get('employee_id', None)
+        curso_id = request.data.get('course_id', None)
+
+        empleado = Employee.objects.filter(id=employee_id).first()
+        curso = CursoGeneral.objects.filter(id=curso_id).first()
+        if empleado is None:
+            return Response({"message": "El empleado no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        if curso is None:
+            return Response({"message": "El curso no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+        
+        competences=request.data["competences"]
+        for compentece in competences:
+            competencia = SubCategory.objects.filter(id=compentece['id']).first()
+
+            if competencia is None:
+                return Response({"message": "La competencia no se encontró"}, status=status.HTTP_400_BAD_REQUEST)   
+                
+            competencia_course_employee = CompetencessXEmployeeXLearningPath(
+                                employee=empleado,
+                                competence=competencia,
+                                curso=curso
+                            )
+            competencia_course_employee.save()
+            #mensaje= "Se creó el registro en  CompetencessXEmployeeXLearningPath con el id "+str(competencia_course_employee.id)
+
+        return Response({'msg': 'Se crearon los registros con éxito'}, status=status.HTTP_200_OK)
+    
+
+class CursoEmpresaAsincronoAPIView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        cursos_emp = CursoEmpresa.objects.filter( tipo= 'A')
+        cursos_emp_serializer = CursoEmpresaSerializer(cursos_emp, many=True)
+        return Response(cursos_emp_serializer.data, status = status.HTTP_200_OK)

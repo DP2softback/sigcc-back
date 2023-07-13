@@ -1,1 +1,114 @@
-[{"model": "capacitaciones.habilidadxproveedorusuario", "pk": 85, "fields": {"habilidad": 1, "proveedor_usuario": 1}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 86, "fields": {"habilidad": 2, "proveedor_usuario": 1}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 87, "fields": {"habilidad": 1, "proveedor_usuario": 4}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 88, "fields": {"habilidad": 2, "proveedor_usuario": 4}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 89, "fields": {"habilidad": 1, "proveedor_usuario": 7}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 90, "fields": {"habilidad": 2, "proveedor_usuario": 7}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 91, "fields": {"habilidad": 1, "proveedor_usuario": 10}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 92, "fields": {"habilidad": 2, "proveedor_usuario": 10}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 93, "fields": {"habilidad": 1, "proveedor_usuario": 13}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 94, "fields": {"habilidad": 2, "proveedor_usuario": 13}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 95, "fields": {"habilidad": 1, "proveedor_usuario": 16}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 96, "fields": {"habilidad": 2, "proveedor_usuario": 16}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 97, "fields": {"habilidad": 1, "proveedor_usuario": 19}}, {"model": "capacitaciones.habilidadxproveedorusuario", "pk": 98, "fields": {"habilidad": 2, "proveedor_usuario": 19}}]
+[
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 85,
+    "fields": {
+      "habilidad": 1,
+      "proveedor_usuario": 1
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 86,
+    "fields": {
+      "habilidad": 2,
+      "proveedor_usuario": 1
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 87,
+    "fields": {
+      "habilidad": 1,
+      "proveedor_usuario": 4
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 88,
+    "fields": {
+      "habilidad": 2,
+      "proveedor_usuario": 4
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 89,
+    "fields": {
+      "habilidad": 1,
+      "proveedor_usuario": 7
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 90,
+    "fields": {
+      "habilidad": 2,
+      "proveedor_usuario": 7
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 91,
+    "fields": {
+      "habilidad": 1,
+      "proveedor_usuario": 10
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 92,
+    "fields": {
+      "habilidad": 2,
+      "proveedor_usuario": 10
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 93,
+    "fields": {
+      "habilidad": 1,
+      "proveedor_usuario": 13
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 94,
+    "fields": {
+      "habilidad": 2,
+      "proveedor_usuario": 13
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 95,
+    "fields": {
+      "habilidad": 1,
+      "proveedor_usuario": 16
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 96,
+    "fields": {
+      "habilidad": 2,
+      "proveedor_usuario": 16
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 97,
+    "fields": {
+      "habilidad": 1,
+      "proveedor_usuario": 19
+    }
+  },
+  {
+    "model": "capacitaciones.habilidadxproveedorusuario",
+    "pk": 98,
+    "fields": {
+      "habilidad": 2,
+      "proveedor_usuario": 19
+    }
+  }
+]

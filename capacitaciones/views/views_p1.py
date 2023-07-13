@@ -10,15 +10,17 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.db import transaction
 from capacitaciones.jobs import updater
 from capacitaciones.jobs.tasks import upload_new_course_in_queue
 from capacitaciones.models import CursoGeneral, EmpleadoXCursoXLearningPath, LearningPath, CursoGeneralXLearningPath, \
-    CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen
+    CursoUdemy, EmpleadoXLearningPath, Parametros, DocumentoExamen, CompetenciasXCurso, CursoEmpresa, \
+    CompetenciasXLearningPath
 from capacitaciones.serializers import LearningPathSerializer, LearningPathSerializerWithCourses, CursoUdemySerializer, \
-    BusquedaEmployeeSerializer, ParametrosSerializer
+    BusquedaEmployeeSerializer, ParametrosSerializer, SubCategorySerializer
 from capacitaciones.utils import get_udemy_courses, clean_course_detail, get_detail_udemy_course, get_gpt_form, \
     transform_gpt_quiz_output
+from evaluations_and_promotions.models import SubCategory
 from login.models import Employee
 
 
@@ -116,15 +118,22 @@ class CursoUdemyLpAPIView(APIView):
 
         if curso_serializer.is_valid():
 
+            new_course = False
             curso = CursoUdemy.objects.filter(udemy_id=request.data['udemy_id']).first()
             if curso is None:
                 curso = curso_serializer.save()
+                new_course = True
                 upload_new_course_in_queue(curso)
 
             CursoGeneralXLearningPath.objects.create(curso = curso, learning_path = lp)
             cantidad_cursos= lp.cantidad_cursos
             lp = LearningPath.objects.filter(pk=pk).update(cantidad_cursos= cantidad_cursos+1)
-            return Response({"message": "Curso agregado al Learning Path"}, status = status.HTTP_200_OK)
+            return Response({"message": "Curso agregado al Learning Path",
+                             "data": {
+                                 "es_nuevo": new_course,
+                                 "id_curso": curso.id
+                             }
+                             }, status = status.HTTP_200_OK)
 
         return Response(curso_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -215,7 +224,10 @@ class BusquedaDeEmpleadosAPIView(APIView):
 
 
 class AsignacionEmpleadoLearningPathAPIView(APIView):
-
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
     def post(self, request):
 
         empleados = request.data.get('empleados', [])
@@ -234,28 +246,43 @@ class AsignacionEmpleadoLearningPathAPIView(APIView):
         #if not fecha_limite:
         #    return Response({'msg': 'No se recibió la fecha limite'}, status=status.HTTP_400_BAD_REQUEST)
 
-        lp = LearningPath.objects.filter(id=id_lp).first()
-        cant_curso=lp.cantidad_cursos
-        list_asignaciones = [
-            EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
-                                  fecha_limite=emp['fecha_limite'],cantidad_cursos=cant_curso) for emp in empleados
-        ]
-
         try:
+            lp = LearningPath.objects.filter(id=id_lp).first()
+            cant_curso=lp.cantidad_cursos
+            list_asignaciones = [
+                EmpleadoXLearningPath(learning_path_id=id_lp, empleado_id=emp['id'], estado='0', fecha_asignacion=timezone.now(),
+                                    fecha_limite=emp['fecha_limite'],cantidad_cursos=cant_curso) for emp in empleados
+            ]
             EmpleadoXLearningPath.objects.bulk_create(list_asignaciones)
             lp = LearningPath.objects.filter(id=id_lp).first()
             cursos_lp= CursoGeneralXLearningPath.objects.filter(learning_path_id=id_lp)
+            print("Los cursos del LP son: ",cursos_lp)
             for emp in empleados:
+                print("En el bucle del trabajador: ",emp)
                 for curso_lp in cursos_lp:
+                        print("En el bucle del curso: ",curso_lp.curso_id)
                         empleado = Employee.objects.filter(id=emp['id']).first()
                         curso_general = CursoGeneral.objects.filter(id=curso_lp.curso_id).first()
+                        #Vemos si el empelado ya ha completado ese curso antes:
+                        empleado_curso_anteriores= EmpleadoXCursoXLearningPath.objects.filter(curso=curso_general,empleado=empleado)
+                        print("Los empleadosxcursoxlearningpath son: ",empleado_curso_anteriores)
+                        #creamos una variable aparte:
+                        estado_curso='0'
+                        for curso_anterior in empleado_curso_anteriores:
+                            if curso_anterior.estado=='3':
+                                estado_curso='3'
+                        print("El estado a guardar del curso es: ",estado_curso)
                         curso_empleado_lp_guardar = EmpleadoXCursoXLearningPath(
                             empleado=empleado,
                             curso=curso_general,
                             learning_path=lp,
-                            estado='0'
+                            estado=estado_curso
                         )
                         curso_empleado_lp_guardar.save()
+            
+            cantidad_empleados_nuevo=len(empleados)
+            cantidad_empleados_nuevo=cantidad_empleados_nuevo+lp.cant_empleados
+            LearningPath.objects.filter(id=id_lp).update(cant_empleados=cantidad_empleados_nuevo)
         except Exception as e:
             return Response({'msg': str(e)},
                             status=status.HTTP_400_BAD_REQUEST)
@@ -419,3 +446,72 @@ class EvaluacionLPAPIView(APIView):
 
         return Response({'msg': 'Evaluacion creada con exito'}, status=status.HTTP_200_OK)
 
+
+class CompetencesInCoursesAPIView(APIView):
+
+    def get(self, request, pk):
+
+        competencias_id = CompetenciasXCurso.objects.filter(curso_id = pk).values_list('competencia', flat=True)
+        competencias = SubCategory.objects.filter(id__in=competencias_id)
+        competencia_serializer = SubCategorySerializer(competencias, many=True)
+
+        return Response(competencia_serializer.data, status=status.HTTP_200_OK)
+
+
+    def post(self, request, pk):
+
+        competencias_id = request.data.get("competencias")
+
+        if not competencias_id:
+            return Response({'msg': "No se enviaron competencias"}, status=status.HTTP_400_BAD_REQUEST)
+
+        competencias = [CompetenciasXCurso(curso_id=pk, competencia_id = i) for i in competencias_id]
+
+        CompetenciasXCurso.objects.bulk_create(competencias)
+
+        return Response({'msg': "Se asigno las competencias con exito"}, status=status.HTTP_200_OK)
+
+
+class CursoEmpresaEvaluationAPIView(APIView):
+
+    def get(self, request, pk):
+
+        evaluacion = CursoEmpresa.objects.filter(pk = pk).values('preguntas').first()
+
+        return Response(evaluacion, status=status.HTTP_200_OK)
+
+    def post(self, request, pk):
+
+        evaluacion = request.data.get('evaluacion')
+
+        if not evaluacion:
+            return Response({'msg': 'No se envió ninguna evaluación'}, status=status.HTTP_400_BAD_REQUEST)
+
+        CursoEmpresa.objects.filter(pk=pk).update(preguntas=evaluacion)
+
+        return Response({'msg': 'Se agrego la evaluacion al curso con éxito'}, status=status.HTTP_200_OK)
+
+
+class CompetencesInLPAPIView(APIView):
+
+    def get(self, request, pk):
+
+        competencias_id = CompetenciasXLearningPath.objects.filter(learning_path_id = pk).values_list('competencia', flat=True)
+        competencias = SubCategory.objects.filter(id__in=competencias_id)
+        competencia_serializer = SubCategorySerializer(competencias, many=True)
+
+        return Response({"criterias": competencia_serializer.data}, status=status.HTTP_200_OK)
+
+
+    def post(self, request, pk):
+
+        competencias_id = request.data.get("criterias")
+        print(competencias_id)
+        if not competencias_id:
+            return Response({'msg': "No se enviaron competencias"}, status=status.HTTP_400_BAD_REQUEST)
+
+        competencias = [CompetenciasXLearningPath(learning_path_id=pk, competencia_id = i['id']) for i in competencias_id]
+
+        CompetenciasXLearningPath.objects.bulk_create(competencias)
+
+        return Response({'msg': "Se asigno las competencias con exito"}, status=status.HTTP_200_OK)

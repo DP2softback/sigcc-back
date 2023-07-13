@@ -1,6 +1,6 @@
-from capacitaciones.models import LearningPath
+from capacitaciones.models import LearningPath, CursoGeneral
 from django.db import models
-from login.models import Employee
+from login.models import Applicant, Employee
 from model_utils.models import TimeStampedModel
 from personal.models import Area, AreaxPosicion, Position
 from safedelete.models import SOFT_DELETE, SOFT_DELETE_CASCADE, SafeDeleteModel
@@ -58,7 +58,7 @@ class SubCategory(models.Model):
     modifiedDate = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
     code = models.CharField(max_length=12, blank=True, null=True)
-    name = models.TextField(max_length=100, blank=True, null=True,default='')
+    name = models.TextField(max_length=100, blank=True, null=True, default='')
     description = models.TextField(max_length=300, blank=True, null=True, default='')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -87,11 +87,11 @@ class CompetencessXEmployeeXLearningPath(models.Model):
     competence = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
     evaluation = models.ForeignKey(Evaluation, on_delete=models.CASCADE, null=True, blank=True)
     lp = models.ForeignKey(LearningPath, on_delete=models.CASCADE, null=True, blank=True)
+    curso = models.ForeignKey(CursoGeneral, on_delete=models.CASCADE, null=True, blank=True)
     isInitial = models.BooleanField(default=False)
 
     level = models.TextField(blank=True, null=True)
     score = models.FloatField(blank=True, null=True)
-
 
     class Scale(models.IntegerChoices):  # PONGANLE EL NOMBRE QUE QUIERAN, EN LA BD SE GUARDA SOLO EL INTEGER
         NO_INICIADO = 0, 'de 0 a 20, no iniciado'
@@ -107,13 +107,13 @@ class CompetencessXEmployeeXLearningPath(models.Model):
     scaleRequired = models.IntegerField(
         choices=Scale.choices,
         default=Scale.LOGRADO,
-        blank=True, null =True
+        blank=True, null=True
     )
-    levelGap = models.IntegerField(blank=True,null =True) #cuanta nota necesita para alcanzar nivel requerido
-    likeness = models.FloatField(blank=True,null =True) #porcentaje entre level actual y requerido
-    hasCertificate = models.BooleanField(null=True, blank=True,default=False)
-    registerByEmployee = models.BooleanField(null=True, blank=True,default=False)
-    requiredForPosition = models.BooleanField(null=True, blank=True,default=False)
+    levelGap = models.IntegerField(blank=True, null=True)  # cuanta nota necesita para alcanzar nivel requerido
+    likeness = models.FloatField(blank=True, null=True)  # porcentaje entre level actual y requerido
+    hasCertificate = models.BooleanField(null=True, blank=True, default=False)
+    registerByEmployee = models.BooleanField(null=True, blank=True, default=False)
+    requiredForPosition = models.BooleanField(null=True, blank=True, default=False)
 
     isActual = models.BooleanField(null=True, blank=True)
     modifiedBy = models.TextField(blank=True, default='', null=True)
@@ -171,3 +171,24 @@ class CompetencyxAreaxPosition(TimeStampedModel, SafeDeleteModel):
 
     def __str__(self):
         return f"{self.competency.name} for position {self.areaxposition}"
+
+
+class CompetencyxApplicant(TimeStampedModel, SafeDeleteModel):
+    competency = models.ForeignKey(SubCategory, on_delete=models.CASCADE, null=True, blank=True)
+    applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE, null=True, blank=True)
+    score = models.CharField(max_length=20, blank=True, null=True)
+
+    class Scale(models.IntegerChoices):  # PONGANLE EL NOMBRE QUE QUIERAN, EN LA BD SE GUARDA SOLO EL INTEGER
+        NO_INICIADO = 0, 'de 0 a 20, no iniciado'
+        EN_PROCESO = 1, 'de 21 a 40, en proceso'
+        LOGRADO = 2, 'de 41 a 60, en proceso'
+        SOBRESALIENTE = 3, 'de 61 a 80, en proceso'
+        EXPERTO = 4, 'de 81 a 100, en proceso'
+
+    scale = models.IntegerField(
+        choices=Scale.choices,
+        default=Scale.LOGRADO
+    )
+
+    def __str__(self):
+        return f"Competency: {self.competency.name} for {self.applicant}"

@@ -20,3 +20,9 @@ python manage.py loaddata ./personal/fixtures/014democompetencyxareaxposition.js
 python manage.py loaddata ./personal/fixtures/db.json
 
 
+
+
+
+python manage.py dumpdata --exclude auth.permission --exclude contenttypes > ./personal/fixtures/db.json
+
+zappa manage dev  loaddata ./personal/fixtures/db.json
