@@ -50,7 +50,7 @@ class CursoUdemyWithCompetencesSerializer(serializers.ModelSerializer):
     competencias= serializers.SerializerMethodField()
     class Meta:
         model = CursoUdemy
-        exclude = ('curso_x_learning_path', 'preguntas')
+        fields = ['id', 'nombre', 'descripcion', 'duracion', 'suma_valoracionees', 'cant_valoraciones','competencias'] 
 
     def validate_udemy_id(self, value):
 
