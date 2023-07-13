@@ -366,6 +366,8 @@ class EvaluationAPI(APIView):
         
         return Response(area_serializado.errors,status=status.HTTP_400_BAD_REQUEST)
     
+
+    
 class EvaluationXSubcatAPI(APIView):
     def post(self, request):
         
@@ -876,6 +878,22 @@ class PlantillaPorTipo(APIView):
 
 
         return Response(result,status=status.HTTP_200_OK)
+    
+class HacerCompromiso(APIView):
+    def post(self,request):
+        IdEvaluacion = request.data.get("id")
+        Compromiso = request.data.get("comentario")
+
+        try:
+            ObjEvaluation = Evaluation.objects.get(id=IdEvaluacion)
+        except Evaluation.DoesNotExist:
+                return Response("No existe evaluacion", status=status.HTTP_400_BAD_REQUEST)
+        ObjEvaluation.generalComment = Compromiso
+        ObjEvaluation.hasComment = True
+        ObjEvaluation.save()
+
+        ObjEvaluation_serializado = EvaluationSerializerRead(ObjEvaluation)
+        return Response(ObjEvaluation_serializado.data,status=status.HTTP_200_OK)
     
 class GetAreas(APIView):
     def get(self, request):
