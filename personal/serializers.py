@@ -235,3 +235,26 @@ class ApplicantSerializerRead(serializers.ModelSerializer):
     class Meta:
         model = Applicant
         fields = '__all__'
+
+
+class ApplicantxProcessStageSerializerRead(serializers.ModelSerializer):
+
+    def my_user(self, obj):
+        applicant = Applicant.objects.get(id=obj.applicant.id)
+        return ApplicantSerializerRead(applicant, many=False).data
+
+    def my_hiring_process(self, obj):
+        hiring_process = HiringProcess.objects.get(id=obj.process_stage.hiring_process.id)
+        return HiringProcessSerializer(hiring_process, many=False).data
+
+    def my_process_stage(self, obj):
+        process_stage = ProcessStage.objects.get(id=obj.process_stage.id)
+        return ProcessStageSerializer(process_stage, many=False).data
+
+    applicant = serializers.SerializerMethodField('my_user')
+    hiring_process = serializers.SerializerMethodField('my_hiring_process')
+    process_stage = serializers.SerializerMethodField('my_process_stage')
+
+    class Meta:
+        model = ApplicantxProcessStage
+        fields = '__all__'

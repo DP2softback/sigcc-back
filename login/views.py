@@ -16,7 +16,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from zappa.asynchronous import task
+#from zappa.asynchronous import task
 
 
 # Create your views here.
@@ -95,11 +95,19 @@ class LoginView(APIView):
         token, _ = Token.objects.get_or_create(user=user)
         print(token.key)
 
+        a_s = {}
+        try:
+            applicant = Applicant.objects.get(user=user)
+            a_s = ApplicantSerializerRead(applicant, many=False).data
+        except Exception as e:
+            print(e)
+
         return Response(status=status.HTTP_200_OK,
                         data={
                             'message': 'login correcto',
                             'token': token.key,
-                            'user': user_serialized.data
+                            'user': user_serialized.data,
+                            'applicant': a_s
                         },)
 
 

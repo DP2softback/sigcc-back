@@ -7,7 +7,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from zappa.asynchronous import task
+#from zappa.asynchronous import task
 from gaps.models import Capacity, CapacityType, CapacityXEmployee, TrainingNeed, CapacityXAreaXPosition
 from capacitaciones.models import *
 from evaluations_and_promotions.models import *

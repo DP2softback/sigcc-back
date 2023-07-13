@@ -8,7 +8,7 @@ from login.models import Employee, User
 from login.serializers import EmployeeSerializerRead, EmployeeSerializerWrite, UserSerializerRead
 from rest_framework import serializers
 
-from capacitaciones.models import AsistenciaSesionXEmpleado, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, \
+from capacitaciones.models import AsistenciaSesionXEmpleado, CompetenciasXCurso, EmpleadoXCursoEmpresa, EmpleadoXCursoXLearningPath, \
     LearningPath, CursoGeneral, \
     CursoGeneralXLearningPath, CursoUdemy, CursoEmpresa, \
     Sesion, SesionXReponsable, Tema, Categoria, ProveedorEmpresa, Habilidad, ProveedorUsuario, EmpleadoXLearningPath, \
@@ -46,6 +46,31 @@ class CursoUdemySerializer(serializers.ModelSerializer):
 
         return value
 
+class CursoUdemyWithCompetencesSerializer(serializers.ModelSerializer):
+    competencias= serializers.SerializerMethodField()
+    class Meta:
+        model = CursoUdemy
+        fields = ['id', 'nombre', 'descripcion', 'duracion', 'suma_valoracionees', 'cant_valoraciones','competencias'] 
+
+    def validate_udemy_id(self, value):
+
+        if value == '':
+            raise serializers.ValidationError('El valor de este campo no puede ser vacio')
+
+        return value
+    
+    def get_competencias(self,obj):
+        competencias_curso_ids = CompetenciasXCurso.objects.filter(curso_id = obj.id).values_list('competencia', flat=True)
+        competencias = SubCategory.objects.filter(id__in=competencias_curso_ids)
+        data_competencias=[]
+        for competencia in competencias:
+            data_competencia={
+                'name': competencia.name,
+                'description': competencia.description
+            }
+            data_competencias.append(data_competencia)
+        return data_competencias
+    
 
 class CursoEmpresaSerializer(serializers.ModelSerializer):
     sesiones= serializers.SerializerMethodField()
@@ -74,6 +99,41 @@ class CursoEmpresaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('La descripcion no puede ser igual al nombre')
         return value
 
+
+class CursoEmpresaWithCompetencesSerializer(serializers.ModelSerializer):
+    competencias= serializers.SerializerMethodField()
+    class Meta:
+        model = CursoEmpresa
+        fields = ['id', 'nombre', 'descripcion', 'duracion', 'suma_valoracionees', 'cant_valoraciones', 'cantidad_empleados','competencias'] 
+        #exclude = ('curso_x_learning_path','asistencia_x_empleado')
+        
+    def get_competencias(self,obj):
+        competencias_curso_ids = CompetenciasXCurso.objects.filter(curso_id = obj.id).values_list('competencia', flat=True)
+        competencias = SubCategory.objects.filter(id__in=competencias_curso_ids)
+        data_competencias=[]
+        for competencia in competencias:
+            data_competencia={
+                'name': competencia.name,
+                'description': competencia.description
+            }
+            data_competencias.append(data_competencia)
+        return data_competencias
+
+    def validate_tipo(self, value):
+
+        if value == '':
+            raise serializers.ValidationError('El valor de este campo no puede ser vacio')
+        return value
+    
+    def validate_nombre(self, value):
+        if value == '':
+            raise serializers.ValidationError('El nombre no puede ser valor vacío')
+        return value
+
+    def validate_descripcion(self, value):
+        if self.validate_nombre(self.context['nombre']) == value:
+            raise serializers.ValidationError('La descripcion no puede ser igual al nombre')
+        return value
 
 class LearningPathSerializerWithCourses(serializers.ModelSerializer):
 
@@ -355,7 +415,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id','first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email']
 
 
 class EmpleadoSerializer(serializers.ModelSerializer):
@@ -363,7 +423,7 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ['usuario','position']
+        fields = ['id','usuario','position']
 
     def get_usuario(self, obj):
         return UsuarioSerializer(obj.user).data
