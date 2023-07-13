@@ -1,11 +1,13 @@
 # Create your views here.
+from evaluations_and_promotions.models import CompetencessXEmployeeXLearningPath
+from login.models import Employee, User
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from capacitaciones.models import CursoEmpresa, LearningPath, CursoGeneralXLearningPath, CursoUdemy, ProveedorEmpresa, \
     Habilidad, \
     ProveedorUsuario, HabilidadXProveedorUsuario, EmpleadoXCursoEmpresa, EmpleadoXLearningPath, CursoGeneral, \
-    DocumentoExamen, DocumentoRespuesta, EmpleadoXCurso
+    DocumentoExamen, DocumentoRespuesta, EmpleadoXCurso, Parametros, CompetenciasXCurso
 from capacitaciones.serializers import CursoEmpresaSerializer, LearningPathSerializer, CursoUdemySerializer, ProveedorUsuarioSerializer, \
     SesionXReponsableSerializer, CursosEmpresaSerialiazer, EmpleadoXCursoEmpresaSerializer, \
     LearningPathSerializerWithCourses, LearningPathXEmpleadoSerializer, EmpleadoXLearningPathSerializer, \
@@ -183,7 +185,7 @@ class CursoEmpresaEmpleadosAPIView(APIView):
         num_empleados = len(empleados)
 
         if num_empleados == 0:
-            return Response({'msg': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'No se recibieron empleados'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not porcentaje_asistencia_aprobacion:
             porcentaje_asistencia_aprobacion = curso_empresa.porcentaje_asistencia_aprobacion
@@ -199,7 +201,6 @@ class CursoEmpresaEmpleadosAPIView(APIView):
                 fechaAsignacion = timezone.now(),
                 fechaLimite = None if tipo_curso in ['P', 'S'] else fecha_limite,
                 fechaCompletado = None,
-                apreciacion = None,
                 cantidad_sesiones = cantidad_sesiones_curso,
                 porcentaje_asistencia_aprobacion = porcentaje_asistencia_aprobacion)
             for empleado in empleados
@@ -242,7 +243,7 @@ class DetalleLearningPathXEmpleadoAPIView(APIView):
 
 
 class EmpleadosXLearningPathAPIView(APIView):
-
+    permission_classes = [AllowAny]
     def get(self, request, lp):
 
         lp = EmpleadoXLearningPath.objects.filter(learning_path=lp).all()
@@ -257,7 +258,7 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
         learningpath = LearningPath.objects.filter(id=lp).first()
         data = {}
 
-        archivo_eval = DocumentoExamen.objects.filter(learning_path=lp)
+        archivo_eval = DocumentoExamen.objects.filter(learning_path_id=lp).values('url_documento').first()
 
         learning_path_data = {
             "nombre": learningpath.nombre,
@@ -294,8 +295,8 @@ class LearningPathEvaluadoXEmpleadoAPIView(APIView):
 
 class ValorarCursoAPIView(APIView):
 
-    def post(self, request):
-        id_curso = request.data.get('curso', None)
+    def post(self, request,id_cr):
+        id_curso = id_cr
         id_empleado = request.data.get('empleado', None)
         valoracion = request.data.get('valoracion', None)
         comentario = request.data.get('comentario', None)
@@ -306,15 +307,37 @@ class ValorarCursoAPIView(APIView):
 
         if curso_asignado:
             EmpleadoXCurso.objects.create( curso = curso, empleado=empleado, valoracion=valoracion, comentario=comentario)
-            return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+            curso.cant_valoraciones = curso.cant_valoraciones + valoracion
+            curso.suma_valoracionees = curso.suma_valoracionees + 1
 
-        return Response({'msg': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+            curso.save()
+
+            return Response({'message': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+
+        return Response({'message': 'No se encontro el curso asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self,request,id_cr):
+
+        curso = CursoGeneral.objects.filter(id=id_cr).values('nombre','descripcion','suma_valoracionees','cant_valoraciones').first()
+
+        if curso is None:
+            return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = {}
+        data["datos_curso"] = curso
+        valoraciones = EmpleadoXCurso.objects.filter(curso=id_cr).values('valoracion','comentario')
+
+        if valoraciones:
+            data["valoraciones"] = [] if not valoraciones[0]['valoracion'] else valoraciones
+        else:
+            data["valoraciones"] = []
+        return Response(data, status=status.HTTP_200_OK)
 
 
 class ValoracionLearningPathAPIView(APIView):
 
-    def post(self, request):
-        id_lp = request.data.get('learning_path', None)
+    def post(self, request,id_lp):
+        #id_lp = request.data.get('learning_path', None)
         id_empleado = request.data.get('empleado', None)
         valoracion = request.data.get('valoracion', None)
         comentario = request.data.get('comentario', None)
@@ -325,9 +348,15 @@ class ValoracionLearningPathAPIView(APIView):
 
         if lp_asignado:
             EmpleadoXLearningPath.objects.create( learning_path = lp, empleado=empleado, valoracion=valoracion, comentario_valoracion=comentario)
-            return Response({'msg': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+            lp.suma_valoraciones = lp.suma_valoraciones + valoracion
+            lp.cant_valoraciones = lp.cant_valoraciones + 1
+            lp.cant_empleados = lp.cant_empleados + 1
 
-        return Response({'msg': 'No se encontro el learning path asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+            lp.save()
+            return Response({'message': 'Se insertó con éxito'}, status=status.HTTP_200_OK)
+
+        return Response({'message': 'No se encontro el learning path asignado a ese empleaado'}, status=status.HTTP_400_BAD_REQUEST)
+
 
     def get(self,request,id_lp):
         lp = LearningPath.objects.filter(id=id_lp).values('nombre','descripcion','suma_valoraciones','cant_valoraciones','cant_empleados').first()
@@ -338,7 +367,162 @@ class ValoracionLearningPathAPIView(APIView):
         data = {}
         data["datos_learning_path"] = lp
         valoraciones = EmpleadoXLearningPath.objects.filter(learning_path=id_lp).values('valoracion','comentario_valoracion')
+        if valoraciones:
+            data["valoraciones"] = [] if not valoraciones[0]['valoracion'] else valoraciones
+        else:
+            data["valoraciones"] = []
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class DetalleEvaluacionEmpleadoAPIView(APIView):
+
+    def get(self, request, id_lp, id_emp):
+
+        registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id','rubrica_calificada_evaluacion','comentario_evaluacion').first()
+        lp = LearningPath.objects.filter(id=id_lp).first()
+        if registro:
+            data = {}
+            empleado = User.objects.filter(id=id_emp).values('first_name', 'last_name', 'email').first()
+            data['empleado']= empleado['first_name'] + " "+ empleado['last_name']
+            data['rubrica_calificada']= lp.rubrica if not registro['rubrica_calificada_evaluacion'] else lp.rubrica
+            data['nombre_lp'] = lp.nombre
+            data['descripcion_lp'] = lp.descripcion
+            data['descripcion_evaluacion']= lp.descripcion_evaluacion
+            data['comentario_evaluacion']= registro['comentario_evaluacion']
+            archivo_emp = DocumentoRespuesta.objects.filter(empleado_learning_path_id=registro['id']).values(
+                'url_documento')
+            data["archivo_emp"] = None if not archivo_emp else archivo_emp
+            archivo_eval = DocumentoExamen.objects.filter(learning_path_id=id_lp).values('url_documento').first()
+            data["archivo_eval"] = None if not archivo_eval else archivo_eval
+            return Response(data, status=status.HTTP_200_OK)
+
+        return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request, id_lp, id_emp):
+        rubrica_calificada = request.data.get('rubrica_calificada', None)
+        comentario_evaluacion = request.data.get('comentario_evaluacion', None)
+
+        registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).first()
+
+        if registro:
+            lp = LearningPath.objects.filter(id=id_lp).first()
+            empleado = Employee.objects.filter(id=id_emp).first()
+            registro.rubrica_calificada_evaluacion = rubrica_calificada
+            registro.comentario_evaluacion = comentario_evaluacion
+            registro.save()
+            #EmpleadoXLearningPath.objects.create( learning_path = lp, empleado=empleado, rubrica_calificada_evaluacion=rubrica_calificada, comentario_evaluacion=comentario_evaluacion)
+
+            return Response({"message": "Se registró con exito"}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubirDocumentoRespuestaAPIView(APIView):
+
+    def post(self, request):
+        id_lp = request.data.get('learning_path', None)
+        id_emp = request.data.get('empleado', None)
+        archivo_emp = request.data.get('archivo_emp', None)
+
+        id_registro = EmpleadoXLearningPath.objects.filter(Q(learning_path=id_lp) & Q(empleado=id_emp)).values('id').first()
+
+        if id_registro:
+            doc_respuesta = DocumentoRespuesta()
+            doc_respuesta.url_documento = archivo_emp
+            doc_respuesta.empleado_learning_path_id = id_registro['id']
+
+            doc_respuesta.save()
+
+            return Response({"message": "Se guardó con exito"}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Registro no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ValoracionesCursosAPIVIEW(APIView):
+
+    def get(self,request,id_cr):
+        curso = CursoGeneral.objects.filter(id=id_cr).values('nombre','descripcion','suma_valoraciones','cant_valoraciones').first()
+
+        if curso is None:
+            return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = {}
+        data["datos_curso"] = curso
+        valoraciones = EmpleadoXCurso.objects.filter(curso=id_cr).values('valoracion','comentario')
 
         data["valoraciones"] = valoraciones
 
         return Response(data, status=status.HTTP_200_OK)
+
+
+class RendirFormularioAPIVIEW(APIView):
+
+    def get(self, request,id_curso):
+        curso = CursoGeneral.objects.filter(id=id_curso).first()
+        try:
+            form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
+            return Response({"form": form}, status=status.HTTP_200_OK)
+
+        except ex:
+            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+            return Response({"form": form}, status=status.HTTP_200_OK)
+
+        return Response({"message": "Curso no encontrado"}, status=status.HTTP_400_BAD_REQUEST)
+
+    @transaction.atomic
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self,request,id_curso):
+        tipo = -1
+        try:
+            form = CursoUdemy.objects.filter(id=id_curso).values('preguntas').first()
+            tipo = 0
+        except ex:
+            form = CursoEmpresa.objects.filter(id=id_curso).values('preguntas').first()
+            tipo = 1
+
+        empleado = request.data.get('empleado', None)
+        respuestas_persona = request.data.get('respuestas', None)
+        puntaje = 0
+
+        for pregunta in form:
+            id_pregunta = pregunta['id_pregunta']
+            opciones = pregunta['opciones']
+
+            respuesta_correcta = None
+
+            for opcion in opciones:
+                if opcion['es_correcta']:
+                    respuesta_correcta = opcion['id_opcion']
+                    break
+
+            if respuesta_correcta is not None:
+                respuesta_persona = respuestas_persona.get(id_pregunta)
+
+                if respuesta_persona == respuesta_correcta:
+                    puntaje += 1
+        aprobo = -1
+        if puntaje >= 5:
+            aprobo = 1
+        else:
+            aprobo = 0
+
+        if tipo ==0:
+            registro = EmpleadoXCurso.objects.filter(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro.respuestas = respuestas_persona
+
+        elif tipo ==1:
+            registro = EmpleadoXCursoEmpresa.objects.filter(Q(empleado_id=empleado) & Q(curso_id=id_curso))
+            registro.respuestas = respuestas_persona
+
+        registro.save()
+
+        competencias = CompetenciasXCurso.objects.filter(curso_id=id_curso).values_list('competencia', flat=True)
+
+        for competencia in competencias:
+            registro_competencia = CompetencessXEmployeeXLearningPath.objects.filter(Q(employee_id=empleado) & Q(curso_id=id_curso) & Q(competence_id=competencia))
+            registro_competencia.score = 100*aprobo
+            registro_competencia.save()
+
+        return Response({"puntaje": puntaje}, status=status.HTTP_200_OK)

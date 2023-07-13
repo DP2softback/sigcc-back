@@ -7,7 +7,7 @@ from django.shortcuts import render
 from DP2softback.constants import messages
 from DP2softback.services.api_gpt import ChatGptService
 from evaluations_and_promotions.models import *
-from flask import Flask, redirect, render_template, request, url_for
+#from flask import Flask, redirect, render_template, request, url_for
 from gaps.models import *
 from rest_framework import status
 from rest_framework.response import Response
