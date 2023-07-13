@@ -703,21 +703,21 @@ class GenerateTrainingNeedCourseView(APIView):
         coursesList = []
         for item in competences:
             #cambiar segun como se va a hacer la relacion entre curso y competencia
-            #courseRegister = CompetenciasXCurso.objects.filter(Q(competencia__id=item['competencia'])).values('curso__id').first()
-            courseRegister = CursoGeneral.objects.filter(Q(competence__id=item['competencia'])).values().first()
+            courseRegister = CompetenciasXCurso.objects.filter(Q(competencia__id=item['competencia'])).values('curso__id').first()
+            #courseRegister = CursoGeneral.objects.filter(Q(competence__id=item['competencia'])).values().first()
             if courseRegister:
                 entry = {"competencia": item['competencia']}
                 esta = 0
                 for entryList in coursesList:
-                    #if entryList['curso'] == courseRegister['curso__id']:
-                    if entryList['curso'] == courseRegister['id']:
+                    if entryList['curso'] == courseRegister['curso__id']:
+                    #if entryList['curso'] == courseRegister['id']:
                         #ver si funciona el append con esta entry
                         entryList['competencias'].append(entry)
                         esta = 1
                         break
                 if esta == 0:
-                    #coursesList.append({"curso": courseRegister['curso__id'], "competencias": [entry]})
-                    coursesList.append({"curso": courseRegister['id'], "competencias": [entry]})
+                    coursesList.append({"curso": courseRegister['curso__id'], "competencias": [entry]})
+                    #coursesList.append({"curso": courseRegister['id'], "competencias": [entry]})
         return Response(coursesList, status = status.HTTP_200_OK)                    
                 
 class TrainingNeedCourseView(APIView):
@@ -812,9 +812,9 @@ class SearchJobOfferxEmployeePreRegistered(APIView):
         query = Q()
 
         if employee is not None and employee > 0:
-            query.add(Q(employee__id = employee))
+            query.add(Q(employee__id = employee), Q.AND)
             
-        notifications = JobOfferNotification.objects.filter(query).values("job_offer__id, job_offer__hiring_process, job_offer__introduction, job_offer__offer_introduction, job_offer__responsabilities_introduction, job_offer__is_active, job_offer__photo_url, job_offer__location, job_offer__salary_range")
+        notifications = JobOfferNotification.objects.filter(query).values('job_offer__id', 'job_offer__hiring_process__id', 'job_offer__introduction', 'job_offer__offer_introduction', 'job_offer__responsabilities_introduction', 'job_offer__is_active', 'job_offer__photo_url', 'job_offer__location', 'job_offer__salary_range')
         return Response(list(notifications), status = status.HTTP_200_OK)
 
 class AcceptOrDeclineJobOfferPreRegistered(APIView):
@@ -830,13 +830,13 @@ class AcceptOrDeclineJobOfferPreRegistered(APIView):
             if employee is not None and employee > 0 and offer is not None and offer > 0:
                 # Primero, tenemos que hallar el hiring process adecuado
                 query.add(Q(job_offer__id = offer), Q.AND)
-                query.add(Q(employee__id = employee))
+                query.add(Q(employee__id = employee), Q.AND)
                 # Una vez que tenemos el query armado, obtenemos la notificacion de la oferta laboral
                 job_offer_notification = JobOfferNotification.objects.get(query)
                 # Luego, toca eliminarlo
                 try:
                     job_offer_notification.delete()
-                    Response("Postulación retirada correctamente",status=status.HTTP_200_OK)
+                    return Response("Postulación retirada correctamente",status=status.HTTP_200_OK)
                 except Exception as e:
                     return Response(str(e),status=status.HTTP_400_BAD_REQUEST)    
         else: # Si ahora queremos insertar esta informacion en la tabla EmployeexHiringProcess
@@ -844,7 +844,7 @@ class AcceptOrDeclineJobOfferPreRegistered(APIView):
             json_data['employee'] = employee
             # Tenemos que obtener el hiring process, dentro del job offer
             # nostros ya tenemos la oferta laboral, falta ver 
-            query.add(Q(job_offer__id = offer))
+            query.add(Q(id = offer), Q.AND)
             job_offer = JobOffer.objects.get(query)
             hiring_process = job_offer.hiring_process
             hiring_process_id = hiring_process.id
